@@ -18,7 +18,8 @@
 		"vscode": {
 			"extensions": [
 				"vmware.vscode-boot-dev-pack",
-				"ms-python.python"
+				"ms-python.python",
+				"vscjava.vscode-java-pack"
 			]
 		}
 	}
