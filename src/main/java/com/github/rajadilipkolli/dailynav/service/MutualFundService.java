@@ -4,23 +4,21 @@ import com.github.rajadilipkolli.dailynav.model.*;
 import com.github.rajadilipkolli.dailynav.repository.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /** Service for mutual fund data operations */
 @Service
 public class MutualFundService {
 
-  private final NavRepository navRepository;
   private final NavByIsinRepository navByIsinRepository;
   private final SchemeRepository schemeRepository;
   private final SecurityRepository securityRepository;
 
   public MutualFundService(
-      NavRepository navRepository,
       NavByIsinRepository navByIsinRepository,
       SchemeRepository schemeRepository,
       SecurityRepository securityRepository) {
-    this.navRepository = navRepository;
     this.navByIsinRepository = navByIsinRepository;
     this.schemeRepository = schemeRepository;
     this.securityRepository = securityRepository;
@@ -47,7 +45,7 @@ public class MutualFundService {
   }
 
   /** Get scheme information by scheme code */
-  public Scheme getScheme(Integer schemeCode) {
+  public Optional<Scheme> getScheme(Integer schemeCode) {
     return schemeRepository.findBySchemeCode(schemeCode);
   }
 
@@ -62,53 +60,39 @@ public class MutualFundService {
   }
 
   /** Get security information by ISIN */
-  public Security getSecurity(String isin) {
+  public Optional<Security> getSecurity(String isin) {
     return securityRepository.findByIsin(isin);
   }
 
   /** Get complete fund information (scheme + security) by ISIN */
-  public FundInfo getFundInfo(String isin) {
-    Security security = getSecurity(isin);
-    if (security == null) {
-      return null;
+  public Optional<FundInfo> getFundInfo(String isin) {
+    Optional<Security> security = getSecurity(isin);
+    if (security.isEmpty()) {
+      return Optional.empty();
     }
 
-    Scheme scheme = getScheme(security.getSchemeCode());
-    return new FundInfo(security, scheme);
+    Security security1 = security.get();
+    Optional<Scheme> scheme = getScheme(security1.getSchemeCode());
+    return Optional.of(new FundInfo(security1, scheme.get()));
   }
 
   /** Helper class to combine security and scheme information */
-  public static class FundInfo {
-    private final Security security;
-    private final Scheme scheme;
-
-    public FundInfo(Security security, Scheme scheme) {
-      this.security = security;
-      this.scheme = scheme;
-    }
-
-    public Security getSecurity() {
-      return security;
-    }
-
-    public Scheme getScheme() {
-      return scheme;
-    }
+  public record FundInfo(Security security, Scheme scheme) {
 
     public String getIsin() {
-      return security != null ? security.getIsin() : null;
+      return security.getIsin();
     }
 
     public String getSchemeName() {
-      return scheme != null ? scheme.getSchemeName() : null;
+      return scheme.schemeName();
     }
 
     public Integer getSchemeCode() {
-      return security != null ? security.getSchemeCode() : null;
+      return security.getSchemeCode();
     }
 
     public Integer getType() {
-      return security != null ? security.getType() : null;
+      return security.getType();
     }
 
     public String getTypeDescription() {

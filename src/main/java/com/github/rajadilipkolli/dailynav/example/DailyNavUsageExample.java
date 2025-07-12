@@ -4,6 +4,7 @@ import com.github.rajadilipkolli.dailynav.health.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.health.DailyNavHealthStatus;
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.service.MutualFundService.FundInfo;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
@@ -87,8 +88,9 @@ public class DailyNavUsageExample implements CommandLineRunner {
 
       // Get fund metadata
       System.out.println("\n4. Getting fund metadata:");
-      var fundInfo = mutualFundService.getFundInfo(sampleIsin);
-      if (fundInfo != null) {
+      var optionalFundInfo = mutualFundService.getFundInfo(sampleIsin);
+      if (optionalFundInfo.isPresent()) {
+        FundInfo fundInfo = optionalFundInfo.get();
         System.out.printf("   Scheme: %s%n", fundInfo.getSchemeName());
         System.out.printf("   Type: %s%n", fundInfo.getTypeDescription());
         System.out.printf("   Scheme Code: %d%n", fundInfo.getSchemeCode());

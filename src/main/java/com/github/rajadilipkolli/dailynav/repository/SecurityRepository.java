@@ -1,9 +1,8 @@
 package com.github.rajadilipkolli.dailynav.repository;
 
 import com.github.rajadilipkolli.dailynav.model.Security;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,22 +18,18 @@ public class SecurityRepository {
   }
 
   private static final RowMapper<Security> SECURITY_ROW_MAPPER =
-      new RowMapper<Security>() {
-        @Override
-        public Security mapRow(ResultSet rs, int rowNum) throws SQLException {
-          Security security = new Security();
-          security.setIsin(rs.getString("isin"));
-          security.setType(rs.getInt("type"));
-          security.setSchemeCode(rs.getInt("scheme_code"));
-          return security;
-        }
+      (rs, rowNum) -> {
+        Security security = new Security();
+        security.setIsin(rs.getString("isin"));
+        security.setType(rs.getInt("type"));
+        security.setSchemeCode(rs.getInt("scheme_code"));
+        return security;
       };
 
   /** Find security by ISIN */
-  public Security findByIsin(String isin) {
+  public Optional<Security> findByIsin(String isin) {
     String sql = "SELECT isin, type, scheme_code FROM securities WHERE isin = ?";
-    List<Security> results = jdbcTemplate.query(sql, SECURITY_ROW_MAPPER, isin);
-    return results.isEmpty() ? null : results.get(0);
+    return jdbcTemplate.query(sql, SECURITY_ROW_MAPPER, isin).stream().findFirst();
   }
 
   /** Find securities by scheme code */

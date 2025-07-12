@@ -1,9 +1,8 @@
 package com.github.rajadilipkolli.dailynav.repository;
 
 import com.github.rajadilipkolli.dailynav.model.Scheme;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,21 +18,12 @@ public class SchemeRepository {
   }
 
   private static final RowMapper<Scheme> SCHEME_ROW_MAPPER =
-      new RowMapper<Scheme>() {
-        @Override
-        public Scheme mapRow(ResultSet rs, int rowNum) throws SQLException {
-          Scheme scheme = new Scheme();
-          scheme.setSchemeCode(rs.getInt("scheme_code"));
-          scheme.setSchemeName(rs.getString("scheme_name"));
-          return scheme;
-        }
-      };
+      (rs, rowNum) -> new Scheme(rs.getInt("scheme_code"), rs.getString("scheme_name"));
 
   /** Find scheme by scheme code */
-  public Scheme findBySchemeCode(Integer schemeCode) {
+  public Optional<Scheme> findBySchemeCode(Integer schemeCode) {
     String sql = "SELECT scheme_code, scheme_name FROM schemes WHERE scheme_code = ?";
-    List<Scheme> results = jdbcTemplate.query(sql, SCHEME_ROW_MAPPER, schemeCode);
-    return results.isEmpty() ? null : results.get(0);
+    return jdbcTemplate.query(sql, SCHEME_ROW_MAPPER, schemeCode).stream().findFirst();
   }
 
   /** Find all schemes */
