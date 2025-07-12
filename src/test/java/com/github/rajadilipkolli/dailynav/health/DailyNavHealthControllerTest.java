@@ -101,4 +101,31 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
         .andExpect(jsonPath("$.healthy").exists())
         .andExpect(jsonPath("$.databaseAccessible").exists());
   }
+
+  @Test
+  void infoEndpointReturnsOkAndExpectedFields() throws Exception {
+    mockMvc
+        .perform(get("/daily-nav/info").accept("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentTypeCompatibleWith("application/json"))
+        .andExpect(jsonPath("$.autoInit").exists())
+        .andExpect(jsonPath("$.indexesEnabled").exists())
+        .andExpect(jsonPath("$.databasePath").exists())
+        .andExpect(jsonPath("$.debugMode").exists())
+        .andExpect(jsonPath("$.dataStartDate").exists())
+        .andExpect(jsonPath("$.dataEndDate").exists())
+        .andExpect(jsonPath("$.dataSpanDays").exists())
+        .andExpect(jsonPath("$.sampleSchemes").isArray());
+  }
+
+  @Test
+  void infoEndpointWithNoDataReturnsNullDates() throws Exception {
+    // Remove all data
+    connection.createStatement().execute("DELETE FROM nav");
+    mockMvc
+        .perform(get("/daily-nav/info").accept("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.dataStartDate").value((String) null))
+        .andExpect(jsonPath("$.dataEndDate").value((String) null));
+  }
 }
