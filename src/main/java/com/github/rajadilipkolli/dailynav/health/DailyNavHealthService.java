@@ -95,7 +95,7 @@ public class DailyNavHealthService {
   }
 
   /** Simple health check that returns true if the database is accessible and has data */
-  public boolean isHealthy() {
+  boolean isHealthy() {
     try {
       return checkDatabaseConnectivity() && hasMinimalData();
     } catch (Exception e) {
@@ -105,7 +105,7 @@ public class DailyNavHealthService {
   }
 
   /** Gets basic statistics about the data */
-  public Map<String, Object> getStatistics() {
+  Map<String, Object> getStatistics() {
     Map<String, Object> stats = new LinkedHashMap<>();
 
     try {
@@ -219,15 +219,15 @@ public class DailyNavHealthService {
     return dateRange;
   }
 
-  public boolean isDataStale(String latestDataDate) {
+  private boolean isDataStale(String latestDataDate) {
     if (latestDataDate == null || "Unknown".equals(latestDataDate)) {
       return true;
     }
 
-    return is10DaysOldData(latestDataDate, logger);
+    return is10DaysOldData(latestDataDate);
   }
 
-  boolean is10DaysOldData(String latestDataDate, Logger logger) {
+  boolean is10DaysOldData(String latestDataDate) {
     try {
       LocalDate latestDate = LocalDate.parse(latestDataDate);
       LocalDate now = LocalDate.now();
@@ -237,7 +237,7 @@ public class DailyNavHealthService {
       return daysSinceLastUpdate > 10;
 
     } catch (Exception e) {
-      logger.debug("Failed to parse latest data date: {}", latestDataDate, e);
+      DailyNavHealthService.logger.debug("Failed to parse latest data date: {}", latestDataDate, e);
       return true;
     }
   }

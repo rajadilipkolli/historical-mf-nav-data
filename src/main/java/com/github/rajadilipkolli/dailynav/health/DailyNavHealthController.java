@@ -43,56 +43,8 @@ public class DailyNavHealthController {
    * Basic health check endpoint Returns HTTP 200 if the database is accessible, HTTP 503 otherwise
    */
   @GetMapping("/health")
-  public ResponseEntity<Map<String, Object>> health() {
-    try {
-      Map<String, Object> response = new LinkedHashMap<>();
-
-      // Check database connectivity
-      boolean isDatabaseAccessible = checkDatabaseConnectivity();
-      if (!isDatabaseAccessible) {
-        response.put("status", "DOWN");
-        response.put("database", "Not accessible");
-        return ResponseEntity.status(503).body(response);
-      }
-
-      response.put("status", "UP");
-      response.put("database", "Accessible");
-
-      // Add basic data counts
-      try {
-        Integer schemes =
-            jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
-        Integer navRecords = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM nav", Integer.class);
-        Integer securities =
-            jdbcTemplate.queryForObject("SELECT COUNT(*) FROM securities", Integer.class);
-
-        response.put("schemes", schemes);
-        response.put("navRecords", navRecords);
-        response.put("securities", securities);
-
-        // Check data freshness
-        String latestDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
-        response.put("latestDataDate", latestDate);
-
-        // Check if data is stale
-        if (healthService.isDataStale(latestDate)) {
-          response.put("warning", "Data may be stale");
-        }
-
-      } catch (Exception e) {
-        logger.debug("Failed to get additional health details", e);
-        response.put("warning", "Could not retrieve detailed statistics");
-      }
-
-      return ResponseEntity.ok(response);
-
-    } catch (Exception e) {
-      logger.error("Health check failed", e);
-      Map<String, Object> errorResponse = new LinkedHashMap<>();
-      errorResponse.put("status", "DOWN");
-      errorResponse.put("error", e.getMessage());
-      return ResponseEntity.status(503).body(errorResponse);
-    }
+  public DailyNavHealthStatus health() {
+    return healthService.checkHealth();
   }
 
   /** Detailed information about the Daily NAV library */
@@ -139,16 +91,6 @@ public class DailyNavHealthController {
       Map<String, Object> errorResponse = new LinkedHashMap<>();
       errorResponse.put("error", e.getMessage());
       return ResponseEntity.status(500).body(errorResponse);
-    }
-  }
-
-  private boolean checkDatabaseConnectivity() {
-    try {
-      jdbcTemplate.queryForObject("SELECT 1", Integer.class);
-      return true;
-    } catch (Exception e) {
-      logger.debug("Database connectivity check failed", e);
-      return false;
     }
   }
 }
