@@ -10,12 +10,6 @@ public class Nav {
 
   public Nav() {}
 
-  public Nav(Integer schemeCode, LocalDate date, Double nav) {
-    this.schemeCode = schemeCode;
-    this.date = date;
-    this.nav = nav;
-  }
-
   public Integer getSchemeCode() {
     return schemeCode;
   }
