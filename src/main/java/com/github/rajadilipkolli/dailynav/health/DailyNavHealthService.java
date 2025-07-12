@@ -220,23 +220,16 @@ public class DailyNavHealthService {
   }
 
   private boolean isDataStale(LocalDate latestDataDate) {
-    if (latestDataDate == null) {
-      return true;
-    }
-
-    return is10DaysOldData(latestDataDate);
+    return latestDataDate == null || is10DaysOldData(latestDataDate);
   }
 
   boolean is10DaysOldData(LocalDate latestDataDate) {
     try {
-      LocalDate now = LocalDate.now();
-
       // Consider data stale if it's more than 10 days old
-      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDataDate, now);
+      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDataDate, LocalDate.now());
       return daysSinceLastUpdate > 10;
-
     } catch (Exception e) {
-      DailyNavHealthService.logger.debug("Failed to parse latest data date: {}", latestDataDate, e);
+      logger.debug("Failed to parse latest data date: {}", latestDataDate, e);
       return true;
     }
   }

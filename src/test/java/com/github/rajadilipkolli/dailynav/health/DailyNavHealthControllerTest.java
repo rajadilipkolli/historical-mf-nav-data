@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 class DailyNavHealthControllerTest extends AbstractRepositoryTest {
+  private static final LocalDate REFERENCE_DATE = LocalDate.of(2025, 7, 1);
 
   private MockMvc mockMvc;
 
@@ -61,7 +62,7 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
       for (int i = 1; i <= 5; i++) {
         for (int d = 0; d < 3; d++) {
           ps.setInt(1, i);
-          ps.setString(2, LocalDate.now().minusDays(d).toString());
+          ps.setString(2, REFERENCE_DATE.minusDays(d).toString());
           ps.setDouble(3, 100.0 + i + d);
           ps.executeUpdate();
         }
@@ -86,15 +87,6 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
         .perform(get("/daily-nav/health").accept("application/json"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith("application/json"))
-        .andExpect(jsonPath("$.healthy").exists())
-        .andExpect(jsonPath("$.databaseAccessible").exists());
-  }
-
-  @Test
-  void healthEndpointReturnsExpectedFields() throws Exception {
-    mockMvc
-        .perform(get("/daily-nav/health").accept("application/json"))
-        .andExpect(status().isOk())
         .andExpect(jsonPath("$.healthy").exists())
         .andExpect(jsonPath("$.databaseAccessible").exists());
   }

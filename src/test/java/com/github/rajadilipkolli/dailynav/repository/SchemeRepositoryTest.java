@@ -1,12 +1,15 @@
 package com.github.rajadilipkolli.dailynav.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.model.Scheme;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class SchemeRepositoryTest extends AbstractRepositoryTest {
   private SchemeRepository schemeRepository;

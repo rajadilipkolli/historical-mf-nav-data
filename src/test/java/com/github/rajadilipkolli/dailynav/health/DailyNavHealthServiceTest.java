@@ -1,26 +1,35 @@
 package com.github.rajadilipkolli.dailynav.health;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Map;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Test for DailyNavHealthService using real SQLite in-memory DB */
-class DailyNavHealthServiceTest
-    extends com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest {
+class DailyNavHealthServiceTest extends AbstractRepositoryTest {
 
-  private DailyNavProperties properties;
+  // Removed unused SCHEME_COUNT, NAV_DAYS, SECURITY_COUNT
+  private static final int EXPECTED_SCHEME_COUNT = 120;
+  private static final int EXPECTED_NAV_DAYS = 10;
+  private static final int EXPECTED_SECURITY_COUNT = 120;
+  private static final LocalDate REFERENCE_DATE = LocalDate.now();
+
   private DailyNavHealthService healthService;
 
   @BeforeEach
   void setUpHealthService() {
-    properties = new DailyNavProperties();
+    DailyNavProperties properties = new DailyNavProperties();
     properties.setAutoInit(true);
     properties.setCreateIndexes(true);
     properties.setDatabasePath("jdbc:sqlite::memory:");
+    // Inject fixed current date for deterministic tests
     healthService = new DailyNavHealthService(jdbcTemplate, properties);
   }
 
@@ -43,7 +52,7 @@ class DailyNavHealthServiceTest
     try (var ps =
         connection.prepareStatement(
             "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)")) {
-      for (int i = 1; i <= 120; i++) {
+      for (int i = 1; i <= EXPECTED_SCHEME_COUNT; i++) {
         ps.setInt(1, i);
         ps.setString(2, "Scheme " + i);
         ps.executeUpdate();
@@ -52,10 +61,10 @@ class DailyNavHealthServiceTest
     // Insert nav
     try (var ps =
         connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)")) {
-      for (int i = 1; i <= 120; i++) {
-        for (int d = 0; d < 10; d++) {
+      for (int i = 1; i <= EXPECTED_SCHEME_COUNT; i++) {
+        for (int d = 0; d < EXPECTED_NAV_DAYS; d++) {
           ps.setInt(1, i);
-          ps.setString(2, LocalDate.now().minusDays(d).toString());
+          ps.setString(2, REFERENCE_DATE.minusDays(d).toString());
           ps.setDouble(3, 100.0 + i + d);
           ps.executeUpdate();
         }
@@ -65,7 +74,7 @@ class DailyNavHealthServiceTest
     try (var ps =
         connection.prepareStatement(
             "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)")) {
-      for (int i = 1; i <= 120; i++) {
+      for (int i = 1; i <= EXPECTED_SECURITY_COUNT; i++) {
         ps.setString(1, "ISIN" + i);
         ps.setInt(2, i % 2);
         ps.setInt(3, i);
@@ -90,24 +99,24 @@ class DailyNavHealthServiceTest
     DailyNavHealthStatus status = healthService.checkHealth();
     assertTrue(status.isHealthy());
     assertTrue(status.isDatabaseAccessible());
-    assertEquals(120, status.getSchemeCount());
-    assertEquals(1200, status.getNavRecordCount());
-    assertEquals(120, status.getSecurityCount());
-    assertNotNull(status.getLatestDataDate());
-    assertNotNull(status.getDataStartDate());
+    assertEquals(EXPECTED_SCHEME_COUNT, status.getSchemeCount());
+    assertEquals(EXPECTED_SCHEME_COUNT * EXPECTED_NAV_DAYS, status.getNavRecordCount());
+    assertEquals(EXPECTED_SECURITY_COUNT, status.getSecurityCount());
+    assertEquals(REFERENCE_DATE, status.getLatestDataDate());
+    assertEquals(REFERENCE_DATE.minusDays(EXPECTED_NAV_DAYS - 1), status.getDataStartDate());
     assertFalse(status.isDataStale());
     assertTrue(status.getIssues().isEmpty());
   }
 
   @Test
   void checkHealth_shouldDetectStaleData() throws SQLException {
-    // Set all nav dates to 20 days ago
+    // Set all nav dates to 20 days before REFERENCE_DATE
     connection.createStatement().execute("DELETE FROM nav");
     try (var ps =
         connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)")) {
-      for (int i = 1; i <= 120; i++) {
+      for (int i = 1; i <= EXPECTED_SCHEME_COUNT; i++) {
         ps.setInt(1, i);
-        ps.setString(2, LocalDate.now().minusDays(20).toString());
+        ps.setString(2, REFERENCE_DATE.minusDays(20).toString());
         ps.setDouble(3, 100.0 + i);
         ps.executeUpdate();
       }
@@ -132,7 +141,7 @@ class DailyNavHealthServiceTest
     try (var ps =
         connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)")) {
       ps.setInt(1, 1);
-      ps.setString(2, LocalDate.now().toString());
+      ps.setString(2, REFERENCE_DATE.toString());
       ps.setDouble(3, 100.0);
       ps.executeUpdate();
     }
@@ -144,12 +153,12 @@ class DailyNavHealthServiceTest
   @Test
   void getStatistics_shouldReturnCompleteStatistics() {
     Map<String, Object> stats = healthService.getStatistics();
-    assertEquals(120, stats.get("schemes"));
-    assertEquals(1200, stats.get("navRecords"));
-    assertEquals(120, stats.get("securities"));
-    assertNotNull(stats.get("latestDataDate"));
-    assertNotNull(stats.get("startDate"));
-    assertNotNull(stats.get("endDate"));
+    assertEquals(EXPECTED_SCHEME_COUNT, stats.get("schemes"));
+    assertEquals(EXPECTED_SCHEME_COUNT * EXPECTED_NAV_DAYS, stats.get("navRecords"));
+    assertEquals(EXPECTED_SECURITY_COUNT, stats.get("securities"));
+    assertEquals(REFERENCE_DATE, stats.get("latestDataDate"));
+    assertEquals(REFERENCE_DATE.minusDays(EXPECTED_NAV_DAYS - 1), stats.get("startDate"));
+    assertEquals(REFERENCE_DATE, stats.get("endDate"));
     assertTrue(stats.containsKey("dataSpanDays"));
     assertEquals(false, stats.get("dataStale"));
   }

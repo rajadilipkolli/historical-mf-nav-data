@@ -1,16 +1,24 @@
 package com.github.rajadilipkolli.dailynav.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.rajadilipkolli.dailynav.model.*;
-import com.github.rajadilipkolli.dailynav.repository.*;
+import com.github.rajadilipkolli.dailynav.model.NavByIsin;
+import com.github.rajadilipkolli.dailynav.model.Scheme;
+import com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest;
+import com.github.rajadilipkolli.dailynav.repository.NavByIsinRepository;
+import com.github.rajadilipkolli.dailynav.repository.SchemeRepository;
+import com.github.rajadilipkolli.dailynav.repository.SecurityRepository;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class MutualFundServiceTest extends AbstractRepositoryTest {
+  private static final LocalDate REFERENCE_DATE = LocalDate.of(2025, 7, 1);
 
   private MutualFundService service;
 
@@ -25,15 +33,11 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
 
   @Override
   protected void createSchema() throws SQLException {
-    connection
-        .createStatement()
-        .execute("CREATE TABLE nav_by_isin (isin TEXT, date TEXT, nav REAL)");
-    connection
-        .createStatement()
-        .execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
-    connection
-        .createStatement()
-        .execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+    try (var stmt = connection.createStatement()) {
+      stmt.execute("CREATE TABLE nav_by_isin (isin TEXT, date TEXT, nav REAL)");
+      stmt.execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+      stmt.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+    }
   }
 
   @Override
@@ -66,15 +70,15 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     try (var ps =
         connection.prepareStatement("INSERT INTO nav_by_isin (isin, date, nav) VALUES (?, ?, ?)")) {
       ps.setString(1, "ISIN123");
-      ps.setString(2, LocalDate.now().toString());
+      ps.setString(2, REFERENCE_DATE.toString());
       ps.setDouble(3, 100.0);
       ps.executeUpdate();
       ps.setString(1, "ISIN123");
-      ps.setString(2, LocalDate.now().minusDays(1).toString());
+      ps.setString(2, REFERENCE_DATE.minusDays(1).toString());
       ps.setDouble(3, 99.0);
       ps.executeUpdate();
       ps.setString(1, "ISIN456");
-      ps.setString(2, LocalDate.now().toString());
+      ps.setString(2, REFERENCE_DATE.toString());
       ps.setDouble(3, 200.0);
       ps.executeUpdate();
     }
@@ -94,7 +98,7 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
 
   @Test
   void getNavByIsinAndDate_positive() {
-    Optional<NavByIsin> nav = service.getNavByIsinAndDate("ISIN123", LocalDate.now());
+    Optional<NavByIsin> nav = service.getNavByIsinAndDate("ISIN123", REFERENCE_DATE);
     assertTrue(nav.isPresent());
     assertEquals(100.0, nav.get().getNav());
   }
