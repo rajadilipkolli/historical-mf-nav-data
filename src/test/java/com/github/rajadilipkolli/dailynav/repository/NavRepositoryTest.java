@@ -3,40 +3,29 @@ package com.github.rajadilipkolli.dailynav.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.rajadilipkolli.dailynav.model.Nav;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.sqlite.SQLiteDataSource;
 
-class NavRepositoryTest {
-
-  private JdbcTemplate jdbcTemplate;
+class NavRepositoryTest extends AbstractRepositoryTest {
   private NavRepository navRepository;
-  private Connection connection;
-  private SQLiteDataSource ds;
-  private SingleConnectionDataSource singleConnectionDataSource;
 
   @BeforeEach
-  void setUp() throws SQLException {
-    // Setup in-memory SQLite DB (shared connection)
-    ds = new SQLiteDataSource();
-    ds.setUrl("jdbc:sqlite::memory:");
-    connection = ds.getConnection();
-    singleConnectionDataSource = new SingleConnectionDataSource(connection, false);
-    jdbcTemplate = new JdbcTemplate(singleConnectionDataSource);
+  void setUpNavRepo() {
     navRepository = new NavRepository(jdbcTemplate);
+  }
 
-    // Create schema using the same connection
+  @Override
+  protected void createSchema() throws SQLException {
     connection
         .createStatement()
         .execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
+  }
 
-    // Insert test data using the same connection
+  @Override
+  protected void insertTestData() throws SQLException {
     try (var ps1 =
         connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)")) {
       ps1.setInt(1, 1);
@@ -51,13 +40,6 @@ class NavRepositoryTest {
       ps1.setString(2, LocalDate.now().toString());
       ps1.setDouble(3, 200.0);
       ps1.executeUpdate();
-    }
-  }
-
-  @AfterEach
-  void tearDown() throws SQLException {
-    if (connection != null && !connection.isClosed()) {
-      connection.close();
     }
   }
 

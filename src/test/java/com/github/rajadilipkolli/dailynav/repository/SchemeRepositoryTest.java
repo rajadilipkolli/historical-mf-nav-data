@@ -3,40 +3,28 @@ package com.github.rajadilipkolli.dailynav.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.rajadilipkolli.dailynav.model.Scheme;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.sqlite.SQLiteDataSource;
+import org.junit.jupiter.api.*;
 
-class SchemeRepositoryTest {
-  private JdbcTemplate jdbcTemplate;
+class SchemeRepositoryTest extends AbstractRepositoryTest {
   private SchemeRepository schemeRepository;
-  private Connection connection;
-  private SQLiteDataSource ds;
-  private SingleConnectionDataSource singleConnectionDataSource;
 
   @BeforeEach
-  void setUp() throws SQLException {
-    // Use a shared in-memory SQLite DB
-    String url = "jdbc:sqlite:file:memdb1?mode=memory&cache=shared";
-    ds = new SQLiteDataSource();
-    ds.setUrl(url);
-    connection = ds.getConnection();
-    singleConnectionDataSource = new SingleConnectionDataSource(connection, false);
-    jdbcTemplate = new JdbcTemplate(singleConnectionDataSource);
+  void setUpSchemeRepo() {
     schemeRepository = new SchemeRepository(jdbcTemplate);
+  }
 
-    // Create schema and insert data only if not exists
-    try (var stmt = connection.createStatement()) {
-      stmt.execute(
-          "CREATE TABLE IF NOT EXISTS schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
-    }
+  @Override
+  protected void createSchema() throws SQLException {
+    connection
+        .createStatement()
+        .execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+  }
+
+  @Override
+  protected void insertTestData() throws SQLException {
     try (var ps =
         connection.prepareStatement(
             "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)")) {
@@ -46,13 +34,6 @@ class SchemeRepositoryTest {
       ps.setInt(1, 2);
       ps.setString(2, "Another Scheme");
       ps.executeUpdate();
-    }
-  }
-
-  @AfterEach
-  void tearDown() throws SQLException {
-    if (connection != null && !connection.isClosed()) {
-      connection.close();
     }
   }
 

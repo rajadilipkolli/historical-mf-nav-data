@@ -3,61 +3,43 @@ package com.github.rajadilipkolli.dailynav.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.sqlite.SQLiteDataSource;
 
-class NavByIsinRepositoryTest {
-
-  private JdbcTemplate jdbcTemplate;
+class NavByIsinRepositoryTest extends AbstractRepositoryTest {
   private NavByIsinRepository navByIsinRepository;
-  private Connection connection;
-  private SQLiteDataSource ds;
-  private SingleConnectionDataSource singleConnectionDataSource;
 
   @BeforeEach
-  void setUp() throws SQLException {
-    // Setup in-memory SQLite DB (shared connection)
-    ds = new SQLiteDataSource();
-    ds.setUrl("jdbc:sqlite::memory:");
-    connection = ds.getConnection();
-    singleConnectionDataSource = new SingleConnectionDataSource(connection, false);
-    jdbcTemplate = new JdbcTemplate(singleConnectionDataSource);
+  void setUpNavByIsinRepo() {
     navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
+  }
 
-    // Create schema using the same connection
+  @Override
+  protected void createSchema() throws SQLException {
     connection
         .createStatement()
         .execute("CREATE TABLE nav_by_isin (isin TEXT, date TEXT, nav REAL)");
+  }
 
-    // Insert test data using the same connection
+  @Override
+  protected void insertTestData() throws SQLException {
     try (var ps =
         connection.prepareStatement("INSERT INTO nav_by_isin (isin, date, nav) VALUES (?, ?, ?)")) {
       ps.setString(1, "ISIN123");
-      ps.setString(2, LocalDate.now().toString());
+      ps.setString(2, java.time.LocalDate.now().toString());
       ps.setDouble(3, 100.0);
       ps.executeUpdate();
       ps.setString(1, "ISIN123");
-      ps.setString(2, LocalDate.now().minusDays(1).toString());
+      ps.setString(2, java.time.LocalDate.now().minusDays(1).toString());
       ps.setDouble(3, 99.0);
       ps.executeUpdate();
       ps.setString(1, "ISIN456");
-      ps.setString(2, LocalDate.now().toString());
+      ps.setString(2, java.time.LocalDate.now().toString());
       ps.setDouble(3, 200.0);
       ps.executeUpdate();
-    }
-  }
-
-  @AfterEach
-  void tearDown() throws SQLException {
-    if (connection != null && !connection.isClosed()) {
-      connection.close();
     }
   }
 

@@ -3,39 +3,28 @@ package com.github.rajadilipkolli.dailynav.repository;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.rajadilipkolli.dailynav.model.Security;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.sqlite.SQLiteDataSource;
 
-class SecurityRepositoryTest {
-
-  private JdbcTemplate jdbcTemplate;
+class SecurityRepositoryTest extends AbstractRepositoryTest {
   private SecurityRepository securityRepository;
-  private Connection connection;
-  private SQLiteDataSource ds;
-  private SingleConnectionDataSource singleConnectionDataSource;
 
   @BeforeEach
-  void setUp() throws SQLException {
-    // Setup in-memory SQLite DB (shared connection)
-    ds = new SQLiteDataSource();
-    ds.setUrl("jdbc:sqlite::memory:");
-    connection = ds.getConnection();
-    singleConnectionDataSource = new SingleConnectionDataSource(connection, false);
-    jdbcTemplate = new JdbcTemplate(singleConnectionDataSource);
+  void setUpSecurityRepo() {
     securityRepository = new SecurityRepository(jdbcTemplate);
+  }
 
-    // Create schema using the same connection (table name must be 'securities')
+  @Override
+  protected void createSchema() throws SQLException {
     connection
         .createStatement()
         .execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+  }
 
-    // Insert test data
+  @Override
+  protected void insertTestData() throws SQLException {
     try (var ps =
         connection.prepareStatement(
             "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)")) {
@@ -47,13 +36,6 @@ class SecurityRepositoryTest {
       ps.setInt(2, 2);
       ps.setInt(3, 2);
       ps.executeUpdate();
-    }
-  }
-
-  @AfterEach
-  void tearDown() throws SQLException {
-    if (connection != null && !connection.isClosed()) {
-      connection.close();
     }
   }
 
