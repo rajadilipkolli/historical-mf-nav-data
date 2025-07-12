@@ -8,12 +8,6 @@ public class Security {
 
   public Security() {}
 
-  public Security(String isin, Integer type, Integer schemeCode) {
-    this.isin = isin;
-    this.type = type;
-    this.schemeCode = schemeCode;
-  }
-
   public String getIsin() {
     return isin;
   }
