@@ -30,6 +30,10 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // For testing with Spring MVC
+    testImplementation('org.springframework:spring-webmvc')
+    testImplementation('jakarta.servlet:jakarta.servlet-api')
+    testImplementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
 }
 
 jar {

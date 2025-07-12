@@ -13,6 +13,7 @@ import org.sqlite.SQLiteDataSource;
  * JdbcTemplate. Subclasses must implement schema creation and test data insertion.
  */
 public abstract class AbstractRepositoryTest {
+
   protected JdbcTemplate jdbcTemplate;
   protected Connection connection;
   protected SQLiteDataSource ds;
