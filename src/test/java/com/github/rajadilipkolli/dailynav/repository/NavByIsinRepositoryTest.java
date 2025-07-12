@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.sqlite.SQLiteDataSource;
 
 class NavByIsinRepositoryTest {
@@ -18,7 +19,7 @@ class NavByIsinRepositoryTest {
   private NavByIsinRepository navByIsinRepository;
   private Connection connection;
   private SQLiteDataSource ds;
-  private javax.sql.DataSource singleConnectionDataSource;
+  private SingleConnectionDataSource singleConnectionDataSource;
 
   @BeforeEach
   void setUp() throws SQLException {
@@ -26,49 +27,7 @@ class NavByIsinRepositoryTest {
     ds = new SQLiteDataSource();
     ds.setUrl("jdbc:sqlite::memory:");
     connection = ds.getConnection();
-    singleConnectionDataSource =
-        new javax.sql.DataSource() {
-          @Override
-          public Connection getConnection() {
-            return connection;
-          }
-
-          @Override
-          public Connection getConnection(String username, String password) {
-            return connection;
-          }
-
-          @Override
-          public <T> T unwrap(Class<T> iface) {
-            throw new UnsupportedOperationException();
-          }
-
-          @Override
-          public boolean isWrapperFor(Class<?> iface) {
-            return false;
-          }
-
-          @Override
-          public java.io.PrintWriter getLogWriter() {
-            return null;
-          }
-
-          @Override
-          public void setLogWriter(java.io.PrintWriter out) {}
-
-          @Override
-          public void setLoginTimeout(int seconds) {}
-
-          @Override
-          public int getLoginTimeout() {
-            return 0;
-          }
-
-          @Override
-          public java.util.logging.Logger getParentLogger() {
-            return null;
-          }
-        };
+    singleConnectionDataSource = new SingleConnectionDataSource(connection, false);
     jdbcTemplate = new JdbcTemplate(singleConnectionDataSource);
     navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
 

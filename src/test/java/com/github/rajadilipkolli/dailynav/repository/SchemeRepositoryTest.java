@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.sqlite.SQLiteDataSource;
 
 class SchemeRepositoryTest {
@@ -18,7 +19,7 @@ class SchemeRepositoryTest {
   private SchemeRepository schemeRepository;
   private Connection connection;
   private SQLiteDataSource ds;
-  private javax.sql.DataSource singleConnectionDataSource;
+  private SingleConnectionDataSource singleConnectionDataSource;
 
   @BeforeEach
   void setUp() throws SQLException {
@@ -27,49 +28,7 @@ class SchemeRepositoryTest {
     ds = new SQLiteDataSource();
     ds.setUrl(url);
     connection = ds.getConnection();
-    singleConnectionDataSource =
-        new javax.sql.DataSource() {
-          @Override
-          public Connection getConnection() throws SQLException {
-            return ds.getConnection();
-          }
-
-          @Override
-          public Connection getConnection(String username, String password) throws SQLException {
-            return ds.getConnection();
-          }
-
-          @Override
-          public <T> T unwrap(Class<T> iface) {
-            throw new UnsupportedOperationException();
-          }
-
-          @Override
-          public boolean isWrapperFor(Class<?> iface) {
-            return false;
-          }
-
-          @Override
-          public java.io.PrintWriter getLogWriter() {
-            return null;
-          }
-
-          @Override
-          public void setLogWriter(java.io.PrintWriter out) {}
-
-          @Override
-          public void setLoginTimeout(int seconds) {}
-
-          @Override
-          public int getLoginTimeout() {
-            return 0;
-          }
-
-          @Override
-          public java.util.logging.Logger getParentLogger() {
-            return null;
-          }
-        };
+    singleConnectionDataSource = new SingleConnectionDataSource(connection, false);
     jdbcTemplate = new JdbcTemplate(singleConnectionDataSource);
     schemeRepository = new SchemeRepository(jdbcTemplate);
 
