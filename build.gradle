@@ -26,15 +26,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.5.3'
 }
 
-task copySqlData(type: Copy) {
-    from 'src/main/resources/funds.sql'
-    into "$buildDir/resources/main"
-}
-
-processResources.dependsOn copySqlData
-
 jar {
     from('src/main/resources') {
         include 'funds.sql'
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
