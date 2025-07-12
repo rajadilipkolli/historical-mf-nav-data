@@ -5,6 +5,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -106,66 +110,97 @@ public class DatabaseInitializer {
           "funds.sql not found in classpath. Please ensure the data file is included in the JAR.");
     }
 
+    Connection conn;
+    boolean originalAutoCommit;
     try (BufferedReader reader =
         new BufferedReader(
             new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
 
-      StringBuilder currentStatement = new StringBuilder();
-      String line;
-      int lineCount = 0;
-      int executedStatements = 0;
+      DataSource ds = jdbcTemplate.getDataSource();
+      if (ds == null) {
+        throw new RuntimeException("DataSource is null. Cannot obtain database connection.");
+      }
+      try {
+        conn = ds.getConnection();
+        originalAutoCommit = conn.getAutoCommit();
+        conn.setAutoCommit(false);
 
-      while ((line = reader.readLine()) != null) {
-        lineCount++;
+        try (Statement stmt = conn.createStatement()) {
+          StringBuilder currentStatement = new StringBuilder();
+          String line;
+          int lineCount = 0;
+          int executedStatements = 0;
+          while ((line = reader.readLine()) != null) {
+            lineCount++;
 
-        // Skip comments and empty lines
-        if (line.trim().startsWith("--") || line.trim().isEmpty()) {
-          continue;
-        }
+            // Skip comments and empty lines
+            if (line.trim().startsWith("--") || line.trim().isEmpty()) {
+              continue;
+            }
 
-        currentStatement.append(line).append("\n");
+            currentStatement.append(line).append("\n");
 
-        // Check if this line ends a statement
-        if (line.trim().endsWith(";")) {
-          String statement = currentStatement.toString().trim();
-          if (!statement.isEmpty()) {
-            try {
-              jdbcTemplate.execute(statement);
-              executedStatements++;
+            // Check if this line ends a statement
+            if (line.trim().endsWith(";")) {
+              String statement = currentStatement.toString().trim();
+              if (!statement.isEmpty()) {
+                try {
+                  stmt.execute(statement);
+                  executedStatements++;
 
-              // Log progress for large datasets
-              if (executedStatements % 1000 == 0) {
-                logger.info("Executed {} statements...", executedStatements);
+                  // Log progress for large datasets
+                  if (executedStatements % 1000 == 0) {
+                    logger.info("Executed {} statements...", executedStatements);
+                  }
+                } catch (Exception e) {
+                  if (properties.isDebug()) {
+                    logger.warn(
+                        "Failed to execute statement at line {}: {}", lineCount, e.getMessage());
+                  }
+                  // Continue with other statements
+                }
               }
-            } catch (Exception e) {
-              if (properties.isDebug()) {
-                logger.warn(
-                    "Failed to execute statement at line {}: {}", lineCount, e.getMessage());
-              }
-              // Continue with other statements
+              currentStatement.setLength(0); // Reset for next statement
             }
           }
-          currentStatement.setLength(0); // Reset for next statement
-        }
-      }
 
-      // Handle any remaining statement without semicolon
-      String finalStatement = currentStatement.toString().trim();
-      if (!finalStatement.isEmpty()) {
-        try {
-          jdbcTemplate.execute(finalStatement);
-          executedStatements++;
+          // Handle any remaining statement without semicolon
+          String finalStatement = currentStatement.toString().trim();
+          if (!finalStatement.isEmpty()) {
+            try {
+              stmt.execute(finalStatement);
+              executedStatements++;
+            } catch (Exception e) {
+              if (properties.isDebug()) {
+                logger.warn("Failed to execute final statement: {}", e.getMessage());
+              }
+            }
+          }
+
+          conn.commit();
+          logger.info(
+              "SQL data loaded successfully. Executed {} statements from {} lines",
+              executedStatements,
+              lineCount);
         } catch (Exception e) {
-          if (properties.isDebug()) {
-            logger.warn("Failed to execute final statement: {}", e.getMessage());
+          try {
+            conn.rollback();
+            logger.error("Transaction rolled back due to error: {}", e.getMessage());
+          } catch (Exception ex) {
+            logger.error("Failed to rollback transaction: {}", ex.getMessage());
+          }
+          throw new RuntimeException("Error during SQL script execution", e);
+        } finally {
+          try {
+            conn.setAutoCommit(originalAutoCommit);
+            conn.close();
+          } catch (Exception ex) {
+            logger.warn("Failed to close connection: {}", ex.getMessage());
           }
         }
+      } catch (SQLException sqlEx) {
+        throw new RuntimeException("Failed to obtain or manage database connection", sqlEx);
       }
-
-      logger.info(
-          "SQL data loaded successfully. Executed {} statements from {} lines",
-          executedStatements,
-          lineCount);
     }
   }
 
