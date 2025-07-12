@@ -110,14 +110,14 @@ jobs:
         echo "Found main JAR: $JAR_FILE"
 
         # Copy and rename the JAR for release
-        cp "$JAR_FILE" daily-nav-library.jar
+        cp "$JAR_FILE" historical-mf-nav-data-library.jar
 
         # Verify the SQL file is included in the JAR
-        jar tf daily-nav-library.jar | grep -q funds.sql || { echo "ERROR: funds.sql not found in JAR"; exit 1; }
+        jar tf historical-mf-nav-data-library.jar | grep -q funds.sql || { echo "ERROR: funds.sql not found in JAR"; exit 1; }
 
         # Log JAR contents for verification
         echo "JAR contents verification:"
-        jar tf daily-nav-library.jar | grep -E "(funds\.sql|com/github/rajadilipkolli)" | head -20
+        jar tf historical-mf-nav-data-library.jar | grep -E "(funds\.sql|com/github/rajadilipkolli)" | head -20
     - name: Publish Stable Release (Schedule)
       run: |
         # Create comprehensive release notes
@@ -133,7 +133,7 @@ jobs:
         - Optimized indexes for fast querying
         
         ## 📦 Artifacts
-        - \`daily-nav-library.jar\` - Complete library with embedded data (recommended)
+        - \`historical-mf-nav-data-library.jar\` - Complete library with embedded data (recommended)
         - \`funds.db.zst\` - Compressed database file (for direct SQLite usage)
         
         ## 🔧 Usage
@@ -141,12 +141,12 @@ jobs:
         \`\`\`xml
         <dependency>
             <groupId>com.github.rajadilipkolli</groupId>
-            <artifactId>daily-nav</artifactId>
+            <artifactId>historical-mf-nav-data</artifactId>
             <version>0.0.${{ steps.current-time.outputs.formattedTime }}</version>
         </dependency>
         \`\`\`
         
-        See [LIBRARY_USAGE.md](https://github.com/rajadilipkolli/daily-nav/blob/main/LIBRARY_USAGE.md) for complete documentation.
+        See [LIBRARY_USAGE.md](https://github.com/rajadilipkolli/historical-mf-nav-data/blob/main/LIBRARY_USAGE.md) for complete documentation.
         
         ## 📊 Data Statistics
         EOF
@@ -161,7 +161,7 @@ jobs:
         gh release create "v0.0.${{ steps.current-time.outputs.formattedTime }}" \
           --title "Daily NAV Library v0.0.${{ steps.current-time.outputs.formattedTime }}" \
           --notes-file release_notes.txt \
-          daily-nav-library.jar \
+          historical-mf-nav-data-library.jar \
           funds.db.zst
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -176,14 +176,14 @@ jobs:
         Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
         
         ## 📦 Development Artifacts
-        - \`daily-nav-library.jar\` - Complete library with embedded data
+        - \`historical-mf-nav-data-library.jar\` - Complete library with embedded data
         
         ## 🔧 Usage
         Add to your Maven project:
         \`\`\`xml
         <dependency>
             <groupId>com.github.rajadilipkolli</groupId>
-            <artifactId>daily-nav</artifactId>
+            <artifactId>historical-mf-nav-data</artifactId>
             <version>0.0.${{ steps.current-time.outputs.formattedTime }}-pre</version>
         </dependency>
         \`\`\`
@@ -195,7 +195,7 @@ jobs:
           --title "Daily NAV Library v0.0.${{ steps.current-time.outputs.formattedTime }}-pre" \
           --notes-file release_notes.txt \
           --prerelease \
-          daily-nav-library.jar
+          historical-mf-nav-data-library.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ github.event_name == 'push' }}
