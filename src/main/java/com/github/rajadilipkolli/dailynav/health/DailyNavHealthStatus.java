@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.health;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,9 @@ public class DailyNavHealthStatus {
   private Integer schemeCount;
   private Integer navRecordCount;
   private Integer securityCount;
-  private String latestDataDate;
-  private String dataStartDate;
-  private String dataEndDate;
+  private LocalDate latestDataDate;
+  private LocalDate dataStartDate;
+  private LocalDate dataEndDate;
   private boolean dataStale = false;
   private boolean autoInitEnabled;
   private boolean indexesEnabled;
@@ -64,27 +65,27 @@ public class DailyNavHealthStatus {
     this.securityCount = securityCount;
   }
 
-  public String getLatestDataDate() {
+  public LocalDate getLatestDataDate() {
     return latestDataDate;
   }
 
-  public void setLatestDataDate(String latestDataDate) {
+  public void setLatestDataDate(LocalDate latestDataDate) {
     this.latestDataDate = latestDataDate;
   }
 
-  public String getDataStartDate() {
+  public LocalDate getDataStartDate() {
     return dataStartDate;
   }
 
-  public void setDataStartDate(String dataStartDate) {
+  public void setDataStartDate(LocalDate dataStartDate) {
     this.dataStartDate = dataStartDate;
   }
 
-  public String getDataEndDate() {
+  public LocalDate getDataEndDate() {
     return dataEndDate;
   }
 
-  public void setDataEndDate(String dataEndDate) {
+  public void setDataEndDate(LocalDate dataEndDate) {
     this.dataEndDate = dataEndDate;
   }
 

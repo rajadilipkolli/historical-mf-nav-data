@@ -53,7 +53,7 @@ public class DailyNavHealthService {
       status.setSecurityCount(tableCounts.get("securities"));
 
       // Check data freshness
-      String latestDate = getLatestDataDate();
+      LocalDate latestDate = getLatestDataDate();
       status.setLatestDataDate(latestDate);
 
       boolean isStale = isDataStale(latestDate);
@@ -64,7 +64,7 @@ public class DailyNavHealthService {
       }
 
       // Get date range
-      Map<String, String> dateRange = getDataDateRange();
+      Map<String, LocalDate> dateRange = getDataDateRange();
       status.setDataStartDate(dateRange.get("startDate"));
       status.setDataEndDate(dateRange.get("endDate"));
 
@@ -112,19 +112,19 @@ public class DailyNavHealthService {
       Map<String, Integer> tableCounts = getTableCounts();
       stats.putAll(tableCounts);
 
-      Map<String, String> dateRange = getDataDateRange();
+      Map<String, LocalDate> dateRange = getDataDateRange();
       stats.putAll(dateRange);
 
-      String latestDate = getLatestDataDate();
+      LocalDate latestDate = getLatestDataDate();
       stats.put("latestDataDate", latestDate);
       stats.put("dataStale", isDataStale(latestDate));
 
       // Calculate data span
       if (dateRange.get("startDate") != null && dateRange.get("endDate") != null) {
         try {
-          LocalDate start = LocalDate.parse(dateRange.get("startDate"));
-          LocalDate end = LocalDate.parse(dateRange.get("endDate"));
-          long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(start, end);
+          LocalDate start = dateRange.get("startDate");
+          LocalDate end = dateRange.get("endDate");
+          long daysBetween = ChronoUnit.DAYS.between(start, end);
           stats.put("dataSpanDays", daysBetween);
         } catch (Exception e) {
           logger.debug("Failed to calculate data span", e);
@@ -191,21 +191,21 @@ public class DailyNavHealthService {
     return counts;
   }
 
-  private String getLatestDataDate() {
+  private LocalDate getLatestDataDate() {
     try {
-      return jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+      return jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", LocalDate.class);
     } catch (Exception e) {
       logger.debug("Failed to get latest data date", e);
       return null;
     }
   }
 
-  private Map<String, String> getDataDateRange() {
-    Map<String, String> dateRange = new LinkedHashMap<>();
+  private Map<String, LocalDate> getDataDateRange() {
+    Map<String, LocalDate> dateRange = new LinkedHashMap<>();
 
     try {
-      String minDate = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
-      String maxDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+      LocalDate minDate = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", LocalDate.class);
+      LocalDate maxDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", LocalDate.class);
 
       dateRange.put("startDate", minDate);
       dateRange.put("endDate", maxDate);
@@ -219,21 +219,20 @@ public class DailyNavHealthService {
     return dateRange;
   }
 
-  private boolean isDataStale(String latestDataDate) {
-    if (latestDataDate == null || "Unknown".equals(latestDataDate)) {
+  private boolean isDataStale(LocalDate latestDataDate) {
+    if (latestDataDate == null) {
       return true;
     }
 
     return is10DaysOldData(latestDataDate);
   }
 
-  boolean is10DaysOldData(String latestDataDate) {
+  boolean is10DaysOldData(LocalDate latestDataDate) {
     try {
-      LocalDate latestDate = LocalDate.parse(latestDataDate);
       LocalDate now = LocalDate.now();
 
       // Consider data stale if it's more than 10 days old
-      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDate, now);
+      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDataDate, now);
       return daysSinceLastUpdate > 10;
 
     } catch (Exception e) {
