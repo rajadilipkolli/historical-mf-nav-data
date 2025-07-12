@@ -73,7 +73,7 @@ public class MutualFundService {
 
     Security security1 = security.get();
     Optional<Scheme> scheme = getScheme(security1.getSchemeCode());
-    return Optional.of(new FundInfo(security1, scheme.get()));
+    return scheme.map(value -> new FundInfo(security1, value));
   }
 
   /** Helper class to combine security and scheme information */

@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.health;
 
 import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -61,16 +62,16 @@ public class DailyNavHealthController {
 
       // Data statistics
       try {
-        String minDate = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
-        String maxDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+        LocalDate minDate =
+            jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", LocalDate.class);
+        LocalDate maxDate =
+            jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", LocalDate.class);
 
         info.put("dataStartDate", minDate);
         info.put("dataEndDate", maxDate);
 
         if (minDate != null && maxDate != null) {
-          LocalDate start = LocalDate.parse(minDate);
-          LocalDate end = LocalDate.parse(maxDate);
-          long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(start, end);
+          long daysBetween = ChronoUnit.DAYS.between(minDate, maxDate);
           info.put("dataSpanDays", daysBetween);
         }
 

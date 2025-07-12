@@ -149,4 +149,39 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     List<Scheme> schemes = service.getAllSchemes();
     assertEquals(2, schemes.size());
   }
+
+  @Test
+  void getFundInfo_positive() {
+    // ISIN123 exists and is linked to scheme 1 (Test Scheme)
+    var fundInfoOpt = service.getFundInfo("ISIN123");
+    assertTrue(fundInfoOpt.isPresent());
+    var fundInfo = fundInfoOpt.get();
+    assertEquals("ISIN123", fundInfo.getIsin());
+    assertEquals("Test Scheme", fundInfo.getSchemeName());
+    assertEquals(1, fundInfo.getSchemeCode());
+    assertEquals(1, fundInfo.getType());
+    assertEquals("Dividend Reinvestment", fundInfo.getTypeDescription());
+  }
+
+  @Test
+  void getFundInfo_negative_isinNotFound() {
+    // ISIN does not exist
+    var fundInfoOpt = service.getFundInfo("NONEXISTENT");
+    assertTrue(fundInfoOpt.isEmpty());
+  }
+
+  @Test
+  void getFundInfo_negative_schemeNotFound() throws SQLException {
+    // Insert a security with a scheme code that does not exist
+    try (var ps =
+        connection.prepareStatement(
+            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)")) {
+      ps.setString(1, "ISIN_NO_SCHEME");
+      ps.setInt(2, 0);
+      ps.setInt(3, 9999); // Nonexistent scheme code
+      ps.executeUpdate();
+    }
+    var fundInfoOpt = service.getFundInfo("ISIN_NO_SCHEME");
+    assertTrue(fundInfoOpt.isEmpty());
+  }
 }
