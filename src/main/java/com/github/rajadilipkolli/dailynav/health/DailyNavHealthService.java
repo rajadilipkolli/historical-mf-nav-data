@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.health;
 
 import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -218,17 +219,21 @@ public class DailyNavHealthService {
     return dateRange;
   }
 
-  private boolean isDataStale(String latestDataDate) {
-    if (latestDataDate == null) {
+  public boolean isDataStale(String latestDataDate) {
+    if (latestDataDate == null || "Unknown".equals(latestDataDate)) {
       return true;
     }
 
+    return is10DaysOldData(latestDataDate, logger);
+  }
+
+  boolean is10DaysOldData(String latestDataDate, Logger logger) {
     try {
       LocalDate latestDate = LocalDate.parse(latestDataDate);
       LocalDate now = LocalDate.now();
 
       // Consider data stale if it's more than 10 days old
-      long daysSinceLastUpdate = java.time.temporal.ChronoUnit.DAYS.between(latestDate, now);
+      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDate, now);
       return daysSinceLastUpdate > 10;
 
     } catch (Exception e) {

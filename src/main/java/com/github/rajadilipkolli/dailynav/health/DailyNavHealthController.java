@@ -28,10 +28,15 @@ public class DailyNavHealthController {
 
   private final JdbcTemplate jdbcTemplate;
   private final DailyNavProperties properties;
+  private final DailyNavHealthService healthService;
 
-  public DailyNavHealthController(JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+  public DailyNavHealthController(
+      JdbcTemplate jdbcTemplate,
+      DailyNavProperties properties,
+      DailyNavHealthService healthService) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
+    this.healthService = healthService;
   }
 
   /**
@@ -70,7 +75,7 @@ public class DailyNavHealthController {
         response.put("latestDataDate", latestDate);
 
         // Check if data is stale
-        if (isDataStale(latestDate)) {
+        if (healthService.isDataStale(latestDate)) {
           response.put("warning", "Data may be stale");
         }
 
@@ -144,25 +149,6 @@ public class DailyNavHealthController {
     } catch (Exception e) {
       logger.debug("Database connectivity check failed", e);
       return false;
-    }
-  }
-
-  private boolean isDataStale(String latestDataDate) {
-    if (latestDataDate == null || "Unknown".equals(latestDataDate)) {
-      return true;
-    }
-
-    try {
-      LocalDate latestDate = LocalDate.parse(latestDataDate);
-      LocalDate now = LocalDate.now();
-
-      // Consider data stale if it's more than 10 days old
-      long daysSinceLastUpdate = java.time.temporal.ChronoUnit.DAYS.between(latestDate, now);
-      return daysSinceLastUpdate > 10;
-
-    } catch (Exception e) {
-      logger.debug("Failed to parse latest data date: {}", latestDataDate, e);
-      return true;
     }
   }
 }
