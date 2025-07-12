@@ -17,7 +17,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"vmware.vscode-boot-dev-pack"
+				"vmware.vscode-boot-dev-pack",
+				"ms-python.python"
 			]
 		}
 	}
