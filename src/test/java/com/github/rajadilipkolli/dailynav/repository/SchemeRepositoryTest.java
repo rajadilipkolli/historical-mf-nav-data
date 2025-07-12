@@ -46,11 +46,25 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
   }
 
   @Test
+  void testFindBySchemeCodeNotFound() {
+    Optional<Scheme> result = schemeRepository.findBySchemeCode(-1);
+    assertFalse(result.isPresent());
+  }
+
+  @Test
   void testFindAll() {
     List<Scheme> result = schemeRepository.findAll();
     assertEquals(2, result.size());
     assertTrue(result.contains(new Scheme(1, "Test Scheme")));
     assertTrue(result.contains(new Scheme(2, "Another Scheme")));
+  }
+
+  @Test
+  void testFindAllEmpty() throws SQLException {
+    // Remove all data
+    connection.createStatement().execute("DELETE FROM schemes");
+    List<Scheme> result = schemeRepository.findAll();
+    assertTrue(result.isEmpty());
   }
 
   @Test
@@ -63,6 +77,12 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertEquals(2, result.size());
 
     result = schemeRepository.findBySchemeNameContaining("Nonexistent");
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void testFindBySchemeNameContainingNotFound() {
+    List<Scheme> result = schemeRepository.findBySchemeNameContaining("XYZ");
     assertTrue(result.isEmpty());
   }
 }

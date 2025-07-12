@@ -79,4 +79,31 @@ class NavByIsinRepositoryTest extends AbstractRepositoryTest {
     assertTrue(result.stream().anyMatch(n -> n.getNav() == 100.0));
     assertTrue(result.stream().anyMatch(n -> n.getNav() == 99.0));
   }
+
+  @Test
+  void testFindLatestByIsinNotFound() {
+    Optional<NavByIsin> result = navByIsinRepository.findLatestByIsin("NONEXISTENT");
+    assertFalse(result.isPresent());
+  }
+
+  @Test
+  void testFindByIsinAndDateOnOrBeforeNotFound() {
+    Optional<NavByIsin> result =
+        navByIsinRepository.findByIsinAndDateOnOrBefore("ISIN123", LocalDate.now().minusDays(10));
+    assertFalse(result.isPresent());
+  }
+
+  @Test
+  void testFindLastNByIsinNotFound() {
+    List<NavByIsin> result = navByIsinRepository.findLastNByIsin("NONEXISTENT", 2);
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void testFindByIsinAndDateBetweenNotFound() {
+    List<NavByIsin> result =
+        navByIsinRepository.findByIsinAndDateBetween(
+            "NONEXISTENT", LocalDate.now().minusDays(1), LocalDate.now());
+    assertTrue(result.isEmpty());
+  }
 }

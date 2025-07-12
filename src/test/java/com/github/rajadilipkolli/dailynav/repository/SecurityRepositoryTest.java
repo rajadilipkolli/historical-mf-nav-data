@@ -49,6 +49,12 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
   }
 
   @Test
+  void testFindByIsinNotFound() {
+    Optional<Security> result = securityRepository.findByIsin("NONEXISTENT");
+    assertFalse(result.isPresent());
+  }
+
+  @Test
   void testFindBySchemeCode() {
     List<Security> result = securityRepository.findBySchemeCode(1);
     assertEquals(1, result.size());
@@ -58,10 +64,24 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
   }
 
   @Test
+  void testFindBySchemeCodeNotFound() {
+    List<Security> result = securityRepository.findBySchemeCode(-1);
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
   void testFindAll() {
     List<Security> result = securityRepository.findAll();
     assertEquals(2, result.size());
     assertTrue(result.stream().anyMatch(s -> s.getIsin().equals("ISIN123")));
     assertTrue(result.stream().anyMatch(s -> s.getIsin().equals("ISIN456")));
+  }
+
+  @Test
+  void testFindAllEmpty() throws SQLException {
+    // Remove all data
+    connection.createStatement().execute("DELETE FROM securities");
+    List<Security> result = securityRepository.findAll();
+    assertTrue(result.isEmpty());
   }
 }
