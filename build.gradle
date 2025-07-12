@@ -3,12 +3,17 @@ plugins {
     id 'org.springframework.boot' version '3.5.3'
     id 'io.spring.dependency-management' version '1.1.7'
     id 'maven-publish'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
 group = 'com.github.rajadilipkolli'
 version = '1.0.0-SNAPSHOT'
-sourceCompatibility = '21'
-targetCompatibility = '21'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 repositories {
     mavenCentral()
@@ -36,6 +41,13 @@ jar {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        googleJavaFormat('1.27.0')
+        target 'src/**/*.java'
+    }
 }
 
 publishing {
