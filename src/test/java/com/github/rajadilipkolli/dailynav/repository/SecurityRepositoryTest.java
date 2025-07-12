@@ -36,18 +36,18 @@ class SecurityRepositoryTest {
         .execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
 
     // Insert test data
-    var ps =
+    try (var ps =
         connection.prepareStatement(
-            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)");
-    ps.setString(1, "ISIN123");
-    ps.setInt(2, 1);
-    ps.setInt(3, 1);
-    ps.executeUpdate();
-    ps.setString(1, "ISIN456");
-    ps.setInt(2, 2);
-    ps.setInt(3, 2);
-    ps.executeUpdate();
-    ps.close();
+            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)")) {
+      ps.setString(1, "ISIN123");
+      ps.setInt(2, 1);
+      ps.setInt(3, 1);
+      ps.executeUpdate();
+      ps.setString(1, "ISIN456");
+      ps.setInt(2, 2);
+      ps.setInt(3, 2);
+      ps.executeUpdate();
+    }
   }
 
   @AfterEach

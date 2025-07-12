@@ -37,21 +37,21 @@ class NavByIsinRepositoryTest {
         .execute("CREATE TABLE nav_by_isin (isin TEXT, date TEXT, nav REAL)");
 
     // Insert test data using the same connection
-    var ps =
-        connection.prepareStatement("INSERT INTO nav_by_isin (isin, date, nav) VALUES (?, ?, ?)");
-    ps.setString(1, "ISIN123");
-    ps.setString(2, LocalDate.now().toString());
-    ps.setDouble(3, 100.0);
-    ps.executeUpdate();
-    ps.setString(1, "ISIN123");
-    ps.setString(2, LocalDate.now().minusDays(1).toString());
-    ps.setDouble(3, 99.0);
-    ps.executeUpdate();
-    ps.setString(1, "ISIN456");
-    ps.setString(2, LocalDate.now().toString());
-    ps.setDouble(3, 200.0);
-    ps.executeUpdate();
-    ps.close();
+    try (var ps =
+        connection.prepareStatement("INSERT INTO nav_by_isin (isin, date, nav) VALUES (?, ?, ?)")) {
+      ps.setString(1, "ISIN123");
+      ps.setString(2, LocalDate.now().toString());
+      ps.setDouble(3, 100.0);
+      ps.executeUpdate();
+      ps.setString(1, "ISIN123");
+      ps.setString(2, LocalDate.now().minusDays(1).toString());
+      ps.setDouble(3, 99.0);
+      ps.executeUpdate();
+      ps.setString(1, "ISIN456");
+      ps.setString(2, LocalDate.now().toString());
+      ps.setDouble(3, 200.0);
+      ps.executeUpdate();
+    }
   }
 
   @AfterEach

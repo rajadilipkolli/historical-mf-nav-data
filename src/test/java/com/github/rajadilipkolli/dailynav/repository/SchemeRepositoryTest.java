@@ -39,7 +39,7 @@ class SchemeRepositoryTest {
     }
     try (var ps =
         connection.prepareStatement(
-            "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)"); ) {
+            "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)")) {
       ps.setInt(1, 1);
       ps.setString(2, "Test Scheme");
       ps.executeUpdate();

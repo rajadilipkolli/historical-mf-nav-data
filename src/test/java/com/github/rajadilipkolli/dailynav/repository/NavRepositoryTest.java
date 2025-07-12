@@ -37,21 +37,21 @@ class NavRepositoryTest {
         .execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
 
     // Insert test data using the same connection
-    var ps1 =
-        connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)");
-    ps1.setInt(1, 1);
-    ps1.setString(2, LocalDate.now().toString());
-    ps1.setDouble(3, 100.0);
-    ps1.executeUpdate();
-    ps1.setInt(1, 1);
-    ps1.setString(2, LocalDate.now().minusDays(1).toString());
-    ps1.setDouble(3, 99.0);
-    ps1.executeUpdate();
-    ps1.setInt(1, 2);
-    ps1.setString(2, LocalDate.now().toString());
-    ps1.setDouble(3, 200.0);
-    ps1.executeUpdate();
-    ps1.close();
+    try (var ps1 =
+        connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)")) {
+      ps1.setInt(1, 1);
+      ps1.setString(2, LocalDate.now().toString());
+      ps1.setDouble(3, 100.0);
+      ps1.executeUpdate();
+      ps1.setInt(1, 1);
+      ps1.setString(2, LocalDate.now().minusDays(1).toString());
+      ps1.setDouble(3, 99.0);
+      ps1.executeUpdate();
+      ps1.setInt(1, 2);
+      ps1.setString(2, LocalDate.now().toString());
+      ps1.setDouble(3, 200.0);
+      ps1.executeUpdate();
+    }
   }
 
   @AfterEach
