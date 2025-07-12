@@ -1,10 +1,9 @@
 package com.github.rajadilipkolli.dailynav.repository;
 
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,31 +19,26 @@ public class NavByIsinRepository {
   }
 
   private static final RowMapper<NavByIsin> NAV_BY_ISIN_ROW_MAPPER =
-      new RowMapper<NavByIsin>() {
-        @Override
-        public NavByIsin mapRow(ResultSet rs, int rowNum) throws SQLException {
-          NavByIsin nav = new NavByIsin();
-          nav.setIsin(rs.getString("isin"));
-          nav.setDate(rs.getDate("date").toLocalDate());
-          nav.setNav(rs.getDouble("nav"));
-          return nav;
-        }
+      (rs, rowNum) -> {
+        NavByIsin nav = new NavByIsin();
+        nav.setIsin(rs.getString("isin"));
+        nav.setDate(LocalDate.parse(rs.getString("date")));
+        nav.setNav(rs.getDouble("nav"));
+        return nav;
       };
 
   /** Get latest NAV for an ISIN */
-  public NavByIsin findLatestByIsin(String isin) {
+  public Optional<NavByIsin> findLatestByIsin(String isin) {
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT 1";
-    List<NavByIsin> results = jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin);
-    return results.isEmpty() ? null : results.get(0);
+    return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin).stream().findFirst();
   }
 
   /** Get NAV for an ISIN on or before a specific date */
-  public NavByIsin findByIsinAndDateOnOrBefore(String isin, LocalDate date) {
+  public Optional<NavByIsin> findByIsinAndDateOnOrBefore(String isin, LocalDate date) {
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? AND date <= ? ORDER BY date DESC LIMIT 1";
-    List<NavByIsin> results = jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, date);
-    return results.isEmpty() ? null : results.get(0);
+    return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, date).stream().findFirst();
   }
 
   /** Get last N NAV records for an ISIN */

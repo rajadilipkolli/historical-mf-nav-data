@@ -7,6 +7,7 @@ import com.github.rajadilipkolli.dailynav.service.MutualFundService;
 import com.github.rajadilipkolli.dailynav.service.MutualFundService.FundInfo;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -56,9 +57,10 @@ public class DailyNavUsageExample implements CommandLineRunner {
     try {
       // Get latest NAV for an ISIN
       System.out.println("\n1. Getting latest NAV for ISIN: " + sampleIsin);
-      NavByIsin latestNav = mutualFundService.getLatestNavByIsin(sampleIsin);
-      if (latestNav != null) {
-        System.out.printf("   Latest NAV: %.4f on %s%n", latestNav.getNav(), latestNav.getDate());
+      Optional<NavByIsin> latestNav = mutualFundService.getLatestNavByIsin(sampleIsin);
+      if (latestNav.isPresent()) {
+        System.out.printf(
+            "   Latest NAV: %.4f on %s%n", latestNav.get().getNav(), latestNav.get().getDate());
       } else {
         System.out.println("   No NAV data found for this ISIN");
       }
@@ -66,11 +68,12 @@ public class DailyNavUsageExample implements CommandLineRunner {
       // Get NAV for a specific date
       System.out.println("\n2. Getting NAV for specific date (2023-03-23):");
       LocalDate specificDate = LocalDate.of(2023, 3, 23);
-      NavByIsin navOnDate = mutualFundService.getNavByIsinAndDate(sampleIsin, specificDate);
-      if (navOnDate != null) {
+      Optional<NavByIsin> navOnDate =
+          mutualFundService.getNavByIsinAndDate(sampleIsin, specificDate);
+      if (navOnDate.isPresent()) {
         System.out.printf(
             "   NAV on or before %s: %.4f on %s%n",
-            specificDate, navOnDate.getNav(), navOnDate.getDate());
+            specificDate, navOnDate.get().getNav(), navOnDate.get().getDate());
       } else {
         System.out.println("   No NAV data found for this date");
       }

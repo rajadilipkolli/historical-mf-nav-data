@@ -25,12 +25,12 @@ public class MutualFundService {
   }
 
   /** Get latest NAV by ISIN */
-  public NavByIsin getLatestNavByIsin(String isin) {
+  public Optional<NavByIsin> getLatestNavByIsin(String isin) {
     return navByIsinRepository.findLatestByIsin(isin);
   }
 
   /** Get NAV by ISIN for a specific date (or closest date before) */
-  public NavByIsin getNavByIsinAndDate(String isin, LocalDate date) {
+  public Optional<NavByIsin> getNavByIsinAndDate(String isin, LocalDate date) {
     return navByIsinRepository.findByIsinAndDateOnOrBefore(isin, date);
   }
 

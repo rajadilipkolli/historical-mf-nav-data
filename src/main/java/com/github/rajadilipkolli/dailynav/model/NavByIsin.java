@@ -10,12 +10,6 @@ public class NavByIsin {
 
   public NavByIsin() {}
 
-  public NavByIsin(String isin, LocalDate date, Double nav) {
-    this.isin = isin;
-    this.date = date;
-    this.nav = nav;
-  }
-
   public String getIsin() {
     return isin;
   }
