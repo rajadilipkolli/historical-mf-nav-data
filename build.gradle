@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.github.rajadilipkolli'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.20250713'
 
 
 java {

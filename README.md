@@ -14,9 +14,19 @@ Add this dependency to your `pom.xml`:
 <dependency>
     <groupId>com.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.20250713</version> <!-- Use latest version from releases -->
 </dependency>
 ```
+
+Or for Gradle (`build.gradle`):
+
+```gradle
+dependencies {
+    implementation 'com.github.rajadilipkolli:historical-mf-nav-data:1.0.20250713'
+}
+```
+
+> 💡 **Finding the Latest Version**: Visit the [GitHub Releases page](https://github.com/rajadilipkolli/historical-mf-nav-data/releases) to get the latest version number, or check [GitHub Packages](https://github.com/rajadilipkolli/historical-mf-nav-data/packages) for Maven coordinates.
 
 **Zero configuration required!** The library auto-configures with Spring Boot. See below for usage and configuration.
 
@@ -283,12 +293,14 @@ WHERE isin='INF277K01741'
 
 ## 📝 Versioning
 
-Follows SemVer, with the date in the version number: `MAJOR.MINOR.YYYYMMDD`.
+Follows a timestamp-based versioning scheme: `MAJOR.MINOR.YYYYMMDD`.
 
-1. Major: 0 for alpha, 1+ for stable
-2. Minor: non-breaking schema changes
-3. Patch: date-based
-4. No guarantee all pricing info is present for the release date
+1. Major: 1 for stable releases  
+2. Minor: 0 for normal releases
+3. Patch: Date-based (YYYYMMDD format)
+4. Example: `1.0.20250713` for July 13, 2025
+
+**Note**: No guarantee all pricing info is present for the release date. Daily releases are automatically generated with the latest available data.
 
 ---
 

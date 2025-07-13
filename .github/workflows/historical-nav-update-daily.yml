@@ -1,8 +1,7 @@
-name: Update Historical Nav Data
+
+name: Update and Publish Historical Nav Data
 on:
   schedule:
-    # This runs at 12AM UTC
-    # = 05:30 AM IST
     - cron: '0 0 * * *'
   push:
     branches:
@@ -18,186 +17,195 @@ on:
         required: false
         type: string
 
-# Permissions block for GitHub Actions
 permissions:
   contents: write
   id-token: write
+  packages: write
 
 jobs:
   update:
     name: Update data
     runs-on: ubuntu-latest
-    timeout-minutes: 720 # 12 hours
+    timeout-minutes: 720
+    outputs:
+      release_version: ${{ steps.current-time.outputs.formattedTime }}
     steps:
-    - name: Get current date
-      uses: josStorer/get-current-time@v2
-      id: current-time
-      with:
-        format: "YYYYMMDD"
-        timezone: 'Asia/Kolkata'
-    # Checkout code for all triggers
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 1
-        # For PRs, checkout the PR HEAD; for push/schedule, checkout main; for dispatch, checkout the triggering commit
-        ref: ${{ github.event.pull_request.head.sha || github.ref || 'main' }}
-    - name: Update data
-      run: |
-        if [[ -n "${{ github.event.inputs.from_date }}" && -n "${{ github.event.inputs.to_date }}" ]]; then
-          echo "Running fetch.sh with range: ${{ github.event.inputs.from_date }} to ${{ github.event.inputs.to_date }}"
-          ./fetch.sh "${{ github.event.inputs.from_date }}" "${{ github.event.inputs.to_date }}"
-        else
-          echo "Running fetch.sh with default behavior (no date range)"
-          ./fetch.sh
-        fi
-      working-directory: ${{ github.workspace }}
-    - uses: stefanzweifel/git-auto-commit-action@v6
-      id: commit
-      with:
-        commit_message: Update Historical Data ${{ steps.current-time.outputs.formattedTime }}
-        commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: 'gradle'
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.13'
-    - name: Create Dataset
-      run: |
-        python generate.py
-        zstd -5 -T0 funds.db
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git config user.name "github-actions[bot]"
-        # Create SQL file
-        sqlite3 funds.db .dump > funds.sql
-    - name: Build Java Library with Gradle
-      run: |
-        # Ensure funds.sql exists before building
-        if [ ! -f "funds.sql" ]; then
-          echo "ERROR: funds.sql not found. Database generation may have failed."
-          exit 1
-        fi
+      - name: Get current date
+        uses: josStorer/get-current-time@v2
+        id: current-time
+        with:
+          format: "YYYYMMDD"
+          timezone: 'Asia/Kolkata'
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.ref || 'main' }}
+      - name: Update data
+        run: |
+          if [[ -n "${{ github.event.inputs.from_date }}" && -n "${{ github.event.inputs.to_date }}" ]]; then
+            echo "Running fetch.sh with range: ${{ github.event.inputs.from_date }} to ${{ github.event.inputs.to_date }}"
+            ./fetch.sh "${{ github.event.inputs.from_date }}" "${{ github.event.inputs.to_date }}"
+          else
+            echo "Running fetch.sh with default behavior (no date range)"
+            ./fetch.sh
+          fi
+        working-directory: ${{ github.workspace }}
+      - uses: stefanzweifel/git-auto-commit-action@v6
+        id: commit
+        with:
+          commit_message: Update Historical Data ${{ steps.current-time.outputs.formattedTime }}
+          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Create Dataset
+        run: |
+          python generate.py
+          zstd -5 -T0 funds.db
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          sqlite3 funds.db .dump > funds.sql
+      - name: Build Java Library with Gradle
+        run: |
+          if [ ! -f "funds.sql" ]; then
+            echo "ERROR: funds.sql not found. Database generation may have failed."
+            exit 1
+          fi
+          mkdir -p src/main/resources/
+          cp funds.sql src/main/resources/
+          if [ ! -f "src/main/resources/funds.sql" ]; then
+            echo "ERROR: funds.sql not found in src/main/resources/"
+            exit 1
+          fi
+          echo "SQL file successfully copied to src/main/resources/"
+          ls -la src/main/resources/
+          sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ steps.current-time.outputs.formattedTime }}'/" build.gradle
+          ./gradlew clean build -x test
+          JAR_FILE=$(find build/libs -name "historical-mf-nav-data-*-plain.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
+          if [ -z "$JAR_FILE" ]; then
+            echo "ERROR: Main JAR file not found in build/libs directory"
+            echo "Available files in build/libs directory:"
+            ls -la build/libs/
+            exit 1
+          fi
+          echo "Found main JAR: $JAR_FILE"
+          cp "$JAR_FILE" historical-mf-nav-data-library.jar
+          jar tf historical-mf-nav-data-library.jar | grep -q funds.sql || { echo "ERROR: funds.sql not found in JAR"; exit 1; }
+          echo "JAR contents verification:"
+          jar tf historical-mf-nav-data-library.jar | grep -E "(funds\.sql|com/github/rajadilipkolli)" | head -20
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            historical-mf-nav-data-library.jar
+            funds.db.zst
+            release_notes.txt
 
-        # Copy the SQL data file to be included in the JAR (Gradle build will pick it up)
-        mkdir -p src/main/resources/
-        cp funds.sql src/main/resources/
+  release:
+    name: Create Release
+    needs: update
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Create Release Notes
+        run: |
+          cat > release_notes.txt << EOF
+          # Daily NAV Library v1.0.${{ needs.update.outputs.release_version }}
+          
+          Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
+          
+          ## 🚀 What's New
+          - Complete historical NAV data up to ${{ needs.update.outputs.release_version }}
+          - Self-executing JAR with embedded SQLite database
+          - Zero-configuration Spring Boot auto-configuration
+          - Optimized indexes for fast querying
+          
+          ## 📦 Artifacts
+          - `historical-mf-nav-data-library.jar` - Complete library with embedded data (recommended)
+          - `funds.db.zst` - Compressed database file (for direct SQLite usage)
+          
+          ## 🔧 Usage
+          Add to your Maven project:
+          ```xml
+          <dependency>
+              <groupId>com.github.rajadilipkolli</groupId>
+              <artifactId>historical-mf-nav-data</artifactId>
+              <version>1.0.${{ needs.update.outputs.release_version }}</version>
+          </dependency>
+          ```
+          
+          See [README.md](https://github.com/rajadilipkolli/historical-mf-nav-data/blob/main/README.md) for complete documentation.
+          
+          ## 📊 Data Statistics
+          EOF
+          echo "- Data coverage: $(sqlite3 funds.db 'SELECT MIN(date) FROM nav') to $(sqlite3 funds.db 'SELECT MAX(date) FROM nav')" >> release_notes.txt
+          echo "- Total schemes: $(sqlite3 funds.db 'SELECT COUNT(*) FROM schemes')" >> release_notes.txt
+          echo "- Total NAV records: $(sqlite3 funds.db 'SELECT COUNT(*) FROM nav')" >> release_notes.txt
+          echo "- Total securities: $(sqlite3 funds.db 'SELECT COUNT(*) FROM securities')" >> release_notes.txt
+      - name: Create GitHub Release
+        run: |
+          gh release create "v1.0.${{ needs.update.outputs.release_version }}" \
+            --title "Daily NAV Library v1.0.${{ needs.update.outputs.release_version }}" \
+            --notes-file release_notes.txt \
+            historical-mf-nav-data-library.jar \
+            funds.db.zst
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        # Verify the SQL file was copied
-        if [ ! -f "src/main/resources/funds.sql" ]; then
-          echo "ERROR: funds.sql not found in src/main/resources/"
-          exit 1
-        fi
-
-        echo "SQL file successfully copied to src/main/resources/"
-        ls -la src/main/resources/
-
-        # Build the JAR using Gradle (includes sources and javadoc)
-        ./gradlew clean build -x test
-
-        # Find the main JAR (exclude sources and javadoc JARs)
-        JAR_FILE=$(find build/libs -name "historical-mf-nav-data-*-plain.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
-        if [ -z "$JAR_FILE" ]; then
-          echo "ERROR: Main JAR file not found in build/libs directory"
-          echo "Available files in build/libs directory:"
-          ls -la build/libs/
-          exit 1
-        fi
-
-        echo "Found main JAR: $JAR_FILE"
-
-        # Copy and rename the JAR for release
-        cp "$JAR_FILE" historical-mf-nav-data-library.jar
-
-        # Verify the SQL file is included in the JAR
-        jar tf historical-mf-nav-data-library.jar | grep -q funds.sql || { echo "ERROR: funds.sql not found in JAR"; exit 1; }
-
-        # Log JAR contents for verification
-        echo "JAR contents verification:"
-        jar tf historical-mf-nav-data-library.jar | grep -E "(funds\.sql|com/github/rajadilipkolli)" | head -20
-    - name: Publish Stable Release (Schedule)
-      run: |
-        # Create comprehensive release notes
-        cat > release_notes.txt << EOF
-        # Daily NAV Library v0.0.${{ steps.current-time.outputs.formattedTime }}
-        
-        Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
-        
-        ## 🚀 What's New
-        - Complete historical NAV data up to ${{ steps.current-time.outputs.formattedTime }}
-        - Self-executing JAR with embedded SQLite database
-        - Zero-configuration Spring Boot auto-configuration
-        - Optimized indexes for fast querying
-        
-        ## 📦 Artifacts
-        - \`historical-mf-nav-data-library.jar\` - Complete library with embedded data (recommended)
-        - \`funds.db.zst\` - Compressed database file (for direct SQLite usage)
-        
-        ## 🔧 Usage
-        Add to your Maven project:
-        \`\`\`xml
-        <dependency>
-            <groupId>com.github.rajadilipkolli</groupId>
-            <artifactId>historical-mf-nav-data</artifactId>
-            <version>0.0.${{ steps.current-time.outputs.formattedTime }}</version>
-        </dependency>
-        \`\`\`
-        
-        See [LIBRARY_USAGE.md](https://github.com/rajadilipkolli/historical-mf-nav-data/blob/main/LIBRARY_USAGE.md) for complete documentation.
-        
-        ## 📊 Data Statistics
-        EOF
-        
-        # Add database statistics to release notes
-        echo "- Data coverage: $(sqlite3 funds.db 'SELECT MIN(date) FROM nav') to $(sqlite3 funds.db 'SELECT MAX(date) FROM nav')" >> release_notes.txt
-        echo "- Total schemes: $(sqlite3 funds.db 'SELECT COUNT(*) FROM schemes')" >> release_notes.txt
-        echo "- Total NAV records: $(sqlite3 funds.db 'SELECT COUNT(*) FROM nav')" >> release_notes.txt
-        echo "- Total securities: $(sqlite3 funds.db 'SELECT COUNT(*) FROM securities')" >> release_notes.txt
-        
-        # Create the release
-        gh release create "v0.0.${{ steps.current-time.outputs.formattedTime }}" \
-          --title "Daily NAV Library v0.0.${{ steps.current-time.outputs.formattedTime }}" \
-          --notes-file release_notes.txt \
-          historical-mf-nav-data-library.jar \
-          funds.db.zst
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: ${{ github.event_name == 'schedule' }}
-    - name: Publish Pre Release
-      run: |
-        cat > release_notes.txt << EOF
-        # Daily NAV Library v0.0.${{ steps.current-time.outputs.formattedTime }}-pre (Development Build)
-        
-        **⚠️ This is a development pre-release build.**
-        
-        Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
-        
-        ## 📦 Development Artifacts
-        - \`historical-mf-nav-data-library.jar\` - Complete library with embedded data
-        
-        ## 🔧 Usage
-        Add to your Maven project:
-        \`\`\`xml
-        <dependency>
-            <groupId>com.github.rajadilipkolli</groupId>
-            <artifactId>historical-mf-nav-data</artifactId>
-            <version>0.0.${{ steps.current-time.outputs.formattedTime }}-pre</version>
-        </dependency>
-        \`\`\`
-        
-        For stable releases, use the latest non-pre release.
-        EOF
-        
-        gh release create "v0.0.${{ steps.current-time.outputs.formattedTime }}-pre+${{github.sha}}" \
-          --title "Daily NAV Library v0.0.${{ steps.current-time.outputs.formattedTime }}-pre" \
-          --notes-file release_notes.txt \
-          --prerelease \
-          historical-mf-nav-data-library.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: ${{ github.event_name == 'push' }}
+  publish:
+    name: Publish to GitHub Packages
+    needs: release
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download Release Assets
+        run: |
+          RELEASE_TAG="v1.0.${{ needs.update.outputs.release_version }}"
+          gh release download "$RELEASE_TAG" --pattern "funds.db.zst"
+          zstd -d funds.db.zst
+          sqlite3 funds.db .dump > funds.sql
+          mkdir -p src/main/resources/
+          cp funds.sql src/main/resources/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Build with Gradle
+        run: |
+          VERSION="1.0.${{ needs.update.outputs.release_version }}"
+          sed -i "s/version = '1.0.0-SNAPSHOT'/version = '$VERSION'/" build.gradle
+          sed -i "s/version = '1.0.[0-9]\{8\}'/version = '$VERSION'/" build.gradle
+          ./gradlew build
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
