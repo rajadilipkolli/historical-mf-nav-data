@@ -251,40 +251,16 @@ jobs:
           gradle-version: wrapper
           cache-read-only: false
       
-      - name: Setup GPG for signing
-        run: |
-          # Create GPG key file from secret with proper formatting
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 -d > private.key || {
-            # If base64 decode fails, assume it's already in plain text
-            echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
-          }
-          
-          # Import the GPG key
-          gpg --batch --yes --import private.key
-          
-          # Clean up the key file
-          rm -f private.key
-          
-          # List imported keys for verification
-          gpg --list-secret-keys --keyid-format LONG
-        env:
-          GPG_TTY: $(tty)
-          
-      - name: Configure GPG for signing
-        run: |
-          # Get the key ID of the imported key
-          KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | head -1 | sed 's/.*\/\([A-F0-9]\{16\}\).*/\1/')
-          echo "Using GPG key ID: $KEY_ID"
-          
-          # Configure git to use the GPG key (optional, mainly for commits)
-          git config --global user.signingkey $KEY_ID
-          git config --global commit.gpgsign false  # We don't need to sign commits, just artifacts
-          
-          # Set up GPG agent if needed
-          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
-          echo "use-agent" >> ~/.gnupg/gpg.conf
-        env:
-          GPG_TTY: $(tty)
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_config_global: false
+          git_user_signingkey: false
+          git_commit_gpgsign: false
+          git_tag_gpgsign: false
+          git_push_gpgsign: if-asked
       
       - name: Build and publish to Maven Central
         run: |
