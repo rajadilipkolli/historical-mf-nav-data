@@ -16,7 +16,7 @@ else
   if [ "$(date +%u)" -eq 7 ]; then
 	d=$(date -I -d '-365 days')
   else
-	d=$(date -I -d '-30 days')
+	d=$(date -I -d '-45 days')
   fi
 
   # On the first of every month, go back to starting of the dataset
