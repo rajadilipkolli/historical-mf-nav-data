@@ -201,6 +201,11 @@ jobs:
           cache: 'gradle'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Build with Gradle
         run: |
           VERSION="1.0.${{ needs.release.outputs.release_version }}"
@@ -213,6 +218,4 @@ jobs:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.GPG_PUBLIC_KEY }}
-          JRELEASER_GPG_SECRET_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          # The GPG key is automatically available because we used the import-gpg action
