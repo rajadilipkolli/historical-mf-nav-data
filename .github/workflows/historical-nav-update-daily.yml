@@ -23,12 +23,13 @@ permissions:
   packages: write
 
 jobs:
-  update:
-    name: Update data
+  update-and-build:
+    name: Update data and build artifacts
     runs-on: ubuntu-latest
     timeout-minutes: 720
     outputs:
       release_version: ${{ steps.current-time.outputs.formattedTime }}
+      data_stats: ${{ steps.generate-stats.outputs.stats }}
     steps:
       - name: Get current date
         uses: josStorer/get-current-time@v2
@@ -36,11 +37,26 @@ jobs:
         with:
           format: "YYYYMMDD"
           timezone: 'Asia/Kolkata'
+      
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: ${{ github.event.pull_request.head.sha || github.ref || 'main' }}
+      
+      - name: Setup build environment
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      
       - name: Update data
         run: |
           if [[ -n "${{ github.event.inputs.from_date }}" && -n "${{ github.event.inputs.to_date }}" ]]; then
@@ -51,57 +67,71 @@ jobs:
             ./fetch.sh
           fi
         working-directory: ${{ github.workspace }}
-      - uses: stefanzweifel/git-auto-commit-action@v6
+      
+      - name: Commit data updates
+        uses: stefanzweifel/git-auto-commit-action@v6
         id: commit
         with:
           commit_message: Update Historical Data ${{ steps.current-time.outputs.formattedTime }}
           commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'gradle'
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - name: Create Dataset
+      
+      - name: Generate database and extract statistics
+        id: generate-stats
         run: |
+          echo "Generating database..."
           python generate.py
+          
+          echo "Extracting statistics..."
+          DATA_COVERAGE_MIN=$(sqlite3 funds.db 'SELECT MIN(date) FROM nav')
+          DATA_COVERAGE_MAX=$(sqlite3 funds.db 'SELECT MAX(date) FROM nav')
+          TOTAL_SCHEMES=$(sqlite3 funds.db 'SELECT COUNT(*) FROM schemes')
+          TOTAL_NAV_RECORDS=$(sqlite3 funds.db 'SELECT COUNT(*) FROM nav')
+          TOTAL_SECURITIES=$(sqlite3 funds.db 'SELECT COUNT(*) FROM securities')
+          
+          # Store stats in outputs for reuse
+          cat > stats.json << EOF
+          {
+            "data_coverage_min": "$DATA_COVERAGE_MIN",
+            "data_coverage_max": "$DATA_COVERAGE_MAX", 
+            "total_schemes": "$TOTAL_SCHEMES",
+            "total_nav_records": "$TOTAL_NAV_RECORDS",
+            "total_securities": "$TOTAL_SECURITIES"
+          }
+          EOF
+          echo "stats=$(cat stats.json | jq -c .)" >> $GITHUB_OUTPUT
+          
+          echo "Compressing database..."
           zstd -5 -T0 funds.db
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
+          
+          echo "Generating SQL dump..."
           sqlite3 funds.db .dump > funds.sql
-      - name: Build Java Library with Gradle
+      
+      - name: Build Java Library
         run: |
-          if [ ! -f "funds.sql" ]; then
-            echo "ERROR: funds.sql not found. Database generation may have failed."
-            exit 1
-          fi
+          echo "Preparing resources..."
           mkdir -p src/main/resources/
           cp funds.sql src/main/resources/
-          if [ ! -f "src/main/resources/funds.sql" ]; then
-            echo "ERROR: funds.sql not found in src/main/resources/"
-            exit 1
-          fi
-          echo "SQL file successfully copied to src/main/resources/"
-          ls -la src/main/resources/
+          
+          echo "Updating version in build.gradle..."
           sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ steps.current-time.outputs.formattedTime }}'/" build.gradle
-          ./gradlew clean build -x test
+          
+          echo "Building with Gradle..."
+          ./gradlew clean build -x test --parallel -Pci=true
+          
+          echo "Copying JAR artifact..."
           JAR_FILE=$(find build/libs -name "historical-mf-nav-data-*-plain.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
           if [ -z "$JAR_FILE" ]; then
-            echo "ERROR: Main JAR file not found in build/libs directory"
-            echo "Available files in build/libs directory:"
+            echo "ERROR: Main JAR file not found"
             ls -la build/libs/
             exit 1
           fi
-          echo "Found main JAR: $JAR_FILE"
           cp "$JAR_FILE" historical-mf-nav-data-library.jar
+          
+          echo "Verifying JAR contents..."
           jar tf historical-mf-nav-data-library.jar | grep -q funds.sql || { echo "ERROR: funds.sql not found in JAR"; exit 1; }
-          echo "JAR contents verification:"
-          jar tf historical-mf-nav-data-library.jar | grep -E "(funds\.sql|com/github/rajadilipkolli)" | head -20
+      
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -109,43 +139,45 @@ jobs:
           path: |
             historical-mf-nav-data-library.jar
             funds.db.zst
-            release_notes.txt
+            stats.json
+          retention-days: 7
 
   release:
-    name: Create Release
-    needs: update
+    name: Create GitHub Release
+    needs: update-and-build
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     outputs:
-      release_version: ${{ needs.update.outputs.release_version }}
+      release_version: ${{ needs.update-and-build.outputs.release_version }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
+      
       - name: Create Release Notes
         run: |
+          # Parse stats from JSON
+          DATA_COVERAGE_MIN=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .data_coverage_min)
+          DATA_COVERAGE_MAX=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .data_coverage_max)
+          TOTAL_SCHEMES=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .total_schemes)
+          TOTAL_NAV_RECORDS=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .total_nav_records)
+          TOTAL_SECURITIES=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .total_securities)
+          
           cat > release_notes.txt << EOF
-          # Daily NAV Library v1.0.${{ needs.update.outputs.release_version }}
+          # Daily NAV Library v1.0.${{ needs.update-and-build.outputs.release_version }}
           
           Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
           
           ## 🚀 What's New
-          - Complete historical NAV data up to ${{ needs.update.outputs.release_version }}
+          - Complete historical NAV data up to ${{ needs.update-and-build.outputs.release_version }}
           - Self-executing JAR with embedded SQLite database
           - Zero-configuration Spring Boot auto-configuration
           - Optimized indexes for fast querying
           
           ## 📦 Artifacts
-          - `historical-mf-nav-data-library.jar` - Complete library with embedded data (recommended)
-          - `funds.db.zst` - Compressed database file (for direct SQLite usage)
+          - \`historical-mf-nav-data-library.jar\` - Complete library with embedded data (recommended)
+          - \`funds.db.zst\` - Compressed database file (for direct SQLite usage)
           
           ## 🔧 Usage
           Add to your Maven project:
@@ -153,22 +185,23 @@ jobs:
           <dependency>
               <groupId>com.github.rajadilipkolli</groupId>
               <artifactId>historical-mf-nav-data</artifactId>
-              <version>1.0.${{ needs.update.outputs.release_version }}</version>
+              <version>1.0.${{ needs.update-and-build.outputs.release_version }}</version>
           </dependency>
           ```
           
           See [README.md](https://github.com/rajadilipkolli/historical-mf-nav-data/blob/main/README.md) for complete documentation.
           
           ## 📊 Data Statistics
+          - Data coverage: ${DATA_COVERAGE_MIN} to ${DATA_COVERAGE_MAX}
+          - Total schemes: ${TOTAL_SCHEMES}
+          - Total NAV records: ${TOTAL_NAV_RECORDS}
+          - Total securities: ${TOTAL_SECURITIES}
           EOF
-          echo "- Data coverage: $(sqlite3 funds.db 'SELECT MIN(date) FROM nav') to $(sqlite3 funds.db 'SELECT MAX(date) FROM nav')" >> release_notes.txt
-          echo "- Total schemes: $(sqlite3 funds.db 'SELECT COUNT(*) FROM schemes')" >> release_notes.txt
-          echo "- Total NAV records: $(sqlite3 funds.db 'SELECT COUNT(*) FROM nav')" >> release_notes.txt
-          echo "- Total securities: $(sqlite3 funds.db 'SELECT COUNT(*) FROM securities')" >> release_notes.txt
+      
       - name: Create GitHub Release
         run: |
-          gh release create "v1.0.${{ needs.update.outputs.release_version }}" \
-            --title "Daily NAV Library v1.0.${{ needs.update.outputs.release_version }}" \
+          gh release create "v1.0.${{ needs.update-and-build.outputs.release_version }}" \
+            --title "Daily NAV Library v1.0.${{ needs.update-and-build.outputs.release_version }}" \
             --notes-file release_notes.txt \
             historical-mf-nav-data-library.jar \
             funds.db.zst
@@ -177,45 +210,90 @@ jobs:
 
   publish:
     name: Publish to Maven Central
-    needs: release
+    needs: [update-and-build, release]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Checkout code
+      - name: Checkout code (minimal for build files only)
         uses: actions/checkout@v4
-      - name: Download Release Assets
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            build.gradle
+            settings.gradle
+            gradle/
+            src/main/
+          sparse-checkout-cone-mode: false
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+      
+      - name: Prepare resources for Maven Central build
         run: |
-          RELEASE_TAG="v1.0.${{ needs.release.outputs.release_version }}"
-          gh release download "$RELEASE_TAG" --pattern "funds.db.zst"
+          # Extract database and create SQL dump
           zstd -d funds.db.zst
           sqlite3 funds.db .dump > funds.sql
           mkdir -p src/main/resources/
           cp funds.sql src/main/resources/
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'gradle'
+      
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
         with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Build with Gradle
+          gradle-version: wrapper
+          cache-read-only: false
+      
+      - name: Setup GPG for signing
         run: |
-          VERSION="1.0.${{ needs.release.outputs.release_version }}"
+          # Create GPG key file from secret with proper formatting
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 -d > private.key || {
+            # If base64 decode fails, assume it's already in plain text
+            echo "${{ secrets.GPG_PRIVATE_KEY }}" > private.key
+          }
+          
+          # Import the GPG key
+          gpg --batch --yes --import private.key
+          
+          # Clean up the key file
+          rm -f private.key
+          
+          # List imported keys for verification
+          gpg --list-secret-keys --keyid-format LONG
+        env:
+          GPG_TTY: $(tty)
+          
+      - name: Configure GPG for signing
+        run: |
+          # Get the key ID of the imported key
+          KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | head -1 | sed 's/.*\/\([A-F0-9]\{16\}\).*/\1/')
+          echo "Using GPG key ID: $KEY_ID"
+          
+          # Configure git to use the GPG key (optional, mainly for commits)
+          git config --global user.signingkey $KEY_ID
+          git config --global commit.gpgsign false  # We don't need to sign commits, just artifacts
+          
+          # Set up GPG agent if needed
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "use-agent" >> ~/.gnupg/gpg.conf
+        env:
+          GPG_TTY: $(tty)
+      
+      - name: Build and publish to Maven Central
+        run: |
+          VERSION="1.0.${{ needs.update-and-build.outputs.release_version }}"
           sed -i "s/version = '1.0.0-SNAPSHOT'/version = '$VERSION'/" build.gradle
           sed -i "s/version = '1.0.[0-9]\{8\}'/version = '$VERSION'/" build.gradle
-          ./gradlew build
-      - name: Publish to Maven Central using JReleaser
-        run: ./gradlew jreleaserDeploy --no-daemon --stacktrace
+          ./gradlew build jreleaserDeploy --no-daemon --stacktrace --parallel -Pci=true
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          # The GPG key is automatically available because we used the import-gpg action
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m -XX:+UseParallelGC"

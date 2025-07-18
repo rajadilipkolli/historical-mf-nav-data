@@ -46,6 +46,32 @@ jar {
         include 'funds.sql'
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // Optimize compression for CI builds
+    if (project.hasProperty('ci')) {
+        archiveClassifier = 'plain'
+        enabled = true
+        destinationDirectory = file("$buildDir/libs")
+        entryCompression = ZipEntryCompression.STORED // Faster builds in CI
+    }
+}
+
+// Optimize build performance
+tasks.withType(JavaCompile) {
+    options.incremental = true
+    options.fork = true
+    options.forkOptions.jvmArgs += ['-Xmx2g']
+}
+
+tasks.withType(Test) {
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    forkEvery = 100
+}
+
+// Add parallel builds optimization
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs += ['--enable-preview'] // if using preview features
+    }
 }
 
 tasks.named('test') {
