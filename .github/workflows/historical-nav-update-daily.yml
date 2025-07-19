@@ -105,6 +105,16 @@ jobs:
           
           echo "Generating SQL dump..."
           sqlite3 funds.db .dump > funds.sql
+
+          # Print size of funds.sql in MB
+          echo "Size of funds.sql: $(awk 'BEGIN {printf "%.2f", (system(\"stat -c %s funds.sql\")/1024/1024)}') MB (using stat)"
+          if [ -f funds.sql ]; then
+            SIZE_BYTES=$(stat -c %s funds.sql)
+            SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES/1024/1024}")
+            echo "funds.sql size: $SIZE_MB MB ($SIZE_BYTES bytes)"
+          else
+            echo "funds.sql not found!"
+          fi
       
       - name: Build Java Library
         run: |
@@ -174,8 +184,8 @@ jobs:
           - Optimized indexes for fast querying
           
           ## 📦 Artifacts
-          - \`historical-mf-nav-data-library.jar\` - Complete library with embedded data (recommended)
-          - \`funds.db.zst\` - Compressed database file (for direct SQLite usage)
+          - `historical-mf-nav-data-library.jar` - Complete library with embedded data (recommended)
+          - `funds.db.zst` - Compressed database file (for direct SQLite usage)
           
           ## 🔧 Usage
           Add to your Maven project:
@@ -205,6 +215,16 @@ jobs:
             git fetch origin main --depth=1
             git checkout main
           fi
+
+          # Check JAR file size (must be <= 2GB for GitHub Releases)
+          JAR_SIZE=$(stat --format="%s" historical-mf-nav-data-library.jar)
+          MAX_SIZE=2147483648
+          if [ "$JAR_SIZE" -gt "$MAX_SIZE" ]; then
+            echo "ERROR: historical-mf-nav-data-library.jar is too large for GitHub Releases (size: $JAR_SIZE bytes, max: $MAX_SIZE bytes)."
+            echo "Please reduce the size of the JAR or split the artifact."
+            exit 1
+          fi
+
           gh release create "v1.0.${{ needs.update-and-build.outputs.release_version }}" \
             --title "Daily NAV Library v1.0.${{ needs.update-and-build.outputs.release_version }}" \
             --notes-file release_notes.txt \
