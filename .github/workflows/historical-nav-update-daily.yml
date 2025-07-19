@@ -1,8 +1,7 @@
-
 name: Update and Publish Historical Nav Data
 on:
   schedule:
-    - cron: '0 5 * * *'
+    - cron: '0 0 * * *'
   push:
     branches:
       - main
@@ -99,7 +98,7 @@ jobs:
             "total_securities": "$TOTAL_SECURITIES"
           }
           EOF
-          echo "stats=$(cat stats.json | jq -c .)" >> $GITHUB_OUTPUT
+          echo "stats=$(cat stats.json | jq -c .)" >> "$GITHUB_OUTPUT"
           
           echo "Compressing database..."
           zstd -5 -T0 funds.db
@@ -199,6 +198,13 @@ jobs:
       
       - name: Create GitHub Release
         run: |
+          # Ensure .git exists (required for gh release)
+          if [ ! -d .git ]; then
+            git init
+            git remote add origin "https://github.com/${{ github.repository }}.git"
+            git fetch origin main --depth=1
+            git checkout main
+          fi
           gh release create "v1.0.${{ needs.update-and-build.outputs.release_version }}" \
             --title "Daily NAV Library v1.0.${{ needs.update-and-build.outputs.release_version }}" \
             --notes-file release_notes.txt \
