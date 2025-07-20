@@ -30,9 +30,11 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     initializer =
         new DatabaseInitializer(jdbcTemplate, properties) {
           @Override
-          boolean restoreDatabaseFromZst()
+          boolean restoreDatabaseFromZst() {
             return false;
           }
+        };
+  }
 
   @Test
   void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
