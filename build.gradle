@@ -45,6 +45,7 @@ dependencies {
     implementation 'org.springframework:spring-jdbc'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.slf4j:slf4j-api'
+    implementation 'com.github.luben:zstd-jni:1.5.6-6'
     
     compileOnly 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
@@ -58,8 +59,16 @@ dependencies {
 }
 
 jar {
+    // Compress funds.sql before including in the JAR
+    def compressedSql = file('src/main/resources/funds.sql.zst')
+    def originalSql = file('src/main/resources/funds.sql')
+    if (originalSql.exists()) {
+        exec {
+            commandLine 'zstd', '-f', '-19', originalSql.absolutePath, '-o', compressedSql.absolutePath
+        }
+    }
     from('src/main/resources') {
-        include 'funds.sql'
+        include 'funds.sql.zst'
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     // Optimize compression for CI builds

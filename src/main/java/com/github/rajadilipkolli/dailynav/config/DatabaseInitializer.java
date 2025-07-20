@@ -1,8 +1,10 @@
 package com.github.rajadilipkolli.dailynav.config;
 
+import com.github.luben.zstd.ZstdInputStream;
 import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
@@ -60,7 +62,7 @@ public class DatabaseInitializer {
     }
   }
 
-  private void logDatabaseStats() {
+  void logDatabaseStats() {
     try {
       Integer schemeCount =
           jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
@@ -88,7 +90,7 @@ public class DatabaseInitializer {
     }
   }
 
-  private boolean tablesExist() {
+  boolean tablesExist() {
     try {
       jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
       return true;
@@ -97,17 +99,17 @@ public class DatabaseInitializer {
     }
   }
 
-  private void loadSqlScript() throws IOException {
-    logger.info("Loading SQL data from embedded script...");
+  void loadSqlScript() throws IOException {
+    logger.info("Loading SQL data from embedded compressed script...");
 
-    ClassPathResource resource = new ClassPathResource("funds.sql");
+    ClassPathResource resource = new ClassPathResource("funds.sql.zst");
     if (!resource.exists()) {
-      throw new IOException("SQL script 'funds.sql' not found in classpath");
+      throw new IOException("SQL script 'funds.sql.zst' not found in classpath");
     }
 
-    try (BufferedReader reader =
-        new BufferedReader(
-            new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+    try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+        BufferedReader reader =
+            new BufferedReader(new InputStreamReader(zstdStream, StandardCharsets.UTF_8))) {
       StringBuilder currentStatement = new StringBuilder();
       String line;
       int lineCount = 0;
@@ -159,7 +161,7 @@ public class DatabaseInitializer {
     }
   }
 
-  private void createIndexes() {
+  void createIndexes() {
     logger.info("Creating database indexes...");
 
     try {
