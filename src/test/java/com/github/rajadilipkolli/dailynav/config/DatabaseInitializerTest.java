@@ -125,7 +125,6 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     assertTrue(result, "Should successfully restore even for in-memory database");
     // Note: In real implementation, this would log a warning about in-memory configuration
   }
-    };
 
   @Test
   void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
@@ -165,10 +164,6 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     
     assertTrue(result, "Should successfully restore even for in-memory database");
     // Note: In real implementation, this would log a warning about in-memory configuration
-  }
-    
-    boolean result = ioExceptionInitializer.restoreDatabaseFromZst();
-    assertFalse(result, "Should return false when IO exception occurs during restoration");
   }
 
   @Test
@@ -222,6 +217,12 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
           if (!resource.exists()) {
             return false;
           }
+        };
+    }
+
+    boolean result = noFileInitializer.restoreDatabaseFromZst();
+    assertFalse(result, "Should return false when IO exception occurs during restoration");
+  }
 
   @Test
   void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
