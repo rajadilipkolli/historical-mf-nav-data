@@ -111,7 +111,6 @@ jobs:
           sqlite3 funds.db .dump > funds.sql
 
           # Print size of funds.sql in MB
-          echo "Size of funds.sql: $(awk 'BEGIN {printf "%.2f", (system(\"stat -c %s funds.sql\")/1024/1024)}') MB (using stat)"
           if [ -f funds.sql ]; then
             SIZE_BYTES=$(stat -c %s funds.sql)
             SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES/1024/1024}")
@@ -124,7 +123,13 @@ jobs:
         run: |
           echo "Compressing SQL script..."
           if [ -f funds.sql ]; then
+            START_TIME=$(date +%s)
+            echo "Compression started at: $(date -d @${START_TIME} '+%Y-%m-%d %H:%M:%S')"
             zstd -f -19 funds.sql -o funds.sql.zst
+            END_TIME=$(date +%s)
+            echo "Compression ended at: $(date -d @${END_TIME} '+%Y-%m-%d %H:%M:%S')"
+            DURATION=$((END_TIME-START_TIME))
+            echo "Compression took $DURATION seconds."
           else
             echo "ERROR: funds.sql not found!"; exit 1
           fi
