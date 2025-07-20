@@ -76,54 +76,24 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     // Note: In real implementation, this would log a warning about in-memory configuration
   }
 
-  @Test
-  void restoreDatabaseFromZst_returnsFalseOnIOException() {
-    // Create initializer that simulates IO exception
-    DatabaseInitializer ioExceptionInitializer = new DatabaseInitializer(jdbcTemplate, properties) {
-      @Override
-      boolean restoreDatabaseFromZst() {
-        // Simulate IO exception during restoration
-        return false; // In real implementation, this would catch IOException and return false
-      }
+  @Override
+  protected void createSchema() throws SQLException {
+    // No-op: schema will be created by DatabaseInitializer using funds.sql
+  }
 
-  @Test
-  void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
-    // Test that in-memory database configuration shows appropriate warning
-    properties.setDatabasePath("jdbc:sqlite::memory:");
-    
-    DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
-    boolean result = inMemoryInitializer.restoreDatabaseFromZst();
-    
-    assertTrue(result, "Should successfully restore even for in-memory database");
-    // Note: In real implementation, this would log a warning about in-memory configuration
+  @Override
+  protected void insertTestData() throws SQLException {
+    // Already loaded by createSchema if needed
   }
 
   @Test
-  void restoreDatabaseFromZst_createsTemporaryFileCorrectly(@TempDir Path tempDir) {
-    // Verify that the method creates and cleans up temporary files properly
-    properties.setDatabasePath("jdbc:sqlite:" + tempDir.resolve("target.db").toString());
-    
-    DatabaseInitializer tempFileInitializer = new DatabaseInitializer(jdbcTemplate, properties);
-    boolean result = tempFileInitializer.restoreDatabaseFromZst();
-    
-    assertTrue(result, "Should successfully create and handle temporary file");
-    
-    // Verify target database file was created
-    Path targetDb = tempDir.resolve("target.db");
-    assertTrue(Files.exists(targetDb), "Target database file should exist");
-    assertTrue(Files.size(targetDb) > 0, "Target database file should not be empty");
-  }
-
-  @Test
-  void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
-    // Test that in-memory database configuration shows appropriate warning
-    properties.setDatabasePath("jdbc:sqlite::memory:");
-    
-    DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
-    boolean result = inMemoryInitializer.restoreDatabaseFromZst();
-    
-    assertTrue(result, "Should successfully restore even for in-memory database");
-    // Note: In real implementation, this would log a warning about in-memory configuration
+  void initializeDatabase_createsTablesAndIndexes() {
+    // Should not throw, should create tables and indexes from funds.sql
+    assertDoesNotThrow(() -> initializer.initializeDatabase());
+    // After initialization, tables should exist and have at least one row (from test funds.sql)
+    Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
+    assertNotNull(count);
+    assertTrue(count > 0, "Table 'schemes' should have at least one row loaded from funds.sql");
   }
 
   @Test
@@ -192,6 +162,47 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     Path targetDb = tempDir.resolve("target.db");
     assertTrue(Files.exists(targetDb), "Target database file should exist");
     assertTrue(Files.size(targetDb) > 0, "Target database file should not be empty");
+  }
+
+  @Test
+  void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
+    // Test that in-memory database configuration shows appropriate warning
+    properties.setDatabasePath("jdbc:sqlite::memory:");
+    
+    DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
+    boolean result = inMemoryInitializer.restoreDatabaseFromZst();
+    
+    assertTrue(result, "Should successfully restore even for in-memory database");
+    // Note: In real implementation, this would log a warning about in-memory configuration
+  }
+
+  @Test
+  void loadSqlScript_throwsIfResourceMissing() {
+    DatabaseInitializer broken =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public void loadSqlScript() throws IOException {
+            throw new IOException("SQL script 'funds.sql' not found in classpath");
+          }
+        };
+    assertThrows(IOException.class, broken::loadSqlScript);
+  }
+
+  @Test
+  void initializeDatabase_handlesSqlScriptException() {
+    DatabaseInitializer broken =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public boolean restoreDatabaseFromZst() {
+            return false; // Force fallback to loadSqlScript
+          }
+
+          @Override
+          public void loadSqlScript() throws IOException {
+            throw new IOException("Simulated failure");
+          }
+        };
+    assertThrows(RuntimeException.class, broken::initializeDatabase);
   }
 
   @Test
@@ -5407,8 +5418,9 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   }
 
   @Test
-  void restoreDatabaseFromZst_createsTemporaryFileCorrectly(@TempDir Path tempDir) {
-    // Verify that the method creates and cleans up temporary files properly
-    properties.setDatabasePath("jdbc:sqlite:" + tempDir.resolve("targ
+  void loadSqlScript_handlesDebugLogging() throws IOException {
+    properties.setDebug(true);
+    // Should not throw, just run the normal method (uses funds.sql)
+    assertDoesNotThrow(() -> initializer.loadSqlScript());
   }
 }
