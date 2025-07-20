@@ -12,7 +12,6 @@ plugins {
 group = 'com.github.rajadilipkolli'
 version = '1.0.20250713'
 
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -88,15 +87,6 @@ tasks.withType(Test) {
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
         options.compilerArgs += ['--enable-preview'] // if using preview features
-    }
-    // Disable configuration cache for JReleaser tasks (not compatible)
-    tasks.matching { it.class.name.startsWith('org.jreleaser.gradle.plugin.tasks.') }.all { task ->
-        task.outputs.upToDateWhen { false }
-        task.doFirst {
-            if (gradle.startParameter.configurationCache) {
-                throw new GradleException('JReleaser tasks are not compatible with configuration cache. Please disable configuration cache for publish/deploy.')
-            }
-        }
     }
 }
 
