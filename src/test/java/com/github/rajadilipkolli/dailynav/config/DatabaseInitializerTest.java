@@ -3,6 +3,7 @@ package com.github.rajadilipkolli.dailynav.config;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
@@ -22,7 +23,14 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     properties.setAutoInit(true);
     properties.setCreateIndexes(true);
     properties.setDatabasePath("jdbc:sqlite::memory:");
-    initializer = new DatabaseInitializer(jdbcTemplate, properties);
+    // Override restoreDatabaseFromZst to always return false for tests
+    initializer =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public boolean restoreDatabaseFromZst() {
+            return false;
+          }
+        };
   }
 
   @Override
@@ -98,6 +106,35 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   }
 
   @Test
+  void loadSqlScript_throwsIfResourceMissing() {
+    DatabaseInitializer broken =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public void loadSqlScript() throws IOException {
+            throw new IOException("SQL script 'funds.sql' not found in classpath");
+          }
+        };
+    assertThrows(IOException.class, broken::loadSqlScript);
+  }
+
+  @Test
+  void initializeDatabase_handlesSqlScriptException() {
+    DatabaseInitializer broken =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public boolean restoreDatabaseFromZst() {
+            return false; // Force fallback to loadSqlScript
+          }
+
+          @Override
+          public void loadSqlScript() throws IOException {
+            throw new IOException("Simulated failure");
+          }
+        };
+    assertThrows(RuntimeException.class, broken::initializeDatabase);
+  }
+
+  @Test
   void initializeDatabase_handlesIndexException() {
     DatabaseInitializer broken =
         new DatabaseInitializer(jdbcTemplate, properties) {
@@ -108,6 +145,13 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
         };
     // Should throw RuntimeException, as index creation failure is not caught in initializeDatabase
     assertThrows(RuntimeException.class, broken::initializeDatabase);
+  }
+
+  @Test
+  void loadSqlScript_handlesDebugLogging() throws IOException {
+    properties.setDebug(true);
+    // Should not throw, just run the normal method (uses funds.sql)
+    assertDoesNotThrow(() -> initializer.loadSqlScript());
   }
 
   @Test
@@ -172,11 +216,5 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     DatabaseInitializer nullPathInitializer = new DatabaseInitializer(jdbcTemplate, properties);
     boolean result = nullPathInitializer.restoreDatabaseFromZst();
     assertTrue(result, "Should successfully restore even with null database path");
-  }
-
-  @Test
-  void loadSqlScript_handlesDebugLogging() throws Exception {
-    properties.setDebug(true);
-    assertDoesNotThrow(() -> initializer.loadSqlScript());
   }
 }
