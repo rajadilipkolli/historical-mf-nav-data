@@ -36,6 +36,52 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   }
 
   @Test
+  void initializeDatabase_createsTablesAndIndexes() {
+    // Should not throw, should create tables and indexes from funds.sql
+    assertDoesNotThrow(() -> initializer.initializeDatabase());
+    // After initialization, tables should exist and have at least one row (from test funds.sql)
+    Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
+    assertNotNull(count);
+    assertTrue(count > 0, "Table 'schemes' should have at least one row loaded from funds.sql");
+  }
+
+  @Test
+  void initializeDatabase_skipsIfAutoInitFalse() {
+    properties.setAutoInit(false);
+    DatabaseInitializer noInit = new DatabaseInitializer(jdbcTemplate, properties);
+    assertDoesNotThrow(noInit::initializeDatabase);
+    // Tables should not exist
+    assertThrows(
+        Exception.class,
+        () -> jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class));
+  }
+
+  @Test
+  void initializeDatabase_skipsIfTablesExist() throws SQLException {
+    // Create tables manually
+    jdbcTemplate.execute(
+        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+    jdbcTemplate.execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
+    jdbcTemplate.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+    // Should skip initialization
+    assertDoesNotThrow(() -> initializer.initializeDatabase());
+    // Tables should still exist
+    Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
+    assertNotNull(count);
+  }
+
+  @Test
+  void logDatabaseStats_handlesMissingTables() {
+    // Should not throw even if tables do not exist
+    assertDoesNotThrow(() -> initializer.logDatabaseStats());
+  }
+
+  @Test
+  void tablesExist_returnsFalseIfNoTable() {
+    assertFalse(initializer.tablesExist());
+  }
+
+  @Test
   void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
     properties.setDatabasePath("jdbc:sqlite::memory:");
     DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
