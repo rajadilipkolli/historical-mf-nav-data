@@ -22,13 +22,13 @@ permissions:
   packages: write
 
 jobs:
-  update-and-build:
-    name: Update data and build artifacts
+  update-data:
+    name: Update data and generate database
     runs-on: ubuntu-latest
-    timeout-minutes: 720
     outputs:
       release_version: ${{ steps.current-time.outputs.formattedTime }}
       data_stats: ${{ steps.generate-stats.outputs.stats }}
+      has_changes: ${{ steps.commit.outputs.changes_detected }}
     steps:
       - name: Get current date
         uses: josStorer/get-current-time@v2
@@ -53,6 +53,7 @@ jobs:
         with:
           python-version: '3.13'
           cache: 'pip'
+          
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
@@ -70,6 +71,17 @@ jobs:
           fi
         working-directory: ${{ github.workspace }}
       
+      - name: Check for data changes
+        id: check-changes
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No data changes detected"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "Data changes detected"
+          fi
+      
       - name: Commit data updates
         uses: stefanzweifel/git-auto-commit-action@v6
         id: commit
@@ -78,8 +90,27 @@ jobs:
           commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Early exit if no changes on push
+        if: ${{ github.event_name == 'push' && steps.check-changes.outputs.has_changes == 'false' }}
+        run: |
+          echo "No data changes detected on push event. Exiting early to save CI time."
+          echo "Stopping all subsequent jobs..."
+          exit 0
+
+      - name: Set workflow exit flag
+        id: should-continue
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ steps.check-changes.outputs.has_changes }}" == "false" ]]; then
+            echo "continue=false" >> "$GITHUB_OUTPUT"
+            echo "Workflow will exit early - no changes detected"
+          else
+            echo "continue=true" >> "$GITHUB_OUTPUT"
+            echo "Workflow will continue - changes detected or manual trigger"
+          fi
       
       - name: Generate database and extract statistics
+        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
         id: generate-stats
         run: |
           echo "Generating database..."
@@ -106,22 +137,49 @@ jobs:
           
           echo "Compressing database..."
           zstd -5 -T0 funds.db
-          
-          echo "Generating SQL dump..."
-          sqlite3 funds.db .dump > funds.sql
+      
+      - name: Upload database and stats
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-artifacts
+          path: |
+            funds.db.zst
+            stats.json
+          retention-days: 7
+        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
 
-          # Print size of funds.sql in MB
-          if [ -f funds.sql ]; then
-            SIZE_BYTES=$(stat -c %s funds.sql)
-            SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES/1024/1024}")
-            echo "funds.sql size: $SIZE_MB MB ($SIZE_BYTES bytes)"
-          else
-            echo "funds.sql not found!"
-          fi
+  build:
+    name: Build Java Library
+    needs: update-data
+    runs-on: ubuntu-latest
+    if: ${{ needs.update-data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          distribution: 'graalvm'
+          java-version: 21
+          cache: 'gradle'
+      
+      # Setup Gradle daemon for faster builds
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-home-cache-cleanup: true
+          cache-read-only: false
+      
+      - name: Download data artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: data-artifacts
       
       - name: Build Java Library
         run: |
-
           echo "Reusing already compressed funds.db.zst..."
           if [ -f funds.db.zst ]; then
             mkdir -p src/main/resources/
@@ -131,10 +189,10 @@ jobs:
           fi
 
           echo "Updating version in build.gradle..."
-          sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ steps.current-time.outputs.formattedTime }}'/" build.gradle
+          sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ needs.update-data.outputs.release_version }}'/" build.gradle
 
-          echo "Building with Gradle..."
-          ./gradlew clean build -x test --parallel -Pci=true
+          echo "Building with Gradle (skipping tests for faster CI builds)..."
+          ./gradlew clean build -x test -x jacocoTestReport -x jacocoTestCoverageVerification --parallel --build-cache -Pci=true
 
           echo "Copying JAR artifact..."
           JAR_FILE=$(find build/libs -name "historical-mf-nav-data-*-plain.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
@@ -160,11 +218,11 @@ jobs:
 
   release:
     name: Create GitHub Release
-    needs: update-and-build
+    needs: [update-data, build]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     outputs:
-      release_version: ${{ needs.update-and-build.outputs.release_version }}
+      release_version: ${{ needs.update-data.outputs.release_version }}
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -174,19 +232,19 @@ jobs:
       - name: Create Release Notes
         run: |
           # Parse stats from JSON
-          DATA_COVERAGE_MIN=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .data_coverage_min)
-          DATA_COVERAGE_MAX=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .data_coverage_max)
-          TOTAL_SCHEMES=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .total_schemes)
-          TOTAL_NAV_RECORDS=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .total_nav_records)
-          TOTAL_SECURITIES=$(echo '${{ needs.update-and-build.outputs.data_stats }}' | jq -r .total_securities)
+          DATA_COVERAGE_MIN=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .data_coverage_min)
+          DATA_COVERAGE_MAX=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .data_coverage_max)
+          TOTAL_SCHEMES=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .total_schemes)
+          TOTAL_NAV_RECORDS=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .total_nav_records)
+          TOTAL_SECURITIES=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .total_securities)
           
           cat > release_notes.txt << EOF
-          # Daily NAV Library v1.0.${{ needs.update-and-build.outputs.release_version }}
+          # Daily NAV Library v1.0.${{ needs.update-data.outputs.release_version }}
           
           Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
           
           ## 🚀 What's New
-          - Complete historical NAV data up to ${{ needs.update-and-build.outputs.release_version }}
+          - Complete historical NAV data up to ${{ needs.update-data.outputs.release_version }}
           - Self-executing JAR with embedded SQLite database
           - Zero-configuration Spring Boot auto-configuration
           - Optimized indexes for fast querying
@@ -201,7 +259,7 @@ jobs:
           <dependency>
               <groupId>com.github.rajadilipkolli</groupId>
               <artifactId>historical-mf-nav-data</artifactId>
-              <version>1.0.${{ needs.update-and-build.outputs.release_version }}</version>
+              <version>1.0.${{ needs.update-data.outputs.release_version }}</version>
           </dependency>
           ```
           
@@ -233,8 +291,8 @@ jobs:
             exit 1
           fi
 
-          gh release create "v1.0.${{ needs.update-and-build.outputs.release_version }}" \
-            --title "Daily NAV Library v1.0.${{ needs.update-and-build.outputs.release_version }}" \
+          gh release create "v1.0.${{ needs.update-data.outputs.release_version }}" \
+            --title "Daily NAV Library v1.0.${{ needs.update-data.outputs.release_version }}" \
             --notes-file release_notes.txt \
             historical-mf-nav-data-library.jar \
             funds.db.zst
@@ -243,14 +301,14 @@ jobs:
 
   publish:
     name: Publish to Maven Central
-    needs: [update-and-build, release]
+    needs: [update-data, build]
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (needs.update-data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
     steps:
-      - name: Checkout code (full repo for gradlew)
+      - name: Checkout code (minimal fetch for publishing)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -270,8 +328,9 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Import GPG key
+      - name: Import GPG key and extract keys
         uses: crazy-max/ghaction-import-gpg@v6
+        id: import_gpg
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -281,9 +340,30 @@ jobs:
           git_tag_gpgsign: false
           git_push_gpgsign: if-asked
 
+      - name: Export GPG keys for JReleaser
+        run: |
+          # Use the imported key ID from the previous step
+          GPG_KEY_ID="${{ steps.import_gpg.outputs.keyid }}"
+          echo "Using GPG Key ID: $GPG_KEY_ID"
+          
+          # Export public key
+          gpg --armor --export "$GPG_KEY_ID" > public.key
+          echo "JRELEASER_GPG_PUBLIC_KEY<<EOF" >> $GITHUB_ENV
+          cat public.key >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          # Export private key
+          gpg --armor --export-secret-keys "$GPG_KEY_ID" > private.key  
+          echo "JRELEASER_GPG_SECRET_KEY<<EOF" >> $GITHUB_ENV
+          cat private.key >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          # Clean up key files
+          rm -f public.key private.key
+
       - name: Run dry-run deployment (validate configuration)
         run: |
-          VERSION="1.0.${{ needs.update-and-build.outputs.release_version }}"
+          VERSION="1.0.${{ needs.update-data.outputs.release_version }}"
           echo "Setting version to: $VERSION"
           sed -i "s/version = '1.0.0-SNAPSHOT'/version = '$VERSION'/" build.gradle
           sed -i "s/version = '1.0.[0-9]\{8\}'/version = '$VERSION'/" build.gradle
@@ -302,7 +382,7 @@ jobs:
 
       - name: Build and publish to Maven Central
         run: |
-          VERSION="1.0.${{ needs.update-and-build.outputs.release_version }}"
+          VERSION="1.0.${{ needs.update-data.outputs.release_version }}"
           echo "Setting version to: $VERSION"
           sed -i "s/version = '1.0.0-SNAPSHOT'/version = '$VERSION'/" build.gradle
           sed -i "s/version = '1.0.[0-9]\{8\}'/version = '$VERSION'/" build.gradle
@@ -310,7 +390,7 @@ jobs:
           echo "Current working directory: $(pwd)"
           echo "Build gradle version line:"
           grep "version = " build.gradle
-          ./gradlew build jreleaserDeploy --no-configuration-cache --no-daemon --stacktrace --parallel -Pci=true
+          ./gradlew clean build jreleaserDeploy --no-configuration-cache --no-daemon --stacktrace --parallel -Pci=true
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
