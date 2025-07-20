@@ -82,6 +82,35 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   }
 
   @Test
+  void tablesExist_returnsTrueIfTableExists() {
+    jdbcTemplate.execute(
+        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+    assertTrue(initializer.tablesExist());
+  }
+
+  @Test
+  void createIndexes_handlesSqlException() {
+    // Drop tables to force index creation to fail
+    jdbcTemplate.execute("DROP TABLE IF EXISTS nav");
+    jdbcTemplate.execute("DROP TABLE IF EXISTS securities");
+    // Should not throw
+    assertDoesNotThrow(() -> initializer.createIndexes());
+  }
+
+  @Test
+  void initializeDatabase_handlesIndexException() {
+    DatabaseInitializer broken =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public void createIndexes() {
+            throw new RuntimeException("Simulated index failure");
+          }
+        };
+    // Should throw RuntimeException, as index creation failure is not caught in initializeDatabase
+    assertThrows(RuntimeException.class, broken::initializeDatabase);
+  }
+
+  @Test
   void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
     properties.setDatabasePath("jdbc:sqlite::memory:");
     DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
