@@ -122,16 +122,23 @@ jobs:
       
       - name: Build Java Library
         run: |
+          echo "Compressing SQL script..."
+          if [ -f funds.sql ]; then
+            zstd -f -19 funds.sql -o funds.sql.zst
+          else
+            echo "ERROR: funds.sql not found!"; exit 1
+          fi
+
           echo "Preparing resources..."
           mkdir -p src/main/resources/
-          cp funds.sql src/main/resources/
-          
+          cp funds.sql.zst src/main/resources/
+
           echo "Updating version in build.gradle..."
           sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ steps.current-time.outputs.formattedTime }}'/" build.gradle
-          
+
           echo "Building with Gradle..."
           ./gradlew clean build -x test --parallel -Pci=true
-          
+
           echo "Copying JAR artifact..."
           JAR_FILE=$(find build/libs -name "historical-mf-nav-data-*-plain.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
           if [ -z "$JAR_FILE" ]; then
@@ -140,9 +147,9 @@ jobs:
             exit 1
           fi
           cp "$JAR_FILE" historical-mf-nav-data-library.jar
-          
+
           echo "Verifying JAR contents..."
-          jar tf historical-mf-nav-data-library.jar | grep -q funds.sql || { echo "ERROR: funds.sql not found in JAR"; exit 1; }
+          jar tf historical-mf-nav-data-library.jar | grep -q funds.sql.zst || { echo "ERROR: funds.sql.zst not found in JAR"; exit 1; }
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

@@ -59,14 +59,6 @@ dependencies {
 }
 
 jar {
-    // Compress funds.sql before including in the JAR
-    def compressedSql = file('src/main/resources/funds.sql.zst')
-    def originalSql = file('src/main/resources/funds.sql')
-    if (originalSql.exists()) {
-        exec {
-            commandLine 'zstd', '-f', '-19', originalSql.absolutePath, '-o', compressedSql.absolutePath
-        }
-    }
     // Always exclude funds.sql and only include funds.sql.zst in all jar variants
     from('src/main/resources') {
         include 'funds.sql.zst'
