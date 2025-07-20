@@ -6,6 +6,7 @@ plugins {
     id 'com.diffplug.spotless' version '7.1.0'
     id 'jacoco'
     id 'org.jreleaser' version '1.19.0'
+    id 'org.graalvm.buildtools.native' version '0.10.6'
 }
 
 group = 'com.github.rajadilipkolli'
@@ -24,11 +25,26 @@ repositories {
     mavenCentral()
 }
 
+// GraalVM Native Image configuration
+graalvmNative {
+    binaries {
+        main {
+            imageName = 'historical-mf-nav-data-native'
+            buildArgs.add('--no-fallback')
+            buildArgs.add('--enable-http')
+            buildArgs.add('--enable-https')
+            buildArgs.add('--install-exit-handlers')
+            // Add more buildArgs as needed for reflection/configuration
+        }
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     implementation 'org.xerial:sqlite-jdbc:3.50.2.0'
     implementation 'org.springframework:spring-jdbc'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.slf4j:slf4j-api'
     
     compileOnly 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
