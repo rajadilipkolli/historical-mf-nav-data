@@ -59,22 +59,16 @@ dependencies {
 }
 
 jar {
-    // Always exclude funds.sql and only include funds.sql.zst in all jar variants
     from('src/main/resources') {
-        include 'funds.sql.zst'
-        exclude 'funds.sql'
+        include 'funds.db.zst'
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    // Exclude funds.sql from root of jar as well (in case copied by other means)
-    exclude('funds.sql')
     // Optimize compression for CI builds
     if (project.hasProperty('ci')) {
         archiveClassifier = 'plain'
         enabled = true
         destinationDirectory = file("$buildDir/libs")
         entryCompression = ZipEntryCompression.STORED // Faster builds in CI
-        // Extra safety: exclude funds.sql in plain jar too
-        exclude('funds.sql')
     }
 }
 
