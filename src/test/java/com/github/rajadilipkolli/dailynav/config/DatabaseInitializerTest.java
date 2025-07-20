@@ -2,38 +2,13 @@ package com.github.rajadilipkolli.dailynav.config;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.github.luben.zstd.ZstdOutputStream;
 import com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class DatabaseInitializerTest extends AbstractRepositoryTest {
-
-  static {
-    // Ensure funds.sql.zst exists in test resources before tests run
-    try {
-      Path sqlPath = Path.of("src/test/resources/funds.sql");
-      Path zstPath = Path.of("src/test/resources/funds.sql.zst");
-      if (Files.exists(sqlPath)
-          && (!Files.exists(zstPath)
-              || Files.getLastModifiedTime(sqlPath).toMillis()
-                  > Files.getLastModifiedTime(zstPath).toMillis())) {
-        try (FileInputStream fis = new FileInputStream(sqlPath.toFile());
-            FileOutputStream fos = new FileOutputStream(zstPath.toFile());
-            ZstdOutputStream zos = new ZstdOutputStream(fos)) {
-          fis.transferTo(zos);
-        }
-      }
-    } catch (IOException e) {
-      throw new RuntimeException("Failed to compress funds.sql for test setup", e);
-    }
-  }
 
   private DailyNavProperties properties;
   private DatabaseInitializer initializer;
@@ -44,26 +19,34 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     properties.setAutoInit(true);
     properties.setCreateIndexes(true);
     properties.setDatabasePath("jdbc:sqlite::memory:");
-    initializer = new DatabaseInitializer(jdbcTemplate, properties);
+    // Override restoreDatabaseFromZst to always return false for tests
+    initializer =
+        new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public boolean restoreDatabaseFromZst() {
+            return false;
+          }
+        };
   }
 
   @Override
   protected void createSchema() throws SQLException {
-    // No tables by default; each test can create as needed
+    // No-op: schema will be created by DatabaseInitializer using funds.sql
   }
 
   @Override
   protected void insertTestData() throws SQLException {
-    // No-op for most tests
+    // Already loaded by createSchema if needed
   }
 
   @Test
   void initializeDatabase_createsTablesAndIndexes() {
-    // Should not throw, should create tables and indexes
+    // Should not throw, should create tables and indexes from funds.sql
     assertDoesNotThrow(() -> initializer.initializeDatabase());
-    // After initialization, tables should exist
+    // After initialization, tables should exist and have at least one row (from test funds.sql)
     Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
     assertNotNull(count);
+    assertTrue(count > 0, "Table 'schemes' should have at least one row loaded from funds.sql");
   }
 
   @Test
@@ -124,7 +107,7 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
         new DatabaseInitializer(jdbcTemplate, properties) {
           @Override
           public void loadSqlScript() throws IOException {
-            throw new IOException("SQL script 'funds.sql.zst' not found in classpath");
+            throw new IOException("SQL script 'funds.sql' not found in classpath");
           }
         };
     assertThrows(IOException.class, broken::loadSqlScript);
@@ -134,6 +117,11 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   void initializeDatabase_handlesSqlScriptException() {
     DatabaseInitializer broken =
         new DatabaseInitializer(jdbcTemplate, properties) {
+          @Override
+          public boolean restoreDatabaseFromZst() {
+            return false; // Force fallback to loadSqlScript
+          }
+
           @Override
           public void loadSqlScript() throws IOException {
             throw new IOException("Simulated failure");
@@ -158,7 +146,7 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   @Test
   void loadSqlScript_handlesDebugLogging() throws IOException {
     properties.setDebug(true);
-    // Should not throw, just run the normal method
+    // Should not throw, just run the normal method (uses funds.sql)
     assertDoesNotThrow(() -> initializer.loadSqlScript());
   }
 }

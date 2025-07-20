@@ -3,9 +3,13 @@ package com.github.rajadilipkolli.dailynav.config;
 import com.github.luben.zstd.ZstdInputStream;
 import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +47,11 @@ public class DatabaseInitializer {
         return;
       }
 
-      // Load and execute SQL script
-      loadSqlScript();
+      // Try to restore from compressed SQLite DB first
+      if (!restoreDatabaseFromZst()) {
+        // Fallback to SQL script if .db.zst not present
+        loadSqlScript();
+      }
 
       // Create indexes if enabled
       if (properties.isCreateIndexes()) {
@@ -59,6 +66,53 @@ public class DatabaseInitializer {
     } catch (Exception e) {
       logger.error("Failed to initialize Daily NAV database", e);
       throw new RuntimeException("Database initialization failed", e);
+    }
+  }
+
+  /**
+   * Attempts to restore the SQLite database from a compressed .db.zst file in the classpath.
+   * Returns true if successful, false otherwise.
+   */
+  boolean restoreDatabaseFromZst() {
+    try {
+      ClassPathResource resource = new ClassPathResource("funds.db.zst");
+      if (!resource.exists()) {
+        logger.info("funds.db.zst not found in classpath, falling back to SQL script");
+        return false;
+      }
+      File tempDb = File.createTempFile("funds", ".db");
+      tempDb.deleteOnExit();
+      try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+          OutputStream out = new FileOutputStream(tempDb)) {
+        byte[] buffer = new byte[8192];
+        int len;
+        while ((len = zstdStream.read(buffer)) > 0) {
+          out.write(buffer, 0, len);
+        }
+      }
+      logger.info("Restored database from funds.db.zst to {}", tempDb.getAbsolutePath());
+      // If using a file-based DB, copy to the configured location
+      String dbPath = properties.getDatabasePath();
+      if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
+        File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
+        try (InputStream in = new FileInputStream(tempDb);
+            OutputStream out = new FileOutputStream(dest)) {
+          byte[] buffer = new byte[8192];
+          int len;
+          while ((len = in.read(buffer)) > 0) {
+            out.write(buffer, 0, len);
+          }
+        }
+        logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
+      } else {
+        // If using in-memory, you may need to adjust datasource config to use this file
+        logger.warn(
+            "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
+      }
+      return true;
+    } catch (Exception e) {
+      logger.warn("Failed to restore database from funds.db.zst: {}", e.getMessage());
+      return false;
     }
   }
 
@@ -100,16 +154,16 @@ public class DatabaseInitializer {
   }
 
   void loadSqlScript() throws IOException {
-    logger.info("Loading SQL data from embedded compressed script...");
+    logger.info("Loading SQL data from embedded script (funds.sql)...");
 
-    ClassPathResource resource = new ClassPathResource("funds.sql.zst");
+    ClassPathResource resource = new ClassPathResource("funds.sql");
     if (!resource.exists()) {
-      throw new IOException("SQL script 'funds.sql.zst' not found in classpath");
+      throw new IOException("SQL script 'funds.sql' not found in classpath");
     }
 
-    try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+    try (InputStream sqlStream = resource.getInputStream();
         BufferedReader reader =
-            new BufferedReader(new InputStreamReader(zstdStream, StandardCharsets.UTF_8))) {
+            new BufferedReader(new InputStreamReader(sqlStream, StandardCharsets.UTF_8))) {
       StringBuilder currentStatement = new StringBuilder();
       String line;
       int lineCount = 0;
