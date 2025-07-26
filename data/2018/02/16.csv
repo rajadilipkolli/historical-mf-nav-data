@@ -849,10 +849,10 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;42.5229;42.0977;42.5229;16-Feb-2018
 
 Tata Mutual Fund
-119178;Tata Mid Cap Growth Fund - Direct Plan- Growth Option;INF277K01PY2;;144.6845;143.2377;144.6845;16-Feb-2018
-119177;Tata Mid Cap Growth Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;51.2670;50.7543;51.2670;16-Feb-2018
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;139.1885;137.7966;139.1885;16-Feb-2018
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;42.0030;41.5830;42.0030;16-Feb-2018
+119178;Tata Mid Cap Fund - Direct Plan- Growth Option;INF277K01PY2;;144.6845;143.2377;144.6845;16-Feb-2018
+119177;Tata Mid Cap Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;51.2670;50.7543;51.2670;16-Feb-2018
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;139.1885;137.7966;139.1885;16-Feb-2018
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;42.0030;41.5830;42.0030;16-Feb-2018
 
 Taurus Mutual Fund
 118872;Taurus Mid Cap Fund - Direct Plan - Growth;INF044D01CA9;;45.83;45.60;45.83;16-Feb-2018
@@ -1066,12 +1066,12 @@ Quantum Mutual Fund
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;53.19;51.06;53.19;16-Feb-2018
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;60.3470;59.7435;60.3470;16-Feb-2018
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;137.6274;136.2511;137.6274;16-Feb-2018
-119231;Tata Equity P/E Fund -Direct Plan Growth Option;INF277K01ND1;;142.3876;140.9637;142.3876;16-Feb-2018
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;58.0046;57.4246;58.0046;16-Feb-2018
-119233;Tata Equity P/E Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;60.7125;60.1054;60.7125;16-Feb-2018
-119232;Tata Equity P/E Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;61.4187;60.8045;61.4187;16-Feb-2018
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;60.3470;59.7435;60.3470;16-Feb-2018
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;137.6274;136.2511;137.6274;16-Feb-2018
+119231;Tata Value Fund -Direct Plan Growth Option;INF277K01ND1;;142.3876;140.9637;142.3876;16-Feb-2018
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;58.0046;57.4246;58.0046;16-Feb-2018
+119233;Tata Value Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;60.7125;60.1054;60.7125;16-Feb-2018
+119232;Tata Value Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;61.4187;60.8045;61.4187;16-Feb-2018
 
 UTI Mutual Fund
 120751;UTI Value Fund - Direct Plan - Growth Option;INF789F01VB2;;60.8856;60.8856;60.8856;16-Feb-2018
@@ -1462,9 +1462,9 @@ SBI Mutual Fund
 106096;SBI INFRASTRUCTURE FUND -  REGULAR PLAN - GROWTH;INF200K01CT2;;16.0131;15.8530;16.0131;16-Feb-2018
 119695;SBI Infrastructure Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RQ6;INF200K01RR4;16.4428;16.2784;16.4428;16-Feb-2018
 106095;SBI Infrastructure Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01CU0;INF200K01CV8;16.0144;15.8543;16.0144;16-Feb-2018
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;53.0475;52.5170;53.0475;16-Feb-2018
 119710;SBI MNC Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01SL5;INF200K01SM3;64.6717;64.0250;64.6717;16-Feb-2018
 119711;SBI MNC FUND - DIRECT PLAN -GROWTH;INF200K01SN1;;181.1476;179.3361;181.1476;16-Feb-2018
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;53.0475;52.5170;53.0475;16-Feb-2018
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;173.6456;171.9091;173.6456;16-Feb-2018
 119732;SBI PSU Fund - DIRECT PLAN - GROWTH;INF200K01UY4;;12.0835;11.9627;12.0835;16-Feb-2018
 119733;SBI PSU Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01UW8;INF200K01UX6;12.0661;11.9454;12.0661;16-Feb-2018
@@ -1825,10 +1825,10 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;14.0747;14.0747;14.0747;16-Feb-2018
 
 Tata Mutual Fund
-119281;Tata ELSS Tax Saver Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;102.5371;102.5371;102.5371;16-Feb-2018
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;76.6376;76.6376;76.6376;16-Feb-2018
-132756;Tata ELSS Tax Saver Fund-Growth-Direct Plan;INF277K01I86;;18.2293;18.2293;18.2293;16-Feb-2018
-132757;Tata ELSS Tax Saver Fund-Growth-Regular Plan;INF277K01I52;;17.4853;17.4853;17.4853;16-Feb-2018
+119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;102.5371;102.5371;102.5371;16-Feb-2018
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;76.6376;76.6376;76.6376;16-Feb-2018
+132756;Tata ELSS Fund-Growth-Direct Plan;INF277K01I86;;18.2293;18.2293;18.2293;16-Feb-2018
+132757;Tata ELSS Fund-Growth-Regular Plan;INF277K01I52;;17.4853;17.4853;17.4853;16-Feb-2018
 
 Taurus Mutual Fund
 118866;Taurus ELSS Tax Saver Fund - Direct Plan - Growth;INF044D01CG6;INF044D01AA3;78.13;78.13;78.13;16-Feb-2018
@@ -5403,12 +5403,12 @@ Shriram Mutual Fund
 125714;Shriram Aggressive Hybrid Fund- Regular-IDCW;INF680P01026;INF680P01034;12.6737;12.547;12.6737;16-Feb-2018
 
 Tata Mutual Fund
-119053;Tata Hybrid Equity Fund -Direct Plan- Growth Option;INF277K01MN2;;213.4744;211.3397;213.4744;16-Feb-2018
-119057;Tata Hybrid Equity Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;69.9483;69.2488;69.9483;16-Feb-2018
-119058;Tata Hybrid Equity Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;77.2097;76.4376;77.2097;16-Feb-2018
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;205.7380;203.6806;205.7380;16-Feb-2018
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;66.8729;66.2042;66.8729;16-Feb-2018
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;73.6437;72.9073;73.6437;16-Feb-2018
+119053;Tata Aggressive Hybrid Fund -Direct Plan- Growth Option;INF277K01MN2;;213.4744;211.3397;213.4744;16-Feb-2018
+119057;Tata Aggressive Hybrid Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;69.9483;69.2488;69.9483;16-Feb-2018
+119058;Tata Aggressive Hybrid Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;77.2097;76.4376;77.2097;16-Feb-2018
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;205.7380;203.6806;205.7380;16-Feb-2018
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;66.8729;66.2042;66.8729;16-Feb-2018
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;73.6437;72.9073;73.6437;16-Feb-2018
 
 UTI Mutual Fund
 120673;UTI Aggressive Hybrid Fund - Direct Plan - IDCW;INF789F01SI3;INF789F01SJ1;31.6066;31.6066;31.6066;16-Feb-2018
@@ -5972,8 +5972,8 @@ SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;54.2809;52.6525;54.2809;16-Feb-2018
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;26.2655;26.0028;26.2655;16-Feb-2018
-119312;Tata Young Citizens' Fund-Direct Plan-Growth Option;INF277K01QW4;;27.7013;27.4243;27.7013;16-Feb-2018
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;26.2655;26.0028;26.2655;16-Feb-2018
+119312;Tata Childrens Fund-Direct Plan-Growth Option;INF277K01QW4;;27.7013;27.4243;27.7013;16-Feb-2018
 101490;Tata Young Citizen Fund [>3 years upto 7 years] Regular Plan;;;26.2655;25.7402;26.2655;16-Feb-2018
 101489;Tata Young Citizen Fund [Upto 3 years] Regular Plan;;;26.2655;25.4775;26.2655;16-Feb-2018
 119299;Tata Young Citizens' Fund [> 3 years upto 7 years]-Direct Plan Growth;;;27.7013;27.1473;27.7013;16-Feb-2018

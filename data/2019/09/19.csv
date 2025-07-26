@@ -667,10 +667,10 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;28.8304;;;19-Sep-2019
 
 Tata Mutual Fund
-119178;Tata Mid Cap Growth Fund - Direct Plan- Growth Option;INF277K01PY2;;135.2311;;;19-Sep-2019
-119177;Tata Mid Cap Growth Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;44.7181;;;19-Sep-2019
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;127.8250;;;19-Sep-2019
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;35.3760;;;19-Sep-2019
+119178;Tata Mid Cap Fund - Direct Plan- Growth Option;INF277K01PY2;;135.2311;;;19-Sep-2019
+119177;Tata Mid Cap Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;44.7181;;;19-Sep-2019
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;127.8250;;;19-Sep-2019
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;35.3760;;;19-Sep-2019
 
 Taurus Mutual Fund
 118872;Taurus Mid Cap Fund - Direct Plan - Growth;INF044D01CA9;;39.95;;;19-Sep-2019
@@ -929,12 +929,12 @@ Quantum Mutual Fund
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;50.50;;;19-Sep-2019
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;54.2393;;;19-Sep-2019
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;123.6996;;;19-Sep-2019
-119231;Tata Equity P/E Fund -Direct Plan Growth Option;INF277K01ND1;;130.7044;;;19-Sep-2019
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;52.0933;;;19-Sep-2019
-119233;Tata Equity P/E Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;55.7318;;;19-Sep-2019
-119232;Tata Equity P/E Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;56.3472;;;19-Sep-2019
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;54.2393;;;19-Sep-2019
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;123.6996;;;19-Sep-2019
+119231;Tata Value Fund -Direct Plan Growth Option;INF277K01ND1;;130.7044;;;19-Sep-2019
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;52.0933;;;19-Sep-2019
+119233;Tata Value Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;55.7318;;;19-Sep-2019
+119232;Tata Value Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;56.3472;;;19-Sep-2019
 
 Union Mutual Fund
 145473;Union Value Fund - Direct Plan - Growth Option;INF582M01EK4;;9.70;;;19-Sep-2019
@@ -1426,9 +1426,9 @@ SBI Mutual Fund
 106096;SBI INFRASTRUCTURE FUND -  REGULAR PLAN - GROWTH;INF200K01CT2;;14.3072;;;19-Sep-2019
 119695;SBI Infrastructure Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RQ6;INF200K01RR4;13.1975;;;19-Sep-2019
 106095;SBI Infrastructure Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01CU0;INF200K01CV8;12.7269;;;19-Sep-2019
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;49.1817;;;19-Sep-2019
 119710;SBI MNC Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01SL5;INF200K01SM3;60.6977;;;19-Sep-2019
 119711;SBI MNC FUND - DIRECT PLAN -GROWTH;INF200K01SN1;;170.0375;;;19-Sep-2019
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;49.1817;;;19-Sep-2019
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;160.9917;;;19-Sep-2019
 119732;SBI PSU Fund - DIRECT PLAN - GROWTH;INF200K01UY4;;9.8055;;;19-Sep-2019
 119733;SBI PSU Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01UW8;INF200K01UX6;9.7882;;;19-Sep-2019
@@ -1799,10 +1799,10 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.1664;;;19-Sep-2019
 
 Tata Mutual Fund
-119281;Tata ELSS Tax Saver Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;93.2932;;;19-Sep-2019
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;54.9759;;;19-Sep-2019
-132756;Tata ELSS Tax Saver Fund-Growth-Direct Plan;INF277K01I86;;18.1284;;;19-Sep-2019
-132757;Tata ELSS Tax Saver Fund-Growth-Regular Plan;INF277K01I52;;17.0312;;;19-Sep-2019
+119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;93.2932;;;19-Sep-2019
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;54.9759;;;19-Sep-2019
+132756;Tata ELSS Fund-Growth-Direct Plan;INF277K01I86;;18.1284;;;19-Sep-2019
+132757;Tata ELSS Fund-Growth-Regular Plan;INF277K01I52;;17.0312;;;19-Sep-2019
 
 Taurus Mutual Fund
 118866;Taurus ELSS Tax Saver Fund - Direct Plan - Growth;INF044D01CG6;INF044D01AA3;75.61;;;19-Sep-2019
@@ -5727,12 +5727,12 @@ Shriram Mutual Fund
 125714;Shriram Aggressive Hybrid Fund- Regular-IDCW;INF680P01026;INF680P01034;12.8541;;;19-Sep-2019
 
 Tata Mutual Fund
-119053;Tata Hybrid Equity Fund -Direct Plan- Growth Option;INF277K01MN2;;213.9228;;;19-Sep-2019
-119057;Tata Hybrid Equity Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;59.5687;;;19-Sep-2019
-119058;Tata Hybrid Equity Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;71.6911;;;19-Sep-2019
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;201.6805;;;19-Sep-2019
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;55.1616;;;19-Sep-2019
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;66.5444;;;19-Sep-2019
+119053;Tata Aggressive Hybrid Fund -Direct Plan- Growth Option;INF277K01MN2;;213.9228;;;19-Sep-2019
+119057;Tata Aggressive Hybrid Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;59.5687;;;19-Sep-2019
+119058;Tata Aggressive Hybrid Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;71.6911;;;19-Sep-2019
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;201.6805;;;19-Sep-2019
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;55.1616;;;19-Sep-2019
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;66.5444;;;19-Sep-2019
 
 UTI Mutual Fund
 120673;UTI Aggressive Hybrid Fund - Direct Plan - IDCW;INF789F01SI3;INF789F01SJ1;25.6679;;;19-Sep-2019
@@ -6463,8 +6463,8 @@ SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;55.0451;;;19-Sep-2019
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;23.4459;;;19-Sep-2019
-119312;Tata Young Citizens' Fund-Direct Plan-Growth Option;INF277K01QW4;;25.1299;;;19-Sep-2019
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;23.4459;;;19-Sep-2019
+119312;Tata Childrens Fund-Direct Plan-Growth Option;INF277K01QW4;;25.1299;;;19-Sep-2019
 
 UTI Mutual Fund
 120724;UTI Children's Equity Fund - Direct Plan - Growth Option;;;35.2456;;;19-Sep-2019
