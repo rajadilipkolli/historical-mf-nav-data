@@ -92,12 +92,12 @@
 
     <distributionManagement>
         <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>central</id>
+            <url>https://central.sonatype.com/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <id>central</id>
+            <url>https://central.sonatype.com/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -255,8 +255,8 @@
                 <version>1.6.13</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <serverId>central</serverId>
+                    <nexusUrl>https://central.sonatype.com/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
                     <stagingProgressPauseDurationSeconds>15</stagingProgressPauseDurationSeconds>
