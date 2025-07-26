@@ -138,6 +138,17 @@ jobs:
           echo "Compressing database..."
           zstd -5 -T0 funds.db
 
+      - name: Import GPG key
+        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_config_global: true
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+
       - name: Build Java Library
         if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
         run: |
@@ -153,7 +164,13 @@ jobs:
           sed -i "s/<version>1.0.0-SNAPSHOT<\/version>/<version>1.0.${{ steps.current-time.outputs.formattedTime }}<\/version>/" pom.xml
 
           echo "Building with Maven (skipping tests for faster CI builds)..."
-          mvn clean install -DskipTests --batch-mode
+          # Configure GPG to use loopback pinentry
+          mkdir -p ~/.gnupg
+          echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
+          echo "pinentry-mode loopback" > ~/.gnupg/gpg.conf
+          gpgconf --reload gpg-agent
+          
+          mvn clean install -DskipTests --batch-mode -P release -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
 
           echo "Copying JAR artifact..."
           JAR_FILE=$(find target -name "historical-mf-nav-data*.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
@@ -290,13 +307,16 @@ jobs:
           mkdir -p src/main/resources/
           cp funds.db.zst src/main/resources/
 
-      - name: Import GPG key and extract keys
-        id: import_gpg
+      - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           fingerprint: ${{ secrets.GPG_FINGERPRINT }}
+          git_config_global: true
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
 
       - name: Update version and publish
         run: |
@@ -308,10 +328,15 @@ jobs:
           echo "Current pom.xml version:"
           grep "<version>" pom.xml
           
-          # Build and publish to Maven Central
-          mvn clean deploy --batch-mode -P release
+          # Configure GPG to use loopback pinentry
+          mkdir -p ~/.gnupg
+          echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
+          echo "pinentry-mode loopback" > ~/.gnupg/gpg.conf
+          gpgconf --reload gpg-agent
+          
+          # Build and publish to Maven Central with GPG signing
+          mvn clean deploy --batch-mode -P release -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_TTY: $(tty)
