@@ -22,8 +22,8 @@ permissions:
   packages: write
 
 jobs:
-  update-data:
-    name: Update data and generate database
+build-and-update:
+    name: Update Data, Generate Database, and Build Java Library
     runs-on: ubuntu-latest
     outputs:
       release_version: ${{ steps.current-time.outputs.formattedTime }}
@@ -36,30 +36,30 @@ jobs:
         with:
           format: "YYYYMMDD"
           timezone: 'Asia/Kolkata'
-      
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
           java-version: 21
           cache: 'gradle'
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: 'pip'
-          
+
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
         working-directory: ${{ github.workspace }}
-      
+
       - name: Update data
         run: |
           if [[ -n "${{ github.event.inputs.from_date }}" && -n "${{ github.event.inputs.to_date }}" ]]; then
@@ -70,7 +70,7 @@ jobs:
             python3 fetch.py
           fi
         working-directory: ${{ github.workspace }}
-      
+
       - name: Check for data changes
         id: check-changes
         run: |
@@ -81,7 +81,7 @@ jobs:
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
             echo "Data changes detected"
           fi
-      
+
       - name: Commit data updates
         uses: stefanzweifel/git-auto-commit-action@v6
         id: commit
@@ -108,21 +108,21 @@ jobs:
             echo "continue=true" >> "$GITHUB_OUTPUT"
             echo "Workflow will continue - changes detected or manual trigger"
           fi
-      
+
       - name: Generate database and extract statistics
         if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
         id: generate-stats
         run: |
           echo "Generating database..."
           python generate.py
-          
+
           echo "Extracting statistics..."
           DATA_COVERAGE_MIN=$(sqlite3 funds.db 'SELECT MIN(date) FROM nav')
           DATA_COVERAGE_MAX=$(sqlite3 funds.db 'SELECT MAX(date) FROM nav')
           TOTAL_SCHEMES=$(sqlite3 funds.db 'SELECT COUNT(*) FROM schemes')
           TOTAL_NAV_RECORDS=$(sqlite3 funds.db 'SELECT COUNT(*) FROM nav')
           TOTAL_SECURITIES=$(sqlite3 funds.db 'SELECT COUNT(*) FROM securities')
-          
+
           # Store stats in outputs for reuse
           cat > stats.json << EOF
           {
@@ -134,51 +134,12 @@ jobs:
           }
           EOF
           echo "stats=$(cat stats.json | jq -c .)" >> "$GITHUB_OUTPUT"
-          
+
           echo "Compressing database..."
           zstd -5 -T0 funds.db
-      
-      - name: Upload database and stats
-        uses: actions/upload-artifact@v4
-        with:
-          name: data-artifacts
-          path: |
-            funds.db.zst
-            stats.json
-          retention-days: 7
-        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
 
-  build:
-    name: Build Java Library
-    needs: update-data
-    runs-on: ubuntu-latest
-    if: ${{ needs.update-data.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 1
-      
-      - uses: graalvm/setup-graalvm@v1
-        with:
-          distribution: 'graalvm'
-          java-version: 21
-          cache: 'gradle'
-      
-      # Setup Gradle daemon for faster builds
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-home-cache-cleanup: true
-          cache-read-only: false
-      
-      - name: Download data artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: data-artifacts
-      
       - name: Build Java Library
+        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
         run: |
           echo "Reusing already compressed funds.db.zst..."
           if [ -f funds.db.zst ]; then
@@ -189,7 +150,7 @@ jobs:
           fi
 
           echo "Updating version in build.gradle..."
-          sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ needs.update-data.outputs.release_version }}'/" build.gradle
+          sed -i "s/version = '1.0.[0-9]\{8\}'/version = '1.0.${{ steps.current-time.outputs.formattedTime }}'/" build.gradle
 
           echo "Building with Gradle (skipping tests for faster CI builds)..."
           ./gradlew clean build -x test -x jacocoTestReport -x jacocoTestCoverageVerification --parallel --build-cache -Pci=true
@@ -205,8 +166,9 @@ jobs:
 
           echo "Verifying JAR contents..."
           jar tf historical-mf-nav-data-library.jar | grep -q funds.db.zst || { echo "ERROR: funds.db.zst not found in JAR"; exit 1; }
-      
+
       - name: Upload build artifacts
+        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
@@ -218,11 +180,11 @@ jobs:
 
   release:
     name: Create GitHub Release
-    needs: [update-data, build]
+    needs: [build-and-update]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     outputs:
-      release_version: ${{ needs.update-data.outputs.release_version }}
+      release_version: ${{ needs.build-and-update.outputs.release_version }}
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -232,19 +194,19 @@ jobs:
       - name: Create Release Notes
         run: |
           # Parse stats from JSON
-          DATA_COVERAGE_MIN=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .data_coverage_min)
-          DATA_COVERAGE_MAX=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .data_coverage_max)
-          TOTAL_SCHEMES=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .total_schemes)
-          TOTAL_NAV_RECORDS=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .total_nav_records)
-          TOTAL_SECURITIES=$(echo '${{ needs.update-data.outputs.data_stats }}' | jq -r .total_securities)
+          DATA_COVERAGE_MIN=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .data_coverage_min)
+          DATA_COVERAGE_MAX=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .data_coverage_max)
+          TOTAL_SCHEMES=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .total_schemes)
+          TOTAL_NAV_RECORDS=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .total_nav_records)
+          TOTAL_SECURITIES=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .total_securities)
           
           cat > release_notes.txt << EOF
-          # Daily NAV Library v1.0.${{ needs.update-data.outputs.release_version }}
+          # Daily NAV Library v1.0.${{ needs.build-and-update.outputs.release_version }}
           
           Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library
           
           ## 🚀 What's New
-          - Complete historical NAV data up to ${{ needs.update-data.outputs.release_version }}
+          - Complete historical NAV data up to ${{ needs.build-and-update.outputs.release_version }}
           - Self-executing JAR with embedded SQLite database
           - Zero-configuration Spring Boot auto-configuration
           - Optimized indexes for fast querying
@@ -259,7 +221,7 @@ jobs:
           <dependency>
               <groupId>com.github.rajadilipkolli</groupId>
               <artifactId>historical-mf-nav-data</artifactId>
-              <version>1.0.${{ needs.update-data.outputs.release_version }}</version>
+              <version>1.0.${{ needs.build-and-update.outputs.release_version }}</version>
           </dependency>
           ```
           
@@ -281,7 +243,7 @@ jobs:
             git fetch origin main --depth=1
             git checkout main
           fi
-
+          
           # Check JAR file size (must be <= 2GB for GitHub Releases)
           JAR_SIZE=$(stat --format="%s" historical-mf-nav-data-library.jar)
           MAX_SIZE=2147483648
@@ -290,9 +252,9 @@ jobs:
             echo "Please reduce the size of the JAR or split the artifact."
             exit 1
           fi
-
-          gh release create "v1.0.${{ needs.update-data.outputs.release_version }}" \
-            --title "Daily NAV Library v1.0.${{ needs.update-data.outputs.release_version }}" \
+          
+          gh release create "v1.0.${{ needs.build-and-update.outputs.release_version }}" \
+            --title "Daily NAV Library v1.0.${{ needs.build-and-update.outputs.release_version }}" \
             --notes-file release_notes.txt \
             historical-mf-nav-data-library.jar \
             funds.db.zst
