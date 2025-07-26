@@ -330,36 +330,8 @@ jobs:
 
       - name: Import GPG key and extract keys
         uses: crazy-max/ghaction-import-gpg@v6
-        id: import_gpg
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          git_config_global: false
-          git_user_signingkey: false
-          git_commit_gpgsign: false
-          git_tag_gpgsign: false
-          git_push_gpgsign: if-asked
-
-      - name: Export GPG keys for JReleaser
-        run: |
-          # Use the imported key ID from the previous step
-          GPG_KEY_ID="${{ steps.import_gpg.outputs.keyid }}"
-          echo "Using GPG Key ID: $GPG_KEY_ID"
-          
-          # Export public key
-          gpg --armor --export "$GPG_KEY_ID" > public.key
-          echo "JRELEASER_GPG_PUBLIC_KEY<<EOF" >> $GITHUB_ENV
-          cat public.key >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          
-          # Export private key
-          gpg --armor --export-secret-keys "$GPG_KEY_ID" > private.key  
-          echo "JRELEASER_GPG_SECRET_KEY<<EOF" >> $GITHUB_ENV
-          cat private.key >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          
-          # Clean up key files
-          rm -f public.key private.key
 
       - name: Run dry-run deployment (validate configuration)
         run: |
@@ -378,6 +350,7 @@ jobs:
           JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          JRELEASER_GPG_KEY_ID: ${{ steps.import_gpg.outputs.keyid }}
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m -XX:+UseParallelGC"
 
       - name: Build and publish to Maven Central
@@ -396,4 +369,5 @@ jobs:
           JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          JRELEASER_GPG_KEY_ID: ${{ steps.import_gpg.outputs.keyid }}
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m -XX:+UseParallelGC"
