@@ -728,8 +728,8 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;16.3462;16.1827;16.3462;23-Mar-2012
 
 Tata Mutual Fund
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;42.2067;41.7846;42.2067;23-Mar-2012
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;16.9401;16.7707;16.9401;23-Mar-2012
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;42.2067;41.7846;42.2067;23-Mar-2012
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;16.9401;16.7707;16.9401;23-Mar-2012
 102329;Tata Mid Cap Growth Fund Regular Plan  - Bonus (Growth);INF277K01634;;38.3966;38.0126;38.3966;23-Mar-2012
 
 Taurus Mutual Fund
@@ -839,9 +839,9 @@ Quantum Mutual Fund
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;22.4100;21.5100;22.4100;23-Mar-2012
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;29.6518;29.3553;29.6518;23-Mar-2012
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;46.3970;45.9330;46.3970;23-Mar-2012
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;31.3216;31.0084;31.3216;23-Mar-2012
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;29.6518;29.3553;29.6518;23-Mar-2012
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;46.3970;45.9330;46.3970;23-Mar-2012
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;31.3216;31.0084;31.3216;23-Mar-2012
 
 UTI Mutual Fund
 103098;UTI Value Fund - Regular Plan - Growth Option;INF789F01AG5;;28.58;28.58;28.58;23-Mar-2012
@@ -1148,7 +1148,7 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;9.8481;9.8481;9.8481;23-Mar-2012
 
 Tata Mutual Fund
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;41.7551;41.7551;41.7551;23-Mar-2012
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;41.7551;41.7551;41.7551;23-Mar-2012
 
 Taurus Mutual Fund
 100480;Taurus ELSS Tax Saver Fund - Regular Plan - Growth;INF044D01AC9;;32.64;32.64;32.64;23-Mar-2012
@@ -1456,9 +1456,9 @@ quant Mutual Fund
 101069;quant Aggressive Hybrid Fund-IDCW Option - Regular Plan;INF966L01242;INF966L01259;11.4337;11.3194;11.4337;23-Mar-2012
 
 Tata Mutual Fund
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;84.3574;83.5138;84.3574;23-Mar-2012
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;43.9554;43.5158;43.9554;23-Mar-2012
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;50.2339;49.7316;50.2339;23-Mar-2012
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;84.3574;83.5138;84.3574;23-Mar-2012
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;43.9554;43.5158;43.9554;23-Mar-2012
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;50.2339;49.7316;50.2339;23-Mar-2012
 
 UTI Mutual Fund
 100684;UTI Aggressive Hybrid Fund - Regular Plan - Growth;INF789F01323;;77.22;77.22;77.22;23-Mar-2012
@@ -1601,7 +1601,7 @@ ICICI Prudential Mutual Fund
 101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;55.67;55.11;55.67;23-Mar-2012
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;13.3627;13.2291;13.3627;23-Mar-2012
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;13.3627;13.2291;13.3627;23-Mar-2012
 101490;Tata Young Citizen Fund [>3 years upto 7 years] Regular Plan;;;13.3627;13.0954;13.3627;23-Mar-2012
 101489;Tata Young Citizen Fund [Upto 3 years] Regular Plan;;;13.3627;12.9618;13.3627;23-Mar-2012
 
