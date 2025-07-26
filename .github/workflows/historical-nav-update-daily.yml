@@ -308,10 +308,10 @@ jobs:
           echo "Current pom.xml version:"
           grep "<version>" pom.xml
           
-          # Build and publish to Maven Central
-          mvn clean verify -Pci-cd --batch-mode
-          mvn jreleaser:full-release --batch-mode \
+          # Build and publish to Maven Central only (skip GitHub release)
+          mvn clean deploy -Pci-cd --batch-mode \
             -Djreleaser.signing.enabled=true \
+            -Djreleaser.github.release.enabled=false \
             -Djreleaser.deploy.maven.central.active=true \
             -Djreleaser.deploy.maven.central.url=https://s01.oss.sonatype.org/service/local/ \
             -Djreleaser.deploy.maven.central.closeRepository=true \
