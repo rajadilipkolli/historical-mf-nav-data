@@ -626,10 +626,10 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;32.8959;;;10-Dec-2020
 
 Tata Mutual Fund
-119178;Tata Mid Cap Growth Fund - Direct Plan- Growth Option;INF277K01PY2;;181.8704;;;10-Dec-2020
-119177;Tata Mid Cap Growth Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;60.0386;;;10-Dec-2020
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;169.1720;;;10-Dec-2020
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;46.7856;;;10-Dec-2020
+119178;Tata Mid Cap Fund - Direct Plan- Growth Option;INF277K01PY2;;181.8704;;;10-Dec-2020
+119177;Tata Mid Cap Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;60.0386;;;10-Dec-2020
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;169.1720;;;10-Dec-2020
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;46.7856;;;10-Dec-2020
 
 Taurus Mutual Fund
 118872;Taurus Mid Cap Fund - Direct Plan - Growth;INF044D01CA9;;55.35;;;10-Dec-2020
@@ -905,12 +905,12 @@ Quantum Mutual Fund
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;58.67;;;10-Dec-2020
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;66.2344;;;10-Dec-2020
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;151.0794;;;10-Dec-2020
-119231;Tata Equity P/E Fund -Direct Plan Growth Option;INF277K01ND1;;162.3542;;;10-Dec-2020
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;63.5904;;;10-Dec-2020
-119233;Tata Equity P/E Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;67.5013;;;10-Dec-2020
-119232;Tata Equity P/E Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;69.0826;;;10-Dec-2020
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;66.2344;;;10-Dec-2020
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;151.0794;;;10-Dec-2020
+119231;Tata Value Fund -Direct Plan Growth Option;INF277K01ND1;;162.3542;;;10-Dec-2020
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;63.5904;;;10-Dec-2020
+119233;Tata Value Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;67.5013;;;10-Dec-2020
+119232;Tata Value Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;69.0826;;;10-Dec-2020
 
 Union Mutual Fund
 145473;Union Value Fund - Direct Plan - Growth Option;INF582M01EK4;;12.51;;;10-Dec-2020
@@ -1088,12 +1088,12 @@ Sundaram Mutual Fund
 101536;Sundaram Select Focus Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01124;INF903J01132;14.6193;;;10-Dec-2020
 
 Tata Mutual Fund
-147759;TATA Focused Equity Fund Direct Plan - Payout of Income Distribution cum capital withdrawal option ;INF277K019X5;;11.1500;;;10-Dec-2020
-147758;TATA Focused Equity Fund Direct Plan - Reinvestment of Income Distribution cum capital withdrawal option ;;INF277K018X7;11.1500;;;10-Dec-2020
-147761;TATA Focused Equity Fund Regular Plan - Payout of Income Distribution cum capital withdrawal option ;INF277K012Y8;;10.9160;;;10-Dec-2020
-147756;TATA Focused Equity Fund Regular Plan - Reinvestment of Income Distribution cum capital withdrawal option ;;INF277K011Y0;10.9160;;;10-Dec-2020
-147757;Tata Focused Equity Fund-Direct Plan-Growth;INF277K017X9;;11.1500;;;10-Dec-2020
-147760;Tata Focused Equity Fund-Regular Plan-Growth;INF277K010Y2;;10.9160;;;10-Dec-2020
+147759;TATA Focused Fund Direct Plan - Payout of Income Distribution cum capital withdrawal option;INF277K019X5;;11.1500;;;10-Dec-2020
+147758;TATA Focused Fund Direct Plan - Reinvestment of Income Distribution cum capital withdrawal option;;INF277K018X7;11.1500;;;10-Dec-2020
+147761;TATA Focused Fund Regular Plan - Payout of Income Distribution cum capital withdrawal option;INF277K012Y8;;10.9160;;;10-Dec-2020
+147756;TATA Focused Fund Regular Plan - Reinvestment of Income Distribution cum capital withdrawal option;;INF277K011Y0;10.9160;;;10-Dec-2020
+147757;Tata Focused Fund-Direct Plan-Growth;INF277K017X9;;11.1500;;;10-Dec-2020
+147760;Tata Focused Fund-Regular Plan-Growth;INF277K010Y2;;10.9160;;;10-Dec-2020
 
 Union Mutual Fund
 147492;Union Focused Fund - Direct Plan - Growth Option;INF582M01FS4;;13.20;;;10-Dec-2020
@@ -1457,9 +1457,9 @@ SBI Mutual Fund
 106096;SBI INFRASTRUCTURE FUND -  REGULAR PLAN - GROWTH;INF200K01CT2;;16.6069;;;10-Dec-2020
 119695;SBI Infrastructure Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RQ6;INF200K01RR4;15.4238;;;10-Dec-2020
 106095;SBI Infrastructure Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01CU0;INF200K01CV8;14.7729;;;10-Dec-2020
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;63.5311;;;10-Dec-2020
 119710;SBI MNC Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01SL5;INF200K01SM3;79.1622;;;10-Dec-2020
 119711;SBI MNC FUND - DIRECT PLAN -GROWTH;INF200K01SN1;;221.7659;;;10-Dec-2020
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;63.5311;;;10-Dec-2020
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;207.9634;;;10-Dec-2020
 119732;SBI PSU Fund - DIRECT PLAN - GROWTH;INF200K01UY4;;9.7352;;;10-Dec-2020
 119733;SBI PSU Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01UW8;INF200K01UX6;9.7212;;;10-Dec-2020
@@ -1838,10 +1838,10 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;11.7066;;;10-Dec-2020
 
 Tata Mutual Fund
-119281;Tata ELSS Tax Saver Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;116.0282;;;10-Dec-2020
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;61.6162;;;10-Dec-2020
-132756;Tata ELSS Tax Saver Fund-Growth-Direct Plan;INF277K01I86;;22.5521;;;10-Dec-2020
-132757;Tata ELSS Tax Saver Fund-Growth-Regular Plan;INF277K01I52;;20.8066;;;10-Dec-2020
+119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;116.0282;;;10-Dec-2020
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;61.6162;;;10-Dec-2020
+132756;Tata ELSS Fund-Growth-Direct Plan;INF277K01I86;;22.5521;;;10-Dec-2020
+132757;Tata ELSS Fund-Growth-Regular Plan;INF277K01I52;;20.8066;;;10-Dec-2020
 
 Taurus Mutual Fund
 118866;Taurus ELSS Tax Saver Fund - Direct Plan - Growth;INF044D01CG6;INF044D01AA3;94.87;;;10-Dec-2020
@@ -6020,12 +6020,12 @@ Shriram Mutual Fund
 125714;Shriram Aggressive Hybrid Fund- Regular-IDCW;INF680P01026;INF680P01034;15.5236;;;10-Dec-2020
 
 Tata Mutual Fund
-119053;Tata Hybrid Equity Fund -Direct Plan- Growth Option;INF277K01MN2;;256.3211;;;10-Dec-2020
-119057;Tata Hybrid Equity Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;66.3214;;;10-Dec-2020
-119058;Tata Hybrid Equity Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;78.3863;;;10-Dec-2020
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;238.5603;;;10-Dec-2020
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;60.2691;;;10-Dec-2020
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;71.2760;;;10-Dec-2020
+119053;Tata Aggressive Hybrid Fund -Direct Plan- Growth Option;INF277K01MN2;;256.3211;;;10-Dec-2020
+119057;Tata Aggressive Hybrid Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;66.3214;;;10-Dec-2020
+119058;Tata Aggressive Hybrid Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;78.3863;;;10-Dec-2020
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;238.5603;;;10-Dec-2020
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;60.2691;;;10-Dec-2020
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;71.2760;;;10-Dec-2020
 
 UTI Mutual Fund
 120673;UTI Aggressive Hybrid Fund - Direct Plan - IDCW;INF789F01SI3;INF789F01SJ1;28.5757;;;10-Dec-2020
@@ -6240,12 +6240,12 @@ SBI Mutual Fund
 103401;SBI Multi Asset Allocation Fund - Regular Plan - Quarterly Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01834;INF200K01842;14.4874;;;10-Dec-2020
 
 Tata Mutual Fund
-148052;Tata Multi Asset Opportnities Fund-Direct Plan-Dividend Reinvestment;;INF277K010Z9;12.4047;;;10-Dec-2020
-148049;Tata Multi Asset Opportunities Fund-Direct Plan-Dividend Payout;INF277K011Z7;;12.4047;;;10-Dec-2020
-148053;Tata Multi Asset Opportunities Fund-Direct Plan-Growth;INF277K019Y3;;12.4047;;;10-Dec-2020
-148054;Tata Multi Asset Opportunities Fund-Regular Plan-Dividend Payout;INF277K014Z1;;12.2213;;;10-Dec-2020
-148051;Tata Multi Asset Opportunities Fund-Regular Plan-Dividend Reinvestment;;INF277K013Z3;12.2213;;;10-Dec-2020
-148050;Tata Multi Asset Opportunities Fund-Regular Plan-Growth;INF277K012Z5;;12.2213;;;10-Dec-2020
+148049;Tata Multi Asset Allocation Fund-Direct Plan-Dividend Payout;INF277K011Z7;;12.4047;;;10-Dec-2020
+148052;Tata Multi Asset Allocation Fund-Direct Plan-Dividend Reinvestment;;INF277K010Z9;12.4047;;;10-Dec-2020
+148053;Tata Multi Asset Allocation Fund-Direct Plan-Growth;INF277K019Y3;;12.4047;;;10-Dec-2020
+148054;Tata Multi Asset Allocation Fund-Regular Plan-Dividend Payout;INF277K014Z1;;12.2213;;;10-Dec-2020
+148051;Tata Multi Asset Allocation Fund-Regular Plan-Dividend Reinvestment;;INF277K013Z3;12.2213;;;10-Dec-2020
+148050;Tata Multi Asset Allocation Fund-Regular Plan-Growth;INF277K012Z5;;12.2213;;;10-Dec-2020
 
 UTI Mutual Fund
 120760;UTI Multi Asset Allocation Fund - Direct Plan - Growth Option;INF789F01VE6;;41.0793;;;10-Dec-2020
@@ -6841,8 +6841,8 @@ SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;61.8513;;;10-Dec-2020
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;30.3980;;;10-Dec-2020
-119312;Tata Young Citizens' Fund-Direct Plan-Growth Option;INF277K01QW4;;32.8808;;;10-Dec-2020
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;30.3980;;;10-Dec-2020
+119312;Tata Childrens Fund-Direct Plan-Growth Option;INF277K01QW4;;32.8808;;;10-Dec-2020
 
 UTI Mutual Fund
 120724;UTI Children's Equity Fund - Direct Plan - Growth Option;;;47.0026;;;10-Dec-2020
