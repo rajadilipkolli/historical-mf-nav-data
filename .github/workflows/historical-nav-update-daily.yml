@@ -288,7 +288,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Import GPG key and extract keys
         id: import_gpg
