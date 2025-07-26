@@ -277,38 +277,50 @@ jobs:
         with:
           name: build-artifacts
 
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          distribution: 'graalvm'
+          java-version: '21'
+          cache: 'maven'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Prepare resources for Maven Central build
         run: |
-          # Extract database and create SQL dump
-          zstd -d funds.db.zst
+          mkdir -p src/main/resources/
           cp funds.db.zst src/main/resources/
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
 
       - name: Import GPG key and extract keys
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          fingerprint: ${{ secrets.GPG_FINGERPRINT }}
 
-      - name: Publish to Maven Central with JReleaser
+      - name: Update version and publish
         run: |
           VERSION="1.0.${{ needs.build-and-update.outputs.release_version }}"
           echo "Setting version to: $VERSION"
-          sed -i "s/<version>1.0.0-SNAPSHOT<\/version>/<version>$VERSION<\/version>/" pom.xml
-          echo "Current working directory: $(pwd)"
-          echo "Build pom.xml version line:"
+          sed -i "s/<version>1.0.20250725<\/version>/<version>$VERSION<\/version>/" pom.xml
+          
+          # Verify version update
+          echo "Current pom.xml version:"
           grep "<version>" pom.xml
-          mvn clean install --batch-mode
-          mvn jreleaser:full-release --batch-mode
+          
+          # Build and publish to Maven Central
+          mvn clean verify -Pci-cd --batch-mode
+          mvn jreleaser:full-release --batch-mode \
+            -Djreleaser.signing.enabled=true \
+            -Djreleaser.deploy.maven.central.active=true \
+            -Djreleaser.deploy.maven.central.url=https://s01.oss.sonatype.org/service/local/ \
+            -Djreleaser.deploy.maven.central.closeRepository=true \
+            -Djreleaser.deploy.maven.central.releaseRepository=true
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           JRELEASER_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ steps.import_gpg.outputs.public_key }}
+          JRELEASER_GPG_SECRET_KEY: ${{ steps.import_gpg.outputs.private_key }}
           JRELEASER_GPG_KEY_ID: ${{ steps.import_gpg.outputs.keyid }}
