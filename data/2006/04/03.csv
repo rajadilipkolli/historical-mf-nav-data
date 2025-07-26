@@ -1004,8 +1004,8 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;20.9214;20.9214;21.3921;03-Apr-2006
 
 Tata Mutual Fund
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;29.7490;29.1540;30.4184;03-Apr-2006
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;28.0118;27.4516;28.6421;03-Apr-2006
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;29.7490;29.1540;30.4184;03-Apr-2006
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;28.0118;27.4516;28.6421;03-Apr-2006
 102329;Tata Mid Cap Growth Fund Regular Plan  - Bonus (Growth);INF277K01634;;25.8730;25.3555;26.4551;03-Apr-2006
 
 Taurus Mutual Fund
@@ -1082,8 +1082,8 @@ Quantum Mutual Fund
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;10.29;9.88;10.29;03-Apr-2006
 
 Tata Mutual Fund
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;23.2955;23.2955;23.8196;03-Apr-2006
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;22.3109;22.3109;22.8129;03-Apr-2006
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;23.2955;23.2955;23.8196;03-Apr-2006
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;22.3109;22.3109;22.8129;03-Apr-2006
 
 UTI Mutual Fund
 103098;UTI Value Fund - Regular Plan - Growth Option;INF789F01AG5;;15.32;15.32;15.66;03-Apr-2006
@@ -1180,7 +1180,7 @@ SBI Mutual Fund
 101295;SBI ESG Exclusionary Strategy Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01198;INF200K01206;28.60;28.60;29.24;03-Apr-2006
 100644;SBI Healthcare Opportunities Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01453;INF200K01461;30.47;30.47;31.16;03-Apr-2006
 102823;SBI HEALTHCARE OPPORTUNITIES FUND - REGULAR PLAN -GROWTH;INF200K01446;;36.98;36.98;37.81;03-Apr-2006
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;28.38;28.38;29.02;03-Apr-2006
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;28.38;28.38;29.02;03-Apr-2006
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;36.33;36.33;37.15;03-Apr-2006
 100643;SBI Technology Opportunities Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01420;INF200K01438;19.71;19.71;20.15;03-Apr-2006
 
@@ -1266,7 +1266,7 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;18.2746;18.2746;18.6858;03-Apr-2006
 
 Tata Mutual Fund
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;42.1518;42.1518;43.1002;03-Apr-2006
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;42.1518;42.1518;43.1002;03-Apr-2006
 
 Taurus Mutual Fund
 100480;Taurus ELSS Tax Saver Fund - Regular Plan - Growth;INF044D01AC9;;19.31;19.31;19.74;03-Apr-2006
@@ -2254,8 +2254,8 @@ SBI Mutual Fund
 102885;SBI EQUITY HYBRID FUND - REGULAR PLAN -Growth;INF200K01107;;32.06;32.06;32.78;03-Apr-2006
 
 Tata Mutual Fund
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;45.6219;45.6219;46.6484;03-Apr-2006
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;37.4399;37.4399;38.2823;03-Apr-2006
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;45.6219;45.6219;46.6484;03-Apr-2006
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;37.4399;37.4399;38.2823;03-Apr-2006
 
 UTI Mutual Fund
 100684;UTI Aggressive Hybrid Fund - Regular Plan - Growth;INF789F01323;;51.63;51.63;52.79;03-Apr-2006
@@ -2336,7 +2336,7 @@ SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;16.0415;15.5603;16.2821;03-Apr-2006
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;20.8633;20.6547;21.1762;03-Apr-2006
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;20.8633;20.6547;21.1762;03-Apr-2006
 101490;Tata Young Citizen Fund [>3 years upto 7 years] Regular Plan;;;20.8633;20.4460;21.1762;03-Apr-2006
 101489;Tata Young Citizen Fund [Upto 3 years] Regular Plan;;;20.8633;20.2374;21.1762;03-Apr-2006
 
