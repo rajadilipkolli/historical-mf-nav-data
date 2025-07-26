@@ -197,7 +197,13 @@ jreleaser {
     }
     release {
         github {
-            enabled = false
+            enabled = true
+            owner = 'rajadilipkolli'
+            repo = 'historical-mf-nav-data'
+            tagName = 'v1.0.${project.version}'
+            releaseName = 'Daily NAV Library v1.0.${project.version}'
+            draft = false
+            prerelease = false
         }
     }
     deploy {
@@ -214,8 +220,8 @@ jreleaser {
     signing {
         active = 'ALWAYS'
         armored = true
-        publicKey = System.getenv('JRELEASER_GPG_PUBLIC_KEY')
-        secretKey = System.getenv('JRELEASER_GPG_SECRET_KEY')
-        passphrase = System.getenv('JRELEASER_GPG_PASSPHRASE')
+        publicKey = System.getenv('JRELEASER_GPG_PUBLIC_KEY') ?: project.findProperty('jreleaser.gpg.public.key')
+        secretKey = System.getenv('JRELEASER_GPG_SECRET_KEY') ?: project.findProperty('jreleaser.gpg.secret.key')
+        passphrase = System.getenv('JRELEASER_GPG_PASSPHRASE') ?: project.findProperty('jreleaser.gpg.passphrase')
     }
 }
