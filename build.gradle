@@ -40,7 +40,7 @@ graalvmNative {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
-    implementation 'org.xerial:sqlite-jdbc:3.50.2.0'
+    implementation 'org.xerial:sqlite-jdbc:3.50.3.0'
     implementation 'org.springframework:spring-jdbc'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.slf4j:slf4j-api'
