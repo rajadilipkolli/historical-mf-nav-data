@@ -334,9 +334,20 @@ jobs:
           echo "pinentry-mode loopback" > ~/.gnupg/gpg.conf
           gpgconf --reload gpg-agent
           
+          # Create Maven settings.xml with credentials
+          cat > ~/.m2/settings.xml << EOF
+          <settings>
+            <servers>
+              <server>
+                <id>ossrh</id>
+                <username>${{ secrets.OSSRH_USERNAME }}</username>
+                <password>${{ secrets.OSSRH_PASSWORD }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
           # Build and publish to Maven Central with GPG signing
           mvn clean deploy --batch-mode -P release -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_TTY: $(tty)
