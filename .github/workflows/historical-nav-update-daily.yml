@@ -308,19 +308,10 @@ jobs:
           echo "Current pom.xml version:"
           grep "<version>" pom.xml
           
-          # Build and publish to Maven Central only (skip GitHub release)
-          mvn clean deploy --batch-mode \
-            -Djreleaser.signing.enabled=true \
-            -Djreleaser.github.release.enabled=false \
-            -Djreleaser.deploy.maven.central.active=true \
-            -Djreleaser.deploy.maven.central.url=https://s01.oss.sonatype.org/service/local/ \
-            -Djreleaser.deploy.maven.central.closeRepository=true \
-            -Djreleaser.deploy.maven.central.releaseRepository=true
+          # Build and publish to Maven Central
+          mvn clean deploy --batch-mode -P release
         env:
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          JRELEASER_OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ steps.import_gpg.outputs.public_key }}
-          JRELEASER_GPG_SECRET_KEY: ${{ steps.import_gpg.outputs.private_key }}
-          JRELEASER_GPG_KEY_ID: ${{ steps.import_gpg.outputs.keyid }}
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_TTY: $(tty)

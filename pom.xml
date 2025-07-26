@@ -159,40 +159,68 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- JReleaser Maven Plugin for GPG and release -->
+            <!-- Maven Source Plugin -->
             <plugin>
-                <groupId>org.jreleaser</groupId>
-                <artifactId>jreleaser-maven-plugin</artifactId>
-                <version>1.19.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven Javadoc Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven GPG Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Nexus Staging Maven Plugin -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.13</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <signing>
-                        <active>ALWAYS</active>
-                        <armored>true</armored>
-                        <publicKey>${env.JRELEASER_GPG_PUBLIC_KEY}</publicKey>
-                        <secretKey>${env.JRELEASER_GPG_SECRET_KEY}</secretKey>
-                        <passphrase>${env.JRELEASER_GPG_PASSPHRASE}</passphrase>
-                    </signing>
-                    <release>
-                        <github>
-                            <enabled>true</enabled>
-                            <repository>historical-mf-nav-data</repository>
-                            <tagName>v1.0.${project.version}</tagName>
-                            <releaseName>Daily NAV Library v1.0.${project.version}</releaseName>
-                            <draft>false</draft>
-                            <prerelease>false</prerelease>
-                        </github>
-                    </release>
-                    <deploy>
-                        <maven>
-                            <mavenCentral>
-                                <active>ALWAYS</active>
-                                <credentials>
-                                    <username>${env.JRELEASER_OSSRH_USERNAME}</username>
-                                    <password>${env.JRELEASER_OSSRH_PASSWORD}</password>
-                                </credentials>
-                            </mavenCentral>
-                        </maven>
-                    </deploy>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
