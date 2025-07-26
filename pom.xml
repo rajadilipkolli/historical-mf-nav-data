@@ -20,6 +20,7 @@
             <name>Raja Kolli</name>
         </developer>
     </developers>
+
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>3.5.4</spring-boot.version>
@@ -95,6 +96,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- Maven Compiler Plugin: Set encoding to UTF-8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
             <!-- Spotless Maven Plugin -->
             <plugin>
