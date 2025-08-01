@@ -1770,10 +1770,10 @@ Open Ended Schemes ( Equity Scheme - Sectoral/ Thematic )
 Aditya Birla Sun Life Mutual Fund
 111349;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan - Growth - Regular Plan;INF209K01207;;16.1896;15.7039;16.1896;14-Mar-2012
 111348;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Regular - IDCW;INF209K01199;INF209K01CG0;16.1896;15.7039;16.1896;14-Mar-2012
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;14.03;13.89;14.03;14-Mar-2012
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;24.87;24.62;24.87;14-Mar-2012
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;18.63;18.44;18.63;14-Mar-2012
 103167;Aditya Birla Sun Life Digital India Fund -Regular - IDCW;INF209K01132;INF209K01CD7;12.17;12.05;12.17;14-Mar-2012
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;14.03;13.89;14.03;14-Mar-2012
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;24.87;24.62;24.87;14-Mar-2012
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;10.30;10.20;10.30;14-Mar-2012
 103476;Aditya Birla Sun Life Infrastructure Fund-Growth;INF209K01504;;14.95;14.80;14.95;14-Mar-2012
 106873;Aditya Birla Sun Life International Equity Fund - Growth - Regular Plan;INF209K01520;;10.5786;10.5786;10.5786;14-Mar-2012
@@ -2266,7 +2266,7 @@ Mirae Asset Mutual Fund
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1038.8497;1038.8497;1038.8497;14-Mar-2012
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;1159.8784;1159.8784;1159.8784;14-Mar-2012
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1126.3686;1126.3686;1126.3686;14-Mar-2012
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1124.3063;1124.3063;1124.3063;14-Mar-2012
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1124.3063;1124.3063;1124.3063;14-Mar-2012
 
 Navi Mutual Fund
 112645;Navi Liquid Fund - Regular Plan Daily IDCW;;INF959L01GM7;10.0015;10.0015;10.0015;14-Mar-2012

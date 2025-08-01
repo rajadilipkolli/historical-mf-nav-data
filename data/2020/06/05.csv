@@ -1075,14 +1075,14 @@ Aditya Birla Sun Life Mutual Fund
 111349;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan - Growth - Regular Plan;INF209K01207;;20.9987;;;05-Jun-2020
 119575;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Direct - IDCW;INF209K01P64;INF209K01VM8;13.2122;;;05-Jun-2020
 111348;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Regular - IDCW;INF209K01199;INF209K01CG0;12.797;;;05-Jun-2020
+119591;Aditya Birla Sun Life Consumption Fund - Growth - Direct Plan;INF209K01WC7;;85.58;;;05-Jun-2020
+119590;Aditya Birla Sun Life Consumption Fund -DIRECT - IDCW;INF209K01Q63;;24.28;;;05-Jun-2020
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;20.29;;;05-Jun-2020
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;79.3;;;05-Jun-2020
 120539;Aditya Birla Sun Life Digital India Fund - Growth - Direct Plan;INF209K01VF2;;55.54;;;05-Jun-2020
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;52.37;;;05-Jun-2020
 120538;Aditya Birla Sun Life Digital India Fund -DIRECT - IDCW;INF209K01P49;INF209K01VE5;24.19;;;05-Jun-2020
 103167;Aditya Birla Sun Life Digital India Fund -Regular - IDCW;INF209K01132;INF209K01CD7;19.1;;;05-Jun-2020
-119591;Aditya Birla Sun Life India Gennext Fund - Growth - Direct Plan;INF209K01WC7;;85.58;;;05-Jun-2020
-119590;Aditya Birla Sun Life India Gennext Fund -DIRECT - IDCW;INF209K01Q63;;24.28;;;05-Jun-2020
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;20.29;;;05-Jun-2020
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;79.3;;;05-Jun-2020
 119515;Aditya Birla Sun Life Infrastructure Fund -  Direct - IDCW;INF209K01WG8;;14.57;;;05-Jun-2020
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;9.71;;;05-Jun-2020
 119514;Aditya Birla Sun Life Infrastructure Fund - Growth - Direct Plan;INF209K01WH6;;25.46;;;05-Jun-2020
@@ -2408,13 +2408,13 @@ Mahindra Manulife Mutual Fund
 
 Mirae Asset Mutual Fund
 118859;Mirae Asset Liquid Fund - Direct Plan - Growth;INF769K01CM1;;2112.5820;;;05-Jun-2020
-118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;;INF769K01CP4;1216.3966;;;05-Jun-2020
+118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;INF769K01PD2;INF769K01CP4;1216.3966;;;05-Jun-2020
 118861;Mirae Asset Liquid Fund - Direct Plan -Daily IDCW;;INF769K01CO7;1075.8332;;;05-Jun-2020
 118860;Mirae Asset Liquid Fund - Direct Plan -Monthly IDCW;INF769K01CN9;INF769K01CQ2;1135.6030;;;05-Jun-2020
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1066.4347;;;05-Jun-2020
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;2087.3303;;;05-Jun-2020
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1153.2362;;;05-Jun-2020
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1152.7221;;;05-Jun-2020
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1152.7221;;;05-Jun-2020
 
 Motilal Oswal Mutual Fund
 145834;Motilal Oswal Liquid Fund - Direct Growth;INF247L01734;;10.7732;;;05-Jun-2020
@@ -4455,7 +4455,7 @@ HSBC Mutual Fund
 120050;HSBC Dynamic Bond Fund - Direct Monthly IDCW;INF336L01CR6;INF336L01CS4;10.4208;;;05-Jun-2020
 106736;HSBC Dynamic Bond Fund - Growth;INF336L01545;;26.3432;;;05-Jun-2020
 106737;HSBC Dynamic Bond Fund - Regular Growth;INF336L01461;;27.3258;;;05-Jun-2020
-110439;HSBC Dynamic Bond Fund - Regular Monthly IDCW;INF336L01487;INF336L01479;12.0537;;;05-Jun-2020
+108220;HSBC Dynamic Bond Fund - Regular Monthly IDCW;INF336L01602;INF336L01594;16.0714;;;05-Jun-2020
 
 ICICI Prudential Mutual Fund
 113218;ICICI Prudential All Seasons Bond Fund - Annual IDCW;INF109K01GO7;INF109K01GP4;11.8798;;;05-Jun-2020

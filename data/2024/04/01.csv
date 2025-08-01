@@ -711,10 +711,10 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;59.6993;;;01-Apr-2024
 
 Tata Mutual Fund
-119178;Tata Mid Cap Growth Fund - Direct Plan- Growth Option;INF277K01PY2;;416.6708;;;01-Apr-2024
-119177;Tata Mid Cap Growth Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;137.5383;;;01-Apr-2024
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;372.2384;;;01-Apr-2024
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;102.7434;;;01-Apr-2024
+119178;Tata Mid Cap Fund - Direct Plan- Growth Option;INF277K01PY2;;416.6708;;;01-Apr-2024
+119177;Tata Mid Cap Fund - Direct Plan- IDCW Option;INF277K01PW6;INF277K01PX4;137.5383;;;01-Apr-2024
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;372.2384;;;01-Apr-2024
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;102.7434;;;01-Apr-2024
 
 Taurus Mutual Fund
 118872;Taurus Mid Cap Fund - Direct Plan - Growth;INF044D01CA9;;117.90;;;01-Apr-2024
@@ -1072,12 +1072,12 @@ Quantum Mutual Fund
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;108.20;;;01-Apr-2024
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;118.5249;;;01-Apr-2024
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;306.8928;;;01-Apr-2024
-119231;Tata Equity P/E Fund -Direct Plan Growth Option;INF277K01ND1;;341.2392;;;01-Apr-2024
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;107.9802;;;01-Apr-2024
-119233;Tata Equity P/E Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;122.0022;;;01-Apr-2024
-119232;Tata Equity P/E Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;130.1847;;;01-Apr-2024
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;118.5249;;;01-Apr-2024
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;306.8928;;;01-Apr-2024
+119231;Tata Value Fund -Direct Plan Growth Option;INF277K01ND1;;341.2392;;;01-Apr-2024
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;107.9802;;;01-Apr-2024
+119233;Tata Value Fund- Direct Plan - Payout of IDCW -Option B(10%);INF277K01NB5;INF277K01NC3;122.0022;;;01-Apr-2024
+119232;Tata Value Fund- Direct Plan -Payout of IDCW-Option A(5%);INF277K01MZ6;INF277K01NA7;130.1847;;;01-Apr-2024
 
 Union Mutual Fund
 145473;Union Value Fund - Direct Plan - Growth Option;INF582M01EK4;;25.62;;;01-Apr-2024
@@ -1266,12 +1266,12 @@ Sundaram Mutual Fund
 149532;Sundaram Focused Fund (Formerly Known as Principal Focused Multicap Fund)-Growth Option;INF173K01189;;144.8936;;;01-Apr-2024
 
 Tata Mutual Fund
-147759;TATA Focused Equity Fund Direct Plan - Payout of Income Distribution cum capital withdrawal option ;INF277K019X5;;22.5286;;;01-Apr-2024
-147758;TATA Focused Equity Fund Direct Plan - Reinvestment of Income Distribution cum capital withdrawal option ;;INF277K018X7;22.5286;;;01-Apr-2024
-147761;TATA Focused Equity Fund Regular Plan - Payout of Income Distribution cum capital withdrawal option ;INF277K012Y8;;20.8874;;;01-Apr-2024
-147756;TATA Focused Equity Fund Regular Plan - Reinvestment of Income Distribution cum capital withdrawal option ;;INF277K011Y0;20.8874;;;01-Apr-2024
-147757;Tata Focused Equity Fund-Direct Plan-Growth;INF277K017X9;;22.5286;;;01-Apr-2024
-147760;Tata Focused Equity Fund-Regular Plan-Growth;INF277K010Y2;;20.8874;;;01-Apr-2024
+147759;TATA Focused Fund Direct Plan - Payout of Income Distribution cum capital withdrawal option;INF277K019X5;;22.5286;;;01-Apr-2024
+147758;TATA Focused Fund Direct Plan - Reinvestment of Income Distribution cum capital withdrawal option;;INF277K018X7;22.5286;;;01-Apr-2024
+147761;TATA Focused Fund Regular Plan - Payout of Income Distribution cum capital withdrawal option;INF277K012Y8;;20.8874;;;01-Apr-2024
+147756;TATA Focused Fund Regular Plan - Reinvestment of Income Distribution cum capital withdrawal option;;INF277K011Y0;20.8874;;;01-Apr-2024
+147757;Tata Focused Fund-Direct Plan-Growth;INF277K017X9;;22.5286;;;01-Apr-2024
+147760;Tata Focused Fund-Regular Plan-Growth;INF277K010Y2;;20.8874;;;01-Apr-2024
 
 Union Mutual Fund
 147492;Union Focused Fund - Direct Plan - Growth Option;INF582M01FS4;;23.97;;;01-Apr-2024
@@ -1303,6 +1303,10 @@ Aditya Birla Sun Life Mutual Fund
 149297;Aditya Birla Sun Life Business Cycle Fund-Direct IDCW Payout;INF209KB15D9;;13.64;;;01-Apr-2024
 149294;Aditya Birla Sun Life Business Cycle Fund-Regular IDCW Payout;INF209KB13D4;;13.18;;;01-Apr-2024
 149296;Aditya Birla Sun Life Business Cycle Fund-Regular-Growth;INF209KB12D6;;13.18;;;01-Apr-2024
+119591;Aditya Birla Sun Life Consumption Fund - Growth - Direct Plan;INF209K01WC7;;207.58;;;01-Apr-2024
+119590;Aditya Birla Sun Life Consumption Fund -DIRECT - IDCW;INF209K01Q63;;49.09;;;01-Apr-2024
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;39.25;;;01-Apr-2024
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;184.06;;;01-Apr-2024
 120539;Aditya Birla Sun Life Digital India Fund - Growth - Direct Plan;INF209K01VF2;;172.57;;;01-Apr-2024
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;155.52;;;01-Apr-2024
 120538;Aditya Birla Sun Life Digital India Fund -DIRECT - IDCW;INF209K01P49;INF209K01VE5;59.23;;;01-Apr-2024
@@ -1311,10 +1315,6 @@ Aditya Birla Sun Life Mutual Fund
 148637;Aditya Birla Sun Life ESG Integration Strategy Fund-Direct Plan-Growth;INF209KB1U76;;15.59;;;01-Apr-2024
 148636;Aditya Birla Sun Life ESG Integration Strategy Fund-Regular - Payout of IDCW;INF209KB1U50;INF209KB1U68;14.79;;;01-Apr-2024
 148635;Aditya Birla Sun Life ESG Integration Strategy Fund-Regular Plan-Growth;INF209KB1U43;;14.79;;;01-Apr-2024
-119591;Aditya Birla Sun Life India Gennext Fund - Growth - Direct Plan;INF209K01WC7;;207.58;;;01-Apr-2024
-119590;Aditya Birla Sun Life India Gennext Fund -DIRECT - IDCW;INF209K01Q63;;49.09;;;01-Apr-2024
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;39.25;;;01-Apr-2024
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;184.06;;;01-Apr-2024
 119515;Aditya Birla Sun Life Infrastructure Fund -  Direct - IDCW;INF209K01WG8;;44.67;;;01-Apr-2024
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;26.85;;;01-Apr-2024
 119514;Aditya Birla Sun Life Infrastructure Fund - Growth - Direct Plan;INF209K01WH6;;92.91;;;01-Apr-2024
@@ -1859,9 +1859,9 @@ SBI Mutual Fund
 106096;SBI INFRASTRUCTURE FUND -  REGULAR PLAN - GROWTH;INF200K01CT2;;45.9524;;;01-Apr-2024
 119695;SBI Infrastructure Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RQ6;INF200K01RR4;43.4131;;;01-Apr-2024
 106095;SBI Infrastructure Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01CU0;INF200K01CV8;40.8781;;;01-Apr-2024
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;103.9231;;;01-Apr-2024
 119710;SBI MNC Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01SL5;INF200K01SM3;132.6212;;;01-Apr-2024
 119711;SBI MNC FUND - DIRECT PLAN -GROWTH;INF200K01SN1;;371.5231;;;01-Apr-2024
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;103.9231;;;01-Apr-2024
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;340.1835;;;01-Apr-2024
 119732;SBI PSU Fund - DIRECT PLAN - GROWTH;INF200K01UY4;;31.4224;;;01-Apr-2024
 119733;SBI PSU Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01UW8;INF200K01UX6;31.3770;;;01-Apr-2024
@@ -2264,10 +2264,10 @@ Sundaram Mutual Fund
 149572;Sundaram ELSS Tax Saver Fund Regular Plan - Income Distribution CUM Capital Withdrawal Option (IDCW);INF173K01NM3;;386.3773;;;01-Apr-2024
 
 Tata Mutual Fund
-119281;Tata ELSS Tax Saver Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;195.6811;;;01-Apr-2024
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;88.3635;;;01-Apr-2024
-132756;Tata ELSS Tax Saver Fund-Growth-Direct Plan;INF277K01I86;;42.8048;;;01-Apr-2024
-132757;Tata ELSS Tax Saver Fund-Growth-Regular Plan;INF277K01I52;;37.9405;;;01-Apr-2024
+119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;195.6811;;;01-Apr-2024
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;88.3635;;;01-Apr-2024
+132756;Tata ELSS Fund-Growth-Direct Plan;INF277K01I86;;42.8048;;;01-Apr-2024
+132757;Tata ELSS Fund-Growth-Regular Plan;INF277K01I52;;37.9405;;;01-Apr-2024
 
 Taurus Mutual Fund
 118866;Taurus ELSS Tax Saver Fund - Direct Plan - Growth;INF044D01CG6;INF044D01AA3;176.33;;;01-Apr-2024
@@ -2905,13 +2905,13 @@ Mahindra Manulife Mutual Fund
 
 Mirae Asset Mutual Fund
 118859;Mirae Asset Liquid Fund - Direct Plan - Growth;INF769K01CM1;;2550.8076;;;01-Apr-2024
-118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;;INF769K01CP4;1218.0852;;;01-Apr-2024
+118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;INF769K01PD2;INF769K01CP4;1218.0852;;;01-Apr-2024
 118861;Mirae Asset Liquid Fund - Direct Plan -Daily IDCW;;INF769K01CO7;1075.8332;;;01-Apr-2024
 118860;Mirae Asset Liquid Fund - Direct Plan -Monthly IDCW;INF769K01CN9;INF769K01CQ2;1136.5909;;;01-Apr-2024
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1066.4347;;;01-Apr-2024
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;2510.7723;;;01-Apr-2024
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1154.2667;;;01-Apr-2024
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1154.3177;;;01-Apr-2024
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1154.3177;;;01-Apr-2024
 
 Motilal Oswal Mutual Fund
 145834;Motilal Oswal Liquid Fund - Direct Growth;INF247L01734;;12.8320;;;01-Apr-2024
@@ -3350,12 +3350,12 @@ Sundaram Mutual Fund
 149602;Sundaram Aggressive Hybrid Fund(Formerly Known as Principal Hybrid Equity Fund)-Direct Plan - Monthly Income Distribution CUM Capital Withdrawal Option;INF173K01FB2;INF173K01FC0;42.5975;;;01-Apr-2024
 
 Tata Mutual Fund
-119053;Tata Hybrid Equity Fund -Direct Plan- Growth Option;INF277K01MN2;;437.6634;;;01-Apr-2024
-119057;Tata Hybrid Equity Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;97.9116;;;01-Apr-2024
-119058;Tata Hybrid Equity Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;102.7842;;;01-Apr-2024
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;394.5967;;;01-Apr-2024
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;84.6187;;;01-Apr-2024
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;87.2825;;;01-Apr-2024
+119053;Tata Aggressive Hybrid Fund -Direct Plan- Growth Option;INF277K01MN2;;437.6634;;;01-Apr-2024
+119057;Tata Aggressive Hybrid Fund- Direct Plan - Monthly Payout of IDCW Option;INF277K01MO0;INF277K01MP7;97.9116;;;01-Apr-2024
+119058;Tata Aggressive Hybrid Fund- Direct Plan - Periodic Payout of IDCW Option;INF277K01ML6;INF277K01MM4;102.7842;;;01-Apr-2024
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;394.5967;;;01-Apr-2024
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;84.6187;;;01-Apr-2024
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;87.2825;;;01-Apr-2024
 
 Union Mutual Fund
 148592;Union Aggressive Hybrid Fund - Direct Plan - Growth Option;INF582M01GY0;;16.56;;;01-Apr-2024
@@ -3668,12 +3668,12 @@ Sundaram Mutual Fund
 152313;Sundaram Multi Asset Allocation Fund Regular Plan IDCW Reinvestment;;INF903JA1LJ1;10.4828;;;01-Apr-2024
 
 Tata Mutual Fund
-148052;Tata Multi Asset Opportnities Fund-Direct Plan-Dividend Reinvestment;;INF277K010Z9;22.1715;;;01-Apr-2024
-148049;Tata Multi Asset Opportunities Fund-Direct Plan-Dividend Payout;INF277K011Z7;;22.1715;;;01-Apr-2024
-148053;Tata Multi Asset Opportunities Fund-Direct Plan-Growth;INF277K019Y3;;22.1715;;;01-Apr-2024
-148054;Tata Multi Asset Opportunities Fund-Regular Plan-Dividend Payout;INF277K014Z1;;20.6318;;;01-Apr-2024
-148051;Tata Multi Asset Opportunities Fund-Regular Plan-Dividend Reinvestment;;INF277K013Z3;20.6318;;;01-Apr-2024
-148050;Tata Multi Asset Opportunities Fund-Regular Plan-Growth;INF277K012Z5;;20.6318;;;01-Apr-2024
+148049;Tata Multi Asset Allocation Fund-Direct Plan-Dividend Payout;INF277K011Z7;;22.1715;;;01-Apr-2024
+148052;Tata Multi Asset Allocation Fund-Direct Plan-Dividend Reinvestment;;INF277K010Z9;22.1715;;;01-Apr-2024
+148053;Tata Multi Asset Allocation Fund-Direct Plan-Growth;INF277K019Y3;;22.1715;;;01-Apr-2024
+148054;Tata Multi Asset Allocation Fund-Regular Plan-Dividend Payout;INF277K014Z1;;20.6318;;;01-Apr-2024
+148051;Tata Multi Asset Allocation Fund-Regular Plan-Dividend Reinvestment;;INF277K013Z3;20.6318;;;01-Apr-2024
+148050;Tata Multi Asset Allocation Fund-Regular Plan-Growth;INF277K012Z5;;20.6318;;;01-Apr-2024
 
 UTI Mutual Fund
 120760;UTI Multi Asset Allocation Fund - Direct Plan - Growth Option;INF789F01VE6;;71.1681;;;01-Apr-2024
@@ -4209,8 +4209,8 @@ SBI Mutual Fund
 148489;SBI Magnum Children's Benefit Fund - Investment Plan - Regular Plan - Growth;INF200KA1Q99;;32.2245;;;01-Apr-2024
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;54.6458;;;01-Apr-2024
-119312;Tata Young Citizens' Fund-Direct Plan-Growth Option;INF277K01QW4;;60.3727;;;01-Apr-2024
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;54.6458;;;01-Apr-2024
+119312;Tata Childrens Fund-Direct Plan-Growth Option;INF277K01QW4;;60.3727;;;01-Apr-2024
 
 Union Mutual Fund
 152219;Union Children's Fund - Direct Plan - Growth Option;;;10.61;;;01-Apr-2024
@@ -4909,7 +4909,7 @@ SBI Mutual Fund
 134014;SBI BSE 100 ETF;INF200KA1572;;253.5357;;;01-Apr-2024
 121109;SBI BSE SENSEX ETF;INF200K01VT2;;801.7061;;;01-Apr-2024
 144916;SBI BSE Sensex Next 50 ETF;INF200KA1VQ2;;762.4109;;;01-Apr-2024
-152168;SBI NIFTY 1D Rate ETF;;INF200KA13Z8;1000.0000;;;01-Apr-2024
+152168;SBI NIFTY 1D Rate Liquid ETF - IDCW;;INF200KA13Z8;1000.0000;;;01-Apr-2024
 145648;SBI Nifty 200 Quality 30 ETF;INF200KA1WX6;;198.7693;;;01-Apr-2024
 135106;SBI Nifty 50 ETF;INF200KA1FS1;;234.9291;;;01-Apr-2024
 134008;SBI Nifty Bank ETF;INF200KA1580;;480.6128;;;01-Apr-2024
@@ -5010,14 +5010,14 @@ Aditya Birla Sun Life Mutual Fund
 150690;Aditya Birla Sun Life Multi-Index Fund Of Fund-Regular Growth;INF209KB12M7;;13.4312;;;01-Apr-2024
 
 Axis Mutual Fund
-149847;Axis Equity ETFs FOF - Direct Plan - Growth Option;INF846K011G9;;14.2067;;;01-Apr-2024
-149846;Axis Equity ETFs FOF - Direct Plan - IDCW;INF846K012G7;INF846K013G5;14.2067;;;01-Apr-2024
-149844;Axis Equity ETFs FOF - Regular Plan - Growth Option;INF846K014G3;;14.1613;;;01-Apr-2024
-149845;Axis Equity ETFs FOF - Regular Plan - IDCW;INF846K015G0;INF846K016G8;14.1613;;;01-Apr-2024
 120473;Axis Gold Fund - Direct Plan - Growth option;INF846K01DS2;;22.2594;;;01-Apr-2024
 120472;Axis Gold Fund - Direct Plan - IDCW;INF846K01DQ6;INF846K01DR4;22.2802;;;01-Apr-2024
 115897;Axis Gold Fund - Regular Plan - Growth Option;INF846K01AL3;;20.5606;;;01-Apr-2024
 115898;Axis Gold Fund - Regular Plan - IDCW;INF846K01AM1;INF846K01AN9;20.5865;;;01-Apr-2024
+149847;Axis Multi Factor Passive FoF - Direct Plan - Growth Option;INF846K011G9;;14.2067;;;01-Apr-2024
+149846;Axis Multi Factor Passive FoF - Direct Plan - IDCW;INF846K012G7;INF846K013G5;14.2067;;;01-Apr-2024
+149844;Axis Multi Factor Passive FoF - Regular Plan - Growth Option;INF846K014G3;;14.1613;;;01-Apr-2024
+149845;Axis Multi Factor Passive FoF - Regular Plan - IDCW;INF846K015G0;INF846K016G8;14.1613;;;01-Apr-2024
 150618;Axis Silver Fund of Fund - Regular Plan - IDCW Option;INF846K019J6;INF846K010K3;13.2531;;;01-Apr-2024
 150617;Axis Silver Fund of Fund -Regular Plan- Growth Option;INF846K018J8;;13.2531;;;01-Apr-2024
 150616;Axis Silver Fund of Fund- Direct Plan - IDCW Option;INF846K016J2;INF846K017J0;13.3524;;;01-Apr-2024

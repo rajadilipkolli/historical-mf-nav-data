@@ -1181,6 +1181,10 @@ Aditya Birla Sun Life Mutual Fund
 111349;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan - Growth - Regular Plan;INF209K01207;;30.8176;;;10-Aug-2021
 119575;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Direct - IDCW;INF209K01P64;INF209K01VM8;18.391;;;10-Aug-2021
 111348;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Regular - IDCW;INF209K01199;INF209K01CG0;17.7573;;;10-Aug-2021
+119591;Aditya Birla Sun Life Consumption Fund - Growth - Direct Plan;INF209K01WC7;;138.42;;;10-Aug-2021
+119590;Aditya Birla Sun Life Consumption Fund -DIRECT - IDCW;INF209K01Q63;;37.21;;;10-Aug-2021
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;30.66;;;10-Aug-2021
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;126.51;;;10-Aug-2021
 120539;Aditya Birla Sun Life Digital India Fund - Growth - Direct Plan;INF209K01VF2;;133.26;;;10-Aug-2021
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;123.99;;;10-Aug-2021
 120538;Aditya Birla Sun Life Digital India Fund -DIRECT - IDCW;INF209K01P49;INF209K01VE5;52.39;;;10-Aug-2021
@@ -1189,10 +1193,6 @@ Aditya Birla Sun Life Mutual Fund
 148637;Aditya Birla Sun Life ESG Integration Strategy Fund-Direct Plan-Growth;INF209KB1U76;;12.17;;;10-Aug-2021
 148636;Aditya Birla Sun Life ESG Integration Strategy Fund-Regular - Payout of IDCW;INF209KB1U50;INF209KB1U68;12.02;;;10-Aug-2021
 148635;Aditya Birla Sun Life ESG Integration Strategy Fund-Regular Plan-Growth;INF209KB1U43;;12.03;;;10-Aug-2021
-119591;Aditya Birla Sun Life India Gennext Fund - Growth - Direct Plan;INF209K01WC7;;138.42;;;10-Aug-2021
-119590;Aditya Birla Sun Life India Gennext Fund -DIRECT - IDCW;INF209K01Q63;;37.21;;;10-Aug-2021
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;30.66;;;10-Aug-2021
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;126.51;;;10-Aug-2021
 119515;Aditya Birla Sun Life Infrastructure Fund -  Direct - IDCW;INF209K01WG8;;26.79;;;10-Aug-2021
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;17.7;;;10-Aug-2021
 119514;Aditya Birla Sun Life Infrastructure Fund - Growth - Direct Plan;INF209K01WH6;;49.31;;;10-Aug-2021
@@ -2570,13 +2570,13 @@ Mahindra Manulife Mutual Fund
 
 Mirae Asset Mutual Fund
 118859;Mirae Asset Liquid Fund - Direct Plan - Growth;INF769K01CM1;;2198.0044;;;10-Aug-2021
-118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;;INF769K01CP4;1216.9120;;;10-Aug-2021
+118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;INF769K01PD2;INF769K01CP4;1216.9120;;;10-Aug-2021
 118861;Mirae Asset Liquid Fund - Direct Plan -Daily IDCW;;INF769K01CO7;1075.8332;;;10-Aug-2021
 118860;Mirae Asset Liquid Fund - Direct Plan -Monthly IDCW;INF769K01CN9;INF769K01CQ2;1136.2358;;;10-Aug-2021
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1066.4347;;;10-Aug-2021
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;2169.3321;;;10-Aug-2021
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1153.8646;;;10-Aug-2021
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1153.1994;;;10-Aug-2021
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1153.1994;;;10-Aug-2021
 
 Motilal Oswal Mutual Fund
 145834;Motilal Oswal Liquid Fund - Direct Growth;INF247L01734;;11.1589;;;10-Aug-2021

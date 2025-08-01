@@ -1373,6 +1373,10 @@ Aditya Birla Sun Life Mutual Fund
 149297;Aditya Birla Sun Life Business Cycle Fund-Direct IDCW Payout;INF209KB15D9;;14.4;;;23-Dec-2024
 149294;Aditya Birla Sun Life Business Cycle Fund-Regular IDCW Payout;INF209KB13D4;;13.79;;;23-Dec-2024
 149296;Aditya Birla Sun Life Business Cycle Fund-Regular-Growth;INF209KB12D6;;14.81;;;23-Dec-2024
+119591;Aditya Birla Sun Life Consumption Fund - Growth - Direct Plan;INF209K01WC7;;237.01;;;23-Dec-2024
+119590;Aditya Birla Sun Life Consumption Fund -DIRECT - IDCW;INF209K01Q63;;52.15;;;23-Dec-2024
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;41.37;;;23-Dec-2024
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;208.49;;;23-Dec-2024
 120539;Aditya Birla Sun Life Digital India Fund - Growth - Direct Plan;INF209K01VF2;;209.98;;;23-Dec-2024
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;187.72;;;23-Dec-2024
 120538;Aditya Birla Sun Life Digital India Fund -DIRECT - IDCW;INF209K01P49;INF209K01VE5;67.12;;;23-Dec-2024
@@ -1381,10 +1385,6 @@ Aditya Birla Sun Life Mutual Fund
 148637;Aditya Birla Sun Life ESG Integration Strategy Fund-Direct Plan-Growth;INF209KB1U76;;18.88;;;23-Dec-2024
 148636;Aditya Birla Sun Life ESG Integration Strategy Fund-Regular - Payout of IDCW;INF209KB1U50;INF209KB1U68;17.77;;;23-Dec-2024
 148635;Aditya Birla Sun Life ESG Integration Strategy Fund-Regular Plan-Growth;INF209KB1U43;;17.77;;;23-Dec-2024
-119591;Aditya Birla Sun Life India Gennext Fund - Growth - Direct Plan;INF209K01WC7;;237.01;;;23-Dec-2024
-119590;Aditya Birla Sun Life India Gennext Fund -DIRECT - IDCW;INF209K01Q63;;52.15;;;23-Dec-2024
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;41.37;;;23-Dec-2024
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;208.49;;;23-Dec-2024
 119515;Aditya Birla Sun Life Infrastructure Fund -  Direct - IDCW;INF209K01WG8;;46.25;;;23-Dec-2024
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;27.62;;;23-Dec-2024
 119514;Aditya Birla Sun Life Infrastructure Fund - Growth - Direct Plan;INF209K01WH6;;103.78;;;23-Dec-2024
@@ -3114,13 +3114,13 @@ Mahindra Manulife Mutual Fund
 
 Mirae Asset Mutual Fund
 118859;Mirae Asset Liquid Fund - Direct Plan - Growth;INF769K01CM1;;2685.6216;;;23-Dec-2024
-118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;;INF769K01CP4;1217.2311;;;23-Dec-2024
+118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;INF769K01PD2;INF769K01CP4;1217.2311;;;23-Dec-2024
 118861;Mirae Asset Liquid Fund - Direct Plan -Daily IDCW;;INF769K01CO7;1075.8332;;;23-Dec-2024
 118860;Mirae Asset Liquid Fund - Direct Plan -Monthly IDCW;INF769K01CN9;INF769K01CQ2;1140.4719;;;23-Dec-2024
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1066.4347;;;23-Dec-2024
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;2641.4458;;;23-Dec-2024
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1158.1111;;;23-Dec-2024
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1153.5038;;;23-Dec-2024
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1153.5038;;;23-Dec-2024
 
 Motilal Oswal Mutual Fund
 145834;Motilal Oswal Liquid Fund - Direct Growth;INF247L01734;;13.4709;;;23-Dec-2024
@@ -8576,7 +8576,7 @@ SBI Mutual Fund
 121109;SBI BSE SENSEX ETF;INF200K01VT2;;859.0786;;;23-Dec-2024
 144916;SBI BSE Sensex Next 50 ETF;INF200KA1VQ2;;869.3823;;;23-Dec-2024
 139430;SBI Nifty 10 yr Benchmark G-Sec ETF;INF200KA1JT1;;242.4246;;;23-Dec-2024
-152168;SBI NIFTY 1D Rate ETF;;INF200KA13Z8;1000.0000;;;23-Dec-2024
+152168;SBI NIFTY 1D Rate Liquid ETF - IDCW;;INF200KA13Z8;1000.0000;;;23-Dec-2024
 145648;SBI Nifty 200 Quality 30 ETF;INF200KA1WX6;;222.1446;;;23-Dec-2024
 135106;SBI Nifty 50 ETF;INF200KA1FS1;;250.7332;;;23-Dec-2024
 134008;SBI Nifty Bank ETF;INF200KA1580;;522.2168;;;23-Dec-2024

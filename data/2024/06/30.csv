@@ -225,9 +225,9 @@ SBI Mutual Fund
 106096;SBI INFRASTRUCTURE FUND -  REGULAR PLAN - GROWTH;INF200K01CT2;;52.7966;;;30-Jun-2024
 119695;SBI Infrastructure Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RQ6;INF200K01RR4;49.9627;;;30-Jun-2024
 106095;SBI Infrastructure Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01CU0;INF200K01CV8;46.9668;;;30-Jun-2024
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;112.0796;;;30-Jun-2024
 119710;SBI MNC Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01SL5;INF200K01SM3;143.2735;;;30-Jun-2024
 119711;SBI MNC FUND - DIRECT PLAN -GROWTH;INF200K01SN1;;401.3655;;;30-Jun-2024
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;112.0796;;;30-Jun-2024
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;366.8833;;;30-Jun-2024
 119732;SBI PSU Fund - DIRECT PLAN - GROWTH;INF200K01UY4;;35.7162;;;30-Jun-2024
 119733;SBI PSU Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01UW8;INF200K01UX6;35.6631;;;30-Jun-2024
@@ -870,13 +870,13 @@ Mahindra Manulife Mutual Fund
 
 Mirae Asset Mutual Fund
 118859;Mirae Asset Liquid Fund - Direct Plan - Growth;INF769K01CM1;;2596.6002;;;30-Jun-2024
-118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;;INF769K01CP4;1217.2174;;;30-Jun-2024
+118862;Mirae Asset Liquid Fund - Direct Plan - Weekly IDCW;INF769K01PD2;INF769K01CP4;1217.2174;;;30-Jun-2024
 118861;Mirae Asset Liquid Fund - Direct Plan -Daily IDCW;;INF769K01CO7;1075.8332;;;30-Jun-2024
 118860;Mirae Asset Liquid Fund - Direct Plan -Monthly IDCW;INF769K01CN9;INF769K01CQ2;1135.9517;;;30-Jun-2024
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1066.4347;;;30-Jun-2024
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;2555.2168;;;30-Jun-2024
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1153.6018;;;30-Jun-2024
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1153.4952;;;30-Jun-2024
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1153.4952;;;30-Jun-2024
 
 Motilal Oswal Mutual Fund
 145834;Motilal Oswal Liquid Fund - Direct Growth;INF247L01734;;13.0490;;;30-Jun-2024
@@ -2426,7 +2426,7 @@ SBI Mutual Fund
 121109;SBI BSE SENSEX ETF;INF200K01VT2;;860.8963;;;30-Jun-2024
 144916;SBI BSE Sensex Next 50 ETF;INF200KA1VQ2;;870.5348;;;30-Jun-2024
 139430;SBI Nifty 10 yr Benchmark G-Sec ETF;INF200KA1JT1;;231.8902;;;30-Jun-2024
-152168;SBI NIFTY 1D Rate ETF;;INF200KA13Z8;1000.0000;;;30-Jun-2024
+152168;SBI NIFTY 1D Rate Liquid ETF - IDCW;;INF200KA13Z8;1000.0000;;;30-Jun-2024
 145648;SBI Nifty 200 Quality 30 ETF;INF200KA1WX6;;220.2264;;;30-Jun-2024
 135106;SBI Nifty 50 ETF;INF200KA1FS1;;252.4030;;;30-Jun-2024
 134008;SBI Nifty Bank ETF;INF200KA1580;;531.6870;;;30-Jun-2024

@@ -1622,8 +1622,8 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;18.6187;18.6187;18.4325;05-Aug-2010
 
 Tata Mutual Fund
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;45.2685;44.8158;45.2685;05-Aug-2010
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;18.1070;17.9259;18.1070;05-Aug-2010
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;45.2685;44.8158;45.2685;05-Aug-2010
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;18.1070;17.9259;18.1070;05-Aug-2010
 102329;Tata Mid Cap Growth Fund Regular Plan  - Bonus (Growth);INF277K01634;;41.1367;40.7253;41.1367;05-Aug-2010
 
 Taurus Mutual Fund
@@ -1728,9 +1728,9 @@ Quantum Mutual Fund
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;21.2800;20.4300;21.2800;05-Aug-2010
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;40.7940;40.3861;40.7940;05-Aug-2010
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;46.5489;46.0834;46.5489;05-Aug-2010
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;41.2505;40.8380;41.2505;05-Aug-2010
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;40.7940;40.3861;40.7940;05-Aug-2010
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;46.5489;46.0834;46.5489;05-Aug-2010
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;41.2505;40.8380;41.2505;05-Aug-2010
 
 UTI Mutual Fund
 103098;UTI Value Fund - Regular Plan - Growth Option;INF789F01AG5;;25.31;25.31;25.31;05-Aug-2010
@@ -1805,10 +1805,10 @@ Open Ended Schemes ( Equity Scheme - Sectoral/ Thematic )
 Aditya Birla Sun Life Mutual Fund
 111349;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan - Growth - Regular Plan;INF209K01207;;14.5630;14.1261;14.5630;05-Aug-2010
 111348;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Regular - IDCW;INF209K01199;INF209K01CG0;14.5630;14.1261;14.5630;05-Aug-2010
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;14.26;14.12;14.26;05-Aug-2010
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;23.51;23.27;23.51;05-Aug-2010
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;20.09;19.89;20.09;05-Aug-2010
 103167;Aditya Birla Sun Life Digital India Fund -Regular - IDCW;INF209K01132;INF209K01CD7;13.96;13.82;13.96;05-Aug-2010
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;14.26;14.12;14.26;05-Aug-2010
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;23.51;23.27;23.51;05-Aug-2010
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;13.03;12.90;13.03;05-Aug-2010
 103476;Aditya Birla Sun Life Infrastructure Fund-Growth;INF209K01504;;17.75;17.57;17.75;05-Aug-2010
 111956;Aditya Birla Sun Life Infrastructure Fund-Plan B (Dividend);;INF209K01CU1;12.74;12.61;12.74;05-Aug-2010
@@ -1915,7 +1915,7 @@ SBI Mutual Fund
 102823;SBI HEALTHCARE OPPORTUNITIES FUND - REGULAR PLAN -GROWTH;INF200K01446;;40.29;39.89;40.29;05-Aug-2010
 106096;SBI INFRASTRUCTURE FUND -  REGULAR PLAN - GROWTH;INF200K01CT2;;10.54;10.43;10.54;05-Aug-2010
 106095;SBI Infrastructure Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01CU0;INF200K01CV8;10.54;10.43;10.54;05-Aug-2010
-103114;SBI Magnum Global Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;31.60;31.28;31.60;05-Aug-2010
+103114;SBI MNC Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01255;INF200K01263;31.60;31.28;31.60;05-Aug-2010
 103034;SBI MNC FUND - REGULAR PLAN -GROWTH;INF200K01271;;56.54;55.97;56.54;05-Aug-2010
 112923;SBI PSU Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01BD8;INF200K01BE6;10.17;10.07;10.17;05-Aug-2010
 113099;SBI PSU Fund - REGULAR PLAN -Growth;INF200K01BC0;;10.17;10.07;10.17;05-Aug-2010
@@ -2060,7 +2060,7 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;11.8352;11.8352;11.7168;05-Aug-2010
 
 Tata Mutual Fund
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;44.8341;44.8341;44.8341;05-Aug-2010
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;44.8341;44.8341;44.8341;05-Aug-2010
 
 Taurus Mutual Fund
 100480;Taurus ELSS Tax Saver Fund - Regular Plan - Growth;INF044D01AC9;;35.33;35.33;35.33;05-Aug-2010
@@ -2277,7 +2277,7 @@ Mirae Asset Mutual Fund
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1029.5162;1029.5162;1029.5162;05-Aug-2010
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;1044.1529;1044.1529;1044.1529;05-Aug-2010
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1044.2190;1044.2190;1044.2190;05-Aug-2010
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1043.0230;1043.0230;1043.0230;05-Aug-2010
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1043.0230;1043.0230;1043.0230;05-Aug-2010
 
 Navi Mutual Fund
 112645;Navi Liquid Fund - Regular Plan Daily IDCW;;INF959L01GM7;10.0002;10.0002;10.0002;05-Aug-2010
@@ -3725,9 +3725,9 @@ SBI Mutual Fund
 102885;SBI EQUITY HYBRID FUND - REGULAR PLAN -Growth;INF200K01107;;50.80;50.29;50.80;05-Aug-2010
 
 Tata Mutual Fund
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;80.3025;79.4995;80.3025;05-Aug-2010
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;50.6540;50.1475;50.6540;05-Aug-2010
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;50.6505;50.1440;50.6505;05-Aug-2010
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;80.3025;79.4995;80.3025;05-Aug-2010
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;50.6540;50.1475;50.6540;05-Aug-2010
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;50.6505;50.1440;50.6505;05-Aug-2010
 
 UTI Mutual Fund
 100684;UTI Aggressive Hybrid Fund - Regular Plan - Growth;INF789F01323;;78.63;78.63;78.63;05-Aug-2010
@@ -3883,7 +3883,7 @@ SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;21.8826;21.2261;21.8826;05-Aug-2010
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;19.7707;19.5730;20.2650;05-Aug-2010
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;19.7707;19.5730;20.2650;05-Aug-2010
 101490;Tata Young Citizen Fund [>3 years upto 7 years] Regular Plan;;;19.7707;19.3753;20.2650;05-Aug-2010
 101489;Tata Young Citizen Fund [Upto 3 years] Regular Plan;;;19.7707;19.1776;20.2650;05-Aug-2010
 

@@ -866,8 +866,8 @@ Sundaram Mutual Fund
 101538;Sundaram Mid Cap Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01181;INF903J01199;16.2105;16.0484;16.2105;02-Jul-2012
 
 Tata Mutual Fund
-102328;Tata Mid Cap Growth Fund Regular Plan- Growth Option;INF277K01626;;42.1906;41.7687;42.1906;02-Jul-2012
-102326;Tata Mid Cap Growth Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;16.9353;16.7659;16.9353;02-Jul-2012
+102328;Tata Mid Cap Fund Regular Plan- Growth Option;INF277K01626;;42.1906;41.7687;42.1906;02-Jul-2012
+102326;Tata Mid Cap Fund-Regular Plan - IDCW Option;INF277K01DS0;INF277K01642;16.9353;16.7659;16.9353;02-Jul-2012
 102329;Tata Mid Cap Growth Fund Regular Plan  - Bonus (Growth);INF277K01634;;38.3861;38.0022;38.3861;02-Jul-2012
 
 Taurus Mutual Fund
@@ -977,9 +977,9 @@ Quantum Mutual Fund
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;22.4500;21.5500;22.4500;02-Jul-2012
 
 Tata Mutual Fund
-112218;Tata Equity P/E Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;27.3140;27.0409;27.3140;02-Jul-2012
-101672;Tata Equity P/E Fund - Regular Plan -Growth Option;INF277K01451;;44.2442;43.8018;44.2442;02-Jul-2012
-102428;Tata Equity P/E Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;27.9514;27.6719;27.9514;02-Jul-2012
+112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;27.3140;27.0409;27.3140;02-Jul-2012
+101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;44.2442;43.8018;44.2442;02-Jul-2012
+102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;27.9514;27.6719;27.9514;02-Jul-2012
 
 UTI Mutual Fund
 103098;UTI Value Fund - Regular Plan - Growth Option;INF789F01AG5;;28.47;28.47;28.47;02-Jul-2012
@@ -1051,10 +1051,10 @@ Open Ended Schemes ( Equity Scheme - Sectoral/ Thematic )
 Aditya Birla Sun Life Mutual Fund
 111349;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan - Growth - Regular Plan;INF209K01207;;16.6005;16.1025;16.6005;02-Jul-2012
 111348;Aditya Birla Sun Life Commodity Equities Fund - Global Agri Plan -Regular - IDCW;INF209K01199;INF209K01CG0;15.5441;15.0778;15.5441;02-Jul-2012
+103110;Aditya Birla Sun Life Consumption Fund -Regular - IDCW;INF209K01439;INF209K01CR7;13.28;13.15;13.28;02-Jul-2012
+103111;Aditya Birla Sun Life Consumption Fund-Growth Option;INF209K01447;;25.36;25.11;25.36;02-Jul-2012
 103168;Aditya Birla Sun Life Digital India Fund - Growth - Regular Plan;INF209K01140;;17.98;17.80;17.98;02-Jul-2012
 103167;Aditya Birla Sun Life Digital India Fund -Regular - IDCW;INF209K01132;INF209K01CD7;11.74;11.62;11.74;02-Jul-2012
-103110;Aditya Birla Sun Life India Gennext Fund -Regular - IDCW;INF209K01439;INF209K01CR7;13.28;13.15;13.28;02-Jul-2012
-103111;Aditya Birla Sun Life India Gennext Fund-Growth Option;INF209K01447;;25.36;25.11;25.36;02-Jul-2012
 103475;Aditya Birla Sun Life Infrastructure Fund -  Regular - IDCW;INF209K01470;INF209K01CT3;9.74;9.64;9.74;02-Jul-2012
 103476;Aditya Birla Sun Life Infrastructure Fund-Growth;INF209K01504;;14.14;14.00;14.14;02-Jul-2012
 106873;Aditya Birla Sun Life International Equity Fund - Growth - Regular Plan;INF209K01520;;11.1596;11.1596;11.1596;02-Jul-2012
@@ -1301,7 +1301,7 @@ Sundaram Mutual Fund
 100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;9.7767;9.7767;9.7767;02-Jul-2012
 
 Tata Mutual Fund
-100474;Tata ELSS Tax Saver Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;41.7729;41.7729;41.7729;02-Jul-2012
+100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;41.7729;41.7729;41.7729;02-Jul-2012
 
 Taurus Mutual Fund
 100480;Taurus ELSS Tax Saver Fund - Regular Plan - Growth;INF044D01AC9;;33.42;33.42;33.42;02-Jul-2012
@@ -1526,7 +1526,7 @@ Mirae Asset Mutual Fund
 111647;Mirae Asset Liquid Fund - Regular - Daily IDCW;;INF769K01804;1041.2533;1041.2533;1041.2533;02-Jul-2012
 111646;Mirae Asset Liquid Fund - Regular Plan - Growth;INF769K01788;;1186.9597;1186.9597;1186.9597;02-Jul-2012
 111645;Mirae Asset Liquid Fund - Regular Plan - Monthly IDCW;INF769K01838;INF769K01820;1126.2016;1126.2016;1126.2016;02-Jul-2012
-111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;;INF769K01812;1126.3825;1126.3825;1126.3825;02-Jul-2012
+111644;Mirae Asset Liquid Fund - Regular Plan - Weekly IDCW;INF769K01PC4;INF769K01812;1126.3825;1126.3825;1126.3825;02-Jul-2012
 
 Navi Mutual Fund
 112645;Navi Liquid Fund - Regular Plan Daily IDCW;;INF959L01GM7;10.0015;10.0015;10.0015;02-Jul-2012
@@ -1901,9 +1901,9 @@ quant Mutual Fund
 101069;quant Aggressive Hybrid Fund-IDCW Option - Regular Plan;INF966L01242;INF966L01259;11.1013;10.9903;11.1013;02-Jul-2012
 
 Tata Mutual Fund
-100414;Tata Hybrid Equity Fund- Regular Plan - Growth Option;INF277K01303;;86.6004;85.7344;86.6004;02-Jul-2012
-113134;Tata Hybrid Equity Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;43.7587;43.3211;43.7587;02-Jul-2012
-101222;Tata Hybrid Equity Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;51.8083;51.2902;51.8083;02-Jul-2012
+100414;Tata Aggressive Hybrid Fund- Regular Plan - Growth Option;INF277K01303;;86.6004;85.7344;86.6004;02-Jul-2012
+113134;Tata Aggressive Hybrid Fund- Regular Plan - Monthly Payout of IDCW Option;INF277K01CS2;INF277K01CW4;43.7587;43.3211;43.7587;02-Jul-2012
+101222;Tata Aggressive Hybrid Fund- Regular Plan - Periodic Payout of IDCW Option;INF277K01DB6;INF277K01295;51.8083;51.2902;51.8083;02-Jul-2012
 
 UTI Mutual Fund
 100684;UTI Aggressive Hybrid Fund - Regular Plan - Growth;INF789F01323;;77.93;77.93;77.93;02-Jul-2012
@@ -2053,7 +2053,7 @@ LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;9.6037;9.5077;9.6037;02-Jul-2012
 
 Tata Mutual Fund
-101491;Tata Young Citizens' Fund -Regular Plan-Growth Option;INF277K01AJ5;;13.6922;13.5553;13.6922;02-Jul-2012
+101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;13.6922;13.5553;13.6922;02-Jul-2012
 101490;Tata Young Citizen Fund [>3 years upto 7 years] Regular Plan;;;13.6922;13.4184;13.6922;02-Jul-2012
 101489;Tata Young Citizen Fund [Upto 3 years] Regular Plan;;;13.6922;13.2814;13.6922;02-Jul-2012
 
