@@ -2984,7 +2984,7 @@ Invesco Mutual Fund
 104484;Invesco India Liquid Fund - Daily IDCW (Reinvestment);;INF205K01HN3;1002.7594;;;22-Oct-2024
 120537;Invesco India Liquid Fund - Direct Plan - Growth;INF205K01MF9;;3450.1355;;;22-Oct-2024
 120536;Invesco India Liquid Fund - Direct Plan - Monthly IDCW (Payout / Reinvestment);INF205K01MG7;INF205K01MH5;1087.4629;;;22-Oct-2024
-120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);;INF205K01MI3;1071.1596;;;22-Oct-2024
+120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);INF205KA1BE5;INF205K01MI3;1071.1596;;;22-Oct-2024
 120534;Invesco India Liquid Fund - Direct Plan- Daily IDCW (Reinvestment);;INF205K01ME2;1000.9596;;;22-Oct-2024
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;3422.4776;;;22-Oct-2024
 104492;Invesco India Liquid Fund - Monthly IDCW (Payout / Reinvestment);INF205K01HQ6;INF205K01HP8;1007.8678;;;22-Oct-2024
@@ -2994,7 +2994,7 @@ Invesco Mutual Fund
 139389;Invesco India Liquid Fund - Unclaimed Dividend Plan - Below 3 Years;;;1635.0492;;;22-Oct-2024
 139388;Invesco India Liquid Fund - Unclaimed Redemption Plan - Above 3 Years;;;1000;;;22-Oct-2024
 139387;Invesco India Liquid Fund - Unclaimed Redemption Plan - Below 3 years;;;1634.9569;;;22-Oct-2024
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1018.528;;;22-Oct-2024
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1018.528;;;22-Oct-2024
 
 ITI Mutual Fund
 147161;ITI Liquid Fund - Direct Plan - Annually IDCW Option;INF00XX01366;INF00XX01333;1309.8547;;;22-Oct-2024
@@ -7136,8 +7136,8 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;287.854;;;22-Oct-2024
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;310.77;;;22-Oct-2024
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;339.88;;;22-Oct-2024
+101127;ICICI Prudential Children's Fund - Cumulative;INF109K01605;;310.77;;;22-Oct-2024
+120579;ICICI Prudential Children's Fund - Direct Plan - Cumulative;INF109K01Y49;;339.88;;;22-Oct-2024
 
 LIC Mutual Fund
 120285;LIC MF Children's Fund-Direct Plan-Growth;INF767K01FB1;;36.9309;;;22-Oct-2024
