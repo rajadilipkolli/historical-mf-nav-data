@@ -38,7 +38,7 @@ jobs:
           timezone: 'Asia/Kolkata'
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -269,7 +269,7 @@ jobs:
     if: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (needs.build-and-update.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
     steps:
       - name: Checkout code (minimal fetch for publishing)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
