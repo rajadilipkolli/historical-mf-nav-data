@@ -174,10 +174,10 @@ Bandhan Mutual Fund
 118478;BANDHAN Large Cap Fund-Direct Plan-IDCW;INF194K01Z51;INF194K01Z69;25.822;;;04-Dec-2023
 
 Bank of India Mutual Fund
-148980;BANK OF INDIA Bluechip Fund Direct Plan Growth;INF761K01FL3;;13.63;;;04-Dec-2023
-148981;BANK OF INDIA Bluechip Fund Direct Plan IDCW;INF761K01FK5;INF761K01FM1;13.62;;;04-Dec-2023
-148982;BANK OF INDIA Bluechip Fund Regular Plan Growth;INF761K01FO7;;13.23;;;04-Dec-2023
-148983;BANK OF INDIA Bluechip Fund Regular Plan IDCW;INF761K01FN9;INF761K01FP4;13.23;;;04-Dec-2023
+148980;BANK OF INDIA Large Cap Fund Direct Plan Growth;INF761K01FL3;;13.63;;;04-Dec-2023
+148981;BANK OF INDIA Large Cap Fund Direct Plan IDCW;INF761K01FK5;INF761K01FM1;13.62;;;04-Dec-2023
+148982;BANK OF INDIA Large Cap Fund Regular Plan Growth;INF761K01FO7;;13.23;;;04-Dec-2023
+148983;BANK OF INDIA Large Cap Fund Regular Plan IDCW;INF761K01FN9;INF761K01FP4;13.23;;;04-Dec-2023
 
 Baroda BNP Paribas Mutual Fund
 150187;BARODA BNP PARIBAS LARGE CAP Fund - Direct Plan - Growth Option;INF251K01HN7;;194.2301;;;04-Dec-2023
@@ -379,18 +379,18 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;24.309;;;04-Dec-2023
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;25.64;;;04-Dec-2023
-119349;BANK OF INDIA Large & Mid Cap Equity Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;22.07;;;04-Dec-2023
-119300;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan- Bonus;INF761K01629;;41.01;;;04-Dec-2023
-119350;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Growth;INF761K01652;;79.37;;;04-Dec-2023
-119346;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;21.74;;;04-Dec-2023
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;76.52;;;04-Dec-2023
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;76.52;;;04-Dec-2023
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;21.59;;;04-Dec-2023
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;21.42;;;04-Dec-2023
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;70.40;;;04-Dec-2023
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;21.01;;;04-Dec-2023
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;70.39;;;04-Dec-2023
+119349;BANK OF INDIA Large & Mid Cap Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;22.07;;;04-Dec-2023
+119300;BANK OF INDIA Large & Mid Cap Fund Direct Plan- Bonus;INF761K01629;;41.01;;;04-Dec-2023
+119350;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Growth;INF761K01652;;79.37;;;04-Dec-2023
+119346;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;21.74;;;04-Dec-2023
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;76.52;;;04-Dec-2023
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;76.52;;;04-Dec-2023
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;21.59;;;04-Dec-2023
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;21.42;;;04-Dec-2023
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;70.40;;;04-Dec-2023
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;25.64;;;04-Dec-2023
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;21.01;;;04-Dec-2023
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;70.39;;;04-Dec-2023
 
 Baroda BNP Paribas Mutual Fund
 148474;Baroda BNP Paribas Large and Mid Cap Fund- Direct Plan -Growth Option;INF955L01JU2;;21.6032;;;04-Dec-2023
@@ -2038,7 +2038,7 @@ JM Financial Mutual Fund
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;91.396;;;04-Dec-2023
 119773;Kotak ELSS Tax Saver Fund-Growth - Direct;INF174K01LI3;;105.04;;;04-Dec-2023
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;34.205;;;04-Dec-2023
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;34.205;;;04-Dec-2023
 119772;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LJ1;;44.001;;;04-Dec-2023
 
 LIC Mutual Fund
@@ -2747,7 +2747,7 @@ Invesco Mutual Fund
 104484;Invesco India Liquid Fund - Daily IDCW (Reinvestment);;INF205K01HN3;1002.7594;;;04-Dec-2023
 120537;Invesco India Liquid Fund - Direct Plan - Growth;INF205K01MF9;;3236.5681;;;04-Dec-2023
 120536;Invesco India Liquid Fund - Direct Plan - Monthly IDCW (Payout / Reinvestment);INF205K01MG7;INF205K01MH5;1083.1;;;04-Dec-2023
-120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);;INF205K01MI3;1113.0133;;;04-Dec-2023
+120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);INF205KA1BE5;INF205K01MI3;1113.0133;;;04-Dec-2023
 120534;Invesco India Liquid Fund - Direct Plan- Daily IDCW (Reinvestment);;INF205K01ME2;1000.9596;;;04-Dec-2023
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;3212.3678;;;04-Dec-2023
 104492;Invesco India Liquid Fund - Monthly IDCW (Payout / Reinvestment);INF205K01HQ6;INF205K01HP8;1003.8627;;;04-Dec-2023
@@ -2757,7 +2757,7 @@ Invesco Mutual Fund
 139389;Invesco India Liquid Fund - Unclaimed Dividend Plan - Below 3 Years;;;1533.84;;;04-Dec-2023
 139388;Invesco India Liquid Fund - Unclaimed Redemption Plan - Above 3 Years;;;1000;;;04-Dec-2023
 139387;Invesco India Liquid Fund - Unclaimed Redemption Plan - Below 3 years;;;1533.7975;;;04-Dec-2023
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1017.0215;;;04-Dec-2023
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1017.0215;;;04-Dec-2023
 
 ITI Mutual Fund
 147161;ITI Liquid Fund - Direct Plan - Annually IDCW Option;INF00XX01366;INF00XX01333;1232.5283;;;04-Dec-2023
@@ -5119,7 +5119,7 @@ Kotak Mahindra Mutual Fund
 123690;Kotak Banking and PSU Debt - Growth;INF174K01FO3;;57.5795;;;04-Dec-2023
 123691;Kotak Banking and PSU Debt - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01FQ8;INF174K01FP0;10.8179;;;04-Dec-2023
 123693;Kotak Banking and PSU Debt Direct - Growth;INF174K01KH7;;59.6321;;;04-Dec-2023
-123692;Kotak Banking and PSU Debt Direct - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01KK1;;10.2875;;;04-Dec-2023
+123692;Kotak Banking and PSU Debt Direct - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01KK1;INF174K01KL9;10.2875;;;04-Dec-2023
 
 LIC Mutual Fund
 120337;LIC MF Banking & PSU Fund-Direct Plan-Daily IDCW;INF767K01GJ2;INF767K01GM6;13.2742;;;04-Dec-2023
@@ -6835,8 +6835,8 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;242.66;;;04-Dec-2023
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;248.71;;;04-Dec-2023
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;270.12;;;04-Dec-2023
+120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;270.12;;;04-Dec-2023
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;248.71;;;04-Dec-2023
 
 LIC Mutual Fund
 120285;LIC MF Children's Fund-Direct Plan-Growth;INF767K01FB1;;31.0441;;;04-Dec-2023
