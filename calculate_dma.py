@@ -66,10 +66,10 @@ def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
     Get the latest NAV data for each scheme (current day).
     """
     # Get the most recent date for each scheme
-    latest_data = df.groupby('scheme_code').apply(
-        lambda x: x.loc[x['date'].idxmax()]
-    ).reset_index(drop=True)
-    
+    # Select only the group columns after groupby to avoid FutureWarning
+    latest_data = (
+        df.loc[df.groupby('scheme_code')['date'].idxmax()].reset_index(drop=True)
+    )
     return latest_data
 
 def classify_funds(latest_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -217,8 +217,8 @@ def main():
             "total_schemes_analyzed": len(latest_data),
             "funds_above_dma": len(funds_above_dma),
             "funds_below_dma": len(funds_below_dma),
-            "percentage_above": (len(funds_above_dma) / len(latest_data)) * 100 if latest_data else 0,
-            "percentage_below": (len(funds_below_dma) / len(latest_data)) * 100 if latest_data else 0
+            "percentage_above": (len(funds_above_dma) / len(latest_data)) * 100 if not latest_data.empty else 0,
+            "percentage_below": (len(funds_below_dma) / len(latest_data)) * 100 if not latest_data.empty else 0
         }
         
         import json
