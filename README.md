@@ -2,6 +2,8 @@
 
 An automated, self-contained Java library and dataset providing instant access to historical mutual fund NAV (Net Asset Value) data for India. Includes raw data, optimized SQLite database, and a Spring Boot auto-configuring library for seamless integration and health monitoring.
 
+**🆕 NEW**: Now includes automated 200-Day Moving Average (DMA) analysis in daily releases! See funds trading above/below their 200-DMA with percentage differences in release notes.
+
 ---
 
 ## 🚀 Quick Start
@@ -56,7 +58,20 @@ echo 'CREATE INDEX "securities-isin" ON "securities" ("isin")' | sqlite3 funds.d
 - **Optimized indexes** for fast querying
 - **Comprehensive health monitoring**: programmatic, actuator, and web endpoints
 - **Automated daily updates** via GitHub Actions
+- **200-Day Moving Average Analysis**: Daily DMA calculations with trend analysis
 - **Zero manual intervention**: always up-to-date
+
+## 📈 200-Day Moving Average Analysis
+
+Each daily release includes automated analysis of funds relative to their 200-day moving averages:
+
+- **Trend Classification**: Funds above/below 200-DMA (bullish/bearish indicators)
+- **Percentage Differences**: Shows strength of current trend
+- **Market Sentiment**: Overall percentage of funds above/below DMA
+- **Trading Days Only**: Excludes weekends from calculations
+- **Minimum Data Requirement**: Only funds with 200+ trading days included
+
+See [DMA_README.md](DMA_README.md) for detailed documentation and technical details.
 
 ### Database Schema
 

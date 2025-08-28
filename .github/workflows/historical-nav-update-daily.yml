@@ -116,6 +116,9 @@ jobs:
           echo "Generating database..."
           python generate.py
 
+          echo "Calculating 200-day moving averages..."
+          python calculate_dma.py
+
           echo "Extracting statistics..."
           DATA_COVERAGE_MIN=$(sqlite3 funds.db 'SELECT MIN(date) FROM nav')
           DATA_COVERAGE_MAX=$(sqlite3 funds.db 'SELECT MAX(date) FROM nav')
@@ -177,6 +180,8 @@ jobs:
             historical-mf-nav-data-library.jar
             funds.db.zst
             stats.json
+            dma_analysis.md
+            dma_summary.json
           retention-days: 7
 
   release:
@@ -201,6 +206,7 @@ jobs:
           TOTAL_NAV_RECORDS=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .total_nav_records)
           TOTAL_SECURITIES=$(echo '${{ needs.build-and-update.outputs.data_stats }}' | jq -r .total_securities)
           
+          # Include DMA analysis in release notes
           cat > release_notes.txt << EOF
           # Daily NAV Library v1.0.${{ needs.build-and-update.outputs.release_version }}
           
@@ -211,6 +217,7 @@ jobs:
           - Self-executing JAR with embedded SQLite database
           - Zero-configuration Spring Boot auto-configuration
           - Optimized indexes for fast querying
+          - **NEW: 200-Day Moving Average Analysis** (see below)
           
           ## 📦 Artifacts
           - `historical-mf-nav-data-library.jar` - Complete library with embedded data (recommended)
@@ -233,6 +240,8 @@ jobs:
           - Total schemes: ${TOTAL_SCHEMES}
           - Total NAV records: ${TOTAL_NAV_RECORDS}
           - Total securities: ${TOTAL_SECURITIES}
+          
+          $(cat dma_analysis.md)
           EOF
       
       - name: Create GitHub Release
@@ -306,17 +315,17 @@ jobs:
           VERSION="1.0.${{ needs.build-and-update.outputs.release_version }}"
           echo "Setting version to: $VERSION"
           sed -i "s/<version>1.0.20250725<\/version>/<version>$VERSION<\/version>/" pom.xml
-          
+
           # Verify version update
           echo "Current pom.xml version:"
           grep "<version>" pom.xml
-          
+
           # Configure GPG to use loopback pinentry
           mkdir -p ~/.gnupg
           echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
           echo "pinentry-mode loopback" > ~/.gnupg/gpg.conf
           gpgconf --reload gpg-agent
-          
+
           # Create Maven settings.xml with credentials
           cat > ~/.m2/settings.xml << EOF
           <settings>
@@ -331,6 +340,9 @@ jobs:
           EOF
 
           # Build and publish to Maven Central with GPG signing
-          mvn clean deploy -DskipTests --batch-mode -P release -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+          # Use MAVEN_GPG_PASSPHRASE environment variable instead of deprecated property
+          export MAVEN_GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}"
+          mvn clean deploy -DskipTests --batch-mode -P release
         env:
           GPG_TTY: $(tty)
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
