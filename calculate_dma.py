@@ -40,10 +40,13 @@ def get_trading_days_data(conn: sqlite3.Connection) -> pd.DataFrame:
     
     # Remove weekends (Saturday=5, Sunday=6)
     df = df[~df['date'].dt.weekday.isin([5, 6])]
-    
+
+    # Exclude liquid funds (case-insensitive match)
+    df = df[~df['scheme_name'].str.lower().str.contains('liquid')]
+
     # Sort by scheme and date to ensure proper order for rolling calculations
     df = df.sort_values(['scheme_code', 'date']).reset_index(drop=True)
-    
+
     return df
 
 def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
