@@ -41,8 +41,10 @@ def get_trading_days_data(conn: sqlite3.Connection) -> pd.DataFrame:
     # Remove weekends (Saturday=5, Sunday=6)
     df = df[~df['date'].dt.weekday.isin([5, 6])]
 
-    # Exclude liquid funds (case-insensitive match)
-    df = df[~df['scheme_name'].str.lower().str.contains('liquid')]
+    # Exclude Liquid Fund and Overnight Fund schemes (case-insensitive)
+    exclude_keywords = ['liquid fund', 'overnight fund']
+    mask = ~df['scheme_name'].str.lower().str.contains('|'.join(exclude_keywords))
+    df = df[mask]
 
     # Sort by scheme and date to ensure proper order for rolling calculations
     df = df.sort_values(['scheme_code', 'date']).reset_index(drop=True)
