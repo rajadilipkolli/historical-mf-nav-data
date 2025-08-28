@@ -4,16 +4,14 @@
 
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
-image: gitpod/workspace-java-21
+image: gitpod/workspace-full
 
 tasks:
-  - init: ./gradlew build
-
-
+  - init: ./gradlew build && pip install -r requirements.txt
 
 vscode:
   extensions:
     - vscjava.vscode-gradle
     - vscjava.vscode-java-pack
     - vmware.vscode-boot-dev-pack
-
+    - ms-python.python
