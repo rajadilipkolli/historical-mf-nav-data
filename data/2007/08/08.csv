@@ -1467,7 +1467,7 @@ Invesco Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;17.022;17.022;17.405;08-Aug-2007
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;13.544;13.544;13.849;08-Aug-2007
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;13.544;13.544;13.849;08-Aug-2007
 
 LIC Mutual Fund
 100865;LIC MF ELSS Tax Saver-Regular Plan-Growth;INF767K01956;;27.8696;27.8696;27.8696;08-Aug-2007
@@ -1621,7 +1621,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;10.5636;10.5636;10.5636;08-Aug-2007
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;10.5295;10.5295;10.5295;08-Aug-2007
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0045;10.0045;10.0045;08-Aug-2007
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0048;10.0048;10.0048;08-Aug-2007
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0048;10.0048;10.0048;08-Aug-2007
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0007;10.0007;10.0007;08-Aug-2007
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;10.5563;10.5563;10.5563;08-Aug-2007
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0047;10.0047;10.0047;08-Aug-2007
@@ -2761,7 +2761,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;15.406;15.406;15.599;08-Aug-2007
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;; 44.94 ; 44.49 ; 45.61 ;08-Aug-2007
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;; 44.94 ; 44.49 ; 45.61 ;08-Aug-2007
 
 LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;16.2864;16.2864;16.2864;08-Aug-2007

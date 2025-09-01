@@ -777,14 +777,14 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;15.8951;15.8951;15.8951;16-Feb-2011
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;11.14;11.03;11.14;16-Feb-2011
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;16.87;16.70;16.87;16-Feb-2011
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;16.87;16.70;16.87;16-Feb-2011
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;11.21;11.10;11.21;16-Feb-2011
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.87;11.75;11.87;16-Feb-2011
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;16.77;16.60;16.77;16-Feb-2011
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.81;11.69;11.81;16-Feb-2011
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;16.77;16.60;16.77;16-Feb-2011
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;16.87;16.70;16.87;16-Feb-2011
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;16.87;16.70;16.87;16-Feb-2011
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;11.21;11.10;11.21;16-Feb-2011
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.87;11.75;11.87;16-Feb-2011
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;16.77;16.60;16.77;16-Feb-2011
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;11.14;11.03;11.14;16-Feb-2011
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.81;11.69;11.81;16-Feb-2011
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;16.77;16.60;16.77;16-Feb-2011
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;21.4600;21.4600;21.4600;16-Feb-2011
@@ -1296,7 +1296,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;17.704;17.704;17.704;16-Feb-2011
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;10.841;10.841;10.841;16-Feb-2011
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;10.841;10.841;10.841;16-Feb-2011
 
 Nippon India Mutual Fund
 103197;NIPPON INDIA TAX SAVER (ELSS) FUND - IDCW Option;INF204K01GL2;INF204K01GM0;13.9294;13.9294;13.9294;16-Feb-2011
@@ -1971,7 +1971,7 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;40.07;38.868;40.07;16-Feb-2011
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;53.78;53.24;53.78;16-Feb-2011
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;53.78;53.24;53.78;16-Feb-2011
 
 Tata Mutual Fund
 101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;14.8990;14.7500;14.8990;16-Feb-2011
@@ -2111,8 +2111,8 @@ Kotak Mahindra Mutual Fund
 102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;34.866;34.517;34.866;16-Feb-2011
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;13.5550;13.3500;13.5550;16-Feb-2011
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;13.5570;13.3500;13.5570;16-Feb-2011
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;13.5550;13.3500;13.5550;16-Feb-2011
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;13.5570;13.3500;13.5570;16-Feb-2011
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

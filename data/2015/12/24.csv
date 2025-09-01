@@ -655,18 +655,18 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;24.6615;24.6615;24.6615;24-Dec-2015
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;10.37;10.27;10.37;24-Dec-2015
-119349;BANK OF INDIA Large & Mid Cap Equity Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;11.22;11.11;11.22;24-Dec-2015
-119300;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan- Bonus;INF761K01629;;14.22;14.08;14.22;24-Dec-2015
-119350;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Growth;INF761K01652;;27.38;27.11;27.38;24-Dec-2015
-119346;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;13.65;13.51;13.65;24-Dec-2015
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;27.40;27.13;0.00;24-Dec-2015
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;27.40;27.13;0.00;24-Dec-2015
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.02;9.92;0.00;24-Dec-2015
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.58;13.44;0.00;24-Dec-2015
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;26.56;26.29;26.56;24-Dec-2015
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.89;11.77;11.89;24-Dec-2015
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;26.55;26.28;26.55;24-Dec-2015
+119349;BANK OF INDIA Large & Mid Cap Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;11.22;11.11;11.22;24-Dec-2015
+119300;BANK OF INDIA Large & Mid Cap Fund Direct Plan- Bonus;INF761K01629;;14.22;14.08;14.22;24-Dec-2015
+119350;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Growth;INF761K01652;;27.38;27.11;27.38;24-Dec-2015
+119346;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;13.65;13.51;13.65;24-Dec-2015
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;27.40;27.13;0.00;24-Dec-2015
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;27.40;27.13;0.00;24-Dec-2015
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.02;9.92;0.00;24-Dec-2015
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.58;13.44;0.00;24-Dec-2015
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;26.56;26.29;26.56;24-Dec-2015
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;10.37;10.27;10.37;24-Dec-2015
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.89;11.77;11.89;24-Dec-2015
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;26.55;26.28;26.55;24-Dec-2015
 
 Canara Robeco Mutual Fund
 118278;CANARA ROBECO LARGE AND MID CAP FUND - DIRECT PLAN - GROWTH OPTION;INF760K01EI4;;64.4500;64.4500;64.4500;24-Dec-2015
@@ -1654,7 +1654,7 @@ Invesco Mutual Fund
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;29.766;29.766;29.766;24-Dec-2015
 119773;Kotak ELSS Tax Saver Fund-Growth - Direct;INF174K01LI3;;30.832;30.832;30.832;24-Dec-2015
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;17.625;17.625;17.625;24-Dec-2015
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;17.625;17.625;17.625;24-Dec-2015
 119772;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LJ1;;18.598;18.598;18.598;24-Dec-2015
 
 L&T Mutual Fund
@@ -2470,8 +2470,8 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;83.337;80.837;83.337;24-Dec-2015
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;101.43;100.42;101.43;24-Dec-2015
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;103.61;102.57;103.61;24-Dec-2015
+120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;103.61;102.57;103.61;24-Dec-2015
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;101.43;100.42;101.43;24-Dec-2015
 
 Tata Mutual Fund
 101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;20.9880;20.7781;20.9880;24-Dec-2015
@@ -2784,10 +2784,10 @@ Nippon India Mutual Fund
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;11.1002;10.8782;11.1002;24-Dec-2015
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;24.793;24.421;24.793;24-Dec-2015
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;24.793;24.421;24.793;24-Dec-2015
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;24.793;24.421;24.793;24-Dec-2015
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;24.793;24.421;24.793;24-Dec-2015
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;10.8434;10.6807;10.8434;24-Dec-2015
-117608;Quantum Multi Asset Fund of Funds - Direct Plan Growth Option;INF082J01168;;13.7743;13.6366;13.7743;24-Dec-2015
+117608;Quantum Multi Asset Active FOF - Direct Plan Growth Option;INF082J01168;;13.7743;13.6366;13.7743;24-Dec-2015
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

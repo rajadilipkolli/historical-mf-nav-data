@@ -7684,16 +7684,16 @@ Axis Mutual Fund
 148955;Axis Global Innovation Fund of Fund - Direct Plan - IDCW;INF846K01Z38;INF846K01Z46;9.57;;;05-Apr-2023
 148953;Axis Global Innovation Fund of Fund - Regular Plan - Growth;INF846K01Z53;;9.36;;;05-Apr-2023
 148956;Axis Global Innovation Fund of Fund - Regular Plan - IDCW;INF846K01Z61;INF846K01Z79;9.36;;;05-Apr-2023
-150751;Axis NASDAQ 100 Fund of Fund - Direct Plan - Growth;INF846K012K9;;11.4735;;;05-Apr-2023
-150749;Axis NASDAQ 100 Fund of Fund - Direct Plan - IDCW;INF846K013K7;INF846K014K5;11.4735;;;05-Apr-2023
-150750;Axis NASDAQ 100 Fund of Fund - Regular Plan - Growth;INF846K015K2;;11.4520;;;05-Apr-2023
-150748;Axis NASDAQ 100 Fund of Fund - Regular Plan - IDCW;INF846K016K0;INF846K017K8;11.4520;;;05-Apr-2023
+150751;Axis US Specific Equity Passive FOF - Direct Plan - Growth;INF846K012K9;;11.4735;;;05-Apr-2023
+150749;Axis US Specific Equity Passive FOF - Direct Plan - IDCW;INF846K013K7;INF846K014K5;11.4735;;;05-Apr-2023
+150750;Axis US Specific Equity Passive FOF - Regular Plan - Growth;INF846K015K2;;11.4520;;;05-Apr-2023
+150748;Axis US Specific Equity Passive FOF - Regular Plan - IDCW;INF846K016K0;INF846K017K8;11.4520;;;05-Apr-2023
 
 Bandhan Mutual Fund
-151548;Bandhan US TREASURY BOND 0-1 YEAR Fund of Fund - DIRECT PLAN - GROWTH;;;9.9978;;;05-Apr-2023
-151549;Bandhan US TREASURY BOND 0-1 YEAR Fund of Fund - DIRECT PLAN - IDCW;;;9.9978;;;05-Apr-2023
-151546;Bandhan US TREASURY BOND 0-1 YEAR Fund of Fund - REGULAR PLAN - GROWTH;;;9.9974;;;05-Apr-2023
-151547;Bandhan US TREASURY BOND 0-1 YEAR Fund of Fund - REGULAR PLAN- IDCW;;;9.9974;;;05-Apr-2023
+151548;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - DIRECT PLAN - GROWTH;;;9.9978;;;05-Apr-2023
+151549;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - DIRECT PLAN - IDCW;;;9.9978;;;05-Apr-2023
+151546;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - REGULAR PLAN - GROWTH;;;9.9974;;;05-Apr-2023
+151547;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF- REGULAR PLAN- IDCW;;;9.9974;;;05-Apr-2023
 
 Baroda BNP Paribas Mutual Fund
 150285;Baroda BNP Paribas Aqua Fund of Fund - Direct Plan - Growth Option;INF251K01QT5;;10.4077;;;05-Apr-2023
@@ -7917,22 +7917,22 @@ Bandhan Mutual Fund
 112330;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - IDCW;INF194K01AC7;INF194K01AD5;17.9467;;;05-Apr-2023
 118489;BANDHAN Asset Allocation Fund Of Fund-Moderate Plan-Direct Plan-Growth;INF194K019A3;;30.9691;;;05-Apr-2023
 118488;BANDHAN Asset Allocation Fund Of Fund-Moderate Plan-Direct Plan-IDCW;INF194K010B0;INF194K011B8;18.6495;;;05-Apr-2023
-118408;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Annual IDCW;INF194K01U98;INF194K01U80;14.5973;;;05-Apr-2023
-118409;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Daily IDCW;;INF194K01V63;11.9020;;;05-Apr-2023
-118414;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Fortnightly IDCW;INF194K01V55;INF194K01V48;11.8993;;;05-Apr-2023
-118410;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Growth;INF194K01U72;;38.6919;;;05-Apr-2023
-118411;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Half Yearly IDCW;INF194K01V14;INF194K01V06;14.5368;;;05-Apr-2023
-131398;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Periodic IDCW;INF194KA1TV4;INF194KA1TW2;13.2987;;;05-Apr-2023
-118413;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Quarterly IDCW;INF194K01V30;INF194K01V22;12.6005;;;05-Apr-2023
-118412;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Weekly IDCW;;INF194K01V71;11.9090;;;05-Apr-2023
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;13.8607;;;05-Apr-2023
-117868;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Daily IDCW;;INF194K01F55;11.9010;;;05-Apr-2023
-115874;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.8933;;;05-Apr-2023
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;37.1121;;;05-Apr-2023
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;12.3886;;;05-Apr-2023
-131399;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Periodic IDCW;INF194KA1TS0;INF194KA1TT8;12.9776;;;05-Apr-2023
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.5191;;;05-Apr-2023
-117867;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Weekly IDCW;;INF194K01F63;11.9038;;;05-Apr-2023
+118408;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Annual IDCW;INF194K01U98;INF194K01U80;14.5973;;;05-Apr-2023
+118409;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Daily IDCW;;INF194K01V63;11.9020;;;05-Apr-2023
+118414;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Fortnightly IDCW;INF194K01V55;INF194K01V48;11.8993;;;05-Apr-2023
+118410;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Growth;INF194K01U72;;38.6919;;;05-Apr-2023
+118411;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Half Yearly IDCW;INF194K01V14;INF194K01V06;14.5368;;;05-Apr-2023
+131398;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Periodic IDCW;INF194KA1TV4;INF194KA1TW2;13.2987;;;05-Apr-2023
+118413;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Quarterly IDCW;INF194K01V30;INF194K01V22;12.6005;;;05-Apr-2023
+118412;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Weekly IDCW;;INF194K01V71;11.9090;;;05-Apr-2023
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;13.8607;;;05-Apr-2023
+117868;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Daily IDCW;;INF194K01F55;11.9010;;;05-Apr-2023
+115874;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.8933;;;05-Apr-2023
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;37.1121;;;05-Apr-2023
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;12.3886;;;05-Apr-2023
+131399;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Periodic IDCW;INF194KA1TS0;INF194KA1TT8;12.9776;;;05-Apr-2023
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.5191;;;05-Apr-2023
+117867;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Weekly IDCW;;INF194K01F63;11.9038;;;05-Apr-2023
 
 DSP Mutual Fund
 130493;DSP Income Plus Arbitrage Fund of Fund - Direct Plan - Growth;INF740K01Z50;;17.6572;;;05-Apr-2023
@@ -8125,10 +8125,10 @@ Nippon India Mutual Fund
 118663;Nippon India Gold Savings Fund - Direct Plan Growth Plan - Growth Option;INF204K01YC4;;25.1100;;;05-Apr-2023
 114617;NIPPON INDIA GOLD SAVINGS FUND - IDCW Option;INF204K01KO8;INF204K01KP5;24.1352;;;05-Apr-2023
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;24.1352;;;05-Apr-2023
-148666;Nippon India Multi Asset Active FoF - Direct Plan - Growth Option;INF204KB16Y4;;13.5667;;;05-Apr-2023
-148664;Nippon India Multi Asset Active FoF - DIRECT Plan - IDCW Option;INF204KB17Y2;INF204KB18Y0;13.5667;;;05-Apr-2023
-148665;Nippon India Multi Asset Active FoF - IDCW Option;INF204KB14Y9;INF204KB15Y6;13.2540;;;05-Apr-2023
-148663;Nippon India Multi Asset Active FoF - Regular Plan - Growth Option;INF204KB13Y1;;13.2540;;;05-Apr-2023
+148666;Nippon India Multi - Asset Omni FoF - Direct Plan - Growth Option;INF204KB16Y4;;13.5667;;;05-Apr-2023
+148664;Nippon India Multi - Asset Omni FoF - DIRECT Plan - IDCW Option;INF204KB17Y2;INF204KB18Y0;13.5667;;;05-Apr-2023
+148665;Nippon India Multi - Asset Omni FoF - IDCW Option;INF204KB14Y9;INF204KB15Y6;13.2540;;;05-Apr-2023
+148663;Nippon India Multi - Asset Omni FoF - Regular Plan - Growth Option;INF204KB13Y1;;13.2540;;;05-Apr-2023
 146513;Nippon India Nifty Next 50 Junior BeES FoF - Direct Plan - Growth Plan - Growth Option;INF204KB1X25;;14.1368;;;05-Apr-2023
 146515;NIPPON INDIA NIFTY NEXT 50 JUNIOR BEES FOF - DIRECT Plan - IDCW Option;INF204KB1X41;INF204KB1X33;14.1368;;;05-Apr-2023
 146514;Nippon India Nifty Next 50 Junior BeES FoF - Growth Plan - Growth Option;INF204KB1W91;;13.9846;;;05-Apr-2023
@@ -8139,14 +8139,14 @@ Nippon India Mutual Fund
 149759;Nippon India Silver ETF FOF-Regular Plan- Growth Option;INF204KC1345;;11.7464;;;05-Apr-2023
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;52.954;;;05-Apr-2023
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;52.954;;;05-Apr-2023
-141063;Quantum Equity Fund of Funds - Regular Plan Growth Option;INF082J01275;;52.325;;;05-Apr-2023
-141062;Quantum Equity Fund Of Funds - Regular Plan IDCW;INF082J01283;INF082J01291;52.325;;;05-Apr-2023
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;52.954;;;05-Apr-2023
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;52.954;;;05-Apr-2023
+141063;Quantum Diversified Equity All Cap Active FOF - Regular Plan Growth Option;INF082J01275;;52.325;;;05-Apr-2023
+141062;Quantum Diversified Equity All Cap Active FOF - Regular Plan IDCW;INF082J01283;INF082J01291;52.325;;;05-Apr-2023
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;23.9008;;;05-Apr-2023
 141064;Quantum Gold Savings Fund - Regular Plan Growth Option;INF082J01358;;23.7220;;;05-Apr-2023
-117608;Quantum Multi Asset Fund of Funds - Direct Plan Growth Option;INF082J01168;;25.4866;;;05-Apr-2023
-141072;Quantum Multi Asset Fund of Funds - Regular Plan Growth Option;INF082J01341;;25.1080;;;05-Apr-2023
+117608;Quantum Multi Asset Active FOF - Direct Plan Growth Option;INF082J01168;;25.4866;;;05-Apr-2023
+141072;Quantum Multi Asset Active FOF - Regular Plan Growth Option;INF082J01341;;25.1080;;;05-Apr-2023
 150390;Quantum Nifty 50 ETF Fund of Fund - Direct Plan - Growth;INF082J01416;;10.1106;;;05-Apr-2023
 150389;Quantum Nifty 50 ETF Fund of Fund - Regular Plan - Growth;INF082J01424;;10.1028;;;05-Apr-2023
 

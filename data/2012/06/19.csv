@@ -1445,14 +1445,14 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;14.3128;14.3128;14.3128;19-Jun-2012
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;10.11;10.01;10.11;19-Jun-2012
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;16.06;15.90;16.06;19-Jun-2012
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;16.06;15.90;16.06;19-Jun-2012
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.21;10.11;10.21;19-Jun-2012
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.31;11.20;11.31;19-Jun-2012
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;15.91;15.75;15.91;19-Jun-2012
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.21;11.10;11.21;19-Jun-2012
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;15.91;15.75;15.91;19-Jun-2012
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;16.06;15.90;16.06;19-Jun-2012
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;16.06;15.90;16.06;19-Jun-2012
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.21;10.11;10.21;19-Jun-2012
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.31;11.20;11.31;19-Jun-2012
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;15.91;15.75;15.91;19-Jun-2012
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;10.11;10.01;10.11;19-Jun-2012
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.21;11.10;11.21;19-Jun-2012
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;15.91;15.75;15.91;19-Jun-2012
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;22.3100;22.3100;22.3100;19-Jun-2012
@@ -2013,7 +2013,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;16.787;16.787;16.787;19-Jun-2012
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;10.279;10.279;10.279;19-Jun-2012
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;10.279;10.279;10.279;19-Jun-2012
 
 LIC Mutual Fund
 100865;LIC MF ELSS Tax Saver-Regular Plan-Growth;INF767K01956;;26.2297;26.2297;26.2297;19-Jun-2012
@@ -2235,7 +2235,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;1507.0130;1507.0130;1507.0130;19-Jun-2012
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;1464.6945;1464.6945;1464.6945;19-Jun-2012
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;1000.5830;1000.5830;1000.5830;19-Jun-2012
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1000.2624;1000.2624;1000.2624;19-Jun-2012
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1000.2624;1000.2624;1000.2624;19-Jun-2012
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;1000.2250;1000.2250;1000.2250;19-Jun-2012
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;1492.1684;1492.1684;1492.1684;19-Jun-2012
 
@@ -3220,7 +3220,7 @@ HDFC Mutual Fund
 HSBC Mutual Fund
 106736;HSBC Dynamic Bond Fund - Growth;INF336L01545;;14.7252;14.6516;14.7252;19-Jun-2012
 106737;HSBC Dynamic Bond Fund - Regular Growth;INF336L01461;;14.9694;14.8946;14.9694;19-Jun-2012
-108220;HSBC Dynamic Bond Fund - Regular Monthly IDCW;INF336L01602;INF336L01594;11.5690;11.5112;11.5690;19-Jun-2012
+110439;HSBC Dynamic Bond Fund - Regular Monthly IDCW;INF336L01487;INF336L01479;10.1263;10.0757;10.1263;19-Jun-2012
 
 ICICI Prudential Mutual Fund
 113218;ICICI Prudential All Seasons Bond Fund - Annual IDCW;INF109K01GO7;INF109K01GP4;10.0011;10.0011;10.0011;19-Jun-2012
@@ -4059,7 +4059,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;24.9104;24.163;24.91;19-Jun-2012
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;54.33;53.79;54.33;19-Jun-2012
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;54.33;53.79;54.33;19-Jun-2012
 
 LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;9.3777;9.2839;9.3777;19-Jun-2012
@@ -4261,11 +4261,11 @@ Bandhan Mutual Fund
 112328;BANDHAN Asset Allocation Fund - Regular Plan - Conservative Plan - IDCW;INF194K01995;INF194K01AA1;11.1187;11.1187;11.1187;19-Jun-2012
 112329;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - Growth;INF194K01AB9;;11.8838;11.8838;11.8838;19-Jun-2012
 112330;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - IDCW;INF194K01AC7;INF194K01AD5;11.5404;11.5404;11.5404;19-Jun-2012
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;13.3854;13.3854;13.3854;19-Jun-2012
-115874;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;10.6082;10.6082;10.6082;19-Jun-2012
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;16.9581;16.9581;16.9581;19-Jun-2012
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.2268;11.2268;11.2268;19-Jun-2012
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.1813;12.1813;12.1813;19-Jun-2012
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;13.3854;13.3854;13.3854;19-Jun-2012
+115874;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;10.6082;10.6082;10.6082;19-Jun-2012
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;16.9581;16.9581;16.9581;19-Jun-2012
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.2268;11.2268;11.2268;19-Jun-2012
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.1813;12.1813;12.1813;19-Jun-2012
 
 Franklin Templeton Mutual Fund
 101657;Franklin India Dynamic Asset Allocation Active Fund of funds - IDCW;INF090I01247;INF090I01254;31.7497;31.4322;31.7497;19-Jun-2012
@@ -4313,8 +4313,8 @@ Nippon India Mutual Fund
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;14.1261;13.8436;14.1261;19-Jun-2012
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;12.7560;12.5600;12.7560;19-Jun-2012
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;12.7580;12.5700;12.7580;19-Jun-2012
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;12.7560;12.5600;12.7560;19-Jun-2012
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;12.7580;12.5700;12.7580;19-Jun-2012
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;13.5028;13.3003;13.5028;19-Jun-2012
 
 SBI Mutual Fund

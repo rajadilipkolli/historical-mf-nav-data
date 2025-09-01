@@ -690,14 +690,14 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;15.0673;15.0673;15.0673;16-Feb-2012
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;10.84;10.73;10.84;16-Feb-2012
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;17.21;17.04;17.21;16-Feb-2012
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;17.21;17.04;17.21;16-Feb-2012
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.94;10.83;10.94;16-Feb-2012
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;12.11;11.99;12.11;16-Feb-2012
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;17.06;16.89;17.06;16-Feb-2012
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;12.03;11.91;12.03;16-Feb-2012
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;17.06;16.89;17.06;16-Feb-2012
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;17.21;17.04;17.21;16-Feb-2012
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;17.21;17.04;17.21;16-Feb-2012
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.94;10.83;10.94;16-Feb-2012
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;12.11;11.99;12.11;16-Feb-2012
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;17.06;16.89;17.06;16-Feb-2012
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;10.84;10.73;10.84;16-Feb-2012
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;12.03;11.91;12.03;16-Feb-2012
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;17.06;16.89;17.06;16-Feb-2012
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;22.8900;22.8900;22.8900;16-Feb-2012
@@ -1223,7 +1223,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;17.668;17.668;17.668;16-Feb-2012
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;10.819;10.819;10.819;16-Feb-2012
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;10.819;10.819;10.819;16-Feb-2012
 
 Nippon India Mutual Fund
 103197;NIPPON INDIA TAX SAVER (ELSS) FUND - IDCW Option;INF204K01GL2;INF204K01GM0;15.0139;15.0139;15.0139;16-Feb-2012
@@ -1881,7 +1881,7 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;45.405;44.043;45.405;16-Feb-2012
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;56.66;56.09;56.66;16-Feb-2012
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;56.66;56.09;56.66;16-Feb-2012
 
 Tata Mutual Fund
 101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;13.4722;13.3375;13.4722;16-Feb-2012
@@ -2051,8 +2051,8 @@ Nippon India Mutual Fund
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;13.2198;12.9554;13.2198;16-Feb-2012
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;13.7140;13.5100;13.7140;16-Feb-2012
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;13.7160;13.5100;13.7160;16-Feb-2012
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;13.7140;13.5100;13.7140;16-Feb-2012
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;13.7160;13.5100;13.7160;16-Feb-2012
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;12.5605;12.3721;12.5605;16-Feb-2012
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )

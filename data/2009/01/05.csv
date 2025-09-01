@@ -1525,14 +1525,14 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;8.9108;8.9108;9.1113;05-Jan-2009
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;11.24;11.13;11.52;05-Jan-2009
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;11.26;11.15;11.54;05-Jan-2009
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;11.26;11.15;11.54;05-Jan-2009
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;11.26;11.15;11.54;05-Jan-2009
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.26;11.15;11.54;05-Jan-2009
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;11.24;11.13;11.52;05-Jan-2009
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.24;11.13;11.52;05-Jan-2009
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;11.24;11.13;11.52;05-Jan-2009
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;11.26;11.15;11.54;05-Jan-2009
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;11.26;11.15;11.54;05-Jan-2009
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;11.26;11.15;11.54;05-Jan-2009
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.26;11.15;11.54;05-Jan-2009
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;11.24;11.13;11.52;05-Jan-2009
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;11.24;11.13;11.52;05-Jan-2009
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.24;11.13;11.52;05-Jan-2009
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;11.24;11.13;11.52;05-Jan-2009
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;9.2600;9.2600;9.4700;05-Jan-2009
@@ -2003,7 +2003,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;9.993;9.993;10.218;05-Jan-2009
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;6.119;6.119;6.257;05-Jan-2009
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;6.119;6.119;6.257;05-Jan-2009
 
 LIC Mutual Fund
 100865;LIC MF ELSS Tax Saver-Regular Plan-Growth;INF767K01956;;18.0971;18.0971;18.0971;05-Jan-2009
@@ -2183,7 +2183,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;11.8872;11.8872;11.8872;05-Jan-2009
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;11.8050;11.8050;11.8050;05-Jan-2009
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0028;10.0028;10.0028;05-Jan-2009
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0000;10.0000;10.0000;05-Jan-2009
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0000;10.0000;10.0000;05-Jan-2009
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0033;10.0033;10.0033;05-Jan-2009
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;11.8704;11.8704;11.8704;05-Jan-2009
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0028;10.0028;10.0028;05-Jan-2009
@@ -3541,7 +3541,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;16.278;16.278;16.481;05-Jan-2009
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;27.57;27.29;27.98;05-Jan-2009
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;27.57;27.29;27.98;05-Jan-2009
 
 LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;7.5862;7.5862;7.5862;05-Jan-2009
@@ -3653,10 +3653,10 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Bandhan Mutual Fund
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;12.7551;12.7551;12.7551;05-Jan-2009
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;15.4556;15.4556;15.4556;05-Jan-2009
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;12.5802;12.5802;12.5802;05-Jan-2009
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.3006;12.3006;12.3006;05-Jan-2009
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;12.7551;12.7551;12.7551;05-Jan-2009
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;15.4556;15.4556;15.4556;05-Jan-2009
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;12.5802;12.5802;12.5802;05-Jan-2009
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.3006;12.3006;12.3006;05-Jan-2009
 
 Franklin Templeton Mutual Fund
 101657;Franklin India Dynamic Asset Allocation Active Fund of funds - IDCW;INF090I01247;INF090I01254;24.5745;24.5745;25.1274;05-Jan-2009

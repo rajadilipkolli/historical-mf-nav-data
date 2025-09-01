@@ -388,18 +388,18 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;14.82;;;07-Jun-2019
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;13.19;;;07-Jun-2019
-119349;BANK OF INDIA Large & Mid Cap Equity Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;10.97;;;07-Jun-2019
-119300;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan- Bonus;INF761K01629;;18.92;;;07-Jun-2019
-119350;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Growth;INF761K01652;;36.59;;;07-Jun-2019
-119346;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;11.48;;;07-Jun-2019
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;36.07;;;07-Jun-2019
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;36.06;;;07-Jun-2019
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.87;;;07-Jun-2019
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.25;;;07-Jun-2019
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;34.04;;;07-Jun-2019
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.04;;;07-Jun-2019
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;34.04;;;07-Jun-2019
+119349;BANK OF INDIA Large & Mid Cap Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;10.97;;;07-Jun-2019
+119300;BANK OF INDIA Large & Mid Cap Fund Direct Plan- Bonus;INF761K01629;;18.92;;;07-Jun-2019
+119350;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Growth;INF761K01652;;36.59;;;07-Jun-2019
+119346;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;11.48;;;07-Jun-2019
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;36.07;;;07-Jun-2019
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;36.06;;;07-Jun-2019
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;10.87;;;07-Jun-2019
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;11.25;;;07-Jun-2019
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;34.04;;;07-Jun-2019
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;13.19;;;07-Jun-2019
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;11.04;;;07-Jun-2019
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;34.04;;;07-Jun-2019
 
 Canara Robeco Mutual Fund
 118278;CANARA ROBECO LARGE AND MID CAP FUND - DIRECT PLAN - GROWTH OPTION;INF760K01EI4;;101.3300;;;07-Jun-2019
@@ -1627,7 +1627,7 @@ JM Financial Mutual Fund
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;45.362;;;07-Jun-2019
 119773;Kotak ELSS Tax Saver Fund-Growth - Direct;INF174K01LI3;;49.188;;;07-Jun-2019
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;19.397;;;07-Jun-2019
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;19.397;;;07-Jun-2019
 119772;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LJ1;;22.986;;;07-Jun-2019
 
 L&T Mutual Fund
@@ -2182,7 +2182,7 @@ Invesco Mutual Fund
 104484;Invesco India Liquid Fund - Daily IDCW (Reinvestment);;INF205K01HN3;1001.8172;;;07-Jun-2019
 120537;Invesco India Liquid Fund - Direct Plan - Growth;INF205K01MF9;;2606.7374;;;07-Jun-2019
 120536;Invesco India Liquid Fund - Direct Plan - Monthly IDCW (Payout / Reinvestment);INF205K01MG7;INF205K01MH5;1029.0689;;;07-Jun-2019
-120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);;INF205K01MI3;1001.2474;;;07-Jun-2019
+120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);INF205KA1BE5;INF205K01MI3;1001.2474;;;07-Jun-2019
 120534;Invesco India Liquid Fund - Direct Plan- Daily IDCW (Reinvestment);;INF205K01ME2;1000.79;;;07-Jun-2019
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;2595.4415;;;07-Jun-2019
 104492;Invesco India Liquid Fund - Monthly IDCW (Payout / Reinvestment);INF205K01HQ6;INF205K01HP8;1004.4573;;;07-Jun-2019
@@ -2192,7 +2192,7 @@ Invesco Mutual Fund
 139389;Invesco India Liquid Fund - Unclaimed Dividend Plan - Below 3 Years;;;1235.286;;;07-Jun-2019
 139388;Invesco India Liquid Fund - Unclaimed Redemption Plan - Above 3 Years;;;1000;;;07-Jun-2019
 139387;Invesco India Liquid Fund - Unclaimed Redemption Plan - Below 3 years;;;1235.2488;;;07-Jun-2019
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1003.7197;;;07-Jun-2019
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1003.7197;;;07-Jun-2019
 
 ITI Mutual Fund
 147161;ITI Liquid Fund - Direct Plan - Annually IDCW Option;INF00XX01366;INF00XX01333;1008.0645;;;07-Jun-2019
@@ -4794,7 +4794,7 @@ Kotak Mahindra Mutual Fund
 123690;Kotak Banking and PSU Debt - Growth;INF174K01FO3;;43.1493;;;07-Jun-2019
 123691;Kotak Banking and PSU Debt - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01FQ8;INF174K01FP0;10.641;;;07-Jun-2019
 123693;Kotak Banking and PSU Debt Direct - Growth;INF174K01KH7;;43.8998;;;07-Jun-2019
-123692;Kotak Banking and PSU Debt Direct - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01KK1;;10.7455;;;07-Jun-2019
+123692;Kotak Banking and PSU Debt Direct - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01KK1;INF174K01KL9;10.7455;;;07-Jun-2019
 
 L&T Mutual Fund
 119794;L&T Banking and PSU Debt Fund -  Direct Plan - Monthly IDCW;INF917K01HI3;;10.9523;;;07-Jun-2019
@@ -6329,8 +6329,8 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;122.259;;;07-Jun-2019
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;144.56;;;07-Jun-2019
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;152.04;;;07-Jun-2019
+120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;152.04;;;07-Jun-2019
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;144.56;;;07-Jun-2019
 
 LIC Mutual Fund
 120285;LIC MF Children's Fund-Direct Plan-Growth;INF767K01FB1;;18.5859;;;07-Jun-2019
@@ -6797,20 +6797,20 @@ Bandhan Mutual Fund
 112330;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - IDCW;INF194K01AC7;INF194K01AD5;16.4115;;;07-Jun-2019
 118489;BANDHAN Asset Allocation Fund Of Fund-Moderate Plan-Direct Plan-Growth;INF194K019A3;;23.4118;;;07-Jun-2019
 118488;BANDHAN Asset Allocation Fund Of Fund-Moderate Plan-Direct Plan-IDCW;INF194K010B0;INF194K011B8;16.6766;;;07-Jun-2019
-118408;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Annual IDCW;INF194K01U98;INF194K01U80;11.8294;;;07-Jun-2019
-118409;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Daily IDCW;;INF194K01V63;11.0024;;;07-Jun-2019
-118414;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Fortnightly IDCW;INF194K01V55;INF194K01V48;11.0405;;;07-Jun-2019
-118410;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Growth;INF194K01U72;;30.1442;;;07-Jun-2019
-131398;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Periodic IDCW;INF194KA1TV4;INF194KA1TW2;14.6367;;;07-Jun-2019
-118413;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Quarterly IDCW;INF194K01V30;INF194K01V22;12.8678;;;07-Jun-2019
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;11.8275;;;07-Jun-2019
-117868;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Daily IDCW;;INF194K01F55;10.9967;;;07-Jun-2019
-115874;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.0397;;;07-Jun-2019
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;29.3193;;;07-Jun-2019
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.9267;;;07-Jun-2019
-131399;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Periodic IDCW;INF194KA1TS0;INF194KA1TT8;14.4966;;;07-Jun-2019
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.7125;;;07-Jun-2019
-117867;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Weekly IDCW;;INF194K01F63;11.0314;;;07-Jun-2019
+118408;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Annual IDCW;INF194K01U98;INF194K01U80;11.8294;;;07-Jun-2019
+118409;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Daily IDCW;;INF194K01V63;11.0024;;;07-Jun-2019
+118414;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Fortnightly IDCW;INF194K01V55;INF194K01V48;11.0405;;;07-Jun-2019
+118410;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Growth;INF194K01U72;;30.1442;;;07-Jun-2019
+131398;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Periodic IDCW;INF194KA1TV4;INF194KA1TW2;14.6367;;;07-Jun-2019
+118413;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Quarterly IDCW;INF194K01V30;INF194K01V22;12.8678;;;07-Jun-2019
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;11.8275;;;07-Jun-2019
+117868;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Daily IDCW;;INF194K01F55;10.9967;;;07-Jun-2019
+115874;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.0397;;;07-Jun-2019
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;29.3193;;;07-Jun-2019
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.9267;;;07-Jun-2019
+131399;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Periodic IDCW;INF194KA1TS0;INF194KA1TT8;14.4966;;;07-Jun-2019
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.7125;;;07-Jun-2019
+117867;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Weekly IDCW;;INF194K01F63;11.0314;;;07-Jun-2019
 
 Canara Robeco Mutual Fund
 118300;Canara Robeco Gold Savings Fund - Direct Plan - Dividend Option;INF760K01FD2;INF760K01FE0;9.6695;;;07-Jun-2019
@@ -6937,14 +6937,14 @@ Nippon India Mutual Fund
 146512;NIPPON INDIA NIFTY NEXT 50 JUNIOR BEES FOF - IDCW Option;INF204KB1X17;INF204KB1X09;9.9945;;;07-Jun-2019
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;35.835;;;07-Jun-2019
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;35.834;;;07-Jun-2019
-141063;Quantum Equity Fund of Funds - Regular Plan Growth Option;INF082J01275;;35.738;;;07-Jun-2019
-141062;Quantum Equity Fund Of Funds - Regular Plan IDCW;INF082J01283;INF082J01291;35.738;;;07-Jun-2019
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;35.835;;;07-Jun-2019
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;35.834;;;07-Jun-2019
+141063;Quantum Diversified Equity All Cap Active FOF - Regular Plan Growth Option;INF082J01275;;35.738;;;07-Jun-2019
+141062;Quantum Diversified Equity All Cap Active FOF - Regular Plan IDCW;INF082J01283;INF082J01291;35.738;;;07-Jun-2019
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;13.3896;;;07-Jun-2019
 141064;Quantum Gold Savings Fund - Regular Plan Growth Option;INF082J01358;;13.3542;;;07-Jun-2019
-117608;Quantum Multi Asset Fund of Funds - Direct Plan Growth Option;INF082J01168;;18.5575;;;07-Jun-2019
-141072;Quantum Multi Asset Fund of Funds - Regular Plan Growth Option;INF082J01341;;18.5124;;;07-Jun-2019
+117608;Quantum Multi Asset Active FOF - Direct Plan Growth Option;INF082J01168;;18.5575;;;07-Jun-2019
+141072;Quantum Multi Asset Active FOF - Regular Plan Growth Option;INF082J01341;;18.5124;;;07-Jun-2019
 
 SBI Mutual Fund
 119789;SBI Gold Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RN3;INF200K01RO1;10.5297;;;07-Jun-2019

@@ -781,14 +781,14 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;7.9989;7.9989;8.1789;20-Feb-2009
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.03;8.94;9.26;20-Feb-2009
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;9.04;8.95;9.27;20-Feb-2009
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;9.04;8.95;9.27;20-Feb-2009
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.04;8.95;9.27;20-Feb-2009
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;9.04;8.95;9.27;20-Feb-2009
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;9.03;8.94;9.26;20-Feb-2009
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;9.03;8.94;9.26;20-Feb-2009
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;9.03;8.94;9.26;20-Feb-2009
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;9.04;8.95;9.27;20-Feb-2009
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;9.04;8.95;9.27;20-Feb-2009
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.04;8.95;9.27;20-Feb-2009
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;9.04;8.95;9.27;20-Feb-2009
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;9.03;8.94;9.26;20-Feb-2009
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.03;8.94;9.26;20-Feb-2009
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;9.03;8.94;9.26;20-Feb-2009
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;9.03;8.94;9.26;20-Feb-2009
 
 DSP Mutual Fund
 103819;DSP Large & Mid Cap Fund - Regular Plan - Growth;INF740K01094;;37.8690;37.4900;38.7210;20-Feb-2009
@@ -1238,7 +1238,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;8.618;8.618;8.812;20-Feb-2009
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;5.277;5.277;5.396;20-Feb-2009
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;5.277;5.277;5.396;20-Feb-2009
 
 Nippon India Mutual Fund
 103197;NIPPON INDIA TAX SAVER (ELSS) FUND - IDCW Option;INF204K01GL2;INF204K01GM0;7.9222;7.9222;8.1004;20-Feb-2009
@@ -1986,7 +1986,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;16.059;16.059;16.26;20-Feb-2009
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;; 24.05 ; 23.80 ; 24.41 ;20-Feb-2009
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;; 24.05 ; 23.80 ; 24.41 ;20-Feb-2009
 
 SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;17.69;0;0;20-Feb-2009

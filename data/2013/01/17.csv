@@ -1874,17 +1874,17 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;18.3601;18.3601;18.3601;17-Jan-2013
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;11.71;11.59;11.71;17-Jan-2013
-119349;BANK OF INDIA Large & Mid Cap Equity Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;11.70;11.58;11.70;17-Jan-2013
-119350;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Growth;INF761K01652;;18.42;18.24;18.42;17-Jan-2013
-119346;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;12.99;12.86;12.99;17-Jan-2013
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;18.66;18.47;0.00;17-Jan-2013
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;18.66;18.47;0.00;17-Jan-2013
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;11.86;11.74;0.00;17-Jan-2013
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.13;13.00;0.00;17-Jan-2013
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;18.44;18.26;18.44;17-Jan-2013
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;12.99;12.86;12.99;17-Jan-2013
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;18.44;18.26;18.44;17-Jan-2013
+119349;BANK OF INDIA Large & Mid Cap Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;11.70;11.58;11.70;17-Jan-2013
+119350;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Growth;INF761K01652;;18.42;18.24;18.42;17-Jan-2013
+119346;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;12.99;12.86;12.99;17-Jan-2013
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;18.66;18.47;0.00;17-Jan-2013
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;18.66;18.47;0.00;17-Jan-2013
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;11.86;11.74;0.00;17-Jan-2013
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.13;13.00;0.00;17-Jan-2013
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;18.44;18.26;18.44;17-Jan-2013
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;11.71;11.59;11.71;17-Jan-2013
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;12.99;12.86;12.99;17-Jan-2013
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;18.44;18.26;18.44;17-Jan-2013
 
 Canara Robeco Mutual Fund
 118278;CANARA ROBECO LARGE AND MID CAP FUND - DIRECT PLAN - GROWTH OPTION;INF760K01EI4;;27.5300;27.5300;27.5300;17-Jan-2013
@@ -2769,7 +2769,7 @@ JM Financial Mutual Fund
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;20.633;20.633;20.633;17-Jan-2013
 119773;Kotak ELSS Tax Saver Fund-Growth - Direct;INF174K01LI3;;20.888;20.888;20.888;17-Jan-2013
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;12.635;12.635;12.635;17-Jan-2013
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;12.635;12.635;12.635;17-Jan-2013
 119772;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LJ1;;12.639;12.639;12.639;17-Jan-2013
 
 L&T Mutual Fund
@@ -3081,13 +3081,13 @@ Invesco Mutual Fund
 104484;Invesco India Liquid Fund - Daily IDCW (Reinvestment);;INF205K01HN3;1000.7849;1000.7849;1000.7849;17-Jan-2013
 120537;Invesco India Liquid Fund - Direct Plan - Growth;INF205K01MF9;;1585.4019;1585.4019;1585.4019;17-Jan-2013
 120536;Invesco India Liquid Fund - Direct Plan - Monthly IDCW (Payout / Reinvestment);INF205K01MG7;INF205K01MH5;1005.6894;1005.6894;1005.6894;17-Jan-2013
-120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);;INF205K01MI3;1000.7840;1000.7840;1000.7840;17-Jan-2013
+120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);INF205KA1BE5;INF205K01MI3;1000.7840;1000.7840;1000.7840;17-Jan-2013
 120534;Invesco India Liquid Fund - Direct Plan- Daily IDCW (Reinvestment);;INF205K01ME2;1000.7849;1000.7849;1000.7849;17-Jan-2013
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;1585.3767;1585.3767;1585.3767;17-Jan-2013
 104492;Invesco India Liquid Fund - Monthly IDCW (Payout / Reinvestment);INF205K01HQ6;INF205K01HP8;1005.6773;1005.6773;1005.6773;17-Jan-2013
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;1529.7953;1529.7953;1529.7953;17-Jan-2013
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;1000.9345;1000.9345;1000.9345;17-Jan-2013
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1000.7465;1000.7465;1000.7465;17-Jan-2013
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1000.7465;1000.7465;1000.7465;17-Jan-2013
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;1000.2250;1000.2250;1000.2250;17-Jan-2013
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;1561.8451;1561.8451;1561.8451;17-Jan-2013
 
@@ -5832,8 +5832,8 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;26.7199;25.918;26.72;17-Jan-2013
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;65.79;65.13;65.79;17-Jan-2013
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;65.80;65.14;65.80;17-Jan-2013
+120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;65.80;65.14;65.80;17-Jan-2013
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;65.79;65.13;65.79;17-Jan-2013
 
 LIC Mutual Fund
 120285;LIC MF Children's Fund-Direct Plan-Growth;INF767K01FB1;;10.3951;10.2911;10.3951;17-Jan-2013
@@ -6111,11 +6111,11 @@ Bandhan Mutual Fund
 112328;BANDHAN Asset Allocation Fund - Regular Plan - Conservative Plan - IDCW;INF194K01995;INF194K01AA1;11.8746;11.8746;11.8746;17-Jan-2013
 112329;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - Growth;INF194K01AB9;;13.2193;13.2193;13.2193;17-Jan-2013
 112330;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - IDCW;INF194K01AC7;INF194K01AD5;12.7326;12.7326;12.7326;17-Jan-2013
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;14.0237;14.0237;14.0237;17-Jan-2013
-115874;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.1141;11.1141;11.1141;17-Jan-2013
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;17.7668;17.7668;17.7668;17-Jan-2013
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.2915;11.2915;11.2915;17-Jan-2013
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.7622;12.7622;12.7622;17-Jan-2013
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;14.0237;14.0237;14.0237;17-Jan-2013
+115874;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.1141;11.1141;11.1141;17-Jan-2013
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;17.7668;17.7668;17.7668;17-Jan-2013
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.2915;11.2915;11.2915;17-Jan-2013
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.7622;12.7622;12.7622;17-Jan-2013
 
 Canara Robeco Mutual Fund
 118300;Canara Robeco Gold Savings Fund - Direct Plan - Dividend Option;INF760K01FD2;INF760K01FE0;10.1070;10.1070;10.1070;17-Jan-2013
@@ -6198,10 +6198,10 @@ Nippon India Mutual Fund
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;14.1630;13.8797;14.1630;17-Jan-2013
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;15.4730;15.2400;15.4730;17-Jan-2013
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;15.4750;15.2400;15.4750;17-Jan-2013
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;15.4730;15.2400;15.4730;17-Jan-2013
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;15.4750;15.2400;15.4750;17-Jan-2013
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;13.6261;13.4217;13.6261;17-Jan-2013
-117608;Quantum Multi Asset Fund of Funds - Direct Plan Growth Option;INF082J01168;;10.8834;10.7201;10.8834;17-Jan-2013
+117608;Quantum Multi Asset Active FOF - Direct Plan Growth Option;INF082J01168;;10.8834;10.7201;10.8834;17-Jan-2013
 
 SBI Mutual Fund
 119789;SBI Gold Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RN3;INF200K01RO1;10.6987;10.5917;10.6987;17-Jan-2013

@@ -806,14 +806,14 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;15.6831;15.6831;15.6831;16-Mar-2010
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;15.62;15.46;15.62;16-Mar-2010
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;17.82;17.64;17.82;16-Mar-2010
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;17.82;17.64;17.82;16-Mar-2010
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;15.66;15.50;15.66;16-Mar-2010
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.50;13.37;13.50;16-Mar-2010
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;17.75;17.57;17.75;16-Mar-2010
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;13.47;13.34;13.47;16-Mar-2010
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;17.75;17.57;17.75;16-Mar-2010
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;17.82;17.64;17.82;16-Mar-2010
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;17.82;17.64;17.82;16-Mar-2010
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;15.66;15.50;15.66;16-Mar-2010
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.50;13.37;13.50;16-Mar-2010
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;17.75;17.57;17.75;16-Mar-2010
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;15.62;15.46;15.62;16-Mar-2010
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;13.47;13.34;13.47;16-Mar-2010
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;17.75;17.57;17.75;16-Mar-2010
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;19.1600;19.1600;19.1600;16-Mar-2010
@@ -1302,7 +1302,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;16.687;16.687;16.687;16-Mar-2010
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;10.219;10.219;10.219;16-Mar-2010
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;10.219;10.219;10.219;16-Mar-2010
 
 Nippon India Mutual Fund
 103197;NIPPON INDIA TAX SAVER (ELSS) FUND - IDCW Option;INF204K01GL2;INF204K01GM0;14.3837;14.3837;14.3837;16-Mar-2010
@@ -2007,7 +2007,7 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;33.926;32.908;33.926;16-Mar-2010
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;52.02;51.50;52.02;16-Mar-2010
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;52.02;51.50;52.02;16-Mar-2010
 
 Tata Mutual Fund
 101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;19.1533;18.9618;19.6321;16-Mar-2010
@@ -2108,8 +2108,8 @@ Kotak Mahindra Mutual Fund
 102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;34.509;34.164;34.509;16-Mar-2010
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;12.4830;12.3000;12.4830;16-Mar-2010
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;12.4840;12.3000;12.4840;16-Mar-2010
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;12.4830;12.3000;12.4830;16-Mar-2010
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;12.4840;12.3000;12.4840;16-Mar-2010
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

@@ -1542,14 +1542,14 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;7.8423;7.8423;8.0188;03-Dec-2008
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.60;9.50;9.84;03-Dec-2008
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;9.60;9.50;9.84;03-Dec-2008
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;9.60;9.50;9.84;03-Dec-2008
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.60;9.50;9.84;03-Dec-2008
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;9.60;9.50;9.84;03-Dec-2008
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;9.60;9.50;9.84;03-Dec-2008
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;9.60;9.50;9.84;03-Dec-2008
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;9.60;9.50;9.84;03-Dec-2008
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;9.60;9.50;9.84;03-Dec-2008
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;9.60;9.50;9.84;03-Dec-2008
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.60;9.50;9.84;03-Dec-2008
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;9.60;9.50;9.84;03-Dec-2008
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;9.60;9.50;9.84;03-Dec-2008
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.60;9.50;9.84;03-Dec-2008
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;9.60;9.50;9.84;03-Dec-2008
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;9.60;9.50;9.84;03-Dec-2008
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;7.8000;7.8000;7.9800;03-Dec-2008
@@ -2022,7 +2022,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;8.711;8.711;8.907;03-Dec-2008
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;5.334;5.334;5.454;03-Dec-2008
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;5.334;5.334;5.454;03-Dec-2008
 
 LIC Mutual Fund
 100865;LIC MF ELSS Tax Saver-Regular Plan-Growth;INF767K01956;;15.3512;15.3512;15.3512;03-Dec-2008
@@ -2198,7 +2198,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;11.7944;11.7944;11.7944;03-Dec-2008
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;11.7156;11.7156;11.7156;03-Dec-2008
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0076;10.0076;10.0076;03-Dec-2008
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0077;10.0077;10.0077;03-Dec-2008
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0077;10.0077;10.0077;03-Dec-2008
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0033;10.0033;10.0033;03-Dec-2008
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;11.7783;11.7783;11.7783;03-Dec-2008
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0077;10.0077;10.0077;03-Dec-2008
@@ -3531,7 +3531,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;15.477;15.477;15.67;03-Dec-2008
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;24.94;24.69;25.31;03-Dec-2008
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;24.94;24.69;25.31;03-Dec-2008
 
 LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;6.2391;6.2391;6.2391;03-Dec-2008
@@ -3643,10 +3643,10 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Bandhan Mutual Fund
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;11.5324;11.5324;11.5324;03-Dec-2008
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;13.9739;13.9739;13.9739;03-Dec-2008
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.3742;11.3742;11.3742;03-Dec-2008
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;11.2127;11.2127;11.2127;03-Dec-2008
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;11.5324;11.5324;11.5324;03-Dec-2008
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;13.9739;13.9739;13.9739;03-Dec-2008
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.3742;11.3742;11.3742;03-Dec-2008
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;11.2127;11.2127;11.2127;03-Dec-2008
 
 Franklin Templeton Mutual Fund
 101657;Franklin India Dynamic Asset Allocation Active Fund of funds - IDCW;INF090I01247;INF090I01254;21.7210;21.7210;22.2097;03-Dec-2008

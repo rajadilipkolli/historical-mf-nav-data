@@ -1840,7 +1840,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;14.902;14.902;15.237;06-Aug-2008
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;9.126;9.126;9.331;06-Aug-2008
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;9.126;9.126;9.331;06-Aug-2008
 
 LIC Mutual Fund
 100865;LIC MF ELSS Tax Saver-Regular Plan-Growth;INF767K01956;;24.5720;24.5720;24.5720;06-Aug-2008
@@ -2016,7 +2016,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;11.4413;11.4413;11.4413;06-Aug-2008
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;11.3741;11.3741;11.3741;06-Aug-2008
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0076;10.0076;10.0076;06-Aug-2008
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0079;10.0079;10.0079;06-Aug-2008
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0079;10.0079;10.0079;06-Aug-2008
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0033;10.0033;10.0033;06-Aug-2008
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;11.4275;11.4275;11.4275;06-Aug-2008
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0077;10.0077;10.0077;06-Aug-2008
@@ -3321,7 +3321,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;16.414;16.414;16.619;06-Aug-2008
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;42.69;42.26;43.33;06-Aug-2008
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;42.69;42.26;43.33;06-Aug-2008
 
 LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;12.1503;12.1503;12.1503;06-Aug-2008
@@ -3433,10 +3433,10 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Bandhan Mutual Fund
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;10.4782;10.4782;10.4782;06-Aug-2008
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;12.6965;12.6965;12.6965;06-Aug-2008
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;10.5811;10.5811;10.5811;06-Aug-2008
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;10.3357;10.3357;10.3357;06-Aug-2008
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;10.4782;10.4782;10.4782;06-Aug-2008
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;12.6965;12.6965;12.6965;06-Aug-2008
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;10.5811;10.5811;10.5811;06-Aug-2008
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;10.3357;10.3357;10.3357;06-Aug-2008
 
 Franklin Templeton Mutual Fund
 101657;Franklin India Dynamic Asset Allocation Active Fund of funds - IDCW;INF090I01247;INF090I01254;28.8868;28.8868;29.5368;06-Aug-2008

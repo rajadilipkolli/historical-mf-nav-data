@@ -641,14 +641,14 @@ Bandhan Mutual Fund
 111863;IDFC Core Equity Fund-Plan B- Growth;INF194K01177;;14.3959;14.3959;14.3959;19-Aug-2011
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.81;9.71;9.81;19-Aug-2011
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;15.55;15.39;15.55;19-Aug-2011
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;15.55;15.39;15.55;19-Aug-2011
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.89;9.79;9.89;19-Aug-2011
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;10.94;10.83;10.94;19-Aug-2011
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;15.44;15.29;15.44;19-Aug-2011
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;10.88;10.77;10.88;19-Aug-2011
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;15.44;15.29;15.44;19-Aug-2011
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;15.55;15.39;15.55;19-Aug-2011
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;15.55;15.39;15.55;19-Aug-2011
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.89;9.79;9.89;19-Aug-2011
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;10.94;10.83;10.94;19-Aug-2011
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;15.44;15.29;15.44;19-Aug-2011
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.81;9.71;9.81;19-Aug-2011
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;10.88;10.77;10.88;19-Aug-2011
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;15.44;15.29;15.44;19-Aug-2011
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;21.2300;21.2300;21.2300;19-Aug-2011
@@ -1172,7 +1172,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;15.958;15.958;15.958;19-Aug-2011
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;9.772;9.772;9.772;19-Aug-2011
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;9.772;9.772;9.772;19-Aug-2011
 
 Nippon India Mutual Fund
 103197;NIPPON INDIA TAX SAVER (ELSS) FUND - IDCW Option;INF204K01GL2;INF204K01GM0;13.4698;13.4698;13.4698;19-Aug-2011
@@ -1700,7 +1700,7 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;42.216;40.95;42.216;19-Aug-2011
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;51.30;50.79;51.30;19-Aug-2011
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;51.30;50.79;51.30;19-Aug-2011
 
 Tata Mutual Fund
 101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;14.8282;14.6799;14.8282;19-Aug-2011
@@ -1856,8 +1856,8 @@ Nippon India Mutual Fund
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;13.0151;12.7548;13.0151;19-Aug-2011
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;12.6340;12.4400;12.6340;19-Aug-2011
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;12.6360;12.4500;12.6360;19-Aug-2011
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;12.6340;12.4400;12.6340;19-Aug-2011
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;12.6360;12.4500;12.6360;19-Aug-2011
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;12.5982;12.4092;12.5982;19-Aug-2011
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )

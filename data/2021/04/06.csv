@@ -327,18 +327,18 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;16.73;;;06-Apr-2021
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;15.99;;;06-Apr-2021
-119349;BANK OF INDIA Large & Mid Cap Equity Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;13.43;;;06-Apr-2021
-119300;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan- Bonus;INF761K01629;;24.93;;;06-Apr-2021
-119350;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Growth;INF761K01652;;48.23;;;06-Apr-2021
-119346;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;14.10;;;06-Apr-2021
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;47.13;;;06-Apr-2021
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;47.13;;;06-Apr-2021
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;13.29;;;06-Apr-2021
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.61;;;06-Apr-2021
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;43.91;;;06-Apr-2021
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;13.31;;;06-Apr-2021
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;43.90;;;06-Apr-2021
+119349;BANK OF INDIA Large & Mid Cap Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;13.43;;;06-Apr-2021
+119300;BANK OF INDIA Large & Mid Cap Fund Direct Plan- Bonus;INF761K01629;;24.93;;;06-Apr-2021
+119350;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Growth;INF761K01652;;48.23;;;06-Apr-2021
+119346;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;14.10;;;06-Apr-2021
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;47.13;;;06-Apr-2021
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;47.13;;;06-Apr-2021
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;13.29;;;06-Apr-2021
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;13.61;;;06-Apr-2021
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;43.91;;;06-Apr-2021
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;15.99;;;06-Apr-2021
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;13.31;;;06-Apr-2021
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;43.90;;;06-Apr-2021
 
 Baroda BNP Paribas Mutual Fund
 148474;Baroda BNP Paribas Large and Mid Cap Fund- Direct Plan -Growth Option;INF955L01JU2;;12.98;;;06-Apr-2021
@@ -1764,7 +1764,7 @@ JM Financial Mutual Fund
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;59.201;;;06-Apr-2021
 119773;Kotak ELSS Tax Saver Fund-Growth - Direct;INF174K01LI3;;65.692;;;06-Apr-2021
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;22.156;;;06-Apr-2021
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;22.156;;;06-Apr-2021
 119772;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LJ1;;27.517;;;06-Apr-2021
 
 L&T Mutual Fund
@@ -2441,7 +2441,7 @@ Invesco Mutual Fund
 104484;Invesco India Liquid Fund - Daily IDCW (Reinvestment);;INF205K01HN3;1002.7594;;;06-Apr-2021
 120537;Invesco India Liquid Fund - Direct Plan - Growth;INF205K01MF9;;2827.6692;;;06-Apr-2021
 120536;Invesco India Liquid Fund - Direct Plan - Monthly IDCW (Payout / Reinvestment);INF205K01MG7;INF205K01MH5;1053.0009;;;06-Apr-2021
-120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);;INF205K01MI3;1000.6133;;;06-Apr-2021
+120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);INF205KA1BE5;INF205K01MI3;1000.6133;;;06-Apr-2021
 120534;Invesco India Liquid Fund - Direct Plan- Daily IDCW (Reinvestment);;INF205K01ME2;1000.9596;;;06-Apr-2021
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;2811.802;;;06-Apr-2021
 104492;Invesco India Liquid Fund - Monthly IDCW (Payout / Reinvestment);INF205K01HQ6;INF205K01HP8;1003.6342;;;06-Apr-2021
@@ -2451,7 +2451,7 @@ Invesco Mutual Fund
 139389;Invesco India Liquid Fund - Unclaimed Dividend Plan - Below 3 Years;;;1340.102;;;06-Apr-2021
 139388;Invesco India Liquid Fund - Unclaimed Redemption Plan - Above 3 Years;;;1000;;;06-Apr-2021
 139387;Invesco India Liquid Fund - Unclaimed Redemption Plan - Below 3 years;;;1340.0069;;;06-Apr-2021
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1003.3738;;;06-Apr-2021
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1003.3738;;;06-Apr-2021
 
 ITI Mutual Fund
 147161;ITI Liquid Fund - Direct Plan - Annually IDCW Option;INF00XX01366;INF00XX01333;1080.6665;;;06-Apr-2021
@@ -5151,7 +5151,7 @@ Kotak Mahindra Mutual Fund
 123690;Kotak Banking and PSU Debt - Growth;INF174K01FO3;;50.3691;;;06-Apr-2021
 123691;Kotak Banking and PSU Debt - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01FQ8;INF174K01FP0;10.4641;;;06-Apr-2021
 123693;Kotak Banking and PSU Debt Direct - Growth;INF174K01KH7;;51.5824;;;06-Apr-2021
-123692;Kotak Banking and PSU Debt Direct - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01KK1;;10.4331;;;06-Apr-2021
+123692;Kotak Banking and PSU Debt Direct - Monthly Payout of Income Distribution cum capital withdrawal option;INF174K01KK1;INF174K01KL9;10.4331;;;06-Apr-2021
 
 L&T Mutual Fund
 119794;L&T Banking and PSU Debt Fund -  Direct Plan - Monthly IDCW;INF917K01HI3;;11.7344;;;06-Apr-2021
@@ -6849,8 +6849,8 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;154.175;;;06-Apr-2021
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;165.87;;;06-Apr-2021
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;176.69;;;06-Apr-2021
+120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;176.69;;;06-Apr-2021
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;165.87;;;06-Apr-2021
 
 LIC Mutual Fund
 120285;LIC MF Children's Fund-Direct Plan-Growth;INF767K01FB1;;22.6348;;;06-Apr-2021
@@ -7445,21 +7445,21 @@ Bandhan Mutual Fund
 112330;BANDHAN Asset Allocation Fund - Regular Plan - Moderate Plan - IDCW;INF194K01AC7;INF194K01AD5;17.4228;;;06-Apr-2021
 118489;BANDHAN Asset Allocation Fund Of Fund-Moderate Plan-Direct Plan-Growth;INF194K019A3;;27.2583;;;06-Apr-2021
 118488;BANDHAN Asset Allocation Fund Of Fund-Moderate Plan-Direct Plan-IDCW;INF194K010B0;INF194K011B8;17.9152;;;06-Apr-2021
-118408;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Annual IDCW;INF194K01U98;INF194K01U80;13.9765;;;06-Apr-2021
-118409;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Daily IDCW;;INF194K01V63;11.4309;;;06-Apr-2021
-118414;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Fortnightly IDCW;INF194K01V55;INF194K01V48;11.4515;;;06-Apr-2021
-118410;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Growth;INF194K01U72;;35.6043;;;06-Apr-2021
-118411;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Half Yearly IDCW;INF194K01V14;INF194K01V06;13.3659;;;06-Apr-2021
-131398;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Periodic IDCW;INF194KA1TV4;INF194KA1TW2;12.2376;;;06-Apr-2021
-118413;Bandhan Income Plus Arbitrage Fund of Funds - Direct Plan - Quarterly IDCW;INF194K01V30;INF194K01V22;12.6252;;;06-Apr-2021
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;13.3364;;;06-Apr-2021
-117868;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Daily IDCW;;INF194K01F55;11.4304;;;06-Apr-2021
-115874;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.4481;;;06-Apr-2021
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;34.3859;;;06-Apr-2021
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.7730;;;06-Apr-2021
-131399;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Periodic IDCW;INF194KA1TS0;INF194KA1TT8;12.0215;;;06-Apr-2021
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.4610;;;06-Apr-2021
-117867;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Weekly IDCW;;INF194K01F63;11.4449;;;06-Apr-2021
+118408;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Annual IDCW;INF194K01U98;INF194K01U80;13.9765;;;06-Apr-2021
+118409;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Daily IDCW;;INF194K01V63;11.4309;;;06-Apr-2021
+118414;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Fortnightly IDCW;INF194K01V55;INF194K01V48;11.4515;;;06-Apr-2021
+118410;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Growth;INF194K01U72;;35.6043;;;06-Apr-2021
+118411;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Half Yearly IDCW;INF194K01V14;INF194K01V06;13.3659;;;06-Apr-2021
+131398;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Periodic IDCW;INF194KA1TV4;INF194KA1TW2;12.2376;;;06-Apr-2021
+118413;Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Quarterly IDCW;INF194K01V30;INF194K01V22;12.6252;;;06-Apr-2021
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;13.3364;;;06-Apr-2021
+117868;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Daily IDCW;;INF194K01F55;11.4304;;;06-Apr-2021
+115874;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Fortnightly IDCW;INF194K01SM8;INF194K01SL0;11.4481;;;06-Apr-2021
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;34.3859;;;06-Apr-2021
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.7730;;;06-Apr-2021
+131399;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Periodic IDCW;INF194KA1TS0;INF194KA1TT8;12.0215;;;06-Apr-2021
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;12.4610;;;06-Apr-2021
+117867;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Weekly IDCW;;INF194K01F63;11.4449;;;06-Apr-2021
 
 DSP Mutual Fund
 130493;DSP Income Plus Arbitrage Fund of Fund - Direct Plan - Growth;INF740K01Z50;;17.3209;;;06-Apr-2021
@@ -7618,24 +7618,24 @@ Nippon India Mutual Fund
 118663;Nippon India Gold Savings Fund - Direct Plan Growth Plan - Growth Option;INF204K01YC4;;19.1721;;;06-Apr-2021
 114617;NIPPON INDIA GOLD SAVINGS FUND - IDCW Option;INF204K01KO8;INF204K01KP5;18.5263;;;06-Apr-2021
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;18.5263;;;06-Apr-2021
-148666;Nippon India Multi Asset Active FoF - Direct Plan - Growth Option;INF204KB16Y4;;10.3799;;;06-Apr-2021
-148664;Nippon India Multi Asset Active FoF - DIRECT Plan - IDCW Option;INF204KB17Y2;INF204KB18Y0;10.3799;;;06-Apr-2021
-148665;Nippon India Multi Asset Active FoF - IDCW Option;INF204KB14Y9;INF204KB15Y6;10.3629;;;06-Apr-2021
-148663;Nippon India Multi Asset Active FoF - Regular Plan - Growth Option;INF204KB13Y1;;10.3629;;;06-Apr-2021
+148666;Nippon India Multi - Asset Omni FoF - Direct Plan - Growth Option;INF204KB16Y4;;10.3799;;;06-Apr-2021
+148664;Nippon India Multi - Asset Omni FoF - DIRECT Plan - IDCW Option;INF204KB17Y2;INF204KB18Y0;10.3799;;;06-Apr-2021
+148665;Nippon India Multi - Asset Omni FoF - IDCW Option;INF204KB14Y9;INF204KB15Y6;10.3629;;;06-Apr-2021
+148663;Nippon India Multi - Asset Omni FoF - Regular Plan - Growth Option;INF204KB13Y1;;10.3629;;;06-Apr-2021
 146513;Nippon India Nifty Next 50 Junior BeES FoF - Direct Plan - Growth Plan - Growth Option;INF204KB1X25;;12.7112;;;06-Apr-2021
 146515;NIPPON INDIA NIFTY NEXT 50 JUNIOR BEES FOF - DIRECT Plan - IDCW Option;INF204KB1X41;INF204KB1X33;12.7112;;;06-Apr-2021
 146514;Nippon India Nifty Next 50 Junior BeES FoF - Growth Plan - Growth Option;INF204KB1W91;;12.6399;;;06-Apr-2021
 146512;NIPPON INDIA NIFTY NEXT 50 JUNIOR BEES FOF - IDCW Option;INF204KB1X17;INF204KB1X09;12.6399;;;06-Apr-2021
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;44.790;;;06-Apr-2021
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;44.790;;;06-Apr-2021
-141063;Quantum Equity Fund of Funds - Regular Plan Growth Option;INF082J01275;;44.470;;;06-Apr-2021
-141062;Quantum Equity Fund Of Funds - Regular Plan IDCW;INF082J01283;INF082J01291;44.470;;;06-Apr-2021
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;44.790;;;06-Apr-2021
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;44.790;;;06-Apr-2021
+141063;Quantum Diversified Equity All Cap Active FOF - Regular Plan Growth Option;INF082J01275;;44.470;;;06-Apr-2021
+141062;Quantum Diversified Equity All Cap Active FOF - Regular Plan IDCW;INF082J01283;INF082J01291;44.470;;;06-Apr-2021
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;18.2130;;;06-Apr-2021
 141064;Quantum Gold Savings Fund - Regular Plan Growth Option;INF082J01358;;18.1309;;;06-Apr-2021
-117608;Quantum Multi Asset Fund of Funds - Direct Plan Growth Option;INF082J01168;;22.0838;;;06-Apr-2021
-141072;Quantum Multi Asset Fund of Funds - Regular Plan Growth Option;INF082J01341;;21.9172;;;06-Apr-2021
+117608;Quantum Multi Asset Active FOF - Direct Plan Growth Option;INF082J01168;;22.0838;;;06-Apr-2021
+141072;Quantum Multi Asset Active FOF - Regular Plan Growth Option;INF082J01341;;21.9172;;;06-Apr-2021
 
 SBI Mutual Fund
 119789;SBI Gold Fund - Direct Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01RN3;INF200K01RO1;14.4949;;;06-Apr-2021

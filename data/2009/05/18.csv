@@ -1200,7 +1200,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;12.1771;12.1771;12.1771;18-May-2009
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;12.0673;12.0673;12.0673;18-May-2009
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0035;10.0035;10.0035;18-May-2009
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0035;10.0035;10.0035;18-May-2009
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0035;10.0035;10.0035;18-May-2009
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0064;10.0064;10.0064;18-May-2009
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;12.1561;12.1561;12.1561;18-May-2009
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0035;10.0035;10.0035;18-May-2009
@@ -2487,10 +2487,10 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Bandhan Mutual Fund
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;11.5086;11.5086;11.5086;18-May-2009
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;14.5808;14.5808;14.5808;18-May-2009
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.4275;11.4275;11.4275;18-May-2009
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;11.2894;11.2894;11.2894;18-May-2009
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;11.5086;11.5086;11.5086;18-May-2009
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;14.5808;14.5808;14.5808;18-May-2009
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;11.4275;11.4275;11.4275;18-May-2009
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;11.2894;11.2894;11.2894;18-May-2009
 
 ICICI Prudential Mutual Fund
 102141;ICICI Prudential Debt Management Fund (FOF) - Growth;INF109K01878;;14.0833;14.0833;14.0833;18-May-2009

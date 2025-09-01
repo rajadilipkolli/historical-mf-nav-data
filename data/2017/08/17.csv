@@ -454,18 +454,18 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;15.8770;15.8770;15.8770;17-Aug-2017
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;13.21;13.08;13.21;17-Aug-2017
-119349;BANK OF INDIA Large & Mid Cap Equity Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;13.10;12.97;13.10;17-Aug-2017
-119300;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan- Bonus;INF761K01629;;18.43;18.25;18.43;17-Aug-2017
-119350;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Growth;INF761K01652;;35.59;35.23;35.59;17-Aug-2017
-119346;BANK OF INDIA Large & Mid Cap Equity Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;15.20;15.05;15.20;17-Aug-2017
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;35.34;34.99;0.00;17-Aug-2017
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;35.34;34.99;0.00;17-Aug-2017
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;12.92;12.79;0.00;17-Aug-2017
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;15.03;14.88;0.00;17-Aug-2017
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;33.85;33.51;33.85;17-Aug-2017
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;13.25;13.12;13.25;17-Aug-2017
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;33.84;33.50;33.84;17-Aug-2017
+119349;BANK OF INDIA Large & Mid Cap Fund Direct  Plan- Quarterly IDCW;INF761K01678;INF761K01660;13.10;12.97;13.10;17-Aug-2017
+119300;BANK OF INDIA Large & Mid Cap Fund Direct Plan- Bonus;INF761K01629;;18.43;18.25;18.43;17-Aug-2017
+119350;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Growth;INF761K01652;;35.59;35.23;35.59;17-Aug-2017
+119346;BANK OF INDIA Large & Mid Cap Fund Direct Plan-Regular IDCW;INF761K01645;INF761K01637;15.20;15.05;15.20;17-Aug-2017
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;35.34;34.99;0.00;17-Aug-2017
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;35.34;34.99;0.00;17-Aug-2017
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;12.92;12.79;0.00;17-Aug-2017
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;15.03;14.88;0.00;17-Aug-2017
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;33.85;33.51;33.85;17-Aug-2017
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;13.21;13.08;13.21;17-Aug-2017
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;13.25;13.12;13.25;17-Aug-2017
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;33.84;33.50;33.84;17-Aug-2017
 
 Canara Robeco Mutual Fund
 118278;CANARA ROBECO LARGE AND MID CAP FUND - DIRECT PLAN - GROWTH OPTION;INF760K01EI4;;90.2200;90.2200;90.2200;17-Aug-2017
@@ -1538,7 +1538,7 @@ JM Financial Mutual Fund
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;40.06;40.06;40.06;17-Aug-2017
 119773;Kotak ELSS Tax Saver Fund-Growth - Direct;INF174K01LI3;;42.549;42.549;42.549;17-Aug-2017
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;19.754;19.754;19.754;17-Aug-2017
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;19.754;19.754;19.754;17-Aug-2017
 119772;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LJ1;;22.711;22.711;22.711;17-Aug-2017
 
 L&T Mutual Fund
@@ -1956,7 +1956,7 @@ Invesco Mutual Fund
 104484;Invesco India Liquid Fund - Daily IDCW (Reinvestment);;INF205K01HN3;1001.6232;1001.6232;1001.6232;17-Aug-2017
 120537;Invesco India Liquid Fund - Direct Plan - Growth;INF205K01MF9;;2295.5009;2295.5009;2295.5009;17-Aug-2017
 120536;Invesco India Liquid Fund - Direct Plan - Monthly IDCW (Payout / Reinvestment);INF205K01MG7;INF205K01MH5;1025.6102;1025.6102;1025.6102;17-Aug-2017
-120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);;INF205K01MI3;1001.0237;1001.0237;1001.0237;17-Aug-2017
+120535;Invesco India Liquid Fund - Direct Plan - Weekly IDCW (Reinvestment);INF205KA1BE5;INF205K01MI3;1001.0237;1001.0237;1001.0237;17-Aug-2017
 120534;Invesco India Liquid Fund - Direct Plan- Daily IDCW (Reinvestment);;INF205K01ME2;1000.79;1000.79;1000.79;17-Aug-2017
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;2288.4483;2288.4483;2288.4483;17-Aug-2017
 104492;Invesco India Liquid Fund - Monthly IDCW (Payout / Reinvestment);INF205K01HQ6;INF205K01HP8;1006.4962;1006.4962;1006.4962;17-Aug-2017
@@ -1964,7 +1964,7 @@ Invesco Mutual Fund
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;1001.3651;1001.3651;1001.3651;17-Aug-2017
 139389;Invesco India Liquid Fund - Unclaimed Dividend Plan - Below 3 Years;;;1087.7562;1087.7562;1087.7562;17-Aug-2017
 139387;Invesco India Liquid Fund - Unclaimed Redemption Plan - Below 3 years;;;1087.7575;1087.7575;1087.7575;17-Aug-2017
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;1002.8209;1002.8209;1002.8209;17-Aug-2017
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;1002.8209;1002.8209;1002.8209;17-Aug-2017
 
 JM Financial Mutual Fund
 120410;JM Liquid Fund (Direct) - Bonus Option - Bonus Option - Principal units;INF192K01CN4;;14.6737;14.6737;14.6737;17-Aug-2017
@@ -3018,8 +3018,8 @@ HDFC Mutual Fund
 100900;HDFC Childrens Fund - Growth Plan;;;108.5680;105.3110;108.5680;17-Aug-2017
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;123.59;119.88;123.59;17-Aug-2017
-120579;ICICI Prudential Child Care Fund (Gift Plan) - Direct Plan - Cumulative;INF109K01Y49;;127.96;124.12;127.96;17-Aug-2017
+120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;127.96;124.12;127.96;17-Aug-2017
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;123.59;119.88;123.59;17-Aug-2017
 
 Tata Mutual Fund
 101489;Tata Young Citizen Fund [Upto 3 years] Regular Plan;;;25.4383;25.4383;24.6752;17-Aug-2017
@@ -3406,14 +3406,14 @@ Nippon India Mutual Fund
 114616;Nippon India Gold Savings Fund-Growth plan- Growth Option;INF204K01KN0;;12.4670;12.2177;12.4670;17-Aug-2017
 
 Quantum Mutual Fund
-112039;Quantum Equity Fund of Funds - Direct Plan Growth Option;INF082J01093;;32.521;32.033;32.521;17-Aug-2017
-112038;Quantum Equity Fund Of Funds - Direct Plan IDCW;INF082J01101;INF082J01119;32.521;32.033;32.521;17-Aug-2017
-141063;Quantum Equity Fund of Funds - Regular Plan Growth Option;INF082J01275;;32.507;32.019;32.507;17-Aug-2017
-141062;Quantum Equity Fund Of Funds - Regular Plan IDCW;INF082J01283;INF082J01291;32.507;32.019;32.507;17-Aug-2017
+112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;32.521;32.033;32.521;17-Aug-2017
+112038;Quantum Diversified Equity All Cap Active FOF - Direct Plan IDCW;INF082J01101;INF082J01119;32.521;32.033;32.521;17-Aug-2017
+141063;Quantum Diversified Equity All Cap Active FOF - Regular Plan Growth Option;INF082J01275;;32.507;32.019;32.507;17-Aug-2017
+141062;Quantum Diversified Equity All Cap Active FOF - Regular Plan IDCW;INF082J01283;INF082J01291;32.507;32.019;32.507;17-Aug-2017
 115132;Quantum Gold Savings Fund - Direct Plan Growth Option;INF082J01150;;12.1134;11.9317;12.1134;17-Aug-2017
 141064;Quantum Gold Savings Fund - Regular Plan Growth Option;INF082J01358;;12.1084;11.9268;12.1084;17-Aug-2017
-117608;Quantum Multi Asset Fund of Funds - Direct Plan Growth Option;INF082J01168;;16.6260;16.4597;16.6260;17-Aug-2017
-141072;Quantum Multi Asset Fund of Funds - Regular Plan Growth Option;INF082J01341;;16.6190;16.4528;16.6190;17-Aug-2017
+117608;Quantum Multi Asset Active FOF - Direct Plan Growth Option;INF082J01168;;16.6260;16.4597;16.6260;17-Aug-2017
+141072;Quantum Multi Asset Active FOF - Regular Plan Growth Option;INF082J01341;;16.6190;16.4528;16.6190;17-Aug-2017
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

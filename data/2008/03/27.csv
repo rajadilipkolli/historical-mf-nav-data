@@ -1811,7 +1811,7 @@ Invesco Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;16.139;16.139;16.502;27-Mar-2008
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;9.883;9.883;10.105;27-Mar-2008
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;9.883;9.883;10.105;27-Mar-2008
 
 Nippon India Mutual Fund
 103197;NIPPON INDIA TAX SAVER (ELSS) FUND - IDCW Option;INF204K01GL2;INF204K01GM0;12.19;12.19;12.46;27-Mar-2008
@@ -1958,7 +1958,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;11.1039;11.1039;11.1039;27-Mar-2008
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;11.0486;11.0486;11.0486;27-Mar-2008
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0086;10.0086;10.0086;27-Mar-2008
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0088;10.0088;10.0088;27-Mar-2008
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0088;10.0088;10.0088;27-Mar-2008
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0017;10.0017;10.0017;27-Mar-2008
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;11.0926;11.0926;11.0926;27-Mar-2008
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0087;10.0087;10.0087;27-Mar-2008
@@ -3138,7 +3138,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;16.417;16.417;16.622;27-Mar-2008
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;; 44.31 ; 43.87 ; 44.98 ;27-Mar-2008
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;; 44.31 ; 43.87 ; 44.98 ;27-Mar-2008
 
 SBI Mutual Fund
 101169;SBI Magnum Children's Benefit Fund - Savings Plan - REGULAR PLAN - GROWTH;INF200K01776;;18.1750;17.6298;18.4476;27-Mar-2008

@@ -1503,14 +1503,14 @@ Bandhan Mutual Fund
 108597;Bandhan Large & Mid Cap Fund - Regular Plan - IDCW;INF194K01532;INF194K01540;8.0411;8.0411;8.2220;22-Jan-2009
 
 Bank of India Mutual Fund
-110598;BANK OF INDIA Large & Mid Cap  Equity Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.12;9.03;9.35;22-Jan-2009
-110599;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan- Growth;INF761K01041;;9.14;9.05;9.37;22-Jan-2009
-110601;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Bonus;INF761K01017;;9.14;9.05;9.37;22-Jan-2009
-110604;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.14;9.05;9.37;22-Jan-2009
-110608;BANK OF INDIA Large & Mid Cap Equity Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;9.14;9.05;9.37;22-Jan-2009
-110603;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Growth;INF761K01108;;9.12;9.03;9.35;22-Jan-2009
-110607;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;9.12;9.03;9.35;22-Jan-2009
-110606;BANK OF INDIA Large & Mid Cap Equity Fund Regular Plan-Bonus;INF761K01074;;9.12;9.03;9.35;22-Jan-2009
+110599;BANK OF INDIA Large & Mid Cap Fund Eco Plan- Growth;INF761K01041;;9.14;9.05;9.37;22-Jan-2009
+110601;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Bonus;INF761K01017;;9.14;9.05;9.37;22-Jan-2009
+110604;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Quarterly IDCW;INF761K01058;INF761K01066;9.14;9.05;9.37;22-Jan-2009
+110608;BANK OF INDIA Large & Mid Cap Fund Eco Plan-Regular IDCW;INF761K01025;INF761K01033;9.14;9.05;9.37;22-Jan-2009
+110603;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Growth;INF761K01108;;9.12;9.03;9.35;22-Jan-2009
+110598;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Quarterly IDCW;INF761K01116;INF761K01124;9.12;9.03;9.35;22-Jan-2009
+110607;BANK OF INDIA Large & Mid Cap Fund Regular Plan- Regular IDCW;INF761K01082;INF761K01090;9.12;9.03;9.35;22-Jan-2009
+110606;BANK OF INDIA Large & Mid Cap Fund Regular Plan-Bonus;INF761K01074;;9.12;9.03;9.35;22-Jan-2009
 
 Canara Robeco Mutual Fund
 102920;CANARA ROBECO LARGE AND MID CAP FUND - REGULAR PLAN - GROWTH OPTION;INF760K01167;;7.9300;7.9300;8.1100;22-Jan-2009
@@ -1981,7 +1981,7 @@ JM Financial Mutual Fund
 
 Kotak Mahindra Mutual Fund
 103339;Kotak ELSS Tax Saver Fund-Growth;INF174K01369;;8.711;8.711;8.907;22-Jan-2009
-103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;INF174K01377;5.334;5.334;5.454;22-Jan-2009
+103338;Kotak ELSS Tax Saver Fund-Payout of Income Distribution cum capital withdrawal option;INF174K01385;;5.334;5.334;5.454;22-Jan-2009
 
 LIC Mutual Fund
 100865;LIC MF ELSS Tax Saver-Regular Plan-Growth;INF767K01956;;16.0577;16.0577;0.0000;22-Jan-2009
@@ -2161,7 +2161,7 @@ Invesco Mutual Fund
 104486;Invesco India Liquid Fund - Growth;INF205K01HM5;;11.9333;11.9333;11.9333;22-Jan-2009
 104488;Invesco India Liquid Fund - Regular - Growth;INF205K01HG7;;11.8483;11.8483;11.8483;22-Jan-2009
 104489;Invesco India Liquid Fund - Regular - Weekly IDCW (Reinvestment);;INF205K01HH5;10.0088;10.0088;10.0088;22-Jan-2009
-104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);;INF205K01HO1;10.0065;10.0065;10.0065;22-Jan-2009
+104485;Invesco India Liquid Fund - Weekly IDCW (Reinvestment);INF205KA1BD7;INF205K01HO1;10.0065;10.0065;10.0065;22-Jan-2009
 104483;Religare Invesco Liquid Fund - Institutional - Daily Dividend;;INF205K01HJ1;10.0033;10.0033;10.0033;22-Jan-2009
 104491;Religare Invesco Liquid Fund - Institutional - Growth;INF205K01HI3;;11.9161;11.9161;11.9161;22-Jan-2009
 104490;Religare Invesco Liquid Fund - Institutional - Weekly Dividend;;INF205K01HK9;10.0093;10.0093;10.0093;22-Jan-2009
@@ -2907,7 +2907,7 @@ HDFC Mutual Fund
 HSBC Mutual Fund
 106736;HSBC Dynamic Bond Fund - Growth;INF336L01545;;12.0005;11.9105;12.0005;22-Jan-2009
 106737;HSBC Dynamic Bond Fund - Regular Growth;INF336L01461;;12.0551;12.0551;12.0551;22-Jan-2009
-108220;HSBC Dynamic Bond Fund - Regular Monthly IDCW;INF336L01602;INF336L01594;11.2185;11.1344;11.2185;22-Jan-2009
+110439;HSBC Dynamic Bond Fund - Regular Monthly IDCW;INF336L01487;INF336L01479;0.0000;0.0000;0.0000;22-Jan-2009
 
 ICICI Prudential Mutual Fund
 101351;ICICI Prudential All Seasons Bond Fund - Weekly IDCW;INF109K01FD2;INF109K01704;10.5131;10.5131;10.5131;22-Jan-2009
@@ -3536,7 +3536,7 @@ HDFC Mutual Fund
 100899;HDFC Childrens Fund-Savings;;;16.033;16.033;16.233;22-Jan-2009
 
 ICICI Prudential Mutual Fund
-101127;ICICI Prudential Child Care Fund (Gift Plan) - Cumulative;INF109K01605;;24.89;24.64;25.26;22-Jan-2009
+101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;24.89;24.64;25.26;22-Jan-2009
 
 LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;6.4408;6.4408;6.4408;22-Jan-2009
@@ -3645,10 +3645,10 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Bandhan Mutual Fund
-108547;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;12.1874;12.1874;12.1874;22-Jan-2009
-108545;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Growth;INF194K01SE5;;14.7676;14.7676;14.7676;22-Jan-2009
-108546;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;12.0203;12.0203;12.0203;22-Jan-2009
-108544;Bandhan Income Plus Arbitrage Fund of Funds - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;11.7531;11.7531;11.7531;22-Jan-2009
+108547;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Annual IDCW;INF194K01SG0;INF194K01SF2;12.1874;12.1874;12.1874;22-Jan-2009
+108545;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Growth;INF194K01SE5;;14.7676;14.7676;14.7676;22-Jan-2009
+108546;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Half Yearly IDCW;INF194K01SI6;INF194K01SH8;12.0203;12.0203;12.0203;22-Jan-2009
+108544;Bandhan Income Plus Arbitrage Active FOF - Regular Plan - Quarterly IDCW;INF194K01SK2;INF194K01SJ4;11.7531;11.7531;11.7531;22-Jan-2009
 
 ICICI Prudential Mutual Fund
 102137;ICICI Prudential Asset Allocator Fund (FOF) - Growth;INF109K01837;;15.3214;15.3214;15.4746;22-Jan-2009
