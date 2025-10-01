@@ -2036,6 +2036,12 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;38.42;36.88;38.42;30-Nov-2015
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;38.75;37.20;38.75;30-Nov-2015
 
+Sundaram Mutual Fund
+119549;Sundaram Value Fund Direct Plan - Growth;INF903J01NN3;;74.2971;74.2971;74.2971;30-Nov-2015
+119548;Sundaram Value Fund Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;14.2015;14.2015;14.2015;30-Nov-2015
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;73.5947;73.5947;73.5947;30-Nov-2015
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;14.0543;14.0543;14.0543;30-Nov-2015
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;44.7305;44.2832;44.7305;30-Nov-2015
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;86.7170;85.8498;86.7170;30-Nov-2015
@@ -2700,12 +2706,6 @@ SBI Mutual Fund
 119723;SBI ELSS Tax Saver FUND - DIRECT PLAN -GROWTH;INF200K01UM9;;112.454;112.454;112.454;30-Nov-2015
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;44.2013;44.2013;44.2013;30-Nov-2015
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;110.7843;110.7843;110.7843;30-Nov-2015
-
-Sundaram Mutual Fund
-119549;Sundaram Diversified Equity (ELSS) Direct Plan - Growth;INF903J01NN3;;74.2971;74.2971;74.2971;30-Nov-2015
-119548;Sundaram Diversified Equity (ELSS) Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;14.2015;14.2015;14.2015;30-Nov-2015
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;73.5947;73.5947;73.5947;30-Nov-2015
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;14.0543;14.0543;14.0543;30-Nov-2015
 
 Tata Mutual Fund
 119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;79.2533;79.2533;79.2533;30-Nov-2015
@@ -3520,10 +3520,10 @@ Franklin Templeton Mutual Fund
 
 HDFC Mutual Fund
 105548;HDFC Low Duration  Fund - Daily IDCW;;INF179K01434;10.0320;10.0320;10.0320;30-Nov-2015
-118945;HDFC Low Duration  Fund - Direct Plan - Daily IDCW;;;10.0315;10.0315;10.0315;30-Nov-2015
+118945;HDFC Low Duration  Fund - Direct Plan - Daily IDCW;;INF179KC1IR2;10.0315;10.0315;10.0315;30-Nov-2015
 118942;HDFC Low Duration  Fund - Direct Plan - Growth;INF179K01VF7;;31.6299;31.6299;31.6299;30-Nov-2015
 118943;HDFC Low Duration  Fund - Direct Plan - Monthly IDCW;INF179K01VG5;INF179K01VH3;10.2080;10.2080;10.2080;30-Nov-2015
-118944;HDFC Low Duration  Fund - Direct Plan - Weekly IDCW;;;10.0941;10.0941;10.0941;30-Nov-2015
+118944;HDFC Low Duration  Fund - Direct Plan - Weekly IDCW;INF179KC1IS0;INF179KC1IT8;10.0941;10.0941;10.0941;30-Nov-2015
 102452;HDFC Low Duration  Fund - Growth;INF179K01442;;30.9800;30.9800;30.9800;30-Nov-2015
 105543;HDFC Low Duration  Fund - Monthly IDCW;INF179K01459;INF179K01467;10.1075;10.1075;10.1075;30-Nov-2015
 102453;HDFC Low Duration  Fund - Weekly IDCW;INF179K01475;INF179K01483;10.0727;10.0727;10.0727;30-Nov-2015
@@ -5564,13 +5564,13 @@ Franklin Templeton Mutual Fund
 
 HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;30-Nov-2015
-118959;HDFC Floating Rate Debt Fund - Direct Plan - Daily IDCW;;;10.0809;10.0809;10.0809;30-Nov-2015
+118959;HDFC Floating Rate Debt Fund - Direct Plan - Daily IDCW;;INF179KC1IU6;10.0809;10.0809;10.0809;30-Nov-2015
 118961;HDFC Floating Rate Debt Fund - Direct Plan - Growth Option;INF179K01VQ4;;25.3864;25.3864;25.3864;30-Nov-2015
 118960;HDFC Floating Rate Debt Fund - Direct Plan - Monthly IDCW;INF179K01VO9;INF179K01VP6;10.2165;10.2165;10.2165;30-Nov-2015
-118962;HDFC Floating Rate Debt Fund - Direct Plan - Weekly IDCW;;;10.1487;10.1487;10.1487;30-Nov-2015
+118962;HDFC Floating Rate Debt Fund - Direct Plan - Weekly IDCW;INF179KC1IW2;;10.1487;10.1487;10.1487;30-Nov-2015
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;25.3399;25.3399;25.3399;30-Nov-2015
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.2155;10.2155;10.2155;30-Nov-2015
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1485;10.1485;10.1485;30-Nov-2015
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1485;10.1485;10.1485;30-Nov-2015
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;30-Nov-2015
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;24.6829;24.6829;24.6829;30-Nov-2015
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.2135;10.2135;10.2135;30-Nov-2015
@@ -5829,6 +5829,10 @@ Open Ended Schemes ( Hybrid Scheme - Aggressive Hybrid Fund )
 
 
 Aditya Birla Sun Life Mutual Fund
+132175;Aditya Birla Sun Life Aggressive Hybrid Omni FOF-  Regular -  IDCW;INF084M01085;INF084M01093;13.7157;13.7157;13.7157;30-Nov-2015
+132189;Aditya Birla Sun Life Aggressive Hybrid Omni FOF- Direct - IDCW;INF084M01EU0;INF084M01EV8;14.0355;14.0355;14.0355;30-Nov-2015
+132185;Aditya Birla Sun Life Aggressive Hybrid Omni FOF- Direct Plan - Growth Option;INF084M01ET2;;15.4936;15.4936;15.4936;30-Nov-2015
+132174;Aditya Birla Sun Life Aggressive Hybrid Omni FOF- Regular Plan - Growth Option;INF084M01077;;15.2932;15.2932;15.2932;30-Nov-2015
 120517;Aditya Birla Sun Life Equity Hybrid'95 Fund - Direct Plan-Growth;INF209K01ZC0;;573.19;567.46;573.19;30-Nov-2015
 103155;Aditya Birla Sun Life Equity Hybrid'95 Fund - Regular Plan-Growth;INF209K01BT5;;559.28;553.69;559.28;30-Nov-2015
 120518;Aditya Birla Sun Life Equity Hybrid'95 Fund -DIRECT - IDCW;INF209KA1LH3;INF209K01ZB2;174.22;172.48;174.22;30-Nov-2015
@@ -6062,6 +6066,12 @@ UTI Mutual Fund
 
 Open Ended Schemes ( Hybrid Scheme - Multi Asset Allocation )
 
+
+Aditya Birla Sun Life Mutual Fund
+131865;Aditya Birla Sun Life Multi Asset Omni FoF- Direct Plan - Growth Option;INF084M01DM9;;10.6547;10.6547;10.6547;30-Nov-2015
+131864;Aditya Birla Sun Life Multi Asset Omni FoF- Regular Plan - Growth Option;INF084M01AE2;;21.3207;21.3207;21.3207;30-Nov-2015
+131866;Aditya Birla Sun Life Multi Asset Omni FOF-DIRECT - IDCW;INF084M01DN7;INF084M01DO5;10.1516;10.1516;10.1516;30-Nov-2015
+131863;Aditya Birla Sun Life Multi Asset Omni FoF-REGULAR - IDCW;INF084M01AF9;INF084M01AG7;19.6261;19.6261;19.6261;30-Nov-2015
 
 Axis Mutual Fund
 120524;Axis Multi Asset Allocation Fund - Direct Plan - Growth Option;INF846K01EV4;;15.2389;15.0865;15.2389;30-Nov-2015
@@ -6396,8 +6406,8 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-119066;HDFC Childrens Fund - Direct Plan;;;84.726;82.184;84.726;30-Nov-2015
-100900;HDFC Childrens Fund - Growth Plan;;;83.140;80.646;83.140;30-Nov-2015
+119066;HDFC Childrens Fund - Direct Plan;INF179KC1IX0;;84.726;82.184;84.726;30-Nov-2015
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;83.140;80.646;83.140;30-Nov-2015
 119067;HDFC Childrens Fund Savings Plan-Direct Plan;;;37.3362;36.2161;37.3362;30-Nov-2015
 100899;HDFC Childrens Fund-Savings;;;36.4655;35.3715;36.4655;30-Nov-2015
 
@@ -6641,26 +6651,26 @@ Aditya Birla Sun Life Mutual Fund
 132003;Aditya Birla Sun Life Global Excellence Equity Fund Of Fund-REGULAR - RETAIL - IDCW;INF084M01BA8;INF084M01BB6;17.64;17.46;17.64;30-Nov-2015
 
 DSP Mutual Fund
-119275;DSP Global Clean Energy Fund of Fund - Direct Plan - Growth;INF740K01PC5;;12.1665;12.0448;12.1665;30-Nov-2015
-119276;DSP Global Clean Energy Fund of Fund - Direct Plan - IDCW;INF740K01PD3;INF740K01PE1;10.9706;10.8609;10.9706;30-Nov-2015
-112126;DSP Global Clean Energy Fund of Fund - Regular Plan - Growth;INF740K01284;;12.0784;11.9576;12.0784;30-Nov-2015
-112127;DSP Global Clean Energy Fund of Fund - Regular Plan - IDCW;INF740K01292;INF740K01300;10.3300;10.2267;10.3300;30-Nov-2015
-119252;DSP US Flexible Equity Fund of Fund - Direct Plan - Growth;INF740K01OH7;;18.1113;17.9302;18.1113;30-Nov-2015
-119253;DSP US Flexible Equity Fund of Fund - Direct Plan - IDCW;INF740K01OI5;INF740K01OJ3;18.1113;17.9302;18.1113;30-Nov-2015
-117691;DSP US Flexible Equity Fund of Fund - Regular Plan - Growth Option;INF740K01LP6;;17.8030;17.6250;17.8030;30-Nov-2015
-117692;DSP US Flexible Equity Fund of Fund - Regular Plan - IDCW;INF740K01LQ4;;14.9766;14.8268;14.9766;30-Nov-2015
+119276;DSP Global Clean Energy Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PD3;INF740K01PE1;10.9706;10.8609;10.9706;30-Nov-2015
+112126;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01284;;12.0784;11.9576;12.0784;30-Nov-2015
+112127;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01292;INF740K01300;10.3300;10.2267;10.3300;30-Nov-2015
+119275;DSP Global Clean Energy Overseas Equity Omni FoF Direct Plan - Growth;INF740K01PC5;;12.1665;12.0448;12.1665;30-Nov-2015
+119252;DSP US Specific Equity Omni FoF - Direct Plan - Growth;INF740K01OH7;;18.1113;17.9302;18.1113;30-Nov-2015
+119253;DSP US Specific Equity Omni FoF - Direct Plan - IDCW;INF740K01OI5;INF740K01OJ3;18.1113;17.9302;18.1113;30-Nov-2015
+117691;DSP US Specific Equity Omni FoF - Regular Plan - Growth Option;INF740K01LP6;;17.8030;17.6250;17.8030;30-Nov-2015
+117692;DSP US Specific Equity Omni FoF - Regular Plan - IDCW;INF740K01LQ4;;14.9766;14.8268;14.9766;30-Nov-2015
 119271;DSP World Agriculture Fund - Direct Plan - Growth;INF740K01OE4;;14.1595;14.0179;14.1595;30-Nov-2015
 119272;DSP World Agriculture Fund - Direct Plan - IDCW;INF740K01OF1;INF740K01OG9;13.3507;13.2172;13.3507;30-Nov-2015
 115882;DSP World Agriculture Fund - Regular Plan - Growth;INF740K01EK2;;14.0256;13.8853;14.0256;30-Nov-2015
 115881;DSP World Agriculture Fund - Regular Plan - IDCW;INF740K01EL0;;11.9525;11.8330;11.9525;30-Nov-2015
-119277;DSP World Gold Fund of Fund - Direct Plan - Growth;INF740K01OZ9;;8.2516;8.1691;8.2516;30-Nov-2015
-119278;DSP World Gold Fund of Fund - Direct Plan - IDCW;INF740K01PA9;INF740K01PB7;6.7587;6.6911;6.7587;30-Nov-2015
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;8.1574;8.0758;8.1574;30-Nov-2015
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;6.6794;6.6126;6.6794;30-Nov-2015
-119279;DSP World Mining Fund of Fund - Direct Plan - Growth;INF740K01PF8;;4.7825;4.7347;4.7825;30-Nov-2015
-119280;DSP World Mining Fund of Fund - Direct Plan - IDCW;INF740K01PG6;INF740K01PH4;4.7825;4.7347;4.7825;30-Nov-2015
-112293;DSP World Mining Fund of Fund - Regular Plan - Growth;INF740K01730;;4.7132;4.6661;4.7132;30-Nov-2015
-112347;DSP World Mining Fund of Fund - Regular Plan - IDCW;INF740K01748;INF740K01AL8;4.7132;4.6661;4.7132;30-Nov-2015
+119277;DSP World Gold Mining Overseas Equity Omni FoF - Direct Plan - Growth;INF740K01OZ9;;8.2516;8.1691;8.2516;30-Nov-2015
+119278;DSP World Gold Mining Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PA9;INF740K01PB7;6.7587;6.6911;6.7587;30-Nov-2015
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;8.1574;8.0758;8.1574;30-Nov-2015
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;6.6794;6.6126;6.6794;30-Nov-2015
+119279;DSP World Mining Overseas Equity Omni FoF - Direct Plan - Growth;INF740K01PF8;;4.7825;4.7347;4.7825;30-Nov-2015
+119280;DSP World Mining Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PG6;INF740K01PH4;4.7825;4.7347;4.7825;30-Nov-2015
+112293;DSP World Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01730;;4.7132;4.6661;4.7132;30-Nov-2015
+112347;DSP World Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01748;INF740K01AL8;4.7132;4.6661;4.7132;30-Nov-2015
 
 Franklin Templeton Mutual Fund
 129440;Franklin India Feeder - Templeton European Opportunities Fund - Direct - Growth;INF090I01KX6;;9.0376;8.9472;9.0376;30-Nov-2015
@@ -6705,10 +6715,10 @@ Invesco Mutual Fund
 126350;Invesco India - Invesco Pan European Equity Fund of Fund - Regular Plan - IDCW (Payout / Reinvestment);INF205K01A08;INF205K01A16;9.9120;9.8129;9.9120;30-Nov-2015
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;13.177;13.045;13.177;30-Nov-2015
-119779;Kotak Global Emerging Market Fund - Growth - Direct;INF174K01LW4;;13.383;13.249;13.383;30-Nov-2015
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;13.177;13.045;13.177;30-Nov-2015
-119778;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;;13.426;13.292;13.426;30-Nov-2015
+119779;Kotak Global Emerging Market overseas Equity Omni FOF - Growth - Direct;INF174K01LW4;;13.383;13.249;13.383;30-Nov-2015
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;13.177;13.045;13.177;30-Nov-2015
+119778;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;INF174K01LY0;13.426;13.292;13.426;30-Nov-2015
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;13.177;13.045;13.177;30-Nov-2015
 133832;Kotak US Equity Fund - Direct Plan - Dividend option;INF178L01CM3;INF178L01CN1;12.248;12.126;12.248;30-Nov-2015
 133831;Kotak US Equity Fund - Direct Plan - Growth option;INF178L01CL5;;12.247;12.125;12.247;30-Nov-2015
 133830;Kotak US Equity Fund - Standard Plan - Dividend option;INF178L01CJ9;INF178L01CK7;12.07;11.949;12.07;30-Nov-2015
@@ -6734,29 +6744,21 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Aditya Birla Sun Life Mutual Fund
-131865;Aditya Birla Sun Life Asset Allocator FoF- Direct Plan - Growth Option;INF084M01DM9;;10.6547;10.6547;10.6547;30-Nov-2015
-131864;Aditya Birla Sun Life Asset Allocator FoF- Regular Plan - Growth Option;INF084M01AE2;;21.3207;21.3207;21.3207;30-Nov-2015
-131866;Aditya Birla Sun Life Asset Allocator FoF-DIRECT - IDCW;INF084M01DN7;INF084M01DO5;10.1516;10.1516;10.1516;30-Nov-2015
-131863;Aditya Birla Sun Life Asset Allocator FoF-REGULAR - IDCW;INF084M01AF9;INF084M01AG7;19.6261;19.6261;19.6261;30-Nov-2015
-131897;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - DIRECT - IDCW;INF084M01DQ0;INF084M01DR8;12.4189;12.4189;12.4189;30-Nov-2015
-131898;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - Direct Plan - Growth Option;INF084M01DP2;;19.8253;19.8253;19.8253;30-Nov-2015
-131895;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - REGULAR - IDCW;INF084M01AI3;INF084M01AJ1;12.2864;12.2864;12.2864;30-Nov-2015
-131896;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - Regular Plan - Growth Option;INF084M01AH5;;19.5934;19.5934;19.5934;30-Nov-2015
-132187;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan - Direct - IDCW;INF084M01EX4;INF084M01EY2;15.3147;15.3147;15.3147;30-Nov-2015
-132186;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan - Direct Plan - Growth Option;INF084M01EW6;;16.7257;16.7257;16.7257;30-Nov-2015
-132180;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan - Regular Plan - Growth Option;INF084M01101;;16.4694;16.4694;16.4694;30-Nov-2015
-132181;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan -Regular - IDCW;INF084M01119;INF084M01127;15.0732;15.0732;15.0732;30-Nov-2015
-132183;Aditya Birla Sun Life Financial Planning Fund - Conservative Plan - Direct Plan - Growth Option;INF084M01EQ8;;14.6913;14.6913;14.6913;30-Nov-2015
-132178;Aditya Birla Sun life Financial Planning Fund - Conservative Plan - Regular Plan - Growth Option;INF084M01044;;14.4811;14.4811;14.4811;30-Nov-2015
-132179;Aditya Birla Sun Life Financial Planning Fund - Conservative Plan -Regular - IDCW;INF084M01051;INF084M01069;13.1763;13.1763;13.1763;30-Nov-2015
-132185;Aditya Birla Sun Life Financial Planning Fund - Moderate Plan - Direct Plan - Growth Option;INF084M01ET2;;15.4936;15.4936;15.4936;30-Nov-2015
-132174;Aditya Birla Sun Life Financial Planning Fund - Moderate Plan - Regular Plan - Growth Option;INF084M01077;;15.2932;15.2932;15.2932;30-Nov-2015
-132175;Aditya Birla Sun Life Financial Planning Fund -Moderate  Plan -  Regular -  IDCW;INF084M01085;INF084M01093;13.7157;13.7157;13.7157;30-Nov-2015
-132189;Aditya Birla Sun Life Financial Planning Fund -Moderate  Plan - Direct - IDCW;INF084M01EU0;INF084M01EV8;14.0355;14.0355;14.0355;30-Nov-2015
+132179;Aditya Birla Sun Life Conservative Hybrid Active FOF -Regular - IDCW;INF084M01051;INF084M01069;13.1763;13.1763;13.1763;30-Nov-2015
+132183;Aditya Birla Sun Life Conservative Hybrid Active FOF- Direct Plan - Growth Option;INF084M01EQ8;;14.6913;14.6913;14.6913;30-Nov-2015
+132178;Aditya Birla Sun Life Conservative Hybrid Active FOF- Regular Plan - Growth Option;INF084M01044;;14.4811;14.4811;14.4811;30-Nov-2015
+132187;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF- Direct - IDCW;INF084M01EX4;INF084M01EY2;15.3147;15.3147;15.3147;30-Nov-2015
+132186;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF- Direct Plan - Growth Option;INF084M01EW6;;16.7257;16.7257;16.7257;30-Nov-2015
+132180;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF- Regular Plan - Growth Option;INF084M01101;;16.4694;16.4694;16.4694;30-Nov-2015
+132181;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF-Regular - IDCW;INF084M01119;INF084M01127;15.0732;15.0732;15.0732;30-Nov-2015
 120546;Aditya Birla Sun Life Gold Fund - Growth - Direct Plan;INF209K01YU5;;7.9838;7.8241;7.9838;30-Nov-2015
 120545;Aditya Birla Sun Life Gold Fund-DIRECT - IDCW;INF209K01YT7;;7.9793;7.8197;7.9793;30-Nov-2015
 116796;Aditya Birla Sun Life Gold Fund-Growth;INF209K01PF4;;7.9278;7.7692;7.9278;30-Nov-2015
 116795;Aditya Birla Sun Life Gold Fund-REGULAR - IDCW;INF209K01PG2;INF209K01PH0;7.9265;7.7680;7.9265;30-Nov-2015
+131897;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- DIRECT - IDCW;INF084M01DQ0;INF084M01DR8;12.4189;12.4189;12.4189;30-Nov-2015
+131898;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- Direct Plan - Growth Option;INF084M01DP2;;19.8253;19.8253;19.8253;30-Nov-2015
+131895;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- REGULAR - IDCW;INF084M01AI3;INF084M01AJ1;12.2864;12.2864;12.2864;30-Nov-2015
+131896;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- Regular Plan - Growth Option;INF084M01AH5;;19.5934;19.5934;19.5934;30-Nov-2015
 
 Axis Mutual Fund
 120473;Axis Gold Fund - Direct Plan - Growth option;INF846K01DS2;;8.7104;8.6233;8.7104;30-Nov-2015
@@ -6798,10 +6800,10 @@ Canara Robeco Mutual Fund
 117541;Canara Robeco Gold Savings Fund - Regular Plan - Growth;INF760K01BW1;;7.7946;7.7946;7.7946;30-Nov-2015
 
 DSP Mutual Fund
-130493;DSP Income Plus Arbitrage Fund of Fund - Direct Plan - Growth;INF740K01Z50;;10.7570;10.6494;10.7570;30-Nov-2015
-130491;DSP Income Plus Arbitrage Fund of Fund - Direct Plan - IDCW;INF740K01Z68;INF740K01Z76;10.7570;10.6494;10.7570;30-Nov-2015
-130492;DSP Income Plus Arbitrage Fund of Fund - Regular Plan - Growth;INF740K01Z27;;10.6819;10.5751;10.6819;30-Nov-2015
-130490;DSP Income Plus Arbitrage Fund of Fund - Regular Plan - IDCW;INF740K01Z35;INF740K01Z43;10.6819;10.5751;10.6819;30-Nov-2015
+130493;DSP Income Plus Arbitrage Omni FoF - Direct Plan - Growth;INF740K01Z50;;10.7570;10.6494;10.7570;30-Nov-2015
+130491;DSP Income Plus Arbitrage Omni FoF - Direct Plan - IDCW;INF740K01Z68;INF740K01Z76;10.7570;10.6494;10.7570;30-Nov-2015
+130492;DSP Income Plus Arbitrage Omni FoF - Regular Plan - Growth;INF740K01Z27;;10.6819;10.5751;10.6819;30-Nov-2015
+130490;DSP Income Plus Arbitrage Omni FoF - Regular Plan - IDCW;INF740K01Z35;INF740K01Z43;10.6819;10.5751;10.6819;30-Nov-2015
 
 Franklin Templeton Mutual Fund
 118543;Franklin India Dynamic Asset Allocation Active Fund Of Funds - Direct - Growth;INF090I01HV6;;64.2715;63.6288;64.2715;30-Nov-2015
@@ -6893,10 +6895,10 @@ Kotak Mahindra Mutual Fund
 119781;Kotak Gold Fund Growth - Direct;INF174K01MP6;;11.1383;10.9155;11.1383;30-Nov-2015
 114757;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option;INF174K01AU1;INF174K01AV9;10.9979;10.7779;10.9979;30-Nov-2015
 119780;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option- Direct;INF174K01MQ4;INF174K01MR2;11.139;10.9162;11.139;30-Nov-2015
-119777;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Growth - Direct;INF174K01LN3;;60.896;60.287;60.896;30-Nov-2015
-119776;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;59.807;59.209;59.807;30-Nov-2015
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;60.646;60.04;60.646;30-Nov-2015
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;59.033;58.443;59.033;30-Nov-2015
+119777;Kotak Multi Asset Omni FOF - Direct Growth - Direct;INF174K01LN3;;60.896;60.287;60.896;30-Nov-2015
+119776;Kotak Multi Asset Omni FOF - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;59.807;59.209;59.807;30-Nov-2015
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;60.646;60.04;60.646;30-Nov-2015
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;59.033;58.443;59.033;30-Nov-2015
 
 Nippon India Mutual Fund
 118662;NIPPON INDIA GOLD SAVINGS FUND - Direct Plan - IDCW Option;INF204K01YD2;INF204K01YE0;11.1617;10.9385;11.1617;30-Nov-2015

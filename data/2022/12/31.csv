@@ -774,8 +774,6 @@ IL&FS Mutual Fund (IDF)
 142700;IL&FS Infrastructure Debt Fund Series 3A - Dividend payout option - Direct;INF613Q01082;Redeemed;1213044.969;;;31-Dec-2022
 142701;IL&FS Infrastructure Debt Fund Series 3A - Growth - Direct;INF613Q01074;Redeemed;1213045.0145;;;31-Dec-2022
 142702;IL&FS Infrastructure Debt Fund Series 3A - Growth - Regular;INF613Q01090;Redeemed;1211636.7662;;;31-Dec-2022
-143397;IL&FS Infrastructure Debt Fund Series 3B - Dividend payout option;INF613Q01116;;1330278.4043;;;31-Dec-2022
-143396;IL&FS Infrastructure Debt Fund Series 3B - Growth - Direct;INF613Q01108;;1330278.4175;;;31-Dec-2022
 
 SBI Mutual Fund
 147242;SBI Capital Protection Oriented Fund - Series A (Plan 3) - Direct Plan - Growth;INF200KA1E51;;13.2998;;;31-Dec-2022
@@ -992,3 +990,10 @@ SBI Mutual Fund
 150985;SBI Fixed Maturity Plan (FMP) - Series 73 (1226 Days) - Direct Plan - IDCW Payout;INF200KA12T3;;10.0418;;;31-Dec-2022
 150986;SBI Fixed Maturity Plan (FMP) - Series 73 (1226 Days) - Regular Plan - Growth;INF200KA19S0;;10.0408;;;31-Dec-2022
 150983;SBI Fixed Maturity Plan (FMP) - Series 73 (1226 Days) - Regular Plan - IDCW Payout;INF200KA10T7;;10.0408;;;31-Dec-2022
+
+Close Ended Schemes ( Growth )
+
+
+IL&FS Mutual Fund (IDF)
+143397;IL&FS Infrastructure Debt Fund Series 3B - Dividend payout option;INF613Q01116;;1330278.4043;;;31-Dec-2022
+143396;IL&FS Infrastructure Debt Fund Series 3B - Growth - Direct;INF613Q01108;;1330278.4175;;;31-Dec-2022

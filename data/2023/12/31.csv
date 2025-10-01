@@ -1032,8 +1032,6 @@ IL&FS Mutual Fund (IDF)
 148397;IL&FS Infrastructure Debt Fund Series 2A - Growth - Direct;INF613Q01140;;1132842.574;;;31-Dec-2023
 148398;IL&FS Infrastructure Debt Fund Series 2B - Growth - Direct;INF613Q01157;;1439467.9291;;;31-Dec-2023
 148399;IL&FS Infrastructure Debt Fund Series 2C - Growth - Direct;INF613Q01165;;1408669.5913;;;31-Dec-2023
-143397;IL&FS Infrastructure Debt Fund Series 3B - Dividend payout option;INF613Q01116;;1556387.0615;;;31-Dec-2023
-143396;IL&FS Infrastructure Debt Fund Series 3B - Growth - Direct;INF613Q01108;;1556387.0784;;;31-Dec-2023
 
 SBI Mutual Fund
 146974;SBI Fixed Maturity Plan (FMP) - Series 1 (3668 Days) - Direct Plan - Growth;INF200KA1D03;;14.5199;;;31-Dec-2023
@@ -1188,3 +1186,10 @@ SBI Mutual Fund
 151640;SBI Fixed Maturity Plan (FMP)-Series 81 (1157 Days) Direct Plan- Income Distribution Cum Capital Withdrawal Payout;INF200KA18X2;;10.5437;;;31-Dec-2023
 151641;SBI Fixed Maturity Plan (FMP)-Series 81 (1157 Days) Regular Plan- Growth;INF200KA15X8;;10.5320;;;31-Dec-2023
 151642;SBI Fixed Maturity Plan (FMP)-Series 81 (1157 Days) Regular Plan- Income Distribution Cum Capital Withdrawal Payout;INF200KA16X6;;10.5320;;;31-Dec-2023
+
+Close Ended Schemes ( Growth )
+
+
+IL&FS Mutual Fund (IDF)
+143397;IL&FS Infrastructure Debt Fund Series 3B - Dividend payout option;INF613Q01116;;1556387.0615;;;31-Dec-2023
+143396;IL&FS Infrastructure Debt Fund Series 3B - Growth - Direct;INF613Q01108;;1556387.0784;;;31-Dec-2023

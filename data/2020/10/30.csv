@@ -902,6 +902,12 @@ Quantum Mutual Fund
 141068;Quantum Value Fund - Regular Plan Growth Option;INF082J01242;;50.42;;;30-Oct-2020
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;50.71;;;30-Oct-2020
 
+Sundaram Mutual Fund
+119549;Sundaram Value Fund Direct Plan - Growth;INF903J01NN3;;97.1837;;;30-Oct-2020
+119548;Sundaram Value Fund Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;12.0003;;;30-Oct-2020
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;94.1826;;;30-Oct-2020
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.1428;;;30-Oct-2020
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;59.3749;;;30-Oct-2020
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;135.4105;;;30-Oct-2020
@@ -1818,12 +1824,6 @@ Shriram Mutual Fund
 145822;Shriram ELSS Tax Saver Fund - Direct- IDCW;INF680P01166;;11.5932;;;30-Oct-2020
 145820;Shriram ELSS Tax Saver Fund - Regular Growth;INF680P01133;;11.2261;;;30-Oct-2020
 145821;Shriram ELSS Tax Saver Fund - Regular-IDCW;INF680P01141;;11.2192;;;30-Oct-2020
-
-Sundaram Mutual Fund
-119549;Sundaram Diversified Equity (ELSS) Direct Plan - Growth;INF903J01NN3;;97.1837;;;30-Oct-2020
-119548;Sundaram Diversified Equity (ELSS) Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;12.0003;;;30-Oct-2020
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;94.1826;;;30-Oct-2020
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.1428;;;30-Oct-2020
 
 Tata Mutual Fund
 119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;100.9607;;;30-Oct-2020
@@ -3459,8 +3459,8 @@ Axis Mutual Fund
 135761;Axis Children's Fund - No Lock in - Regular Plan - IDCW;INF846K01WN3;INF846K01WL7;14.3450;;;30-Oct-2020
 
 HDFC Mutual Fund
-119066;HDFC Childrens Fund - Direct Plan;;;135.778;;;30-Oct-2020
-100900;HDFC Childrens Fund - Growth Plan;;;127.381;;;30-Oct-2020
+119066;HDFC Childrens Fund - Direct Plan;INF179KC1IX0;;135.778;;;30-Oct-2020
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;127.381;;;30-Oct-2020
 
 ICICI Prudential Mutual Fund
 120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;146.64;;;30-Oct-2020
@@ -3858,10 +3858,10 @@ HSBC Mutual Fund
 120044;HSBC Global Emerging Markets Fund - IDCW Direct Plan;INF336L01CH7;INF336L01CI5;16.7449;;;30-Oct-2020
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;18.976;;;30-Oct-2020
-119779;Kotak Global Emerging Market Fund - Growth - Direct;INF174K01LW4;;20.093;;;30-Oct-2020
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;18.977;;;30-Oct-2020
-119778;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;;20.178;;;30-Oct-2020
+119779;Kotak Global Emerging Market overseas Equity Omni FOF - Growth - Direct;INF174K01LW4;;20.093;;;30-Oct-2020
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;18.977;;;30-Oct-2020
+119778;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;INF174K01LY0;20.178;;;30-Oct-2020
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;18.976;;;30-Oct-2020
 
 PGIM India Mutual Fund
 138456;PGIM India Emerging Markets Equity Fund of Fund - Direct Plan - Growth;INF223J01NL0;;16.62;;;30-Oct-2020
@@ -3928,10 +3928,10 @@ Invesco Mutual Fund
 116075;Invesco India Gold ETF Fund of Fund - IDCW (Payout / Reinvestment);INF205K01FB2;INF205K01FC0;15.3093;;;30-Oct-2020
 
 Kotak Mahindra Mutual Fund
-119777;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Growth - Direct;INF174K01LN3;;101.839;;;30-Oct-2020
-119776;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;100.006;;;30-Oct-2020
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;98.028;;;30-Oct-2020
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;95.421;;;30-Oct-2020
+119777;Kotak Multi Asset Omni FOF - Direct Growth - Direct;INF174K01LN3;;101.839;;;30-Oct-2020
+119776;Kotak Multi Asset Omni FOF - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;100.006;;;30-Oct-2020
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;98.028;;;30-Oct-2020
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;95.421;;;30-Oct-2020
 
 Mirae Asset Mutual Fund
 148500;Mirae Asset Diversified Equity Allocator Passive FOF - Direct Plan - Growth;INF769K01GE9;;10.267;;;30-Oct-2020

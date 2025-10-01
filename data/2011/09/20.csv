@@ -1677,6 +1677,10 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;20.7400;19.9100;20.7400;20-Sep-2011
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;20.9100;20.0700;20.9100;20-Sep-2011
 
+Sundaram Mutual Fund
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;39.8954;39.8954;39.8954;20-Sep-2011
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;9.4087;9.4087;9.4087;20-Sep-2011
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;30.2243;29.9221;30.2243;20-Sep-2011
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;43.7140;43.2769;43.7140;20-Sep-2011
@@ -2019,10 +2023,6 @@ Quantum Mutual Fund
 SBI Mutual Fund
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;34.12;34.12;34.12;20-Sep-2011
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;55.9;55.9;55.9;20-Sep-2011
-
-Sundaram Mutual Fund
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;39.8954;39.8954;39.8954;20-Sep-2011
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;9.4087;9.4087;9.4087;20-Sep-2011
 
 Tata Mutual Fund
 100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;44.6227;44.6227;44.6227;20-Sep-2011
@@ -3558,7 +3558,7 @@ HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;20-Sep-2011
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;17.4391;17.4391;17.4391;20-Sep-2011
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.1963;10.1963;10.1963;20-Sep-2011
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1377;10.1377;10.1377;20-Sep-2011
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1377;10.1377;10.1377;20-Sep-2011
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;20-Sep-2011
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;17.2177;17.2177;17.2177;20-Sep-2011
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.1942;10.1942;10.1942;20-Sep-2011
@@ -3959,7 +3959,7 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-100900;HDFC Childrens Fund - Growth Plan;;;43.837;42.522;43.837;20-Sep-2011
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;43.837;42.522;43.837;20-Sep-2011
 100899;HDFC Childrens Fund-Savings;;;23.738;23.026;23.738;20-Sep-2011
 
 ICICI Prudential Mutual Fund
@@ -4110,12 +4110,12 @@ Open Ended Schemes ( Other Scheme - FoF Overseas )
 
 
 DSP Mutual Fund
-112126;DSP Global Clean Energy Fund of Fund - Regular Plan - Growth;INF740K01284;;10.6731;10.5664;10.6731;20-Sep-2011
-112127;DSP Global Clean Energy Fund of Fund - Regular Plan - IDCW;INF740K01292;INF740K01300;10.6731;10.5664;10.6731;20-Sep-2011
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;20.8987;20.6897;20.8987;20-Sep-2011
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;17.1131;16.9420;17.1131;20-Sep-2011
-112293;DSP World Mining Fund of Fund - Regular Plan - Growth;INF740K01730;;10.7770;10.6692;10.7770;20-Sep-2011
-112347;DSP World Mining Fund of Fund - Regular Plan - IDCW;INF740K01748;INF740K01AL8;10.7770;10.6692;10.7770;20-Sep-2011
+112126;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01284;;10.6731;10.5664;10.6731;20-Sep-2011
+112127;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01292;INF740K01300;10.6731;10.5664;10.6731;20-Sep-2011
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;20.8987;20.6897;20.8987;20-Sep-2011
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;17.1131;16.9420;17.1131;20-Sep-2011
+112293;DSP World Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01730;;10.7770;10.6692;10.7770;20-Sep-2011
+112347;DSP World Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01748;INF740K01AL8;10.7770;10.6692;10.7770;20-Sep-2011
 
 HSBC Mutual Fund
 115117;HSBC Brazil Fund - IDCW;INF336L01172;INF336L01180;8.4994;8.4144;8.4994;20-Sep-2011
@@ -4124,8 +4124,8 @@ HSBC Mutual Fund
 107989;HSBC Global Emerging Markets Fund - IDCW;INF336L01438;INF336L01420;8.8045;8.7165;8.8045;20-Sep-2011
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;9.205;9.113;9.205;20-Sep-2011
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;9.204;9.112;9.204;20-Sep-2011
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;9.204;9.112;9.204;20-Sep-2011
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;9.205;9.113;9.205;20-Sep-2011
 
 Principal Mutual Fund
 102336;Principal Global Opportunities Fund- Income Distribution CUM Capital Withdrawal Option;INF173K01CQ7;INF173K01CR5;17.0728;16.9021;17.0728;20-Sep-2011
@@ -4179,8 +4179,8 @@ ICICI Prudential Mutual Fund
 Kotak Mahindra Mutual Fund
 114758;Kotak Gold Fund Growth;INF174K01AT3;;13.2488;12.9838;13.2488;20-Sep-2011
 114757;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option;INF174K01AU1;INF174K01AV9;13.2488;12.9838;13.2488;20-Sep-2011
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;33.443;33.109;33.443;20-Sep-2011
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;32.554;32.228;32.554;20-Sep-2011
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;33.443;33.109;33.443;20-Sep-2011
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;32.554;32.228;32.554;20-Sep-2011
 
 Nippon India Mutual Fund
 114617;NIPPON INDIA GOLD SAVINGS FUND - IDCW Option;INF204K01KO8;INF204K01KP5;13.3240;13.0575;13.3240;20-Sep-2011

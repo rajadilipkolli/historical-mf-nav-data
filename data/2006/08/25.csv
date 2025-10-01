@@ -1101,6 +1101,10 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;10.74;10.31;10.74;25-Aug-2006
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;10.74;10.31;10.74;25-Aug-2006
 
+Sundaram Mutual Fund
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;22.4020;22.4020;22.9060;25-Aug-2006
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;15.9708;15.9708;16.3301;25-Aug-2006
+
 Tata Mutual Fund
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;21.2790;21.2790;21.7578;25-Aug-2006
 102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;20.3818;20.3818;20.8404;25-Aug-2006
@@ -1284,10 +1288,6 @@ quant Mutual Fund
 
 SBI Mutual Fund
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;44.89;44.89;45.90;25-Aug-2006
-
-Sundaram Mutual Fund
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;22.4020;22.4020;22.9060;25-Aug-2006
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;15.9708;15.9708;16.3301;25-Aug-2006
 
 Tata Mutual Fund
 100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;37.0985;37.0985;37.9332;25-Aug-2006
@@ -2367,7 +2367,7 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-100900;HDFC Childrens Fund - Growth Plan;;;22.837;22.837;23.351;25-Aug-2006
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;22.837;22.837;23.351;25-Aug-2006
 100899;HDFC Childrens Fund-Savings;;;14.531;14.531;14.713;25-Aug-2006
 
 ICICI Prudential Mutual Fund
@@ -2473,8 +2473,8 @@ ICICI Prudential Mutual Fund
 102136;ICICI Prudential Thematic Advantage Fund (FOF) - IDCW;INF109K01FR2;INF109K01860; 21.6004 ; 21.6004 ; 21.9784 ;25-Aug-2006
 
 Kotak Mahindra Mutual Fund
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;21.764;21.764;22.254;25-Aug-2006
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;21.764;21.764;22.254;25-Aug-2006
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;21.764;21.764;22.254;25-Aug-2006
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;21.764;21.764;22.254;25-Aug-2006
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

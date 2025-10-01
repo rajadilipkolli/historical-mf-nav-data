@@ -2456,10 +2456,10 @@ Bandhan Mutual Fund
 149100;Bandhan US specific Equity Active FOF - GROWTH - REGULAR PLAN;INF194KB1CC9;;14.201;;;30-Jun-2024
 149099;Bandhan US specific Equity Active FOF - IDCW - DIRECT PLAN;INF194KB1CG0;;14.653;;;30-Jun-2024
 149097;Bandhan US specific Equity Active FOF - IDCW - REGULAR PLAN;INF194KB1CD7;;14.201;;;30-Jun-2024
-151548;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - DIRECT PLAN - GROWTH;;;10.7650;;;30-Jun-2024
-151549;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - DIRECT PLAN - IDCW;;;10.7650;;;30-Jun-2024
-151546;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - REGULAR PLAN - GROWTH;;;10.7562;;;30-Jun-2024
-151547;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF- REGULAR PLAN- IDCW;;;10.7562;;;30-Jun-2024
+151548;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - DIRECT PLAN - GROWTH;INF194KB1FV2;;10.7650;;;30-Jun-2024
+151549;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - DIRECT PLAN - IDCW;INF194KB1FW0;INF194KB1GA4;10.7650;;;30-Jun-2024
+151546;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF - REGULAR PLAN - GROWTH;INF194KB1FT6;;10.7562;;;30-Jun-2024
+151547;Bandhan US Treasury Bond 0-1 year specific Debt Passive FOF- REGULAR PLAN- IDCW;INF194KB1FU4;INF194KB1FZ3;10.7562;;;30-Jun-2024
 
 Edelweiss Mutual Fund
 140256;Edelweiss ASEAN Equity Off-shore Fund - Direct Plan - Growth Option;INF843K01AW7;;27.139;;;30-Jun-2024
@@ -2622,8 +2622,6 @@ IL&FS Mutual Fund (IDF)
 148397;IL&FS Infrastructure Debt Fund Series 2A - Growth - Direct;INF613Q01140;;1669734.4981;;;30-Jun-2024
 148398;IL&FS Infrastructure Debt Fund Series 2B - Growth - Direct;INF613Q01157;;2147903.1527;;;30-Jun-2024
 148399;IL&FS Infrastructure Debt Fund Series 2C - Growth - Direct;INF613Q01165;;2103351.3765;;;30-Jun-2024
-143397;IL&FS Infrastructure Debt Fund Series 3B - Dividend payout option;INF613Q01116;;1616405.858;;;30-Jun-2024
-143396;IL&FS Infrastructure Debt Fund Series 3B - Growth - Direct;INF613Q01108;;1616405.8766;;;30-Jun-2024
 
 SBI Mutual Fund
 146974;SBI Fixed Maturity Plan (FMP) - Series 1 (3668 Days) - Direct Plan - Growth;INF200KA1D03;;15.1438;;;30-Jun-2024
@@ -2766,6 +2764,13 @@ SBI Mutual Fund
 151640;SBI Fixed Maturity Plan (FMP)-Series 81 (1157 Days) Direct Plan- Income Distribution Cum Capital Withdrawal Payout;INF200KA18X2;;10.9531;;;30-Jun-2024
 151641;SBI Fixed Maturity Plan (FMP)-Series 81 (1157 Days) Regular Plan- Growth;INF200KA15X8;;10.9330;;;30-Jun-2024
 151642;SBI Fixed Maturity Plan (FMP)-Series 81 (1157 Days) Regular Plan- Income Distribution Cum Capital Withdrawal Payout;INF200KA16X6;;10.9330;;;30-Jun-2024
+
+Close Ended Schemes ( Growth )
+
+
+IL&FS Mutual Fund (IDF)
+143397;IL&FS Infrastructure Debt Fund Series 3B - Dividend payout option;INF613Q01116;;1616405.858;;;30-Jun-2024
+143396;IL&FS Infrastructure Debt Fund Series 3B - Growth - Direct;INF613Q01108;;1616405.8766;;;30-Jun-2024
 
 Close Ended Schemes ( ELSS )
 

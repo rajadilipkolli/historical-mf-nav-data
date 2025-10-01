@@ -2335,6 +2335,12 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;25.0600;24.0600;25.0600;26-Apr-2013
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;25.2700;24.2600;25.2700;26-Apr-2013
 
+Sundaram Mutual Fund
+119549;Sundaram Value Fund Direct Plan - Growth;INF903J01NN3;;46.0209;46.0209;46.0209;26-Apr-2013
+119548;Sundaram Value Fund Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;10.8437;10.8437;10.8437;26-Apr-2013
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;45.9718;45.9718;45.9718;26-Apr-2013
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.8415;10.8415;10.8415;26-Apr-2013
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;26.8505;26.5820;26.8505;26-Apr-2013
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;46.5551;46.0895;46.5551;26-Apr-2013
@@ -2905,12 +2911,6 @@ SBI Mutual Fund
 119723;SBI ELSS Tax Saver FUND - DIRECT PLAN -GROWTH;INF200K01UM9;;64.5857;64.5857;64.5857;26-Apr-2013
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;31.8002;31.8002;31.8002;26-Apr-2013
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;64.4570;64.4570;64.4570;26-Apr-2013
-
-Sundaram Mutual Fund
-119549;Sundaram Diversified Equity (ELSS) Direct Plan - Growth;INF903J01NN3;;46.0209;46.0209;46.0209;26-Apr-2013
-119548;Sundaram Diversified Equity (ELSS) Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;10.8437;10.8437;10.8437;26-Apr-2013
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;45.9718;45.9718;45.9718;26-Apr-2013
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.8415;10.8415;10.8415;26-Apr-2013
 
 Tata Mutual Fund
 119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;43.7888;43.7888;43.7888;26-Apr-2013
@@ -3685,10 +3685,10 @@ Franklin Templeton Mutual Fund
 
 HDFC Mutual Fund
 105548;HDFC Low Duration  Fund - Daily IDCW;;INF179K01434;10.0315;10.0315;10.0315;26-Apr-2013
-118945;HDFC Low Duration  Fund - Direct Plan - Daily IDCW;;;10.0315;10.0315;10.0315;26-Apr-2013
+118945;HDFC Low Duration  Fund - Direct Plan - Daily IDCW;;INF179KC1IR2;10.0315;10.0315;10.0315;26-Apr-2013
 118942;HDFC Low Duration  Fund - Direct Plan - Growth;INF179K01VF7;;25.3616;25.3616;25.3616;26-Apr-2013
 118943;HDFC Low Duration  Fund - Direct Plan - Monthly IDCW;INF179K01VG5;INF179K01VH3;10.1434;10.1434;10.1434;26-Apr-2013
-118944;HDFC Low Duration  Fund - Direct Plan - Weekly IDCW;;;10.0405;10.0405;10.0405;26-Apr-2013
+118944;HDFC Low Duration  Fund - Direct Plan - Weekly IDCW;INF179KC1IS0;INF179KC1IT8;10.0405;10.0405;10.0405;26-Apr-2013
 102452;HDFC Low Duration  Fund - Growth;INF179K01442;;25.3031;25.3031;25.3031;26-Apr-2013
 105543;HDFC Low Duration  Fund - Monthly IDCW;INF179K01459;INF179K01467;10.1372;10.1372;10.1372;26-Apr-2013
 102453;HDFC Low Duration  Fund - Weekly IDCW;INF179K01475;INF179K01483;10.0398;10.0398;10.0398;26-Apr-2013
@@ -5367,13 +5367,13 @@ Franklin Templeton Mutual Fund
 
 HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;26-Apr-2013
-118959;HDFC Floating Rate Debt Fund - Direct Plan - Daily IDCW;;;10.0809;10.0809;10.0809;26-Apr-2013
+118959;HDFC Floating Rate Debt Fund - Direct Plan - Daily IDCW;;INF179KC1IU6;10.0809;10.0809;10.0809;26-Apr-2013
 118961;HDFC Floating Rate Debt Fund - Direct Plan - Growth Option;INF179K01VQ4;;20.1769;20.1769;20.1769;26-Apr-2013
 118960;HDFC Floating Rate Debt Fund - Direct Plan - Monthly IDCW;INF179K01VO9;INF179K01VP6;10.2328;10.2328;10.2328;26-Apr-2013
-118962;HDFC Floating Rate Debt Fund - Direct Plan - Weekly IDCW;;;10.1455;10.1455;10.1455;26-Apr-2013
+118962;HDFC Floating Rate Debt Fund - Direct Plan - Weekly IDCW;INF179KC1IW2;;10.1455;10.1455;10.1455;26-Apr-2013
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;20.1735;20.1735;20.1735;26-Apr-2013
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.2323;10.2323;10.2323;26-Apr-2013
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1454;10.1454;10.1454;26-Apr-2013
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1454;10.1454;10.1454;26-Apr-2013
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;26-Apr-2013
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;19.8088;19.8088;19.8088;26-Apr-2013
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.2298;10.2298;10.2298;26-Apr-2013
@@ -5999,8 +5999,8 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-119066;HDFC Childrens Fund - Direct Plan;;;49.224;47.747;49.224;26-Apr-2013
-100900;HDFC Childrens Fund - Growth Plan;;;49.119;47.645;49.119;26-Apr-2013
+119066;HDFC Childrens Fund - Direct Plan;INF179KC1IX0;;49.224;47.747;49.224;26-Apr-2013
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;49.119;47.645;49.119;26-Apr-2013
 119067;HDFC Childrens Fund Savings Plan-Direct Plan;;;26.7323;25.9303;26.7323;26-Apr-2013
 100899;HDFC Childrens Fund-Savings;;;26.6641;25.864;26.664;26-Apr-2013
 
@@ -6213,26 +6213,26 @@ Open Ended Schemes ( Other Scheme - FoF Overseas )
 
 
 DSP Mutual Fund
-119275;DSP Global Clean Energy Fund of Fund - Direct Plan - Growth;INF740K01PC5;;11.5759;11.4601;11.5759;26-Apr-2013
-119276;DSP Global Clean Energy Fund of Fund - Direct Plan - IDCW;INF740K01PD3;INF740K01PE1;11.5759;11.4601;11.5759;26-Apr-2013
-112126;DSP Global Clean Energy Fund of Fund - Regular Plan - Growth;INF740K01284;;11.5676;11.4519;11.5676;26-Apr-2013
-112127;DSP Global Clean Energy Fund of Fund - Regular Plan - IDCW;INF740K01292;INF740K01300;11.5676;11.4519;11.5676;26-Apr-2013
-119252;DSP US Flexible Equity Fund of Fund - Direct Plan - Growth;INF740K01OH7;;11.3109;11.1978;11.3109;26-Apr-2013
-119253;DSP US Flexible Equity Fund of Fund - Direct Plan - IDCW;INF740K01OI5;INF740K01OJ3;11.3109;11.1978;11.3109;26-Apr-2013
-117691;DSP US Flexible Equity Fund of Fund - Regular Plan - Growth Option;INF740K01LP6;;11.2893;11.1764;11.2893;26-Apr-2013
-117692;DSP US Flexible Equity Fund of Fund - Regular Plan - IDCW;INF740K01LQ4;;11.2893;11.1764;11.2893;26-Apr-2013
+119276;DSP Global Clean Energy Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PD3;INF740K01PE1;11.5759;11.4601;11.5759;26-Apr-2013
+112126;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01284;;11.5676;11.4519;11.5676;26-Apr-2013
+112127;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01292;INF740K01300;11.5676;11.4519;11.5676;26-Apr-2013
+119275;DSP Global Clean Energy Overseas Equity Omni FoF Direct Plan - Growth;INF740K01PC5;;11.5759;11.4601;11.5759;26-Apr-2013
+119252;DSP US Specific Equity Omni FoF - Direct Plan - Growth;INF740K01OH7;;11.3109;11.1978;11.3109;26-Apr-2013
+119253;DSP US Specific Equity Omni FoF - Direct Plan - IDCW;INF740K01OI5;INF740K01OJ3;11.3109;11.1978;11.3109;26-Apr-2013
+117691;DSP US Specific Equity Omni FoF - Regular Plan - Growth Option;INF740K01LP6;;11.2893;11.1764;11.2893;26-Apr-2013
+117692;DSP US Specific Equity Omni FoF - Regular Plan - IDCW;INF740K01LQ4;;11.2893;11.1764;11.2893;26-Apr-2013
 119271;DSP World Agriculture Fund - Direct Plan - Growth;INF740K01OE4;;12.3127;12.1896;12.3127;26-Apr-2013
 119272;DSP World Agriculture Fund - Direct Plan - IDCW;INF740K01OF1;INF740K01OG9;12.3127;12.1896;12.3127;26-Apr-2013
 115882;DSP World Agriculture Fund - Regular Plan - Growth;INF740K01EK2;;12.2997;12.1767;12.2997;26-Apr-2013
 115881;DSP World Agriculture Fund - Regular Plan - IDCW;INF740K01EL0;;12.2997;12.1767;12.2997;26-Apr-2013
-119277;DSP World Gold Fund of Fund - Direct Plan - Growth;INF740K01OZ9;;12.4527;12.3282;12.4527;26-Apr-2013
-119278;DSP World Gold Fund of Fund - Direct Plan - IDCW;INF740K01PA9;INF740K01PB7;10.1999;10.0979;10.1999;26-Apr-2013
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;12.4426;12.3182;12.4426;26-Apr-2013
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;10.1884;10.0865;10.1884;26-Apr-2013
-119279;DSP World Mining Fund of Fund - Direct Plan - Growth;INF740K01PF8;;8.3141;8.2310;8.3141;26-Apr-2013
-119280;DSP World Mining Fund of Fund - Direct Plan - IDCW;INF740K01PG6;INF740K01PH4;8.3141;8.2310;8.3141;26-Apr-2013
-112293;DSP World Mining Fund of Fund - Regular Plan - Growth;INF740K01730;;8.3014;8.2184;8.3014;26-Apr-2013
-112347;DSP World Mining Fund of Fund - Regular Plan - IDCW;INF740K01748;INF740K01AL8;8.3014;8.2184;8.3014;26-Apr-2013
+119277;DSP World Gold Mining Overseas Equity Omni FoF - Direct Plan - Growth;INF740K01OZ9;;12.4527;12.3282;12.4527;26-Apr-2013
+119278;DSP World Gold Mining Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PA9;INF740K01PB7;10.1999;10.0979;10.1999;26-Apr-2013
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;12.4426;12.3182;12.4426;26-Apr-2013
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;10.1884;10.0865;10.1884;26-Apr-2013
+119279;DSP World Mining Overseas Equity Omni FoF - Direct Plan - Growth;INF740K01PF8;;8.3141;8.2310;8.3141;26-Apr-2013
+119280;DSP World Mining Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PG6;INF740K01PH4;8.3141;8.2310;8.3141;26-Apr-2013
+112293;DSP World Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01730;;8.3014;8.2184;8.3014;26-Apr-2013
+112347;DSP World Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01748;INF740K01AL8;8.3014;8.2184;8.3014;26-Apr-2013
 
 Franklin Templeton Mutual Fund
 118551;Franklin U.S. Opportunities Equity Active Fund of Funds - Direct - Growth;INF090I01JR0;;12.4770;12.3522;12.4770;26-Apr-2013
@@ -6251,10 +6251,10 @@ HSBC Mutual Fund
 120044;HSBC Global Emerging Markets Fund - IDCW Direct Plan;INF336L01CH7;INF336L01CI5;10.2948;10.2948;10.2948;26-Apr-2013
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;12.322;12.199;12.322;26-Apr-2013
-119779;Kotak Global Emerging Market Fund - Growth - Direct;INF174K01LW4;;12.339;12.216;12.339;26-Apr-2013
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;12.321;12.198;12.321;26-Apr-2013
-119778;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;;12.379;12.255;12.379;26-Apr-2013
+119779;Kotak Global Emerging Market overseas Equity Omni FOF - Growth - Direct;INF174K01LW4;;12.339;12.216;12.339;26-Apr-2013
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;12.321;12.198;12.321;26-Apr-2013
+119778;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;INF174K01LY0;12.379;12.255;12.379;26-Apr-2013
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;12.322;12.199;12.322;26-Apr-2013
 
 Principal Mutual Fund
 119458;Principal Global Opportunities Fund- Direct Plan - Income Distribution CUM Capital Withdrawal Option;INF173K01FJ5;INF173K01FK3;20.9855;20.7756;20.9855;26-Apr-2013
@@ -6377,10 +6377,10 @@ Kotak Mahindra Mutual Fund
 119781;Kotak Gold Fund Growth - Direct;INF174K01MP6;;12.3231;12.0766;12.3231;26-Apr-2013
 114757;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option;INF174K01AU1;INF174K01AV9;12.3113;12.0651;12.3113;26-Apr-2013
 119780;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option- Direct;INF174K01MQ4;INF174K01MR2;12.3244;12.0779;12.3244;26-Apr-2013
-119777;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Growth - Direct;INF174K01LN3;;37.566;37.19;37.566;26-Apr-2013
-119776;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;36.868;36.499;36.868;26-Apr-2013
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;37.518;37.143;37.518;26-Apr-2013
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;36.521;36.156;36.521;26-Apr-2013
+119777;Kotak Multi Asset Omni FOF - Direct Growth - Direct;INF174K01LN3;;37.566;37.19;37.566;26-Apr-2013
+119776;Kotak Multi Asset Omni FOF - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;36.868;36.499;36.868;26-Apr-2013
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;37.518;37.143;37.518;26-Apr-2013
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;36.521;36.156;36.521;26-Apr-2013
 
 Nippon India Mutual Fund
 118662;NIPPON INDIA GOLD SAVINGS FUND - Direct Plan - IDCW Option;INF204K01YD2;INF204K01YE0;12.5894;12.3376;12.5894;26-Apr-2013

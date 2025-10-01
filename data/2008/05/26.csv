@@ -1635,6 +1635,10 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;13.94;13.38;13.94;26-May-2008
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;13.94;13.38;13.94;26-May-2008
 
+Sundaram Mutual Fund
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;34.5457;34.5457;35.3230;26-May-2008
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;12.6642;12.6642;12.9491;26-May-2008
+
 Tata Mutual Fund
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;35.3849;36.1811;36.1811;26-May-2008
 102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;33.3047;33.9882;34.0541;26-May-2008
@@ -1891,10 +1895,6 @@ quant Mutual Fund
 SBI Mutual Fund
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;41.72;41.72;42.66;26-May-2008
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;51.34;51.34;52.50;26-May-2008
-
-Sundaram Mutual Fund
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;34.5457;34.5457;35.3230;26-May-2008
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;12.6642;12.6642;12.9491;26-May-2008
 
 Tata Mutual Fund
 100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;45.9308;45.9308;46.9642;26-May-2008
@@ -2952,7 +2952,7 @@ HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;26-May-2008
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;13.8555;13.8555;13.8555;26-May-2008
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.2085;10.2085;10.2085;26-May-2008
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1492;10.1492;10.1492;26-May-2008
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1492;10.1492;10.1492;26-May-2008
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;26-May-2008
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;13.8282;13.8282;13.8282;26-May-2008
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.206;10.206;10.206;26-May-2008
@@ -3241,7 +3241,7 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-100900;HDFC Childrens Fund - Growth Plan;;;27.205;27.205;27.817;26-May-2008
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;27.205;27.205;27.817;26-May-2008
 100899;HDFC Childrens Fund-Savings;;;16.66;16.66;16.868;26-May-2008
 
 ICICI Prudential Mutual Fund
@@ -3330,12 +3330,12 @@ Open Ended Schemes ( Other Scheme - FoF Overseas )
 
 
 DSP Mutual Fund
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;15.3331;15.1798;15.6781;26-May-2008
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;15.3331;15.1798;15.6781;26-May-2008
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;15.3331;15.1798;15.6781;26-May-2008
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;15.3331;15.1798;15.6781;26-May-2008
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;11.359;11.359;11.359;26-May-2008
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;11.359;11.359;11.359;26-May-2008
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;11.359;11.359;11.359;26-May-2008
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;11.359;11.359;11.359;26-May-2008
 
 Principal Mutual Fund
 102336;Principal Global Opportunities Fund- Income Distribution CUM Capital Withdrawal Option;INF173K01CQ7;INF173K01CR5;18.8120;18.6239;19.2823;26-May-2008
@@ -3375,8 +3375,8 @@ ICICI Prudential Mutual Fund
 102136;ICICI Prudential Thematic Advantage Fund (FOF) - IDCW;INF109K01FR2;INF109K01860;28.4755;28.4755;28.9738;26-May-2008
 
 Kotak Mahindra Mutual Fund
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;29.55;29.55;30.215;26-May-2008
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;29.55;29.55;30.215;26-May-2008
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;29.55;29.55;30.215;26-May-2008
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;29.55;29.55;30.215;26-May-2008
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

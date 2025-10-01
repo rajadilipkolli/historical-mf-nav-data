@@ -1224,6 +1224,12 @@ Quantum Mutual Fund
 141068;Quantum Value Fund - Regular Plan Growth Option;INF082J01242;;49.49;47.51;49.49;16-Jun-2017
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;49.81;47.82;49.81;16-Jun-2017
 
+Sundaram Mutual Fund
+119549;Sundaram Value Fund Direct Plan - Growth;INF903J01NN3;;99.3167;99.3167;99.3167;16-Jun-2017
+119548;Sundaram Value Fund Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;14.6401;14.6401;14.6401;16-Jun-2017
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;97.8291;97.8291;97.8291;16-Jun-2017
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;14.3536;14.3536;14.3536;16-Jun-2017
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;58.0761;57.4953;58.0761;16-Jun-2017
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;124.4947;123.2498;124.4947;16-Jun-2017
@@ -1953,12 +1959,6 @@ SBI Mutual Fund
 119723;SBI ELSS Tax Saver FUND - DIRECT PLAN -GROWTH;INF200K01UM9;;136.7251;136.7251;136.7251;16-Jun-2017
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;43.7126;43.7126;43.7126;16-Jun-2017
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;133.4142;133.4142;133.4142;16-Jun-2017
-
-Sundaram Mutual Fund
-119549;Sundaram Diversified Equity (ELSS) Direct Plan - Growth;INF903J01NN3;;99.3167;99.3167;99.3167;16-Jun-2017
-119548;Sundaram Diversified Equity (ELSS) Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;14.6401;14.6401;14.6401;16-Jun-2017
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;97.8291;97.8291;97.8291;16-Jun-2017
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;14.3536;14.3536;14.3536;16-Jun-2017
 
 Tata Mutual Fund
 119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;92.1531;92.1531;92.1531;16-Jun-2017
@@ -2882,10 +2882,10 @@ Franklin Templeton Mutual Fund
 
 HDFC Mutual Fund
 105548;HDFC Low Duration  Fund - Daily IDCW;;INF179K01434;10.1426;10.1426;10.1426;16-Jun-2017
-118945;HDFC Low Duration  Fund - Direct Plan - Daily IDCW;;;10.0655;10.0655;10.0655;16-Jun-2017
+118945;HDFC Low Duration  Fund - Direct Plan - Daily IDCW;;INF179KC1IR2;10.0655;10.0655;10.0655;16-Jun-2017
 118942;HDFC Low Duration  Fund - Direct Plan - Growth;INF179K01VF7;;36.0483;36.0483;36.0483;16-Jun-2017
 118943;HDFC Low Duration  Fund - Direct Plan - Monthly IDCW;INF179K01VG5;INF179K01VH3;10.1945;10.1945;10.1945;16-Jun-2017
-118944;HDFC Low Duration  Fund - Direct Plan - Weekly IDCW;;;10.1954;10.1954;10.1954;16-Jun-2017
+118944;HDFC Low Duration  Fund - Direct Plan - Weekly IDCW;INF179KC1IS0;INF179KC1IT8;10.1954;10.1954;10.1954;16-Jun-2017
 102452;HDFC Low Duration  Fund - Growth;INF179K01442;;34.9118;34.9118;34.9118;16-Jun-2017
 105543;HDFC Low Duration  Fund - Monthly IDCW;INF179K01459;INF179K01467;10.1887;10.1887;10.1887;16-Jun-2017
 102453;HDFC Low Duration  Fund - Weekly IDCW;INF179K01475;INF179K01483;10.1651;10.1651;10.1651;16-Jun-2017
@@ -5094,13 +5094,13 @@ Franklin Templeton Mutual Fund
 
 HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;16-Jun-2017
-118959;HDFC Floating Rate Debt Fund - Direct Plan - Daily IDCW;;;10.0809;10.0809;10.0809;16-Jun-2017
+118959;HDFC Floating Rate Debt Fund - Direct Plan - Daily IDCW;;INF179KC1IU6;10.0809;10.0809;10.0809;16-Jun-2017
 118961;HDFC Floating Rate Debt Fund - Direct Plan - Growth Option;INF179K01VQ4;;28.8168;28.8168;28.8168;16-Jun-2017
 118960;HDFC Floating Rate Debt Fund - Direct Plan - Monthly IDCW;INF179K01VO9;INF179K01VP6;10.1912;10.1912;10.1912;16-Jun-2017
-118962;HDFC Floating Rate Debt Fund - Direct Plan - Weekly IDCW;;;10.1435;10.1435;10.1435;16-Jun-2017
+118962;HDFC Floating Rate Debt Fund - Direct Plan - Weekly IDCW;INF179KC1IW2;;10.1435;10.1435;10.1435;16-Jun-2017
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;28.7192;28.7192;28.7192;16-Jun-2017
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.1907;10.1907;10.1907;16-Jun-2017
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1434;10.1434;10.1434;16-Jun-2017
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1434;10.1434;10.1434;16-Jun-2017
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;16-Jun-2017
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;27.8883;27.8883;27.8883;16-Jun-2017
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.1895;10.1895;10.1895;16-Jun-2017
@@ -5378,6 +5378,10 @@ Open Ended Schemes ( Hybrid Scheme - Aggressive Hybrid Fund )
 
 
 Aditya Birla Sun Life Mutual Fund
+132175;Aditya Birla Sun Life Aggressive Hybrid Omni FOF-  Regular -  IDCW;INF084M01085;INF084M01093;16.3104;16.1473;16.3104;16-Jun-2017
+132189;Aditya Birla Sun Life Aggressive Hybrid Omni FOF- Direct - IDCW;INF084M01EU0;INF084M01EV8;16.8342;16.6659;16.8342;16-Jun-2017
+132185;Aditya Birla Sun Life Aggressive Hybrid Omni FOF- Direct Plan - Growth Option;INF084M01ET2;;18.5755;18.3897;18.5755;16-Jun-2017
+132174;Aditya Birla Sun Life Aggressive Hybrid Omni FOF- Regular Plan - Growth Option;INF084M01077;;18.1854;18.0035;18.1854;16-Jun-2017
 120517;Aditya Birla Sun Life Equity Hybrid'95 Fund - Direct Plan-Growth;INF209K01ZC0;;740.76;733.35;740.76;16-Jun-2017
 103155;Aditya Birla Sun Life Equity Hybrid'95 Fund - Regular Plan-Growth;INF209K01BT5;;708.89;701.80;708.89;16-Jun-2017
 120518;Aditya Birla Sun Life Equity Hybrid'95 Fund -DIRECT - IDCW;INF209KA1LH3;INF209K01ZB2;216.05;213.89;216.05;16-Jun-2017
@@ -5658,6 +5662,12 @@ UTI Mutual Fund
 
 Open Ended Schemes ( Hybrid Scheme - Multi Asset Allocation )
 
+
+Aditya Birla Sun Life Mutual Fund
+131865;Aditya Birla Sun Life Multi Asset Omni FoF- Direct Plan - Growth Option;INF084M01DM9;;13.1914;13.0595;13.1914;16-Jun-2017
+131864;Aditya Birla Sun Life Multi Asset Omni FoF- Regular Plan - Growth Option;INF084M01AE2;;26.3881;26.1242;26.3881;16-Jun-2017
+131866;Aditya Birla Sun Life Multi Asset Omni FOF-DIRECT - IDCW;INF084M01DN7;INF084M01DO5;12.5685;12.4428;12.5685;16-Jun-2017
+131863;Aditya Birla Sun Life Multi Asset Omni FoF-REGULAR - IDCW;INF084M01AF9;INF084M01AG7;24.2909;24.0480;24.2909;16-Jun-2017
 
 Axis Mutual Fund
 120524;Axis Multi Asset Allocation Fund - Direct Plan - Growth Option;INF846K01EV4;;18.1336;17.9523;18.1336;16-Jun-2017
@@ -6083,8 +6093,8 @@ Axis Mutual Fund
 135761;Axis Children's Fund - No Lock in - Regular Plan - IDCW;INF846K01WN3;INF846K01WL7;11.5612;11.2144;11.5612;16-Jun-2017
 
 HDFC Mutual Fund
-119066;HDFC Childrens Fund - Direct Plan;;;109.9190;106.6210;109.9190;16-Jun-2017
-100900;HDFC Childrens Fund - Growth Plan;;;106.3810;103.1900;106.3810;16-Jun-2017
+119066;HDFC Childrens Fund - Direct Plan;INF179KC1IX0;;109.9190;106.6210;109.9190;16-Jun-2017
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;106.3810;103.1900;106.3810;16-Jun-2017
 119067;HDFC Childrens Fund Savings Plan-Direct Plan;;;45.1623;43.8074;45.1623;16-Jun-2017
 100899;HDFC Childrens Fund-Savings;;;43.5147;42.2093;43.5147;16-Jun-2017
 
@@ -6366,26 +6376,26 @@ Aditya Birla Sun Life Mutual Fund
 132003;Aditya Birla Sun Life Global Excellence Equity Fund Of Fund-REGULAR - RETAIL - IDCW;INF084M01BA8;INF084M01BB6;17.6089;17.4328;17.6089;16-Jun-2017
 
 DSP Mutual Fund
-119275;DSP Global Clean Energy Fund of Fund - Direct Plan - Growth;INF740K01PC5;;11.8287;11.7104;11.8287;16-Jun-2017
-119276;DSP Global Clean Energy Fund of Fund - Direct Plan - IDCW;INF740K01PD3;INF740K01PE1;10.6661;10.5594;10.6661;16-Jun-2017
-112126;DSP Global Clean Energy Fund of Fund - Regular Plan - Growth;INF740K01284;;11.7057;11.5886;11.7057;16-Jun-2017
-112127;DSP Global Clean Energy Fund of Fund - Regular Plan - IDCW;INF740K01292;INF740K01300;10.0112;9.9111;10.0112;16-Jun-2017
-119252;DSP US Flexible Equity Fund of Fund - Direct Plan - Growth;INF740K01OH7;;20.2077;20.0056;20.2077;16-Jun-2017
-119253;DSP US Flexible Equity Fund of Fund - Direct Plan - IDCW;INF740K01OI5;INF740K01OJ3;20.2077;20.0056;20.2077;16-Jun-2017
-117691;DSP US Flexible Equity Fund of Fund - Regular Plan - Growth Option;INF740K01LP6;;19.6451;19.4486;19.6451;16-Jun-2017
-117692;DSP US Flexible Equity Fund of Fund - Regular Plan - IDCW;INF740K01LQ4;;15.6538;15.4973;15.6538;16-Jun-2017
+119276;DSP Global Clean Energy Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PD3;INF740K01PE1;10.6661;10.5594;10.6661;16-Jun-2017
+112126;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01284;;11.7057;11.5886;11.7057;16-Jun-2017
+112127;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01292;INF740K01300;10.0112;9.9111;10.0112;16-Jun-2017
+119275;DSP Global Clean Energy Overseas Equity Omni FoF Direct Plan - Growth;INF740K01PC5;;11.8287;11.7104;11.8287;16-Jun-2017
+119252;DSP US Specific Equity Omni FoF - Direct Plan - Growth;INF740K01OH7;;20.2077;20.0056;20.2077;16-Jun-2017
+119253;DSP US Specific Equity Omni FoF - Direct Plan - IDCW;INF740K01OI5;INF740K01OJ3;20.2077;20.0056;20.2077;16-Jun-2017
+117691;DSP US Specific Equity Omni FoF - Regular Plan - Growth Option;INF740K01LP6;;19.6451;19.4486;19.6451;16-Jun-2017
+117692;DSP US Specific Equity Omni FoF - Regular Plan - IDCW;INF740K01LQ4;;15.6538;15.4973;15.6538;16-Jun-2017
 119271;DSP World Agriculture Fund - Direct Plan - Growth;INF740K01OE4;;14.8806;14.7318;14.8806;16-Jun-2017
 119272;DSP World Agriculture Fund - Direct Plan - IDCW;INF740K01OF1;INF740K01OG9;14.0306;13.8903;14.0306;16-Jun-2017
 115882;DSP World Agriculture Fund - Regular Plan - Growth;INF740K01EK2;;14.6627;14.5161;14.6627;16-Jun-2017
 115881;DSP World Agriculture Fund - Regular Plan - IDCW;INF740K01EL0;;11.8721;11.7534;11.8721;16-Jun-2017
-119277;DSP World Gold Fund of Fund - Direct Plan - Growth;INF740K01OZ9;;12.4332;12.3089;12.4332;16-Jun-2017
-119278;DSP World Gold Fund of Fund - Direct Plan - IDCW;INF740K01PA9;INF740K01PB7;10.1840;10.0822;10.1840;16-Jun-2017
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;12.1971;12.0751;12.1971;16-Jun-2017
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;9.9871;9.8872;9.9871;16-Jun-2017
-119279;DSP World Mining Fund of Fund - Direct Plan - Growth;INF740K01PF8;;6.5451;6.4796;6.5451;16-Jun-2017
-119280;DSP World Mining Fund of Fund - Direct Plan - IDCW;INF740K01PG6;INF740K01PH4;6.5451;6.4796;6.5451;16-Jun-2017
-112293;DSP World Mining Fund of Fund - Regular Plan - Growth;INF740K01730;;6.3912;6.3273;6.3912;16-Jun-2017
-112347;DSP World Mining Fund of Fund - Regular Plan - IDCW;INF740K01748;INF740K01AL8;6.3912;6.3273;6.3912;16-Jun-2017
+119277;DSP World Gold Mining Overseas Equity Omni FoF - Direct Plan - Growth;INF740K01OZ9;;12.4332;12.3089;12.4332;16-Jun-2017
+119278;DSP World Gold Mining Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PA9;INF740K01PB7;10.1840;10.0822;10.1840;16-Jun-2017
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;12.1971;12.0751;12.1971;16-Jun-2017
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;9.9871;9.8872;9.9871;16-Jun-2017
+119279;DSP World Mining Overseas Equity Omni FoF - Direct Plan - Growth;INF740K01PF8;;6.5451;6.4796;6.5451;16-Jun-2017
+119280;DSP World Mining Overseas Equity Omni FoF - Direct Plan - IDCW;INF740K01PG6;INF740K01PH4;6.5451;6.4796;6.5451;16-Jun-2017
+112293;DSP World Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01730;;6.3912;6.3273;6.3912;16-Jun-2017
+112347;DSP World Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01748;INF740K01AL8;6.3912;6.3273;6.3912;16-Jun-2017
 
 Edelweiss Mutual Fund
 140256;Edelweiss ASEAN Equity Off-shore Fund - Direct Plan - Growth Option;INF843K01AW7;;18.56;18.374;18.56;16-Jun-2017
@@ -6442,10 +6452,10 @@ Invesco Mutual Fund
 126350;Invesco India - Invesco Pan European Equity Fund of Fund - Regular Plan - IDCW (Payout / Reinvestment);INF205K01A08;INF205K01A16;10.0494;9.9489;10.0494;16-Jun-2017
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;13.937;13.798;13.937;16-Jun-2017
-119779;Kotak Global Emerging Market Fund - Growth - Direct;INF174K01LW4;;14.405;14.261;14.405;16-Jun-2017
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;13.937;13.798;13.937;16-Jun-2017
-119778;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;;14.454;14.309;14.454;16-Jun-2017
+119779;Kotak Global Emerging Market overseas Equity Omni FOF - Growth - Direct;INF174K01LW4;;14.405;14.261;14.405;16-Jun-2017
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;13.937;13.798;13.937;16-Jun-2017
+119778;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;INF174K01LY0;14.454;14.309;14.454;16-Jun-2017
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;13.937;13.798;13.937;16-Jun-2017
 133832;Kotak US Equity Fund - Direct Plan - Dividend option;INF178L01CM3;INF178L01CN1;13.759;13.621;13.759;16-Jun-2017
 133831;Kotak US Equity Fund - Direct Plan - Growth option;INF178L01CL5;;13.758;13.62;13.758;16-Jun-2017
 133830;Kotak US Equity Fund - Standard Plan - Dividend option;INF178L01CJ9;INF178L01CK7;13.397;13.263;13.397;16-Jun-2017
@@ -6481,30 +6491,22 @@ Open Ended Schemes ( Other Scheme - FoF Domestic )
 
 
 Aditya Birla Sun Life Mutual Fund
-131865;Aditya Birla Sun Life Asset Allocator FoF- Direct Plan - Growth Option;INF084M01DM9;;13.1914;13.0595;13.1914;16-Jun-2017
-131864;Aditya Birla Sun Life Asset Allocator FoF- Regular Plan - Growth Option;INF084M01AE2;;26.3881;26.1242;26.3881;16-Jun-2017
-131866;Aditya Birla Sun Life Asset Allocator FoF-DIRECT - IDCW;INF084M01DN7;INF084M01DO5;12.5685;12.4428;12.5685;16-Jun-2017
-131863;Aditya Birla Sun Life Asset Allocator FoF-REGULAR - IDCW;INF084M01AF9;INF084M01AG7;24.2909;24.0480;24.2909;16-Jun-2017
-131897;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - DIRECT - IDCW;INF084M01DQ0;INF084M01DR8;14.7072;14.5601;14.7072;16-Jun-2017
-131898;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - Direct Plan - Growth Option;INF084M01DP2;;23.4763;23.2415;23.4763;16-Jun-2017
-131895;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - REGULAR - IDCW;INF084M01AI3;INF084M01AJ1;14.4371;14.2927;14.4371;16-Jun-2017
-131896;Aditya Birla Sun Life Debt Plus Arbitrage FoF Scheme - Regular Plan - Growth Option;INF084M01AH5;;23.0231;22.7929;23.0231;16-Jun-2017
-132187;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan - Direct - IDCW;INF084M01EX4;INF084M01EY2;19.4187;19.2245;19.4187;16-Jun-2017
-132186;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan - Direct Plan - Growth Option;INF084M01EW6;;21.1868;20.9749;21.1868;16-Jun-2017
-132180;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan - Regular Plan - Growth Option;INF084M01101;;20.6221;20.4159;20.6221;16-Jun-2017
-132181;Aditya Birla Sun Life Financial Planning Fund - Aggressive Plan -Regular - IDCW;INF084M01119;INF084M01127;18.8726;18.6839;18.8726;16-Jun-2017
-132183;Aditya Birla Sun Life Financial Planning Fund - Conservative Plan - Direct Plan - Growth Option;INF084M01EQ8;;17.0595;16.8889;17.0595;16-Jun-2017
-132178;Aditya Birla Sun life Financial Planning Fund - Conservative Plan - Regular Plan - Growth Option;INF084M01044;;16.6768;16.5100;16.6768;16-Jun-2017
-132184;Aditya Birla Sun Life Financial Planning Fund - Conservative Plan -Direct - IDCW;INF084M01ER6;INF084M01ES4;11.5748;11.4591;11.5748;16-Jun-2017
-132179;Aditya Birla Sun Life Financial Planning Fund - Conservative Plan -Regular - IDCW;INF084M01051;INF084M01069;15.1741;15.0224;15.1741;16-Jun-2017
-132185;Aditya Birla Sun Life Financial Planning Fund - Moderate Plan - Direct Plan - Growth Option;INF084M01ET2;;18.5755;18.3897;18.5755;16-Jun-2017
-132174;Aditya Birla Sun Life Financial Planning Fund - Moderate Plan - Regular Plan - Growth Option;INF084M01077;;18.1854;18.0035;18.1854;16-Jun-2017
-132175;Aditya Birla Sun Life Financial Planning Fund -Moderate  Plan -  Regular -  IDCW;INF084M01085;INF084M01093;16.3104;16.1473;16.3104;16-Jun-2017
-132189;Aditya Birla Sun Life Financial Planning Fund -Moderate  Plan - Direct - IDCW;INF084M01EU0;INF084M01EV8;16.8342;16.6659;16.8342;16-Jun-2017
+132179;Aditya Birla Sun Life Conservative Hybrid Active FOF -Regular - IDCW;INF084M01051;INF084M01069;15.1741;15.0224;15.1741;16-Jun-2017
+132183;Aditya Birla Sun Life Conservative Hybrid Active FOF- Direct Plan - Growth Option;INF084M01EQ8;;17.0595;16.8889;17.0595;16-Jun-2017
+132178;Aditya Birla Sun Life Conservative Hybrid Active FOF- Regular Plan - Growth Option;INF084M01044;;16.6768;16.5100;16.6768;16-Jun-2017
+132184;Aditya Birla Sun Life Conservative Hybrid Active FOF-Direct - IDCW;INF084M01ER6;INF084M01ES4;11.5748;11.4591;11.5748;16-Jun-2017
+132187;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF- Direct - IDCW;INF084M01EX4;INF084M01EY2;19.4187;19.2245;19.4187;16-Jun-2017
+132186;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF- Direct Plan - Growth Option;INF084M01EW6;;21.1868;20.9749;21.1868;16-Jun-2017
+132180;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF- Regular Plan - Growth Option;INF084M01101;;20.6221;20.4159;20.6221;16-Jun-2017
+132181;Aditya Birla Sun Life Dynamic Asset Allocation Omni FOF-Regular - IDCW;INF084M01119;INF084M01127;18.8726;18.6839;18.8726;16-Jun-2017
 120546;Aditya Birla Sun Life Gold Fund - Growth - Direct Plan;INF209K01YU5;;9.4937;9.3988;9.4937;16-Jun-2017
 120545;Aditya Birla Sun Life Gold Fund-DIRECT - IDCW;INF209K01YT7;;9.4899;9.3950;9.4899;16-Jun-2017
 116796;Aditya Birla Sun Life Gold Fund-Growth;INF209K01PF4;;9.3882;9.2943;9.3882;16-Jun-2017
 116795;Aditya Birla Sun Life Gold Fund-REGULAR - IDCW;INF209K01PG2;INF209K01PH0;9.3869;9.2930;9.3869;16-Jun-2017
+131897;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- DIRECT - IDCW;INF084M01DQ0;INF084M01DR8;14.7072;14.5601;14.7072;16-Jun-2017
+131898;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- Direct Plan - Growth Option;INF084M01DP2;;23.4763;23.2415;23.4763;16-Jun-2017
+131895;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- REGULAR - IDCW;INF084M01AI3;INF084M01AJ1;14.4371;14.2927;14.4371;16-Jun-2017
+131896;Aditya Birla Sun Life Income Plus Arbitrage Active FOF- Regular Plan - Growth Option;INF084M01AH5;;23.0231;22.7929;23.0231;16-Jun-2017
 
 Axis Mutual Fund
 120473;Axis Gold Fund - Direct Plan - Growth option;INF846K01DS2;;9.6961;9.5991;9.6961;16-Jun-2017
@@ -6545,10 +6547,10 @@ Canara Robeco Mutual Fund
 117541;Canara Robeco Gold Savings Fund - Regular Plan - Growth;INF760K01BW1;;8.7104;8.7104;8.7104;16-Jun-2017
 
 DSP Mutual Fund
-130493;DSP Income Plus Arbitrage Fund of Fund - Direct Plan - Growth;INF740K01Z50;;11.2394;11.1270;11.2394;16-Jun-2017
-130491;DSP Income Plus Arbitrage Fund of Fund - Direct Plan - IDCW;INF740K01Z68;INF740K01Z76;11.2394;11.1270;11.2394;16-Jun-2017
-130492;DSP Income Plus Arbitrage Fund of Fund - Regular Plan - Growth;INF740K01Z27;;11.1164;11.0052;11.1164;16-Jun-2017
-130490;DSP Income Plus Arbitrage Fund of Fund - Regular Plan - IDCW;INF740K01Z35;INF740K01Z43;11.1164;11.0052;11.1164;16-Jun-2017
+130493;DSP Income Plus Arbitrage Omni FoF - Direct Plan - Growth;INF740K01Z50;;11.2394;11.1270;11.2394;16-Jun-2017
+130491;DSP Income Plus Arbitrage Omni FoF - Direct Plan - IDCW;INF740K01Z68;INF740K01Z76;11.2394;11.1270;11.2394;16-Jun-2017
+130492;DSP Income Plus Arbitrage Omni FoF - Regular Plan - Growth;INF740K01Z27;;11.1164;11.0052;11.1164;16-Jun-2017
+130490;DSP Income Plus Arbitrage Omni FoF - Regular Plan - IDCW;INF740K01Z35;INF740K01Z43;11.1164;11.0052;11.1164;16-Jun-2017
 
 Franklin Templeton Mutual Fund
 118543;Franklin India Dynamic Asset Allocation Active Fund Of Funds - Direct - Growth;INF090I01HV6;;76.5310;75.7657;76.5310;16-Jun-2017
@@ -6640,10 +6642,10 @@ Kotak Mahindra Mutual Fund
 119781;Kotak Gold Fund Growth - Direct;INF174K01MP6;;12.2986;12.0526;12.2986;16-Jun-2017
 114757;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option;INF174K01AU1;INF174K01AV9;12.0494;11.8084;12.0494;16-Jun-2017
 119780;Kotak Gold Fund Payout of Income Distribution cum capital withdrawal option- Direct;INF174K01MQ4;INF174K01MR2;12.2994;12.0534;12.2994;16-Jun-2017
-119777;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Growth - Direct;INF174K01LN3;;74.694;73.947;74.694;16-Jun-2017
-119776;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;73.351;72.617;73.351;16-Jun-2017
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;73.735;72.998;73.735;16-Jun-2017
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;71.774;71.056;71.774;16-Jun-2017
+119777;Kotak Multi Asset Omni FOF - Direct Growth - Direct;INF174K01LN3;;74.694;73.947;74.694;16-Jun-2017
+119776;Kotak Multi Asset Omni FOF - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;73.351;72.617;73.351;16-Jun-2017
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;73.735;72.998;73.735;16-Jun-2017
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;71.774;71.056;71.774;16-Jun-2017
 
 Nippon India Mutual Fund
 118662;NIPPON INDIA GOLD SAVINGS FUND - Direct Plan - IDCW Option;INF204K01YD2;INF204K01YE0;12.6953;12.4414;12.6953;16-Jun-2017

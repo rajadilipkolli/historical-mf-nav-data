@@ -1717,6 +1717,10 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;21.8000;20.9300;21.8000;20-Aug-2010
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;21.9900;21.1100;21.9900;20-Aug-2010
 
+Sundaram Mutual Fund
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;45.3251;45.3251;44.8718;20-Aug-2010
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;12.1497;12.1497;12.0282;20-Aug-2010
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;41.7472;41.3297;41.7472;20-Aug-2010
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;47.6370;47.1606;47.6370;20-Aug-2010
@@ -2044,10 +2048,6 @@ Quantum Mutual Fund
 SBI Mutual Fund
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;41.77;41.77;41.77;20-Aug-2010
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;61.28;61.28;61.28;20-Aug-2010
-
-Sundaram Mutual Fund
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;45.3251;45.3251;44.8718;20-Aug-2010
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;12.1497;12.1497;12.0282;20-Aug-2010
 
 Tata Mutual Fund
 100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;45.5716;45.5716;45.5716;20-Aug-2010
@@ -3496,7 +3496,7 @@ HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;20-Aug-2010
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;16.0063;16.0063;16.0063;20-Aug-2010
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.1829;10.1829;10.1829;20-Aug-2010
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1418;10.1418;10.1418;20-Aug-2010
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1418;10.1418;10.1418;20-Aug-2010
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;20-Aug-2010
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;15.8656;15.8656;15.8656;20-Aug-2010
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.1802;10.1802;10.1802;20-Aug-2010
@@ -3862,7 +3862,7 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-100900;HDFC Childrens Fund - Growth Plan;;;39.479;38.295;39.479;20-Aug-2010
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;39.479;38.295;39.479;20-Aug-2010
 100899;HDFC Childrens Fund-Savings;;;21.506;20.861;21.506;20-Aug-2010
 
 ICICI Prudential Mutual Fund
@@ -3982,20 +3982,20 @@ Open Ended Schemes ( Other Scheme - FoF Overseas )
 
 
 DSP Mutual Fund
-112126;DSP Global Clean Energy Fund of Fund - Regular Plan - Growth;INF740K01284;;9.2338;9.1415;9.2338;20-Aug-2010
-112127;DSP Global Clean Energy Fund of Fund - Regular Plan - IDCW;INF740K01292;INF740K01300;9.2338;9.1415;9.2338;20-Aug-2010
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;15.9283;15.7690;15.9283;20-Aug-2010
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;13.8893;13.7504;13.8893;20-Aug-2010
-112293;DSP World Mining Fund of Fund - Regular Plan - Growth;INF740K01730;;9.4048;9.3108;9.4048;20-Aug-2010
-112347;DSP World Mining Fund of Fund - Regular Plan - IDCW;INF740K01748;INF740K01AL8;9.4048;9.3108;9.4048;20-Aug-2010
+112126;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01284;;9.2338;9.1415;9.2338;20-Aug-2010
+112127;DSP Global Clean Energy Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01292;INF740K01300;9.2338;9.1415;9.2338;20-Aug-2010
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;15.9283;15.7690;15.9283;20-Aug-2010
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;13.8893;13.7504;13.8893;20-Aug-2010
+112293;DSP World Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01730;;9.4048;9.3108;9.4048;20-Aug-2010
+112347;DSP World Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01748;INF740K01AL8;9.4048;9.3108;9.4048;20-Aug-2010
 
 HSBC Mutual Fund
 107988;HSBC Global Emerging Markets Fund - Growth;INF336L01446;;9.2024;9.1104;9.2024;20-Aug-2010
 107989;HSBC Global Emerging Markets Fund - IDCW;INF336L01438;INF336L01420;9.2024;9.1104;9.2024;20-Aug-2010
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;9.122;9.122;9.122;20-Aug-2010
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;9.122;9.122;9.122;20-Aug-2010
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;9.122;9.122;9.122;20-Aug-2010
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;9.122;9.122;9.122;20-Aug-2010
 
 Principal Mutual Fund
 102336;Principal Global Opportunities Fund- Income Distribution CUM Capital Withdrawal Option;INF173K01CQ7;INF173K01CR5;16.2618;16.0992;16.2618;20-Aug-2010
@@ -4047,8 +4047,8 @@ ICICI Prudential Mutual Fund
 102136;ICICI Prudential Thematic Advantage Fund (FOF) - IDCW;INF109K01FR2;INF109K01860;34.1407;34.1407;34.1407;20-Aug-2010
 
 Kotak Mahindra Mutual Fund
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;38.318;37.935;38.318;20-Aug-2010
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;38.318;37.935;38.318;20-Aug-2010
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;38.318;37.935;38.318;20-Aug-2010
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;38.318;37.935;38.318;20-Aug-2010
 
 Quantum Mutual Fund
 112039;Quantum Diversified Equity All Cap Active FOF - Direct Plan Growth Option;INF082J01093;;14.1420;13.9300;14.1420;20-Aug-2010

@@ -1658,6 +1658,10 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;9.6900;9.3000;9.6900;02-Apr-2009
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;9.7700;9.3800;9.7700;02-Apr-2009
 
+Sundaram Mutual Fund
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;23.8880;23.8880;24.4255;02-Apr-2009
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;8.7617;8.7617;8.9588;02-Apr-2009
+
 Tata Mutual Fund
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;22.0118;21.7917;22.5071;02-Apr-2009
 102428;Tata Value Fund Regular Plan - Payout of IDCW-Option B(10%);INF277K01DJ9;INF277K01444;20.9723;20.7626;21.4442;02-Apr-2009
@@ -1954,10 +1958,6 @@ Quantum Mutual Fund
 SBI Mutual Fund
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;26.47;26.47;27.07;02-Apr-2009
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;32.57;32.57;33.30;02-Apr-2009
-
-Sundaram Mutual Fund
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;23.8880;23.8880;24.4255;02-Apr-2009
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;8.7617;8.7617;8.9588;02-Apr-2009
 
 Tata Mutual Fund
 100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;28.5644;28.5644;29.2071;02-Apr-2009
@@ -2378,7 +2378,7 @@ HSBC Mutual Fund
 104346;HSBC Low Duration Fund - Inst. Plus - Monthly IDCW;INF336L01AN9;INF336L01AM1;10.3408;10.3408;10.3408;02-Apr-2009
 104345;HSBC Low Duration Fund - Inst. Plus - Weekly IDCW;;INF336L01AK5;10.0485;10.0485;10.0485;02-Apr-2009
 104349;HSBC Low Duration Fund - Inst.Plus - Daily IDCW;;INF336L01AS8;10.0506;10.0506;10.0506;02-Apr-2009
-104348;HSBC Low Duration Fund - Regular Monthly IDCW;INF336L01AJ7;INF336L01AI9;10.1512;10.1512;10.1512;02-Apr-2009
+104351;HSBC Low Duration Fund - Regular Monthly IDCW;;INF336L01AG3;10.0125;10.0125;10.0125;02-Apr-2009
 104343;HSBC Low Duration Fund - Weekly IDCW;;INF336L01AQ2;10.0453;10.0453;10.0453;02-Apr-2009
 104347;HSBC Ultra Short Term Bond Fund - Inst. Plus - Growth;INF336L01AR0;;12.2339;12.2339;12.2339;02-Apr-2009
 
@@ -3227,7 +3227,7 @@ HDFC Mutual Fund
 106838;HDFC Floating Rate Debt Fund - Daily IDCW Option;;INF179K01699;10.0809;10.0809;10.0809;02-Apr-2009
 106841;HDFC Floating Rate Debt Fund - Growth Option;INF179K01707;;14.9298;14.9298;14.9298;02-Apr-2009
 106839;HDFC Floating Rate Debt Fund - Monthly IDCW Option;INF179K01715;INF179K01723;10.1513;10.1513;10.1513;02-Apr-2009
-106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179K01749;10.1417;10.1417;10.1417;02-Apr-2009
+106840;HDFC Floating Rate Debt Fund - Weekly IDCW Option;INF179K01731;INF179KC1IV4;10.1417;10.1417;10.1417;02-Apr-2009
 101483;HDFC Floating Rate Debt Fund - Retail Daily Div Option;;INF179K01640;10.0809;10.0809;10.0809;02-Apr-2009
 101481;HDFC Floating Rate Debt Fund - Retail Growth Option;INF179K01632;;14.8658;14.8658;14.8658;02-Apr-2009
 101484;HDFC Floating Rate Debt Fund - Retail Monthly Div option;INF179K01657;INF179K01665;10.1511;10.1511;10.1511;02-Apr-2009
@@ -3536,7 +3536,7 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-100900;HDFC Childrens Fund - Growth Plan;;;19.818;19.818;20.264;02-Apr-2009
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;19.818;19.818;20.264;02-Apr-2009
 100899;HDFC Childrens Fund-Savings;;;16.432;16.432;16.637;02-Apr-2009
 
 ICICI Prudential Mutual Fund
@@ -3629,16 +3629,16 @@ Open Ended Schemes ( Other Scheme - FoF Overseas )
 
 
 DSP Mutual Fund
-106597;DSP World Gold Fund of Fund - Regular Plan - Growth;INF740K01250;;12.3248;12.2016;12.6021;02-Apr-2009
-106596;DSP World Gold Fund of Fund - Regular Plan - IDCW;INF740K01268;INF740K01276;12.3248;12.2016;12.6021;02-Apr-2009
+106597;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - Growth;INF740K01250;;12.3248;12.2016;12.6021;02-Apr-2009
+106596;DSP World Gold Mining Overseas Equity Omni FoF - Regular Plan - IDCW;INF740K01268;INF740K01276;12.3248;12.2016;12.6021;02-Apr-2009
 
 HSBC Mutual Fund
 107988;HSBC Global Emerging Markets Fund - Growth;INF336L01446;;6.5984;6.5324;6.7634;02-Apr-2009
 107989;HSBC Global Emerging Markets Fund - IDCW;INF336L01438;INF336L01420;6.5984;6.5324;6.7634;02-Apr-2009
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;5.895;5.895;5.895;02-Apr-2009
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;5.895;5.895;5.895;02-Apr-2009
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;5.895;5.895;5.895;02-Apr-2009
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;5.895;5.895;5.895;02-Apr-2009
 
 Principal Mutual Fund
 102336;Principal Global Opportunities Fund- Income Distribution CUM Capital Withdrawal Option;INF173K01CQ7;INF173K01CR5;10.9542;10.8447;11.2281;02-Apr-2009
@@ -3684,8 +3684,8 @@ ICICI Prudential Mutual Fund
 102136;ICICI Prudential Thematic Advantage Fund (FOF) - IDCW;INF109K01FR2;INF109K01860; 19.7562 ; 19.7562 ; 20.1020 ;02-Apr-2009
 
 Kotak Mahindra Mutual Fund
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;19.518;19.518;19.957;02-Apr-2009
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;19.518;19.518;19.957;02-Apr-2009
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;19.518;19.518;19.957;02-Apr-2009
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;19.518;19.518;19.957;02-Apr-2009
 
 Open Ended Schemes ( Equity Scheme - Flexi Cap Fund )
 

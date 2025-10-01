@@ -933,6 +933,10 @@ Quantum Mutual Fund
 103490;Quantum Value Fund - Direct Plan Growth Option;INF082J01036;;23.2500;22.3200;23.2500;16-Feb-2012
 103491;Quantum Value Fund - Direct Plan IDCW;INF082J01044;INF082J01051;23.4400;22.5000;23.4400;16-Feb-2012
 
+Sundaram Mutual Fund
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;42.6691;42.6691;42.6691;16-Feb-2012
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.0625;10.0625;10.0625;16-Feb-2012
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;30.1989;29.8969;30.1989;16-Feb-2012
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;47.2537;46.7812;47.2537;16-Feb-2012
@@ -1240,10 +1244,6 @@ quant Mutual Fund
 Quantum Mutual Fund
 111549;Quantum ELSS Tax Saver Fund - Direct Plan Growth Option;INF082J01069;;22.956;22.956;22.956;16-Feb-2012
 111550;Quantum ELSS Tax Saver Fund - Direct Plan IDCW;INF082J01077;INF082J01085;22.943;22.943;22.943;16-Feb-2012
-
-Sundaram Mutual Fund
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;42.6691;42.6691;42.6691;16-Feb-2012
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;10.0625;10.0625;10.0625;16-Feb-2012
 
 Tata Mutual Fund
 100474;Tata ELSS Fund- Regular Plan - Payout of IDCW Option;INF277K01I60;;42.7799;42.7799;42.7799;16-Feb-2012
@@ -1878,7 +1878,7 @@ Open Ended Schemes ( Solution Oriented Scheme - Children’s Fund )
 
 
 HDFC Mutual Fund
-100900;HDFC Childrens Fund - Growth Plan;;;45.405;44.043;45.405;16-Feb-2012
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;45.405;44.043;45.405;16-Feb-2012
 
 ICICI Prudential Mutual Fund
 101127;ICICI Prudential Children's Fund - Regular Plan;INF109K01605;;56.66;56.09;56.66;16-Feb-2012
@@ -2043,8 +2043,8 @@ Invesco Mutual Fund
 116075;Invesco India Gold ETF Fund of Fund - IDCW (Payout / Reinvestment);INF205K01FB2;INF205K01FC0;9.6107;9.6107;9.6107;16-Feb-2012
 
 Kotak Mahindra Mutual Fund
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;35.058;34.707;35.058;16-Feb-2012
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;34.126;33.785;34.126;16-Feb-2012
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;35.058;34.707;35.058;16-Feb-2012
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;34.126;33.785;34.126;16-Feb-2012
 
 Nippon India Mutual Fund
 114617;NIPPON INDIA GOLD SAVINGS FUND - IDCW Option;INF204K01KO8;INF204K01KP5;13.2198;12.9554;13.2198;16-Feb-2012

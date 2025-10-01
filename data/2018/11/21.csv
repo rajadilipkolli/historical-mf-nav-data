@@ -868,6 +868,12 @@ Quantum Mutual Fund
 141068;Quantum Value Fund - Regular Plan Growth Option;INF082J01242;;52.36;;;21-Nov-2018
 141069;Quantum Value Fund - Regular Plan IDCW;INF082J01259;INF082J01267;52.66;;;21-Nov-2018
 
+Sundaram Mutual Fund
+119549;Sundaram Value Fund Direct Plan - Growth;INF903J01NN3;;96.1145;;;21-Nov-2018
+119548;Sundaram Value Fund Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;11.8682;;;21-Nov-2018
+101853;Sundaram Value Fund Regular Plan - Growth;INF903J01538;;93.8392;;;21-Nov-2018
+100614;Sundaram Value Fund Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;11.4759;;;21-Nov-2018
+
 Tata Mutual Fund
 112218;Tata Value Fund - Regular Plan - Payout of IDCW-Option A(5%);INF277K01DI1;INF277K01436;55.8027;;;21-Nov-2018
 101672;Tata Value Fund - Regular Plan -Growth Option;INF277K01451;;127.2775;;;21-Nov-2018
@@ -1666,12 +1672,6 @@ SBI Mutual Fund
 119723;SBI ELSS Tax Saver FUND - DIRECT PLAN -GROWTH;INF200K01UM9;;140.0545;;;21-Nov-2018
 103883;SBI ELSS Tax Saver Fund - Regular Plan - Income Distribution cum Capital Withdrawal Option (IDCW);INF200K01479;;40.3939;;;21-Nov-2018
 105628;SBI ELSS Tax Saver FUND - REGULAR PLAN- GROWTH;INF200K01495;;135.2145;;;21-Nov-2018
-
-Sundaram Mutual Fund
-119549;Sundaram Diversified Equity (ELSS) Direct Plan - Growth;INF903J01NN3;;96.1145;;;21-Nov-2018
-119548;Sundaram Diversified Equity (ELSS) Direct Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01NL7;INF903J01NM5;11.8682;;;21-Nov-2018
-101853;Sundaram Diversified Equity (ELSS) Regular Plan - Growth;INF903J01538;;93.8392;;;21-Nov-2018
-100614;Sundaram Diversified Equity (ELSS) Regular Plan - Income Distribution cum Capital Withdrawal (IDCW);INF903J01512;INF903J01520;11.4759;;;21-Nov-2018
 
 Tata Mutual Fund
 119281;Tata ELSS Fund- Direct Plan - Payout of IDCW Option;INF277K01I94;;89.8043;;;21-Nov-2018
@@ -3074,8 +3074,8 @@ Axis Mutual Fund
 135761;Axis Children's Fund - No Lock in - Regular Plan - IDCW;INF846K01WN3;INF846K01WL7;12.3185;;;21-Nov-2018
 
 HDFC Mutual Fund
-119066;HDFC Childrens Fund - Direct Plan;;;118.995;;;21-Nov-2018
-100900;HDFC Childrens Fund - Growth Plan;;;113.489;;;21-Nov-2018
+119066;HDFC Childrens Fund - Direct Plan;INF179KC1IX0;;118.995;;;21-Nov-2018
+100900;HDFC Childrens Fund - Growth Plan;INF179KC1IY8;;113.489;;;21-Nov-2018
 
 ICICI Prudential Mutual Fund
 120579;ICICI Prudential Children's Fund - Direct Plan;INF109K01Y49;;139.78;;;21-Nov-2018
@@ -3401,10 +3401,10 @@ HSBC Mutual Fund
 120044;HSBC Global Emerging Markets Fund - IDCW Direct Plan;INF336L01CH7;INF336L01CI5;13.2349;;;21-Nov-2018
 
 Kotak Mahindra Mutual Fund
-106441;Kotak Global Emerging Market Fund - Growth;INF174K01DV3;;14.649;;;21-Nov-2018
-119779;Kotak Global Emerging Market Fund - Growth - Direct;INF174K01LW4;;15.345;;;21-Nov-2018
-106442;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;14.649;;;21-Nov-2018
-119778;Kotak Global Emerging Market Fund - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;;15.41;;;21-Nov-2018
+119779;Kotak Global Emerging Market overseas Equity Omni FOF - Growth - Direct;INF174K01LW4;;15.345;;;21-Nov-2018
+106442;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01DX9;INF174K01DW1;14.649;;;21-Nov-2018
+119778;Kotak Global Emerging Market Overseas Equity Omni FOF - Payout of Income Distribution cum capital withdrawal option - Direct;INF174K01LX2;INF174K01LY0;15.41;;;21-Nov-2018
+106441;Kotak Global Emerging Market Overseas Equity Omni FOF- Growth;INF174K01DV3;;14.649;;;21-Nov-2018
 133832;Kotak US Equity Fund - Direct Plan - Dividend option;INF178L01CM3;INF178L01CN1;16.343;;;21-Nov-2018
 133831;Kotak US Equity Fund - Direct Plan - Growth option;INF178L01CL5;;16.34;;;21-Nov-2018
 133830;Kotak US Equity Fund - Standard Plan - Dividend option;INF178L01CJ9;INF178L01CK7;15.732;;;21-Nov-2018
@@ -3485,10 +3485,10 @@ Invesco Mutual Fund
 116075;Invesco India Gold ETF Fund of Fund - IDCW (Payout / Reinvestment);INF205K01FB2;INF205K01FC0;9.6067;;;21-Nov-2018
 
 Kotak Mahindra Mutual Fund
-119777;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Growth - Direct;INF174K01LN3;;79.87;;;21-Nov-2018
-119776;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;78.432;;;21-Nov-2018
-102574;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Growth;INF174K01468;;77.718;;;21-Nov-2018
-102573;Kotak Multi Asset Allocator Fund of Fund - Dynamic - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;75.651;;;21-Nov-2018
+119777;Kotak Multi Asset Omni FOF - Direct Growth - Direct;INF174K01LN3;;79.87;;;21-Nov-2018
+119776;Kotak Multi Asset Omni FOF - Direct Payout of Income Distribution cum capital withdrawal option;INF174K01LO1;INF174K01LP8;78.432;;;21-Nov-2018
+102574;Kotak Multi Asset Omni FOF - Growth- Regular;INF174K01468;;77.718;;;21-Nov-2018
+102573;Kotak Multi Asset Omni FOF - Payout of Income Distribution cum capital withdrawal option;INF174K01484;INF174K01476;75.651;;;21-Nov-2018
 
 Nippon India Mutual Fund
 118662;NIPPON INDIA GOLD SAVINGS FUND - Direct Plan - IDCW Option;INF204K01YD2;INF204K01YE0;13.3583;;;21-Nov-2018
