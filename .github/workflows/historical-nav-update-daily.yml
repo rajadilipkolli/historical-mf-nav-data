@@ -83,7 +83,7 @@ jobs:
           fi
 
       - name: Commit data updates
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         id: commit
         with:
           commit_message: Update Historical Data ${{ steps.current-time.outputs.formattedTime }}
