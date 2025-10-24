@@ -173,7 +173,7 @@ jobs:
 
       - name: Upload build artifacts
         if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build-artifacts
           path: |
@@ -193,7 +193,7 @@ jobs:
       release_version: ${{ needs.build-and-update.outputs.release_version }}
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: build-artifacts
       
@@ -283,7 +283,7 @@ jobs:
           fetch-depth: 1
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: build-artifacts
 
