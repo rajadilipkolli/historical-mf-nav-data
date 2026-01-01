@@ -3118,16 +3118,6 @@ Navi Mutual Fund
 119156;Navi Conservative Hybrid Fund-Direct Plan-Growth Option;INF959L01676;;29.9128;;;01-Apr-2024
 113142;Navi Conservative Hybrid Fund-Growth;INF959L01130;;25.1085;;;01-Apr-2024
 
-Open Ended Schemes ( Hybrid Scheme - Balanced Hybrid Fund )
-
-
-Nippon India Mutual Fund
-118738;NIPPON INDIA BALANCED ADVANTAGE FUND - DIRECT Plan - IDCW Option;INF204K01G78;INF204K01G86;43.4105;;;01-Apr-2024
-118736;Nippon India Balanced Advantage Fund - Direct Plan Growth Plan - Growth Option;INF204K01G94;;174.2538;;;01-Apr-2024
-102848;NIPPON INDIA BALANCED ADVANTAGE FUND - IDCW Option;INF204K01570;INF204K01588;32.3234;;;01-Apr-2024
-102847;Nippon India Balanced Advantage Fund-Growth Plan-Bonus Option;INF204K01596;;156.2262;;;01-Apr-2024
-102846;Nippon India Balanced Advantage Fund-Growth Plan-Growth Option;INF204K01604;;156.2262;;;01-Apr-2024
-
 Open Ended Schemes ( Hybrid Scheme - Aggressive Hybrid Fund )
 
 
@@ -3499,6 +3489,13 @@ Motilal Oswal Mutual Fund
 139866;Motilal Oswal Balanced Advantage Fund Direct - Annual IDCW Payout/Reinvestment;INF247L01650;INF247L01676;15.5092;;;01-Apr-2024
 139865;Motilal Oswal Balanced Advantage Fund Direct - Quarterly IDCW Payout/Reinvestment;INF247L01643;INF247L01668;13.8876;;;01-Apr-2024
 139871;Motilal Oswal Balanced Advantage Fund Regular - Quarterly IDCW Payout/Reinvestment;INF247L01593;INF247L01619;13.2244;;;01-Apr-2024
+
+Nippon India Mutual Fund
+118738;NIPPON INDIA BALANCED ADVANTAGE FUND - DIRECT Plan - IDCW Option;INF204K01G78;INF204K01G86;43.4105;;;01-Apr-2024
+118736;Nippon India Balanced Advantage Fund - Direct Plan Growth Plan - Growth Option;INF204K01G94;;174.2538;;;01-Apr-2024
+102848;NIPPON INDIA BALANCED ADVANTAGE FUND - IDCW Option;INF204K01570;INF204K01588;32.3234;;;01-Apr-2024
+102847;Nippon India Balanced Advantage Fund-Growth Plan-Bonus Option;INF204K01596;;156.2262;;;01-Apr-2024
+102846;Nippon India Balanced Advantage Fund-Growth Plan-Growth Option;INF204K01604;;156.2262;;;01-Apr-2024
 
 NJ Mutual Fund
 149264;NJ Balanced Advantage Fund - Direct Plan - Growth Option;INF0J8L01040;;13.27;;;01-Apr-2024
@@ -4207,8 +4204,8 @@ LIC Mutual Fund
 101271;LIC MF Children's Fund-Regular Plan-Growth;INF767K01048;;29.692;;;01-Apr-2024
 
 SBI Mutual Fund
-148490;SBI Magnum Children's Benefit Fund - Investment Plan - Direct Plan - Growth;INF200KA1R07;;33.8201;;;01-Apr-2024
-148489;SBI Magnum Children's Benefit Fund - Investment Plan - Regular Plan - Growth;INF200KA1Q99;;32.2245;;;01-Apr-2024
+148490;SBI Children's Fund - Investment Plan - Direct Plan - Growth;INF200KA1R07;;33.8201;;;01-Apr-2024
+148489;SBI Children's Fund - Investment Plan - Regular Plan - Growth;INF200KA1Q99;;32.2245;;;01-Apr-2024
 
 Tata Mutual Fund
 101491;Tata Childrens Fund -Regular Plan-Growth Option;INF277K01AJ5;;54.6458;;;01-Apr-2024
@@ -4387,8 +4384,8 @@ Groww Mutual Fund
 152126;Groww Nifty Total Market Index Fund - Regular Plan - IDCW;INF666M01HK8;INF666M01HL6;12.0813;;;01-Apr-2024
 
 HDFC Mutual Fund
+151728;HDFC BSE 500 Index Fund - Growth Option - Direct Plan;INF179KC1GG9;;13.7924;;;01-Apr-2024
 151729;HDFC BSE 500 Index Fund - Regular Plan - Growth Option;INF179KC1GH7;;13.7056;;;01-Apr-2024
-151728;HDFC S&P BSE 500 Index Fund - Growth Option - Direct Plan;INF179KC1GG9;;13.7924;;;01-Apr-2024
 119065;HDFC BSE Sensex Index Fund - Direct Plan;INF179K01WN9;;691.255;;;01-Apr-2024
 101281;HDFC BSE Sensex Index Fund - Growth Plan;INF179K01LA9;;676.2786;;;01-Apr-2024
 149870;HDFC Nifty 100 Equal Weight Index Fund - Direct Plan - Growth Option;INF179KC1CA1;;14.9003;;;01-Apr-2024
