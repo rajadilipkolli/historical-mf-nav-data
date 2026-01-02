@@ -14,9 +14,9 @@ Add this dependency to your `pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>com.github.rajadilipkolli</groupId>
+    <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20250713</version> <!-- Use latest version from releases -->
+    <version>1.0.20260125</version> <!-- Use latest version from releases -->
 </dependency>
 ```
 
@@ -303,6 +303,22 @@ WHERE isin='INF277K01741'
 - **JAR Creation**: Maven builds a self-contained JAR with embedded DB
 - **Auto-Release**: Every update triggers a new release with JAR and DB
 - **Zero Manual Intervention**: Always up-to-date
+
+---
+
+## Data Storage Change: Zipped CSVs
+
+To reduce repository size, daily fetched CSVs are now stored as compressed `.zip` files under the `data/YYYY/MM/` folders. Each archive contains the original `DD.csv` file (for example `01.zip` -> `01.csv`).
+
+- To fetch and store data, run the `fetch.py` script as before; it now saves `.zip` files instead of raw `.csv`.
+- Tools that process CSVs (for example `generate.py`) detect `.zip` files and read the contained CSV automatically.
+
+If you need to extract a CSV manually:
+
+```bash
+python -c "import zipfile; z=zipfile.ZipFile('data/2025/12/01.zip'); z.extractall('outdir')"
+```
+
 
 ---
 
