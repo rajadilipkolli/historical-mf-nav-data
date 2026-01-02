@@ -3,6 +3,7 @@ import sys
 import datetime
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import zipfile
 
 def daterange(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
@@ -15,14 +16,22 @@ def fetch_file(date, url, out_path):
     try:
         resp = requests.get(url, timeout=30)
         resp.raise_for_status()
-        os.makedirs(os.path.dirname(out_path), exist_ok=True)
-        with open(out_path, "wb") as f:
-            f.write(resp.content)
+        # Save as a zipped CSV to reduce repo size: DD.zip containing DD.csv
+        zip_path = out_path.replace('.csv', '.zip')
+        inner_name = os.path.basename(out_path)
+        os.makedirs(os.path.dirname(zip_path), exist_ok=True)
+        # Write response content into a zip archive
+        with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_DEFLATED) as zf:
+            zf.writestr(inner_name, resp.content)
         # Remove file if HTML (error page)
         if b"<html>" in resp.content[:4096]:
-            os.remove(out_path)
-            return f"Skipped (HTML): {out_path}"
-        return f"Fetched: {out_path}"
+            # remove zip if it's an HTML error page
+            try:
+                os.remove(zip_path)
+            except OSError:
+                pass
+            return f"Skipped (HTML): {zip_path}"
+        return f"Fetched: {zip_path}"
     except Exception as e:
         return f"Error {out_path}: {e}"
 

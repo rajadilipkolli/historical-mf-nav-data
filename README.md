@@ -306,6 +306,22 @@ WHERE isin='INF277K01741'
 
 ---
 
+## Data Storage Change: Zipped CSVs
+
+To reduce repository size, daily fetched CSVs are now stored as compressed `.zip` files under the `data/YYYY/MM/` folders. Each archive contains the original `DD.csv` file (for example `01.zip` -> `01.csv`).
+
+- To fetch and store data, run the `fetch.py` script as before; it now saves `.zip` files instead of raw `.csv`.
+- Tools that process CSVs (for example `generate.py`) detect `.zip` files and read the contained CSV automatically.
+
+If you need to extract a CSV manually:
+
+```bash
+python -c "import zipfile; z=zipfile.ZipFile('data/2025/12/01.zip'); z.extractall('outdir')"
+```
+
+
+---
+
 ## 📝 Versioning
 
 Follows a timestamp-based versioning scheme: `MAJOR.MINOR.YYYYMMDD`.

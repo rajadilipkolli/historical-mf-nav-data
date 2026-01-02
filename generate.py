@@ -3,6 +3,7 @@ import os
 import time
 import datetime
 import sys
+import zipfile
 
 def setup_db(file):
     conn = sqlite3.connect(file)
@@ -43,11 +44,38 @@ def get_data(conn):
             continue
 
         for file in progressbar(files, "Month: %s " % root[5:], 30):
+            # Support .zip files containing a single CSV (DD.csv) or plain .csv files
+            path = os.path.join(root, file)
             if file.endswith(".csv"):
-                with open(os.path.join(root, file), "r") as f:
-                    date = f"{root[5:9]}-{root[10:12]}-{file[0:2]}"
+                date = f"{root[5:9]}-{root[10:12]}-{file[0:2]}"
+                with open(path, "r", encoding="utf-8") as f:
                     lines = f.readlines()[1:]
-                    for line in lines:
+            elif file.endswith('.zip'):
+                # Try to find a CSV inside the zip with same day prefix
+                try:
+                    with zipfile.ZipFile(path, 'r') as zf:
+                        # Prefer a file that endswith .csv
+                        name = None
+                        for n in zf.namelist():
+                            if n.endswith('.csv'):
+                                name = n
+                                break
+                        if not name:
+                            continue
+                        # infer day from the inner filename (first two chars)
+                        date = f"{root[5:9]}-{root[10:12]}-{os.path.basename(name)[0:2]}"
+                        data_bytes = zf.read(name)
+                        try:
+                            text = data_bytes.decode('utf-8')
+                        except UnicodeDecodeError:
+                            text = data_bytes.decode('latin-1')
+                        lines = text.splitlines()[1:]
+                except zipfile.BadZipFile:
+                    continue
+            else:
+                continue
+            
+            for line in lines:
                         if line == "" or ";" not in line:
                             continue
                         else:
