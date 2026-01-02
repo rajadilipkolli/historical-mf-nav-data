@@ -14,9 +14,9 @@ Add this dependency to your `pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>com.github.rajadilipkolli</groupId>
+    <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20250713</version> <!-- Use latest version from releases -->
+    <version>1.0.20260125</version> <!-- Use latest version from releases -->
 </dependency>
 ```
 
