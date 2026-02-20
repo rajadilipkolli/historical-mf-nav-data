@@ -1,10 +1,10 @@
 package com.github.rajadilipkolli.dailynav.example;
 
-import com.github.rajadilipkolli.dailynav.health.DailyNavHealthService;
-import com.github.rajadilipkolli.dailynav.health.DailyNavHealthStatus;
+import com.github.rajadilipkolli.dailynav.DailyNavHealthService;
+import com.github.rajadilipkolli.dailynav.DailyNavHealthStatus;
+import com.github.rajadilipkolli.dailynav.MutualFundService;
+import com.github.rajadilipkolli.dailynav.MutualFundService.FundInfo;
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
-import com.github.rajadilipkolli.dailynav.service.MutualFundService;
-import com.github.rajadilipkolli.dailynav.service.MutualFundService.FundInfo;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
