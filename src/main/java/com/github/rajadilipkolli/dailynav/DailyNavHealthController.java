@@ -47,6 +47,7 @@ public class DailyNavHealthController {
   @GetMapping("/health")
   public ResponseEntity<DailyNavHealthStatus> health() {
     DailyNavHealthStatus status = healthService.checkHealth();
+    // Return 200 when the database is accessible; return 503 when not accessible.
     return status.isHealthy()
         ? ResponseEntity.ok(status)
         : ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(status);
@@ -61,7 +62,25 @@ public class DailyNavHealthController {
       // Configuration information
       info.put("autoInit", properties.isAutoInit());
       info.put("indexesEnabled", properties.isCreateIndexes());
-      info.put("databasePath", properties.getDatabasePath());
+      // Do not expose absolute filesystem paths. Provide a non-sensitive indicator instead.
+      String dbPath = properties.getDatabasePath();
+      String dbType;
+      if (dbPath == null) {
+        dbType = "unknown";
+      } else if (dbPath.contains(":memory:")) {
+        dbType = "in-memory";
+      } else if (properties.getDatabaseFile() != null
+          && !properties.getDatabaseFile().trim().isEmpty()) {
+        dbType = "file";
+      } else if (dbPath.startsWith("jdbc:sqlite:")) {
+        dbType = "file";
+      } else {
+        dbType = "external";
+      }
+      // Keep the databasePath key for backwards compatibility tests but do not return absolute
+      // paths.
+      info.put("databasePath", dbType);
+      info.put("databaseType", dbType);
       info.put("debugMode", properties.isDebug());
 
       // Data statistics

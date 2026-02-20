@@ -98,16 +98,21 @@ public class DatabaseInitializer {
       }
       logger.info("Restored database from funds.db.zst to {}", tempDb.getAbsolutePath());
       // If using a file-based DB, copy to the configured location
-      String dbPath = properties.getDatabasePath();
-      if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
-        File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
-        Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        Files.deleteIfExists(tempDb.toPath());
-        logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
-      } else {
-        // If using in-memory, you may need to adjust datasource config to use this file
-        logger.warn(
-            "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
+      try {
+        String dbPath = properties.getDatabasePath();
+        if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
+          File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
+          Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          Files.deleteIfExists(tempDb.toPath());
+          logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
+        } else {
+          // If using in-memory, you may need to adjust datasource config to use this file
+          logger.warn(
+              "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
+          Files.deleteIfExists(tempDb.toPath());
+        }
+      } finally {
+        // Clean up temp file
         Files.deleteIfExists(tempDb.toPath());
       }
       return true;
@@ -219,27 +224,28 @@ public class DatabaseInitializer {
   void createIndexes() {
     logger.info("Creating database indexes...");
 
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"nav-main\" ON \"nav\" (\"date\",\"scheme_code\")",
+        "nav-main");
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"nav-scheme\" ON \"nav\" (\"scheme_code\")", "nav-scheme");
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"securities-scheme\" ON \"securities\" (\"scheme_code\")",
+        "securities-scheme");
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"securities-isin\" ON \"securities\" (\"isin\")",
+        "securities-isin");
+
+    logger.debug("Database index creation attempt finished");
+  }
+
+  private void executeSilently(String sql, String description) {
     try {
-      // Main Index to get NAV by date and scheme_code
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"nav-main\" ON \"nav\" (\"date\",\"scheme_code\")");
-
-      // Index by scheme code separately to get NAV for all dates
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"nav-scheme\" ON \"nav\" (\"scheme_code\")");
-
-      // Index all securities by scheme_code for joins with NAV table
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"securities-scheme\" ON \"securities\" (\"scheme_code\")");
-
-      // Index all securities by isin for metadata information
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"securities-isin\" ON \"securities\" (\"isin\")");
-
-      logger.info("Database indexes created successfully");
-
+      jdbcTemplate.execute(sql);
+      logger.info("Successfully created index: {}", description);
     } catch (Exception e) {
-      logger.warn("Failed to create some indexes", e);
+      logger.warn("Failed to create index: {} - {}. Continuing...", description, e.getMessage());
+      logger.debug("Index creation failure detail", e);
     }
   }
 }

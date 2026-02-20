@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.SQLException;
+import java.time.Clock;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,132 +17,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 /** Test for DailyNavHealthService using real SQLite in-memory DB */
 class DailyNavHealthServiceTest extends AbstractRepositoryTest {
-  // --- Exception scenario tests for coverage ---
-
-  @Test
-  void checkHealth_shouldHandleDatabaseConnectivityException() {
-    DailyNavProperties properties = new DailyNavProperties();
-    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
-    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
-        .thenThrow(new RuntimeException("DB down"));
-    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
-    DailyNavHealthStatus status = service.checkHealth();
-    assertFalse(status.isHealthy());
-    assertFalse(status.isDatabaseAccessible());
-    assertTrue(status.getIssues().stream().anyMatch(s -> s.contains("Database is not accessible")));
-  }
-
-  @Test
-  void checkHealth_shouldHandleTableCountException() {
-    DailyNavProperties properties = new DailyNavProperties();
-    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
-    // DB connectivity works, but table count fails
-    Mockito.when(mockJdbc.queryForObject(Mockito.eq("SELECT 1"), Mockito.eq(Integer.class)))
-        .thenReturn(1);
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT COUNT(*) FROM schemes"), Mockito.eq(Integer.class)))
-        .thenThrow(new RuntimeException("fail"));
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT COUNT(*) FROM nav"), Mockito.eq(Integer.class)))
-        .thenReturn(10);
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT COUNT(*) FROM securities"), Mockito.eq(Integer.class)))
-        .thenReturn(5);
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(LocalDate.class)))
-        .thenReturn(LocalDate.now());
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(LocalDate.class)))
-        .thenReturn(LocalDate.now().minusDays(1));
-    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
-    DailyNavHealthStatus status = service.checkHealth();
-    assertFalse(status.isHealthy());
-    assertTrue(status.getSchemeCount() == -1);
-  }
-
-  @Test
-  void checkHealth_shouldHandleExceptionInProperties() {
-    // Simulate property getter throwing exception
-    DailyNavProperties properties = Mockito.mock(DailyNavProperties.class);
-    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
-    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
-        .thenReturn(1);
-    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(LocalDate.class)))
-        .thenReturn(LocalDate.now());
-    Mockito.when(properties.isAutoInit()).thenThrow(new RuntimeException("property fail"));
-    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
-    DailyNavHealthStatus status = service.checkHealth();
-    assertFalse(status.isHealthy());
-    assertTrue(status.getIssues().stream().anyMatch(s -> s.contains("Health check failed")));
-  }
-
-  @Test
-  void isHealthy_shouldReturnFalse_onException() {
-    DailyNavProperties properties = new DailyNavProperties();
-    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
-    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
-        .thenThrow(new RuntimeException("fail"));
-    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
-    assertFalse(service.isHealthy());
-  }
-
-  @Test
-  void getStatistics_shouldReturnError_onException() {
-    DailyNavProperties properties = new DailyNavProperties();
-    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
-    // Mock all queries used in getTableCounts, getDataDateRange, getLatestDataDate
-    // to throw
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT COUNT(*) FROM schemes"), Mockito.eq(Integer.class)))
-        .thenThrow(new RuntimeException("fail"));
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT COUNT(*) FROM nav"), Mockito.eq(Integer.class)))
-        .thenThrow(new RuntimeException("fail"));
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT COUNT(*) FROM securities"), Mockito.eq(Integer.class)))
-        .thenThrow(new RuntimeException("fail"));
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(LocalDate.class)))
-        .thenThrow(new RuntimeException("fail"));
-    Mockito.when(
-            mockJdbc.queryForObject(
-                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(LocalDate.class)))
-        .thenThrow(new RuntimeException("fail"));
-    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
-    Map<String, Object> stats = service.getStatistics();
-    assertEquals(-1, stats.get("schemes"));
-    assertEquals(-1, stats.get("navRecords"));
-    assertEquals(-1, stats.get("securities"));
-    assertNull(stats.get("startDate"));
-    assertNull(stats.get("endDate"));
-    assertNull(stats.get("latestDataDate"));
-    // The 'error' key is only present if the outer try-catch is triggered, which is
-    // not the case
-    // here.
-  }
-
-  @Test
-  void is10DaysOldData_shouldReturnTrue_onException() {
-    DailyNavProperties properties = new DailyNavProperties();
-    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
-    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
-    // Pass null to cause exception
-    assertTrue(service.is10DaysOldData(null));
-  }
 
   private static final int EXPECTED_SCHEME_COUNT = 120;
   private static final int EXPECTED_NAV_DAYS = 10;
   private static final int EXPECTED_SECURITY_COUNT = 120;
-  private static final LocalDate REFERENCE_DATE = LocalDate.now();
+  private static final LocalDate REFERENCE_DATE = LocalDate.of(2025, 7, 1);
 
   private DailyNavHealthService healthService;
 
@@ -151,7 +32,11 @@ class DailyNavHealthServiceTest extends AbstractRepositoryTest {
     properties.setCreateIndexes(true);
     properties.setDatabasePath("jdbc:sqlite::memory:");
     // Inject fixed current date for deterministic tests
-    healthService = new DailyNavHealthService(jdbcTemplate, properties);
+    Clock fixedClock =
+        Clock.fixed(
+            REFERENCE_DATE.atStartOfDay(ZoneId.systemDefault()).toInstant(),
+            ZoneId.systemDefault());
+    healthService = new DailyNavHealthService(jdbcTemplate, properties, fixedClock);
   }
 
   @Override
@@ -282,5 +167,127 @@ class DailyNavHealthServiceTest extends AbstractRepositoryTest {
     assertEquals(REFERENCE_DATE, stats.get("endDate"));
     assertTrue(stats.containsKey("dataSpanDays"));
     assertEquals(false, stats.get("dataStale"));
+  }
+
+  // --- Exception scenario tests for coverage ---
+
+  @Test
+  void checkHealth_shouldHandleDatabaseConnectivityException() {
+    DailyNavProperties properties = new DailyNavProperties();
+    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
+    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
+        .thenThrow(new RuntimeException("DB down"));
+    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
+    DailyNavHealthStatus status = service.checkHealth();
+    assertFalse(status.isHealthy());
+    assertFalse(status.isDatabaseAccessible());
+    assertTrue(status.getIssues().stream().anyMatch(s -> s.contains("Database is not accessible")));
+  }
+
+  @Test
+  void checkHealth_shouldHandleTableCountException() {
+    DailyNavProperties properties = new DailyNavProperties();
+    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
+    // DB connectivity works, but table count fails
+    Mockito.when(mockJdbc.queryForObject(Mockito.eq("SELECT 1"), Mockito.eq(Integer.class)))
+        .thenReturn(1);
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT COUNT(*) FROM schemes"), Mockito.eq(Integer.class)))
+        .thenThrow(new RuntimeException("fail"));
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT COUNT(*) FROM nav"), Mockito.eq(Integer.class)))
+        .thenReturn(10);
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT COUNT(*) FROM securities"), Mockito.eq(Integer.class)))
+        .thenReturn(5);
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(LocalDate.class)))
+        .thenReturn(REFERENCE_DATE);
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(LocalDate.class)))
+        .thenReturn(REFERENCE_DATE.minusDays(1));
+    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
+    DailyNavHealthStatus status = service.checkHealth();
+    assertFalse(status.isHealthy());
+    assertTrue(status.getSchemeCount() == -1);
+  }
+
+  @Test
+  void checkHealth_shouldHandleExceptionInProperties() {
+    // Simulate property getter throwing exception
+    DailyNavProperties properties = Mockito.mock(DailyNavProperties.class);
+    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
+    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
+        .thenReturn(1);
+    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(LocalDate.class)))
+        .thenReturn(REFERENCE_DATE);
+    Mockito.when(properties.isAutoInit()).thenThrow(new RuntimeException("property fail"));
+    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
+    DailyNavHealthStatus status = service.checkHealth();
+    assertFalse(status.isHealthy());
+    assertTrue(status.getIssues().stream().anyMatch(s -> s.contains("Health check failed")));
+  }
+
+  @Test
+  void isHealthy_shouldReturnFalse_onException() {
+    DailyNavProperties properties = new DailyNavProperties();
+    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
+    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
+        .thenThrow(new RuntimeException("fail"));
+    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
+    assertFalse(service.isHealthy());
+  }
+
+  @Test
+  void getStatistics_shouldReturnError_onException() {
+    DailyNavProperties properties = new DailyNavProperties();
+    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
+    // Mock all queries used in getTableCounts, getDataDateRange, getLatestDataDate
+    // to throw
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT COUNT(*) FROM schemes"), Mockito.eq(Integer.class)))
+        .thenThrow(new RuntimeException("fail"));
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT COUNT(*) FROM nav"), Mockito.eq(Integer.class)))
+        .thenThrow(new RuntimeException("fail"));
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT COUNT(*) FROM securities"), Mockito.eq(Integer.class)))
+        .thenThrow(new RuntimeException("fail"));
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(LocalDate.class)))
+        .thenThrow(new RuntimeException("fail"));
+    Mockito.when(
+            mockJdbc.queryForObject(
+                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(LocalDate.class)))
+        .thenThrow(new RuntimeException("fail"));
+    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
+    Map<String, Object> stats = service.getStatistics();
+    assertEquals(-1, stats.get("schemes"));
+    assertEquals(-1, stats.get("navRecords"));
+    assertEquals(-1, stats.get("securities"));
+    assertNull(stats.get("startDate"));
+    assertNull(stats.get("endDate"));
+    assertNull(stats.get("latestDataDate"));
+    // The 'error' key is only present if the outer try-catch is triggered, which is
+    // not the case
+    // here.
+  }
+
+  @Test
+  void is10DaysOldData_shouldReturnTrue_onException() {
+    DailyNavProperties properties = new DailyNavProperties();
+    JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
+    DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
+    // Pass null to cause exception
+    assertTrue(service.is10DaysOldData(null));
   }
 }

@@ -13,12 +13,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /** Auto-configuration for Daily NAV library */
 @AutoConfiguration
-@EnableAsync
 @ConditionalOnClass(JdbcTemplate.class)
 @EnableConfigurationProperties(DailyNavProperties.class)
 public class DailyNavAutoConfiguration {
@@ -46,6 +46,7 @@ public class DailyNavAutoConfiguration {
     dataSource.setJdbcUrl(properties.getDatabasePath());
     dataSource.setPoolName("DailyNavPool");
     dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
+    dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
     return dataSource;
   }
 
@@ -135,7 +136,12 @@ public class DailyNavAutoConfiguration {
       name = "auto-init",
       havingValue = "true",
       matchIfMissing = true)
+  @ConditionalOnBean(DatabaseInitializer.class)
   ApplicationRunner initializerRunner(DatabaseInitializer initializer) {
     return args -> initializer.initializeDatabaseAsync();
   }
+
+  @Configuration
+  @EnableAsync
+  static class AsyncConfig {}
 }

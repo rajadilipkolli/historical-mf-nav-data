@@ -1,8 +1,7 @@
 package com.github.rajadilipkolli.dailynav;
 
-import javax.sql.DataSource;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /** Entry point for using the Daily NAV library in non-Spring applications. */
 public final class DailyNav {
@@ -17,13 +16,17 @@ public final class DailyNav {
    * @param dbFile Optional path to a persistent SQLite database file. If null, uses in-memory.
    * @return A fully initialized MutualFundService.
    */
-  public static MutualFundService create(String dbFile) {
+  /**
+   * Creates and initializes a closable MutualFundService instance. Caller must close the returned
+   * CloseableMutualFundService to release the underlying DataSource resources.
+   */
+  public static CloseableMutualFundService create(String dbFile) {
     DailyNavProperties properties = new DailyNavProperties();
     if (dbFile != null) {
       properties.setDatabaseFile(dbFile);
     }
 
-    DataSource dataSource = createDataSource(properties);
+    HikariDataSource dataSource = createDataSource(properties);
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
     // Initialize database (restore from .db.zst if needed)
@@ -35,27 +38,35 @@ public final class DailyNav {
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     SecurityRepository securityRepository = new SecurityRepository(jdbcTemplate);
 
-    return new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
+    MutualFundService service =
+        new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
+    return new CloseableMutualFundService(service, dataSource);
   }
 
   /** Creates a health service for monitoring the library. */
-  public static DailyNavHealthService createHealthService(String dbFile) {
+  /**
+   * Creates a closable DailyNavHealthService. Caller must close the returned
+   * CloseableDailyNavHealthService to release the underlying DataSource resources.
+   */
+  public static CloseableDailyNavHealthService createHealthService(String dbFile) {
     DailyNavProperties properties = new DailyNavProperties();
     if (dbFile != null) {
       properties.setDatabaseFile(dbFile);
     }
 
     // We need a JdbcTemplate for the health service
-    DataSource dataSource = createDataSource(properties);
+    HikariDataSource dataSource = createDataSource(properties);
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-    return new DailyNavHealthService(jdbcTemplate, properties);
+    DailyNavHealthService delegate = new DailyNavHealthService(jdbcTemplate, properties);
+    return new CloseableDailyNavHealthService(delegate, dataSource);
   }
 
-  private static DataSource createDataSource(DailyNavProperties properties) {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+  private static HikariDataSource createDataSource(DailyNavProperties properties) {
+    HikariDataSource dataSource = new HikariDataSource();
     dataSource.setDriverClassName("org.sqlite.JDBC");
-    dataSource.setUrl(properties.getDatabasePath());
+    dataSource.setJdbcUrl(properties.getDatabasePath());
+    // Keep defaults; Hikari will manage connections and is AutoCloseable
     return dataSource;
   }
 }

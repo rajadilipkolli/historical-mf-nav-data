@@ -23,7 +23,12 @@ class NavByIsinRepository {
       (rs, rowNum) -> {
         NavByIsin nav = new NavByIsin();
         nav.setIsin(rs.getString("isin"));
-        nav.setDate(LocalDate.parse(rs.getString("date")));
+        String dateStr = rs.getString("date");
+        if (dateStr == null) {
+          nav.setDate(null);
+        } else {
+          nav.setDate(LocalDate.parse(dateStr));
+        }
         nav.setNav(rs.getDouble("nav"));
         return nav;
       };
