@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,7 @@ public class DailyNavHealthService {
   private final DailyNavProperties properties;
 
   public DailyNavHealthService(
-      @org.springframework.beans.factory.annotation.Qualifier("dailyNavJdbcTemplate")
-          JdbcTemplate jdbcTemplate,
-      DailyNavProperties properties) {
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
   }

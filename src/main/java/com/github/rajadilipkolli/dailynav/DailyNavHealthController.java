@@ -6,8 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +33,7 @@ public class DailyNavHealthController {
   private final DailyNavHealthService healthService;
 
   public DailyNavHealthController(
-      @org.springframework.beans.factory.annotation.Qualifier("dailyNavJdbcTemplate")
-          JdbcTemplate jdbcTemplate,
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
       DailyNavProperties properties,
       DailyNavHealthService healthService) {
     this.jdbcTemplate = jdbcTemplate;
@@ -44,8 +45,11 @@ public class DailyNavHealthController {
    * Basic health check endpoint Returns HTTP 200 if the database is accessible, HTTP 503 otherwise
    */
   @GetMapping("/health")
-  public DailyNavHealthStatus health() {
-    return healthService.checkHealth();
+  public ResponseEntity<DailyNavHealthStatus> health() {
+    DailyNavHealthStatus status = healthService.checkHealth();
+    return status.isHealthy()
+        ? ResponseEntity.ok(status)
+        : ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(status);
   }
 
   /** Detailed information about the Daily NAV library */

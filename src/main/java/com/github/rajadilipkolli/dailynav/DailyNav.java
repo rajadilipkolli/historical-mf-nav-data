@@ -39,8 +39,7 @@ public final class DailyNav {
   }
 
   /** Creates a health service for monitoring the library. */
-  public static DailyNavHealthService createHealthService(
-      MutualFundService service, String dbFile) {
+  public static DailyNavHealthService createHealthService(String dbFile) {
     DailyNavProperties properties = new DailyNavProperties();
     if (dbFile != null) {
       properties.setDatabaseFile(dbFile);

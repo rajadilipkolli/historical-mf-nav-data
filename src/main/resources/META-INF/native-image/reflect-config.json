@@ -29,5 +29,11 @@
         "allDeclaredFields": true,
         "allDeclaredMethods": true,
         "allDeclaredConstructors": true
+    },
+    {
+        "name": "com.github.rajadilipkolli.dailynav.DailyNavProperties",
+        "allDeclaredFields": true,
+        "allDeclaredMethods": true,
+        "allDeclaredConstructors": true
     }
 ]

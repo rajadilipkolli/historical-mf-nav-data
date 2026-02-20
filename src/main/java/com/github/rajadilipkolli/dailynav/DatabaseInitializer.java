@@ -88,7 +88,6 @@ public class DatabaseInitializer {
         return false;
       }
       File tempDb = File.createTempFile("funds", ".db");
-      tempDb.deleteOnExit();
       try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
           OutputStream out = new FileOutputStream(tempDb)) {
         byte[] buffer = new byte[8192];
@@ -103,11 +102,13 @@ public class DatabaseInitializer {
       if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
         File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
         Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        Files.deleteIfExists(tempDb.toPath());
         logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
       } else {
         // If using in-memory, you may need to adjust datasource config to use this file
         logger.warn(
             "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
+        Files.deleteIfExists(tempDb.toPath());
       }
       return true;
     } catch (Exception e) {
