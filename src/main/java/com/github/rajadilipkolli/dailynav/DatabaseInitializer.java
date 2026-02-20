@@ -3,13 +3,14 @@ package com.github.rajadilipkolli.dailynav;
 import com.github.luben.zstd.ZstdInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -101,14 +102,7 @@ public class DatabaseInitializer {
       String dbPath = properties.getDatabasePath();
       if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
         File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
-        try (InputStream in = new FileInputStream(tempDb);
-            OutputStream out = new FileOutputStream(dest)) {
-          byte[] buffer = new byte[8192];
-          int len;
-          while ((len = in.read(buffer)) > 0) {
-            out.write(buffer, 0, len);
-          }
-        }
+        Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
         logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
       } else {
         // If using in-memory, you may need to adjust datasource config to use this file

@@ -4,6 +4,7 @@ import com.github.rajadilipkolli.dailynav.model.NavByIsin;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -14,9 +15,7 @@ class NavByIsinRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public NavByIsinRepository(
-      @org.springframework.beans.factory.annotation.Qualifier("dailyNavJdbcTemplate")
-          JdbcTemplate jdbcTemplate) {
+  public NavByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 

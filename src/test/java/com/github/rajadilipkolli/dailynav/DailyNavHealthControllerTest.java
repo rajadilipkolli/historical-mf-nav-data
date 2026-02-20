@@ -119,7 +119,11 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
   @Test
   void infoEndpointWithNoDataReturnsNullDates() throws Exception {
     // Remove all data
-    connection.createStatement().execute("DELETE FROM nav");
+    try (var stmt = connection.createStatement()) {
+      stmt.execute("DELETE FROM nav");
+      stmt.execute("DELETE FROM schemes");
+      stmt.execute("DELETE FROM securities");
+    }
     mockMvc
         .perform(get("/daily-nav/info").accept("application/json"))
         .andExpect(status().isOk())

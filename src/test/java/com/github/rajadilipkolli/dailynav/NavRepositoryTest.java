@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class NavRepositoryTest extends AbstractRepositoryTest {
-  private static final LocalDate REFERENCE_DATE = java.time.LocalDate.of(2025, 7, 1);
+  private static final LocalDate REFERENCE_DATE = LocalDate.of(2025, 7, 1);
   private NavRepository navRepository;
 
   @BeforeEach
