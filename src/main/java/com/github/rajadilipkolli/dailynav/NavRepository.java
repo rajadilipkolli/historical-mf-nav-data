@@ -1,20 +1,21 @@
-package com.github.rajadilipkolli.dailynav.repository;
+package com.github.rajadilipkolli.dailynav;
 
 import com.github.rajadilipkolli.dailynav.model.Nav;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 /** Repository for NAV data access */
 @Repository
-public class NavRepository {
+class NavRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public NavRepository(JdbcTemplate jdbcTemplate) {
+  public NavRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -22,7 +23,12 @@ public class NavRepository {
       (rs, rowNum) -> {
         Nav nav = new Nav();
         nav.setSchemeCode(rs.getInt("scheme_code"));
-        nav.setDate(LocalDate.parse(rs.getString("date")));
+        String dateStr = rs.getString("date");
+        if (dateStr == null) {
+          nav.setDate(null);
+        } else {
+          nav.setDate(LocalDate.parse(dateStr));
+        }
         nav.setNav(rs.getDouble("nav"));
         return nav;
       };

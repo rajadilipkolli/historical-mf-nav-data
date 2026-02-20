@@ -1,8 +1,11 @@
-package com.github.rajadilipkolli.dailynav.config;
+package com.github.rajadilipkolli.dailynav;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,7 +50,8 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   void initializeDatabase_createsTablesAndIndexes() {
     // Should not throw, should create tables and indexes from funds.sql
     assertDoesNotThrow(() -> initializer.initializeDatabase());
-    // After initialization, tables should exist and have at least one row (from test funds.sql)
+    // After initialization, tables should exist and have at least one row (from
+    // test funds.sql)
     Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
     assertNotNull(count);
     assertTrue(count > 0, "Table 'schemes' should have at least one row loaded from funds.sql");
@@ -143,7 +147,8 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
             throw new RuntimeException("Simulated index failure");
           }
         };
-    // Should throw RuntimeException, as index creation failure is not caught in initializeDatabase
+    // Should throw RuntimeException, as index creation failure is not caught in
+    // initializeDatabase
     assertThrows(RuntimeException.class, broken::initializeDatabase);
   }
 
@@ -160,7 +165,8 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
     boolean result = inMemoryInitializer.restoreDatabaseFromZst();
     assertTrue(result, "Should successfully restore even for in-memory database");
-    // Note: In real implementation, this would log a warning about in-memory configuration
+    // Note: In real implementation, this would log a warning about in-memory
+    // configuration
   }
 
   @Test

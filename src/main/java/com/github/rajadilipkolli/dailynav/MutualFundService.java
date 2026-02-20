@@ -1,7 +1,6 @@
-package com.github.rajadilipkolli.dailynav.service;
+package com.github.rajadilipkolli.dailynav;
 
 import com.github.rajadilipkolli.dailynav.model.*;
-import com.github.rajadilipkolli.dailynav.repository.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

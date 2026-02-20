@@ -1,14 +1,15 @@
-package com.github.rajadilipkolli.dailynav.health;
+package com.github.rajadilipkolli.dailynav;
 
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class DailyNavHealthController {
   private final DailyNavHealthService healthService;
 
   public DailyNavHealthController(
-      JdbcTemplate jdbcTemplate,
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
       DailyNavProperties properties,
       DailyNavHealthService healthService) {
     this.jdbcTemplate = jdbcTemplate;
@@ -44,8 +45,12 @@ public class DailyNavHealthController {
    * Basic health check endpoint Returns HTTP 200 if the database is accessible, HTTP 503 otherwise
    */
   @GetMapping("/health")
-  public DailyNavHealthStatus health() {
-    return healthService.checkHealth();
+  public ResponseEntity<DailyNavHealthStatus> health() {
+    DailyNavHealthStatus status = healthService.checkHealth();
+    // Return 200 when the database is accessible; return 503 when not accessible.
+    return status.isHealthy()
+        ? ResponseEntity.ok(status)
+        : ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(status);
   }
 
   /** Detailed information about the Daily NAV library */
@@ -57,7 +62,25 @@ public class DailyNavHealthController {
       // Configuration information
       info.put("autoInit", properties.isAutoInit());
       info.put("indexesEnabled", properties.isCreateIndexes());
-      info.put("databasePath", properties.getDatabasePath());
+      // Do not expose absolute filesystem paths. Provide a non-sensitive indicator instead.
+      String dbPath = properties.getDatabasePath();
+      String dbType;
+      if (dbPath == null) {
+        dbType = "unknown";
+      } else if (dbPath.contains(":memory:")) {
+        dbType = "in-memory";
+      } else if (properties.getDatabaseFile() != null
+          && !properties.getDatabaseFile().trim().isEmpty()) {
+        dbType = "file";
+      } else if (dbPath.startsWith("jdbc:sqlite:")) {
+        dbType = "file";
+      } else {
+        dbType = "external";
+      }
+      // Keep the databasePath key for backwards compatibility tests but do not return absolute
+      // paths.
+      info.put("databasePath", dbType);
+      info.put("databaseType", dbType);
       info.put("debugMode", properties.isDebug());
 
       // Data statistics

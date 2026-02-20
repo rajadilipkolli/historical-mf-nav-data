@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.repository;
+package com.github.rajadilipkolli.dailynav;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

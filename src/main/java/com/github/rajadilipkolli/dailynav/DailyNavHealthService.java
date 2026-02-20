@@ -1,12 +1,14 @@
-package com.github.rajadilipkolli.dailynav.health;
+package com.github.rajadilipkolli.dailynav;
 
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,22 @@ public class DailyNavHealthService {
 
   private final JdbcTemplate jdbcTemplate;
   private final DailyNavProperties properties;
+  private final Clock clock;
 
-  public DailyNavHealthService(JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+  @Autowired
+  public DailyNavHealthService(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+    this(jdbcTemplate, properties, Clock.systemDefaultZone());
+  }
+
+  // Package-private constructor for tests to inject a fixed clock
+  DailyNavHealthService(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DailyNavProperties properties,
+      Clock clock) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
+    this.clock = clock == null ? Clock.systemDefaultZone() : clock;
   }
 
   /**
@@ -69,16 +83,21 @@ public class DailyNavHealthService {
       status.setDataEndDate(dateRange.get("endDate"));
 
       // Check for sufficient data
-      if (status.getSchemeCount() != null && status.getSchemeCount() < 100) {
+      if (status.getSchemeCount() != null
+          && status.getSchemeCount() >= 0
+          && status.getSchemeCount() < 100) {
         status.addIssue("Insufficient scheme data (less than 100 schemes)");
       }
 
-      if (status.getNavRecordCount() != null && status.getNavRecordCount() < 1000) {
+      if (status.getNavRecordCount() != null
+          && status.getNavRecordCount() >= 0
+          && status.getNavRecordCount() < 1000) {
         status.addIssue("Insufficient NAV data (less than 1000 records)");
       }
 
-      // Set overall health status
-      status.setHealthy(status.getIssues().isEmpty());
+      // Set overall health status based on connectivity, data presence and freshness
+      boolean overallHealthy = isOverallHealthy(status);
+      status.setHealthy(overallHealthy);
 
       // Add configuration info
       status.setAutoInitEnabled(properties.isAutoInit());
@@ -92,6 +111,24 @@ public class DailyNavHealthService {
     }
 
     return status;
+  }
+
+  private static boolean isOverallHealthy(DailyNavHealthStatus status) {
+    boolean overallHealthy = status.isDatabaseAccessible();
+    Integer schemeCount = status.getSchemeCount();
+    Integer navCount = status.getNavRecordCount();
+
+    // require non-null counts meeting minimum thresholds
+    if (schemeCount == null || schemeCount < 100) {
+      overallHealthy = false;
+    }
+    if (navCount == null || navCount < 1000) {
+      overallHealthy = false;
+    }
+    if (status.isDataStale()) {
+      overallHealthy = false;
+    }
+    return overallHealthy;
   }
 
   /** Simple health check that returns true if the database is accessible and has data */
@@ -193,7 +230,8 @@ public class DailyNavHealthService {
 
   private LocalDate getLatestDataDate() {
     try {
-      return jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", LocalDate.class);
+      String dateStr = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+      return dateStr != null ? LocalDate.parse(dateStr) : null;
     } catch (Exception e) {
       logger.debug("Failed to get latest data date", e);
       return null;
@@ -204,8 +242,10 @@ public class DailyNavHealthService {
     Map<String, LocalDate> dateRange = new LinkedHashMap<>();
 
     try {
-      LocalDate minDate = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", LocalDate.class);
-      LocalDate maxDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", LocalDate.class);
+      String minDateStr = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
+      String maxDateStr = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+      LocalDate minDate = minDateStr != null ? LocalDate.parse(minDateStr) : null;
+      LocalDate maxDate = maxDateStr != null ? LocalDate.parse(maxDateStr) : null;
 
       dateRange.put("startDate", minDate);
       dateRange.put("endDate", maxDate);
@@ -226,7 +266,7 @@ public class DailyNavHealthService {
   boolean is10DaysOldData(LocalDate latestDataDate) {
     try {
       // Consider data stale if it's more than 10 days old
-      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDataDate, LocalDate.now());
+      long daysSinceLastUpdate = ChronoUnit.DAYS.between(latestDataDate, LocalDate.now(clock));
       return daysSinceLastUpdate > 10;
     } catch (Exception e) {
       logger.debug("Failed to parse latest data date: {}", latestDataDate, e);

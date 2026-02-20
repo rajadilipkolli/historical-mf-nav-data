@@ -1,19 +1,20 @@
-package com.github.rajadilipkolli.dailynav.repository;
+package com.github.rajadilipkolli.dailynav;
 
 import com.github.rajadilipkolli.dailynav.model.Security;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 /** Repository for Security data access */
 @Repository
-public class SecurityRepository {
+class SecurityRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public SecurityRepository(JdbcTemplate jdbcTemplate) {
+  public SecurityRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 

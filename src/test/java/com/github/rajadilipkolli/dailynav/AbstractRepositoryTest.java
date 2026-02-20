@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.repository;
+package com.github.rajadilipkolli.dailynav;
 
 import java.sql.Connection;
 import java.sql.SQLException;

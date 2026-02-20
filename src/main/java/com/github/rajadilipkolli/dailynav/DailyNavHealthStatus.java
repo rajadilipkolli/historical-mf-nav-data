@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.health;
+package com.github.rajadilipkolli.dailynav;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

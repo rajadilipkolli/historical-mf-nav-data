@@ -1,19 +1,20 @@
-package com.github.rajadilipkolli.dailynav.repository;
+package com.github.rajadilipkolli.dailynav;
 
 import com.github.rajadilipkolli.dailynav.model.Scheme;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 /** Repository for Scheme data access */
 @Repository
-public class SchemeRepository {
+class SchemeRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public SchemeRepository(JdbcTemplate jdbcTemplate) {
+  public SchemeRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 

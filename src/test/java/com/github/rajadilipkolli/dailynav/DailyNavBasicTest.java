@@ -1,10 +1,9 @@
-package com.github.rajadilipkolli.dailynav.basic;
+package com.github.rajadilipkolli.dailynav;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
 import org.junit.jupiter.api.Test;
 
 /** Basic tests for the Daily NAV library components */

@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.service;
+package com.github.rajadilipkolli.dailynav;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -6,10 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.model.Scheme;
-import com.github.rajadilipkolli.dailynav.repository.AbstractRepositoryTest;
-import com.github.rajadilipkolli.dailynav.repository.NavByIsinRepository;
-import com.github.rajadilipkolli.dailynav.repository.SchemeRepository;
-import com.github.rajadilipkolli.dailynav.repository.SecurityRepository;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;

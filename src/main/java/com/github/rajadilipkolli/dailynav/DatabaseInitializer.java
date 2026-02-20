@@ -1,20 +1,22 @@
-package com.github.rajadilipkolli.dailynav.config;
+package com.github.rajadilipkolli.dailynav;
 
 import com.github.luben.zstd.ZstdInputStream;
-import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /** Component responsible for initializing the database with fund data */
@@ -26,12 +28,17 @@ public class DatabaseInitializer {
   private final JdbcTemplate jdbcTemplate;
   private final DailyNavProperties properties;
 
-  public DatabaseInitializer(JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+  public DatabaseInitializer(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
   }
 
-  @PostConstruct
+  @Async
+  public void initializeDatabaseAsync() {
+    initializeDatabase();
+  }
+
   public void initializeDatabase() {
     if (!properties.isAutoInit()) {
       logger.info("Auto-initialization disabled, skipping database setup");
@@ -81,7 +88,6 @@ public class DatabaseInitializer {
         return false;
       }
       File tempDb = File.createTempFile("funds", ".db");
-      tempDb.deleteOnExit();
       try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
           OutputStream out = new FileOutputStream(tempDb)) {
         byte[] buffer = new byte[8192];
@@ -92,22 +98,22 @@ public class DatabaseInitializer {
       }
       logger.info("Restored database from funds.db.zst to {}", tempDb.getAbsolutePath());
       // If using a file-based DB, copy to the configured location
-      String dbPath = properties.getDatabasePath();
-      if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
-        File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
-        try (InputStream in = new FileInputStream(tempDb);
-            OutputStream out = new FileOutputStream(dest)) {
-          byte[] buffer = new byte[8192];
-          int len;
-          while ((len = in.read(buffer)) > 0) {
-            out.write(buffer, 0, len);
-          }
+      try {
+        String dbPath = properties.getDatabasePath();
+        if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
+          File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
+          Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          Files.deleteIfExists(tempDb.toPath());
+          logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
+        } else {
+          // If using in-memory, you may need to adjust datasource config to use this file
+          logger.warn(
+              "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
+          Files.deleteIfExists(tempDb.toPath());
         }
-        logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
-      } else {
-        // If using in-memory, you may need to adjust datasource config to use this file
-        logger.warn(
-            "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
+      } finally {
+        // Clean up temp file
+        Files.deleteIfExists(tempDb.toPath());
       }
       return true;
     } catch (Exception e) {
@@ -218,27 +224,28 @@ public class DatabaseInitializer {
   void createIndexes() {
     logger.info("Creating database indexes...");
 
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"nav-main\" ON \"nav\" (\"date\",\"scheme_code\")",
+        "nav-main");
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"nav-scheme\" ON \"nav\" (\"scheme_code\")", "nav-scheme");
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"securities-scheme\" ON \"securities\" (\"scheme_code\")",
+        "securities-scheme");
+    executeSilently(
+        "CREATE INDEX IF NOT EXISTS \"securities-isin\" ON \"securities\" (\"isin\")",
+        "securities-isin");
+
+    logger.debug("Database index creation attempt finished");
+  }
+
+  private void executeSilently(String sql, String description) {
     try {
-      // Main Index to get NAV by date and scheme_code
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"nav-main\" ON \"nav\" (\"date\",\"scheme_code\")");
-
-      // Index by scheme code separately to get NAV for all dates
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"nav-scheme\" ON \"nav\" (\"scheme_code\")");
-
-      // Index all securities by scheme_code for joins with NAV table
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"securities-scheme\" ON \"securities\" (\"scheme_code\")");
-
-      // Index all securities by isin for metadata information
-      jdbcTemplate.execute(
-          "CREATE INDEX IF NOT EXISTS \"securities-isin\" ON \"securities\" (\"isin\")");
-
-      logger.info("Database indexes created successfully");
-
+      jdbcTemplate.execute(sql);
+      logger.info("Successfully created index: {}", description);
     } catch (Exception e) {
-      logger.warn("Failed to create some indexes", e);
+      logger.warn("Failed to create index: {} - {}. Continuing...", description, e.getMessage());
+      logger.debug("Index creation failure detail", e);
     }
   }
 }

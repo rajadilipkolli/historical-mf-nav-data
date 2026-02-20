@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.config;
+package com.github.rajadilipkolli.dailynav;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

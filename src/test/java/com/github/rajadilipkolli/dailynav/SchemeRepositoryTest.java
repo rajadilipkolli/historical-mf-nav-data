@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.repository;
+package com.github.rajadilipkolli.dailynav;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -21,9 +21,9 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
 
   @Override
   protected void createSchema() throws SQLException {
-    connection
-        .createStatement()
-        .execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+    try (var stmt = connection.createStatement()) {
+      stmt.execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+    }
   }
 
   @Override
