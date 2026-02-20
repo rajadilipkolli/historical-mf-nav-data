@@ -227,7 +227,7 @@ jobs:
           Add to your Maven project:
           ```xml
           <dependency>
-              <groupId>com.github.rajadilipkolli</groupId>
+              <groupId>io.github.rajadilipkolli</groupId>
               <artifactId>historical-mf-nav-data</artifactId>
               <version>1.0.${{ needs.build-and-update.outputs.release_version }}</version>
           </dependency>
@@ -277,10 +277,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (needs.build-and-update.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
     steps:
-      - name: Checkout code (minimal fetch for publishing)
+      - name: Checkout code
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
 
       - name: Download build artifacts
         uses: actions/download-artifact@v7
@@ -295,7 +293,7 @@ jobs:
           cache: 'maven'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare resources for Maven Central build
+      - name: Prepare resources
         run: |
           mkdir -p src/main/resources/
           cp funds.db.zst src/main/resources/
@@ -308,41 +306,32 @@ jobs:
           git_config_global: true
           git_user_signingkey: true
           git_commit_gpgsign: true
-          git_tag_gpgsign: true
 
       - name: Update version and publish
         run: |
           VERSION="1.0.${{ needs.build-and-update.outputs.release_version }}"
-          echo "Setting version to: $VERSION"
-          sed -i "s/<version>1.0.20250725<\/version>/<version>$VERSION<\/version>/" pom.xml
-
-          # Verify version update
-          echo "Current pom.xml version:"
-          grep "<version>" pom.xml
-
-          # Configure GPG to use loopback pinentry
-          mkdir -p ~/.gnupg
-          echo "allow-loopback-pinentry" > ~/.gnupg/gpg-agent.conf
-          echo "pinentry-mode loopback" > ~/.gnupg/gpg.conf
-          gpgconf --reload gpg-agent
-
-          # Create Maven settings.xml with credentials
+          echo "Publishing version: $VERSION"
+          
+          # Update version in pom.xml using Maven plugin
+          mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false
+          
+          # Create Maven settings.xml for authentication
+          mkdir -p ~/.m2
           cat > ~/.m2/settings.xml << EOF
           <settings>
             <servers>
               <server>
                 <id>central</id>
-                <username>${{ secrets.OSSRH_USERNAME }}</username>
-                <password>${{ secrets.OSSRH_PASSWORD }}</password>
+                <username>\${env.CENTRAL_USERNAME}</username>
+                <password>\${env.CENTRAL_PASSWORD}</password>
               </server>
             </servers>
           </settings>
           EOF
-
-          # Build and publish to Maven Central with GPG signing
-          # Use MAVEN_GPG_PASSPHRASE environment variable instead of deprecated property
-          export MAVEN_GPG_PASSPHRASE="${{ secrets.GPG_PASSPHRASE }}"
-          mvn clean deploy -DskipTests --batch-mode -P release
+          
+          # Deploy to Maven Central
+          mvn clean deploy -P release -DskipTests --batch-mode
         env:
-          GPG_TTY: $(tty)
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
