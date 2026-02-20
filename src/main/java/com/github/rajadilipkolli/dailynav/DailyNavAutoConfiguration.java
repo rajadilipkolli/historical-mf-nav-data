@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /** Auto-configuration for Daily NAV library */
@@ -143,5 +144,6 @@ public class DailyNavAutoConfiguration {
 
   @Configuration
   @EnableAsync
+  @ConditionalOnMissingBean(AsyncConfigurer.class)
   static class AsyncConfig {}
 }

@@ -205,12 +205,12 @@ class DailyNavHealthServiceTest extends AbstractRepositoryTest {
         .thenReturn(5);
     Mockito.when(
             mockJdbc.queryForObject(
-                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(LocalDate.class)))
-        .thenReturn(REFERENCE_DATE);
+                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(String.class)))
+        .thenReturn(REFERENCE_DATE.toString());
     Mockito.when(
             mockJdbc.queryForObject(
-                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(LocalDate.class)))
-        .thenReturn(REFERENCE_DATE.minusDays(1));
+                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(String.class)))
+        .thenReturn(REFERENCE_DATE.minusDays(1).toString());
     DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
     DailyNavHealthStatus status = service.checkHealth();
     assertFalse(status.isHealthy());
@@ -224,8 +224,8 @@ class DailyNavHealthServiceTest extends AbstractRepositoryTest {
     JdbcTemplate mockJdbc = Mockito.mock(JdbcTemplate.class);
     Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(Integer.class)))
         .thenReturn(1);
-    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(LocalDate.class)))
-        .thenReturn(REFERENCE_DATE);
+    Mockito.when(mockJdbc.queryForObject(Mockito.anyString(), Mockito.eq(String.class)))
+        .thenReturn(REFERENCE_DATE.toString());
     Mockito.when(properties.isAutoInit()).thenThrow(new RuntimeException("property fail"));
     DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
     DailyNavHealthStatus status = service.checkHealth();
@@ -263,11 +263,11 @@ class DailyNavHealthServiceTest extends AbstractRepositoryTest {
         .thenThrow(new RuntimeException("fail"));
     Mockito.when(
             mockJdbc.queryForObject(
-                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(LocalDate.class)))
+                Mockito.eq("SELECT MIN(date) FROM nav"), Mockito.eq(String.class)))
         .thenThrow(new RuntimeException("fail"));
     Mockito.when(
             mockJdbc.queryForObject(
-                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(LocalDate.class)))
+                Mockito.eq("SELECT MAX(date) FROM nav"), Mockito.eq(String.class)))
         .thenThrow(new RuntimeException("fail"));
     DailyNavHealthService service = new DailyNavHealthService(mockJdbc, properties);
     Map<String, Object> stats = service.getStatistics();

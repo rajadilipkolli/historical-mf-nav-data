@@ -117,22 +117,14 @@ public class DailyNavHealthService {
     boolean overallHealthy = status.isDatabaseAccessible();
     Integer schemeCount = status.getSchemeCount();
     Integer navCount = status.getNavRecordCount();
-    // require non-null and >0 counts
-    if (schemeCount == null || schemeCount <= 0) {
-      overallHealthy = false;
-    }
-    if (navCount == null || navCount <= 0) {
-      overallHealthy = false;
-    }
 
-    // Mark unhealthy if counts are present but below expected thresholds
-    if (schemeCount != null && schemeCount > 0 && schemeCount < 100) {
+    // require non-null counts meeting minimum thresholds
+    if (schemeCount == null || schemeCount < 100) {
       overallHealthy = false;
     }
-    if (navCount != null && navCount > 0 && navCount < 1000) {
+    if (navCount == null || navCount < 1000) {
       overallHealthy = false;
     }
-
     if (status.isDataStale()) {
       overallHealthy = false;
     }
