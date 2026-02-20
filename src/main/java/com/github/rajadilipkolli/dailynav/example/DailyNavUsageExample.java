@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.example;
 
+import com.github.rajadilipkolli.dailynav.DailyNavAutoConfiguration;
 import com.github.rajadilipkolli.dailynav.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.DailyNavHealthStatus;
 import com.github.rajadilipkolli.dailynav.MutualFundService;
@@ -13,7 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /** Example application demonstrating usage of Daily NAV library */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackageClasses = DailyNavAutoConfiguration.class)
 public class DailyNavUsageExample implements CommandLineRunner {
 
   private final MutualFundService mutualFundService;
