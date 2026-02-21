@@ -18,16 +18,15 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
-/** Component responsible for initializing the database with fund data */
-@Component
+/** Responsible for initializing the database with fund data */
 public class DatabaseInitializer {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
 
   private final JdbcTemplate jdbcTemplate;
   private final DailyNavProperties properties;
+  private volatile boolean initialized = false;
 
   /**
    * Create a DatabaseInitializer with the provided JdbcTemplate and configuration.
@@ -40,6 +39,15 @@ public class DatabaseInitializer {
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
+  }
+
+  /**
+   * Returns whether the database has been initialized.
+   *
+   * @return true if initialization is complete
+   */
+  public boolean isInitialized() {
+    return initialized;
   }
 
   /** Schedules database initialization to run on the configured "dailyNavTaskExecutor". */
@@ -62,6 +70,9 @@ public class DatabaseInitializer {
   public void initializeDatabase() {
     if (!properties.isAutoInit()) {
       logger.info("Auto-initialization disabled, skipping database setup");
+      // If auto-init is disabled, mark initialized only if the expected tables exist.
+      // This ensures callers (e.g. MutualFundService.isReady()) reflect actual DB readiness.
+      this.initialized = tablesExist();
       return;
     }
 
@@ -71,6 +82,7 @@ public class DatabaseInitializer {
       // Check if tables already exist
       if (tablesExist()) {
         logger.info("Database tables already exist, skipping initialization");
+        this.initialized = true;
         return;
       }
 
@@ -89,6 +101,8 @@ public class DatabaseInitializer {
 
       // Log database statistics
       logDatabaseStats();
+
+      this.initialized = true;
 
     } catch (Exception e) {
       logger.error("Failed to initialize Daily NAV database", e);

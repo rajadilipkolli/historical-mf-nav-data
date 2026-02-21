@@ -6,22 +6,25 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "daily-nav")
 public class DailyNavProperties {
 
-  /** Whether to enable auto-initialization of the database */
+  /**
+   * Whether to enable auto-initialization of the database. If true, data will be loaded from
+   * funds.db.zst or funds.sql in the background.
+   */
   private boolean autoInit = true;
 
-  /** Database file location (default: in-memory) */
+  /** Database connection URL. Default is in-memory. */
   private String databasePath = "jdbc:sqlite::memory:";
 
-  /** Whether to create indexes automatically */
+  /** Whether to create indexes automatically after data loading. */
   private boolean createIndexes = true;
 
-  /** Enable debug logging */
+  /** Enable debug logging for database operations. */
   private boolean debug = false;
 
-  /** Custom database file location (for persistent storage) */
+  /** Path to a persistent database file. If set, this overrides the default databasePath. */
   private String databaseFile = null;
 
-  /** Whether to validate data integrity after loading */
+  /** Whether to validate data integrity (counting records) after loading. */
   private boolean validateData = true;
 
   public boolean isAutoInit() {

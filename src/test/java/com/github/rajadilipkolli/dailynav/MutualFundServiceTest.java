@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
@@ -9,9 +10,11 @@ import com.github.rajadilipkolli.dailynav.model.Scheme;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 class MutualFundServiceTest extends AbstractRepositoryTest {
   private static final LocalDate REFERENCE_DATE = LocalDate.of(2025, 7, 1);
@@ -23,8 +26,14 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     // Create repositories with the test JdbcTemplate
     NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
-    SecurityRepository securityRepository = new SecurityRepository(jdbcTemplate);
-    service = new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
+    SecurityRepository securityRepository =
+        new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
+    DatabaseInitializer databaseInitializer =
+        new DatabaseInitializer(jdbcTemplate, new DailyNavProperties());
+    databaseInitializer.initializeDatabase();
+    service =
+        new MutualFundService(
+            navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
   }
 
   @Override
@@ -179,5 +188,35 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     }
     var fundInfoOpt = service.getFundInfo("ISIN_NO_SCHEME");
     assertTrue(fundInfoOpt.isEmpty());
+  }
+
+  @Test
+  void isReady_positive() {
+    assertTrue(service.isReady());
+  }
+
+  @Test
+  void getLatestNavByIsinOrThrow_positive() {
+    NavByIsin nav = service.getLatestNavByIsinOrThrow("ISIN123");
+    assertEquals(100.0, nav.getNav());
+  }
+
+  @Test
+  void getLatestNavByIsinOrThrow_negative() {
+    assertThrows(
+        NoSuchElementException.class, () -> service.getLatestNavByIsinOrThrow("NONEXISTENT"));
+  }
+
+  @Test
+  void findIsinsBySchemeName_positive() {
+    List<String> isins = service.findIsinsBySchemeName("Test");
+    assertTrue(isins.contains("ISIN123"));
+    assertEquals(1, isins.size());
+  }
+
+  @Test
+  void findIsinsBySchemeName_negative() {
+    List<String> isins = service.findIsinsBySchemeName("NoMatch");
+    assertTrue(isins.isEmpty());
   }
 }

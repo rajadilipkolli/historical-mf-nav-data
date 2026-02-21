@@ -3,24 +3,67 @@ package com.github.rajadilipkolli.dailynav;
 import com.github.rajadilipkolli.dailynav.model.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
+import org.jspecify.annotations.NonNull;
 
 /** Service for mutual fund data operations */
-@Service
 public class MutualFundService {
 
   private final NavByIsinRepository navByIsinRepository;
   private final SchemeRepository schemeRepository;
   private final SecurityRepository securityRepository;
+  private final DatabaseInitializer databaseInitializer;
 
   public MutualFundService(
       NavByIsinRepository navByIsinRepository,
       SchemeRepository schemeRepository,
-      SecurityRepository securityRepository) {
+      SecurityRepository securityRepository,
+      DatabaseInitializer databaseInitializer) {
     this.navByIsinRepository = navByIsinRepository;
     this.schemeRepository = schemeRepository;
     this.securityRepository = securityRepository;
+    this.databaseInitializer = databaseInitializer;
+  }
+
+  /**
+   * Checks if the database is ready for queries.
+   *
+   * @return true if initialization is complete
+   */
+  public boolean isReady() {
+    return databaseInitializer.isInitialized();
+  }
+
+  /**
+   * Get latest NAV by ISIN, throwing an exception if not found.
+   *
+   * @param isin the ISIN to look up
+   * @return the latest NAV record
+   * @throws NoSuchElementException if no NAV data is found for the given ISIN
+   */
+  public NavByIsin getLatestNavByIsinOrThrow(String isin) {
+    return getLatestNavByIsin(isin)
+        .orElseThrow(() -> new NoSuchElementException("No NAV data found for ISIN: " + isin));
+  }
+
+  /**
+   * Find ISINs for a given scheme name pattern.
+   *
+   * @param namePattern the name pattern to search for
+   * @return list of matching ISINs
+   */
+  public List<String> findIsinsBySchemeName(String namePattern) {
+    List<Scheme> schemes = searchSchemes(namePattern);
+    if (schemes.isEmpty()) {
+      return List.of();
+    }
+    var schemeCodes = schemes.stream().map(Scheme::schemeCode).toList();
+    return securityRepository.findBySchemeCodes(schemeCodes).stream()
+        .map(Security::getIsin)
+        .filter(Objects::nonNull)
+        .toList();
   }
 
   /** Get latest NAV by ISIN */
@@ -102,6 +145,7 @@ public class MutualFundService {
     }
 
     @Override
+    @NonNull
     public String toString() {
       return "FundInfo{"
           + "isin='"

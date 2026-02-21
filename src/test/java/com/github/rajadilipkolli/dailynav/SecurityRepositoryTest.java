@@ -10,13 +10,15 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 class SecurityRepositoryTest extends AbstractRepositoryTest {
   private SecurityRepository securityRepository;
 
   @BeforeEach
   void setUpSecurityRepo() {
-    securityRepository = new SecurityRepository(jdbcTemplate);
+    securityRepository =
+        new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
   }
 
   @Override
@@ -85,6 +87,33 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
     // Remove all data
     connection.createStatement().execute("DELETE FROM securities");
     List<Security> result = securityRepository.findAll();
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void testFindBySchemeCodes_multipleMatches() {
+    List<Security> result = securityRepository.findBySchemeCodes(List.of(1, 2));
+    assertEquals(2, result.size());
+    assertTrue(result.stream().anyMatch(s -> "ISIN123".equals(s.getIsin())));
+    assertTrue(result.stream().anyMatch(s -> "ISIN456".equals(s.getIsin())));
+  }
+
+  @Test
+  void testFindBySchemeCodes_partialMatch() {
+    List<Security> result = securityRepository.findBySchemeCodes(List.of(1, 999));
+    assertEquals(1, result.size());
+    assertEquals("ISIN123", result.get(0).getIsin());
+  }
+
+  @Test
+  void testFindBySchemeCodes_noMatch() {
+    List<Security> result = securityRepository.findBySchemeCodes(List.of(999));
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void testFindBySchemeCodes_emptyInput() {
+    List<Security> result = securityRepository.findBySchemeCodes(List.of());
     assertTrue(result.isEmpty());
   }
 }

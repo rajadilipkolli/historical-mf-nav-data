@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -71,6 +72,20 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
+   * Provides a NamedParameterJdbcTemplate using the Daily NAV JdbcTemplate.
+   *
+   * @param jdbcTemplate the Daily NAV JdbcTemplate
+   * @return a NamedParameterJdbcTemplate backed by the Daily NAV JdbcTemplate
+   */
+  @Bean(name = "dailyNavNamedParameterJdbcTemplate")
+  @ConditionalOnMissingBean(name = "dailyNavNamedParameterJdbcTemplate")
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  NamedParameterJdbcTemplate namedParameterJdbcTemplate(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    return new NamedParameterJdbcTemplate(jdbcTemplate);
+  }
+
+  /**
    * Create a NavRepository backed by the Daily NAV JdbcTemplate.
    *
    * @return a NavRepository that uses the Daily NAV JdbcTemplate
@@ -102,10 +117,12 @@ public class DailyNavAutoConfiguration {
    */
   @Bean
   @ConditionalOnMissingBean
-  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  @ConditionalOnBean(name = {"dailyNavJdbcTemplate", "dailyNavNamedParameterJdbcTemplate"})
   SecurityRepository securityRepository(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
-    return new SecurityRepository(jdbcTemplate);
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      @Qualifier("dailyNavNamedParameterJdbcTemplate")
+          NamedParameterJdbcTemplate dailyNavNamedParameterJdbcTemplate) {
+    return new SecurityRepository(jdbcTemplate, dailyNavNamedParameterJdbcTemplate);
   }
 
   /**
@@ -127,6 +144,7 @@ public class DailyNavAutoConfiguration {
    * @param navByIsinRepository repository providing NAV lookup by ISIN
    * @param schemeRepository repository for mutual fund scheme metadata
    * @param securityRepository repository for security/instrument data
+   * @param databaseInitializer initializer responsible for preparing or verifying DB state
    * @return a MutualFundService instance backed by the provided repositories
    */
   @Bean
@@ -135,8 +153,10 @@ public class DailyNavAutoConfiguration {
   MutualFundService mutualFundService(
       NavByIsinRepository navByIsinRepository,
       SchemeRepository schemeRepository,
-      SecurityRepository securityRepository) {
-    return new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
+      SecurityRepository securityRepository,
+      DatabaseInitializer databaseInitializer) {
+    return new MutualFundService(
+        navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
   }
 
   /**
@@ -173,6 +193,16 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
+   * Creates a DailyNavHealthIndicator wrapping DailyNavHealthService for management/health checks.
+   */
+  @Bean("dailyNavHealthIndicator")
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(DailyNavHealthService.class)
+  DailyNavHealthIndicator dailyNavHealthIndicator(DailyNavHealthService healthService) {
+    return new DailyNavHealthIndicator(healthService);
+  }
+
+  /**
    * Creates the web controller that exposes health endpoints for the Daily NAV library.
    *
    * @param jdbcTemplate the dedicated JdbcTemplate for the Daily NAV database
@@ -200,7 +230,7 @@ public class DailyNavAutoConfiguration {
    */
   @Bean
   @ConditionalOnProperty(
-      prefix = "daily.nav",
+      prefix = "daily-nav",
       name = "auto-init",
       havingValue = "true",
       matchIfMissing = true)
@@ -231,6 +261,6 @@ public class DailyNavAutoConfiguration {
 
   @Configuration
   @EnableAsync
-  @ConditionalOnProperty(prefix = "daily.nav", name = "enable-async", havingValue = "true")
+  @ConditionalOnProperty(prefix = "daily-nav", name = "enable-async", havingValue = "true")
   static class AsyncConfig {}
 }
