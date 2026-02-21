@@ -54,6 +54,7 @@ def get_trading_days_data(conn: sqlite3.Connection) -> pd.DataFrame:
 def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculate 200-day moving average for each scheme.
+    Filters out schemes with significant NAV jumps (>10%) in the window.
     Returns DataFrame with DMA calculations.
     """
     # Group by scheme_code and calculate 200-day rolling mean
@@ -61,20 +62,39 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
         lambda x: x.rolling(window=200, min_periods=200).mean()
     )
     
+    # Detect significant jumps (>10%) within the window
+    # Calculate daily percentage change
+    df['pct_change'] = df.groupby('scheme_code')['nav'].pct_change()
+    
+    # Check if any jump > 10% (0.1) occurred in the 200-day window
+    # rolling window of 200 checks if ANY of the values was > 10%
+    df['has_jump'] = df.groupby('scheme_code')['pct_change'].transform(
+        lambda x: x.abs().rolling(window=200, min_periods=1).max() > 0.1
+    )
+    
     # Only keep rows where we have enough data for 200-day average
+    # AND where no significant jump occurred in the last 200 days
     df = df.dropna(subset=['dma_200'])
+    df = df[df['has_jump'] == False]
     
     return df
 
 def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
     """
     Get the latest NAV data for each scheme (current day).
+    Only includes schemes whose latest record is recent (within last 15 days).
     """
-    # Get the most recent date for each scheme
-    # Select only the group columns after groupby to avoid FutureWarning
+    # Get the most recent date for each filtered scheme
     latest_data = (
         df.loc[df.groupby('scheme_code')['date'].idxmax()].reset_index(drop=True)
     )
+    
+    # Filter out stale records (e.g. if the last month was filtered due to jumps)
+    if not latest_data.empty:
+        max_date = latest_data['date'].max()
+        cutoff_date = max_date - pd.Timedelta(days=15)
+        latest_data = latest_data[latest_data['date'] >= cutoff_date]
+        
     return latest_data
 
 def classify_funds(latest_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -95,7 +115,7 @@ def classify_funds(latest_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFram
     
     return funds_above_dma, funds_below_dma
 
-def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 20) -> str:
+def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 50) -> str:
     """
     Format DataFrame as a markdown table for release notes.
     """
@@ -106,7 +126,7 @@ def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 20) 
     df_display = df.head(max_rows)
     
     # Select and rename columns for display
-    display_df = df_display[['scheme_name', 'nav', 'dma_200', 'dma_diff_pct']].copy()
+    display_df = df_display[['scheme_code', 'scheme_name', 'nav', 'dma_200', 'dma_diff_pct']].copy()
     display_df['nav'] = display_df['nav'].round(4)
     display_df['dma_200'] = display_df['dma_200'].round(4)
     display_df['dma_diff_pct'] = display_df['dma_diff_pct'].round(2)
@@ -119,12 +139,12 @@ def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 20) 
     else:
         markdown += f"Total funds: {len(df)}\n\n"
     
-    markdown += "| Scheme Name | Current NAV | 200-DMA | Difference (%) |\n"
-    markdown += "|-------------|-------------|---------|----------------|\n"
+    markdown += "| Code | Scheme Name | Current NAV | 200-DMA | Difference (%) |\n"
+    markdown += "|------|-------------|-------------|---------|----------------|\n"
     
     for _, row in display_df.iterrows():
         scheme_name = row['scheme_name'][:60] + "..." if len(row['scheme_name']) > 60 else row['scheme_name']
-        markdown += f"| {scheme_name} | {row['nav']} | {row['dma_200']} | {row['dma_diff_pct']:+.2f}% |\n"
+        markdown += f"| {row['scheme_code']} | {scheme_name} | {row['nav']} | {row['dma_200']} | {row['dma_diff_pct']:+.2f}% |\n"
     
     return markdown
 
@@ -153,6 +173,7 @@ def generate_summary_stats(funds_above: pd.DataFrame, funds_below: pd.DataFrame,
 
 *Note: Only schemes with at least 200 trading days of data are included in this analysis.*
 *Weekends are excluded from the moving average calculation.*
+*Schemes with significant NAV jumps (>10%) within the 200-day window are excluded to ensure trend accuracy.*
 """
     
     return summary
