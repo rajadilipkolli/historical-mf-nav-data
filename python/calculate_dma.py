@@ -8,6 +8,7 @@ that are above or below their 200-day moving averages.
 import sqlite3
 import pandas as pd
 import datetime
+import re
 import sys
 import os
 from typing import Dict, List, Tuple
@@ -113,20 +114,33 @@ def deduplicate_schemes(df: pd.DataFrame) -> pd.DataFrame:
     Deduplicate funds with similar names, prioritizing Direct plans over Regular.
     """
     if df.empty:
-        return df
+        return df.copy()
+
+    # Work on a local copy to avoid mutating the caller's DataFrame
+    df = df.copy()
         
     def normalize_name(name):
-        # Convert to lowercase and remove common descriptors
+        # Convert to lowercase and remove common descriptors using word-boundary
+        # replacements for alphabetic keywords and simple replacements for
+        # punctuation tokens so we don't remove substrings inside longer words.
         n = name.lower()
-        # Remove keywords that distinguish plan types but keep the base scheme name
-        keywords = [
+
+        # Alphabetic / phrase keywords: remove only as whole words/phrases
+        word_keywords = [
             'direct plan', 'regular plan', 'growth option', 'idcw option',
             'direct', 'regular', 'plan', 'growth', 'idcw', 'payout', 'reinvestment',
-            'option', 'fund', 'funds', 'scheme', 'p-g', 'dp-g', 'p-i', 'dp-i',
-            '-', '(', ')', '.', ',', '...', '  '
+            'option', 'fund', 'funds', 'scheme'
         ]
-        for kw in keywords:
-            n = n.replace(kw, ' ')
+
+        for kw in word_keywords:
+            pattern = r"\b" + re.escape(kw) + r"\b"
+            n = re.sub(pattern, ' ', n)
+
+        # Punctuation tokens and technical codes: replace directly
+        punct_tokens = ['p-g', 'dp-g', 'p-i', 'dp-i', '-', '(', ')', '.', ',', '...']
+        for tok in punct_tokens:
+            n = n.replace(tok, ' ')
+
         # Clean up extra spaces
         return ' '.join(n.split())
 
@@ -277,15 +291,13 @@ def main():
         summary_stats = generate_summary_stats(funds_above_dma, funds_below_dma, len(latest_data))
         
         above_table = format_table_for_markdown(
-            funds_above_dma, 
-            "🟢 Top Funds Trading Above 200-Day Moving Average",
-            max_rows=50
+            funds_above_dma,
+            "🟢 Top Funds Trading Above 200-Day Moving Average"
         )
-        
+
         below_table = format_table_for_markdown(
             funds_below_dma,
-            "🔴 Top Funds Trading Below 200-Day Moving Average", 
-            max_rows=50
+            "🔴 Top Funds Trading Below 200-Day Moving Average"
         )
         
         # Write to file for GitHub Actions to use
