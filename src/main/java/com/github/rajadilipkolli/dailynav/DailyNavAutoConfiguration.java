@@ -135,8 +135,10 @@ public class DailyNavAutoConfiguration {
   MutualFundService mutualFundService(
       NavByIsinRepository navByIsinRepository,
       SchemeRepository schemeRepository,
-      SecurityRepository securityRepository) {
-    return new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
+      SecurityRepository securityRepository,
+      DatabaseInitializer databaseInitializer) {
+    return new MutualFundService(
+        navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
   }
 
   /**
@@ -172,6 +174,13 @@ public class DailyNavAutoConfiguration {
     return new DatabaseInitializer(jdbcTemplate, properties);
   }
 
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(DailyNavHealthService.class)
+  DailyNavHealthIndicator dailyNavHealthIndicator(DailyNavHealthService healthService) {
+    return new DailyNavHealthIndicator(healthService);
+  }
+
   /**
    * Creates the web controller that exposes health endpoints for the Daily NAV library.
    *
@@ -200,7 +209,7 @@ public class DailyNavAutoConfiguration {
    */
   @Bean
   @ConditionalOnProperty(
-      prefix = "daily.nav",
+      prefix = "daily-nav",
       name = "auto-init",
       havingValue = "true",
       matchIfMissing = true)
@@ -231,6 +240,6 @@ public class DailyNavAutoConfiguration {
 
   @Configuration
   @EnableAsync
-  @ConditionalOnProperty(prefix = "daily.nav", name = "enable-async", havingValue = "true")
+  @ConditionalOnProperty(prefix = "daily-nav", name = "enable-async", havingValue = "true")
   static class AsyncConfig {}
 }

@@ -24,7 +24,12 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     SecurityRepository securityRepository = new SecurityRepository(jdbcTemplate);
-    service = new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
+    DatabaseInitializer databaseInitializer =
+        new DatabaseInitializer(jdbcTemplate, new DailyNavProperties());
+    databaseInitializer.initializeDatabase();
+    service =
+        new MutualFundService(
+            navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
   }
 
   @Override
@@ -179,5 +184,22 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     }
     var fundInfoOpt = service.getFundInfo("ISIN_NO_SCHEME");
     assertTrue(fundInfoOpt.isEmpty());
+  }
+
+  @Test
+  void isReady_positive() {
+    assertTrue(service.isReady());
+  }
+
+  @Test
+  void getLatestNavByIsinOrThrow_positive() {
+    NavByIsin nav = service.getLatestNavByIsinOrThrow("ISIN123");
+    assertEquals(100.0, nav.getNav());
+  }
+
+  @Test
+  void findIsinsBySchemeName_positive() {
+    List<String> isins = service.findIsinsBySchemeName("Test");
+    assertTrue(isins.contains("ISIN123"));
   }
 }

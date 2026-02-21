@@ -1,6 +1,7 @@
 package com.github.rajadilipkolli.dailynav;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /** Entry point for using the Daily NAV library in non-Spring applications. */
@@ -31,6 +32,12 @@ public final class DailyNav {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
     // Initialize database (restore from .db.zst if needed)
+    MutualFundService service = getMutualFundService(jdbcTemplate, properties);
+    return new CloseableMutualFundService(service, dataSource);
+  }
+
+  private static @NonNull MutualFundService getMutualFundService(
+      JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     DatabaseInitializer initializer = new DatabaseInitializer(jdbcTemplate, properties);
     initializer.initializeDatabase();
 
@@ -39,9 +46,8 @@ public final class DailyNav {
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     SecurityRepository securityRepository = new SecurityRepository(jdbcTemplate);
 
-    MutualFundService service =
-        new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
-    return new CloseableMutualFundService(service, dataSource);
+    return new MutualFundService(
+        navByIsinRepository, schemeRepository, securityRepository, initializer);
   }
 
   /**
