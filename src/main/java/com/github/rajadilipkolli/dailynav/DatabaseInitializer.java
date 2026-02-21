@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -28,13 +29,18 @@ public class DatabaseInitializer {
   private final JdbcTemplate jdbcTemplate;
   private final DailyNavProperties properties;
 
+  /**
+   * Constructs a DatabaseInitializer configured with the provided JdbcTemplate and
+   * DailyNavProperties.
+   */
   public DatabaseInitializer(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
   }
 
-  @Async
+  /** Schedules database initialization to run on the configured "dailyNavTaskExecutor". */
+  @Async("dailyNavTaskExecutor")
   public void initializeDatabaseAsync() {
     initializeDatabase();
   }
@@ -77,17 +83,26 @@ public class DatabaseInitializer {
   }
 
   /**
-   * Attempts to restore the SQLite database from a compressed .db.zst file in the classpath.
-   * Returns true if successful, false otherwise.
+   * Attempt to restore the SQLite database from the classpath resource "funds.db.zst".
+   *
+   * <p>If a file-based database path is configured, the restored database file is copied to that
+   * path. If the configured path refers to an in-memory database, the restored file is loaded into
+   * the current connection using SQLite's restore mechanism. The temporary file used during
+   * restoration is deleted before returning.
+   *
+   * @return `true` if the database was successfully restored (copied to the configured file path or
+   *     loaded into an in-memory database), `false` otherwise.
    */
   boolean restoreDatabaseFromZst() {
+    boolean databaseRestored = false;
+    File tempDb = null;
     try {
       ClassPathResource resource = new ClassPathResource("funds.db.zst");
       if (!resource.exists()) {
         logger.info("funds.db.zst not found in classpath, falling back to SQL script");
         return false;
       }
-      File tempDb = File.createTempFile("funds", ".db");
+      tempDb = File.createTempFile("funds", ".db");
       try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
           OutputStream out = new FileOutputStream(tempDb)) {
         byte[] buffer = new byte[8192];
@@ -98,30 +113,52 @@ public class DatabaseInitializer {
       }
       logger.info("Restored database from funds.db.zst to {}", tempDb.getAbsolutePath());
       // If using a file-based DB, copy to the configured location
-      try {
-        String dbPath = properties.getDatabasePath();
-        if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
-          File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
-          Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-          Files.deleteIfExists(tempDb.toPath());
-          logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
-        } else {
-          // If using in-memory, you may need to adjust datasource config to use this file
-          logger.warn(
-              "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
-          Files.deleteIfExists(tempDb.toPath());
-        }
-      } finally {
-        // Clean up temp file
-        Files.deleteIfExists(tempDb.toPath());
+      String dbPath = properties.getDatabasePath();
+      if (dbPath == null || dbPath.isBlank()) {
+        logger.info("Database path is not configured, skipping restoration");
+      } else if (!dbPath.contains(":memory:")) {
+        File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
+        Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
+        databaseRestored = true;
+      } else {
+        // sqlite-jdbc extension: "restore from [filename]"
+        // This copies the entire database from the file into the current connection
+        File finalTempDb = tempDb;
+        jdbcTemplate.execute(
+            (ConnectionCallback<Void>)
+                con -> {
+                  try (var st = con.createStatement()) {
+                    st.executeUpdate(
+                        "restore from '" + finalTempDb.getAbsolutePath().replace("'", "''") + "'");
+                  }
+                  return null;
+                });
+
+        logger.info("Loaded restored database into in-memory database");
+        databaseRestored = true;
       }
-      return true;
     } catch (Exception e) {
       logger.warn("Failed to restore database from funds.db.zst: {}", e.getMessage());
-      return false;
+    } finally {
+      if (tempDb != null && tempDb.exists()) {
+        if (tempDb.delete()) {
+          logger.debug("Deleted temporary database file: {}", tempDb.getAbsolutePath());
+        } else {
+          logger.warn("Could not delete temporary database file: {}", tempDb.getAbsolutePath());
+        }
+      }
     }
+    return databaseRestored;
   }
 
+  /**
+   * Log basic statistics about the loaded database.
+   *
+   * <p>Queries and logs the number of schemes, NAV records, and securities. Then attempts to query
+   * and log the minimum and maximum NAV dates. If the counts cannot be retrieved a warning is
+   * logged; if the date range cannot be determined a debug message is logged.
+   */
   void logDatabaseStats() {
     try {
       Integer schemeCount =
@@ -136,10 +173,13 @@ public class DatabaseInitializer {
           navCount,
           securityCount);
 
-      // Get date range of data
+      // Get date range of data (single consolidated query)
       try {
-        String minDate = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
-        String maxDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+        var row =
+            jdbcTemplate.queryForMap(
+                "SELECT MIN(date) AS min_date, MAX(date) AS max_date FROM nav");
+        String minDate = (row.get("min_date") != null) ? row.get("min_date").toString() : null;
+        String maxDate = (row.get("max_date") != null) ? row.get("max_date").toString() : null;
         logger.info("NAV data available from {} to {}", minDate, maxDate);
       } catch (Exception e) {
         logger.debug("Could not determine date range: {}", e.getMessage());

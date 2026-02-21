@@ -15,8 +15,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /** Auto-configuration for Daily NAV library */
 @AutoConfiguration
@@ -88,8 +88,17 @@ public class DailyNavAutoConfiguration {
     return new NavByIsinRepository(jdbcTemplate);
   }
 
+  /**
+   * Create a MutualFundService configured with the library's repository dependencies.
+   *
+   * @param navByIsinRepository repository providing NAV lookup by ISIN
+   * @param schemeRepository repository for mutual fund scheme metadata
+   * @param securityRepository repository for security/instrument data
+   * @return a MutualFundService instance backed by the provided repositories
+   */
   @Bean
   @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   MutualFundService mutualFundService(
       NavByIsinRepository navByIsinRepository,
       SchemeRepository schemeRepository,
@@ -113,10 +122,18 @@ public class DailyNavAutoConfiguration {
     return new DatabaseInitializer(jdbcTemplate, properties);
   }
 
+  /**
+   * Creates the web controller that exposes health endpoints for the Daily NAV library.
+   *
+   * @param jdbcTemplate the dedicated JdbcTemplate for the Daily NAV database
+   * @param properties configuration properties for the Daily NAV library
+   * @param healthService service that evaluates the library's health
+   * @return the configured DailyNavHealthController instance
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnWebApplication
-  @ConditionalOnMissingClass("org.springframework.boot.actuator.health.HealthIndicator")
+  @ConditionalOnMissingClass("org.springframework.boot.health.contributor.HealthIndicator")
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   DailyNavHealthController dailyNavHealthController(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
@@ -142,8 +159,28 @@ public class DailyNavAutoConfiguration {
     return args -> initializer.initializeDatabaseAsync();
   }
 
+  /**
+   * Provides a ThreadPoolTaskExecutor for Daily NAV asynchronous tasks.
+   *
+   * <p>The executor is configured with a core pool size of 2, maximum pool size of 5, a queue
+   * capacity of 50, and thread name prefix "daily-nav-".
+   *
+   * @return the configured ThreadPoolTaskExecutor instance
+   */
+  @Bean(name = "dailyNavTaskExecutor")
+  @ConditionalOnMissingBean(name = "dailyNavTaskExecutor")
+  ThreadPoolTaskExecutor dailyNavTaskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(2);
+    executor.setMaxPoolSize(5);
+    executor.setQueueCapacity(50);
+    executor.setThreadNamePrefix("daily-nav-");
+    executor.setWaitForTasksToCompleteOnShutdown(true);
+    return executor;
+  }
+
   @Configuration
   @EnableAsync
-  @ConditionalOnMissingBean(AsyncConfigurer.class)
+  @ConditionalOnProperty(prefix = "daily.nav", name = "enable-async", havingValue = "true")
   static class AsyncConfig {}
 }

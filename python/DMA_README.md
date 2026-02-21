@@ -19,7 +19,7 @@ This repository now includes automated calculation of 200-day moving averages (D
 ## How It Works
 
 ### 1. Data Processing
-The `calculate_dma.py` script:
+The `python/calculate_dma.py` script:
 - Connects to the SQLite database containing historical NAV data
 - Filters out weekends and holidays (using only trading days)
 - Calculates rolling 200-day averages for each scheme
@@ -97,7 +97,7 @@ The DMA analysis is automatically integrated into the GitHub Actions workflow:
 ### Manual Execution
 ```bash
 # After database is generated
-python calculate_dma.py
+python python/calculate_dma.py
 ```
 
 ### Programmatic Access

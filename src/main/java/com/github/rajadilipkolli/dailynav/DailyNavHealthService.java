@@ -25,26 +25,33 @@ public class DailyNavHealthService {
   private final DailyNavProperties properties;
   private final Clock clock;
 
+  /** Creates a DailyNavHealthService configured with the system default clock. */
   @Autowired
   public DailyNavHealthService(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     this(jdbcTemplate, properties, Clock.systemDefaultZone());
   }
 
-  // Package-private constructor for tests to inject a fixed clock
-  DailyNavHealthService(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DailyNavProperties properties,
-      Clock clock) {
+  /**
+   * Constructs a DailyNavHealthService with the provided JDBC template, properties, and clock.
+   *
+   * @param clock the Clock to use for time-based checks; if null, the system default clock will be
+   *     used
+   */
+  DailyNavHealthService(JdbcTemplate jdbcTemplate, DailyNavProperties properties, Clock clock) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
     this.clock = clock == null ? Clock.systemDefaultZone() : clock;
   }
 
   /**
-   * Performs a comprehensive health check of the Daily NAV library
+   * Performs a health check of the Daily NAV library.
    *
-   * @return DailyNavHealthStatus containing all health information
+   * <p>The returned status includes database connectivity, table counts (schemes, NAV records,
+   * securities), data date range (start and end), latest data date, staleness flag, detected
+   * issues, overall health, and configuration flags (autoInit, indexes, databasePath).
+   *
+   * @return DailyNavHealthStatus populated with the health information described above.
    */
   public DailyNavHealthStatus checkHealth() {
     DailyNavHealthStatus status = new DailyNavHealthStatus();
@@ -66,8 +73,12 @@ public class DailyNavHealthService {
       status.setNavRecordCount(tableCounts.get("navRecords"));
       status.setSecurityCount(tableCounts.get("securities"));
 
-      // Check data freshness
-      LocalDate latestDate = getLatestDataDate();
+      // Get date range and derive latest date from it (avoid duplicate MAX(date) calls)
+      Map<String, LocalDate> dateRange = getDataDateRange();
+      status.setDataStartDate(dateRange.get("startDate"));
+      status.setDataEndDate(dateRange.get("endDate"));
+
+      LocalDate latestDate = dateRange.get("endDate");
       status.setLatestDataDate(latestDate);
 
       boolean isStale = isDataStale(latestDate);
@@ -76,11 +87,6 @@ public class DailyNavHealthService {
       if (isStale) {
         status.addIssue("Data appears to be stale (older than 10 days)");
       }
-
-      // Get date range
-      Map<String, LocalDate> dateRange = getDataDateRange();
-      status.setDataStartDate(dateRange.get("startDate"));
-      status.setDataEndDate(dateRange.get("endDate"));
 
       // Check for sufficient data
       if (status.getSchemeCount() != null
@@ -141,7 +147,17 @@ public class DailyNavHealthService {
     }
   }
 
-  /** Gets basic statistics about the data */
+  /**
+   * Collects basic table counts and data date-range statistics for the Daily NAV dataset.
+   *
+   * @return a map of statistic names to values: - "schemes": Integer count of schemes -
+   *     "navRecords": Integer count of NAV records - "securities": Integer count of securities -
+   *     "startDate": LocalDate start of available data or null - "endDate": LocalDate end of
+   *     available data or null - "latestDataDate": LocalDate most recent data date (same as
+   *     endDate) or null - "dataStale": Boolean indicating whether the latest data is considered
+   *     stale - "dataSpanDays": Long number of days between startDate and endDate (present when
+   *     both dates exist) - "error": String error message when statistics could not be retrieved
+   */
   Map<String, Object> getStatistics() {
     Map<String, Object> stats = new LinkedHashMap<>();
 
@@ -152,7 +168,7 @@ public class DailyNavHealthService {
       Map<String, LocalDate> dateRange = getDataDateRange();
       stats.putAll(dateRange);
 
-      LocalDate latestDate = getLatestDataDate();
+      LocalDate latestDate = dateRange.get("endDate");
       stats.put("latestDataDate", latestDate);
       stats.put("dataStale", isDataStale(latestDate));
 
@@ -197,6 +213,15 @@ public class DailyNavHealthService {
     }
   }
 
+  /**
+   * Retrieves row counts for the primary tables used by the service.
+   *
+   * <p>Counts are provided for "schemes", "navRecords", and "securities". If a table count cannot
+   * be obtained, the corresponding value is -1.
+   *
+   * @return a map with keys "schemes", "navRecords", and "securities" mapped to their row counts or
+   *     -1 when the count could not be retrieved
+   */
   private Map<String, Integer> getTableCounts() {
     Map<String, Integer> counts = new LinkedHashMap<>();
 
@@ -228,24 +253,26 @@ public class DailyNavHealthService {
     return counts;
   }
 
-  private LocalDate getLatestDataDate() {
-    try {
-      String dateStr = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
-      return dateStr != null ? LocalDate.parse(dateStr) : null;
-    } catch (Exception e) {
-      logger.debug("Failed to get latest data date", e);
-      return null;
-    }
-  }
-
+  /**
+   * Retrieve the date range present in the `nav` table.
+   *
+   * <p>The returned map contains two entries: - "startDate": the earliest `date` from the `nav`
+   * table, or `null` if unavailable. - "endDate": the latest `date` from the `nav` table, or `null`
+   * if unavailable.
+   *
+   * @return a Map with keys "startDate" and "endDate" whose values are the corresponding LocalDate
+   *     or `null` when no date is found or on error
+   */
   private Map<String, LocalDate> getDataDateRange() {
     Map<String, LocalDate> dateRange = new LinkedHashMap<>();
 
     try {
-      String minDateStr = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
-      String maxDateStr = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
-      LocalDate minDate = minDateStr != null ? LocalDate.parse(minDateStr) : null;
-      LocalDate maxDate = maxDateStr != null ? LocalDate.parse(maxDateStr) : null;
+      Map<String, Object> row =
+          jdbcTemplate.queryForMap("SELECT MIN(date) AS min_date, MAX(date) AS max_date FROM nav");
+      LocalDate minDate =
+          row.get("min_date") != null ? LocalDate.parse(row.get("min_date").toString()) : null;
+      LocalDate maxDate =
+          row.get("max_date") != null ? LocalDate.parse(row.get("max_date").toString()) : null;
 
       dateRange.put("startDate", minDate);
       dateRange.put("endDate", maxDate);
