@@ -16,7 +16,7 @@ Add this dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20260125</version> <!-- Use latest version from releases -->
+    <version>1.0.20260221</version> <!-- Use latest version from releases -->
 </dependency>
 ```
 
@@ -24,11 +24,11 @@ Or for Gradle (`build.gradle`):
 
 ```gradle
 dependencies {
-    implementation 'com.github.rajadilipkolli:historical-mf-nav-data:1.0.20250713'
+    implementation 'io.github.rajadilipkolli:historical-mf-nav-data:1.0.20260221'
 }
 ```
 
-> 💡 **Finding the Latest Version**: Visit the [GitHub Releases page](https://github.com/rajadilipkolli/historical-mf-nav-data/releases) to get the latest version number, or check [GitHub Packages](https://github.com/rajadilipkolli/historical-mf-nav-data/packages) for Maven coordinates.
+> 💡 **Finding the Latest Version**: Visit the [GitHub Releases page](https://github.com/rajadilipkolli/historical-mf-nav-data/releases) to get the latest version number.
 
 **Zero configuration required!** The library auto-configures with Spring Boot. See below for usage and configuration.
 
@@ -71,7 +71,7 @@ Each daily release includes automated analysis of funds relative to their 200-da
 - **Trading Days Only**: Excludes weekends from calculations
 - **Minimum Data Requirement**: Only funds with 200+ trading days included
 
-See [DMA_README.md](DMA_README.md) for detailed documentation and technical details.
+See [DMA_README.md](python/DMA_README.md) for detailed documentation and technical details.
 
 ### Database Schema
 
@@ -147,15 +147,17 @@ public class MutualFundController {
 Customize via `application.properties`:
 
 ```properties
-# Enable/disable auto-initialization
+# Enable/disable auto-initialization (Default: true)
 daily-nav.auto-init=true
-# Use persistent database file
+# Use a custom JDBC path (Default: jdbc:sqlite::memory:)
+daily-nav.database-path=jdbc:sqlite::memory:
+# Use persistent database file (Overrides database-path if set)
 daily-nav.database-file=/path/to/persistent/database.db
-# Enable/disable automatic index creation
+# Enable/disable automatic index creation after loading (Default: true)
 daily-nav.create-indexes=true
-# Enable debug logging
+# Enable debug logging for DB operations (Default: false)
 daily-nav.debug=false
-# Enable data validation after loading
+# Enable data validation (count records) after loading (Default: true)
 daily-nav.validate-data=true
 ```
 
@@ -310,8 +312,8 @@ WHERE isin='INF277K01741'
 
 To reduce repository size, daily fetched CSVs are now stored as compressed `.zip` files under the `data/YYYY/MM/` folders. Each archive contains the original `DD.csv` file (for example `01.zip` -> `01.csv`).
 
-- To fetch and store data, run the `fetch.py` script as before; it now saves `.zip` files instead of raw `.csv`.
-- Tools that process CSVs (for example `generate.py`) detect `.zip` files and read the contained CSV automatically.
+- To fetch and store data, run the `python/fetch.py` script as before; it now saves `.zip` files instead of raw `.csv`.
+- Tools that process CSVs (for example `python/generate.py`) detect `.zip` files and read the contained CSV automatically.
 
 If you need to extract a CSV manually:
 
