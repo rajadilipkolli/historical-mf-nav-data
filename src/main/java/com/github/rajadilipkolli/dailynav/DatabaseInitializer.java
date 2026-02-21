@@ -30,8 +30,11 @@ public class DatabaseInitializer {
   private final DailyNavProperties properties;
 
   /**
-   * Constructs a DatabaseInitializer configured with the provided JdbcTemplate and
-   * DailyNavProperties.
+   * Create a DatabaseInitializer with the provided JdbcTemplate and configuration.
+   *
+   * @param jdbcTemplate the JdbcTemplate configured for the Daily NAV database
+   * @param properties configuration properties that control initialization behavior (e.g.,
+   *     auto-init, index creation, debug)
    */
   public DatabaseInitializer(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
@@ -45,6 +48,17 @@ public class DatabaseInitializer {
     initializeDatabase();
   }
 
+  /**
+   * Initializes the Daily NAV database according to configured properties.
+   *
+   * <p>If auto-initialization is disabled or the required tables already exist this method returns
+   * without making changes. Otherwise it attempts to populate the database (first by restoring a
+   * compressed database if available, falling back to executing the embedded SQL script) and,
+   * optionally, creates indexes and logs database statistics when complete.
+   *
+   * @throws RuntimeException if an error occurs while restoring, loading, or initializing the
+   *     database
+   */
   public void initializeDatabase() {
     if (!properties.isAutoInit()) {
       logger.info("Auto-initialization disabled, skipping database setup");
@@ -87,8 +101,23 @@ public class DatabaseInitializer {
    *
    * <p>If a file-based database path is configured, the restored database file is copied to that
    * path. If the configured path refers to an in-memory database, the restored file is loaded into
-   * the current connection using SQLite's restore mechanism. The temporary file used during
-   * restoration is deleted before returning.
+   * the current connection using SQLite's restore mechanism.
+   *
+   * <p>Note: when loading into an in-memory connection this implementation uses the SQLite
+   * extension command {@code restore from '<path>'} via the sqlite-jdbc driver. This is not
+   * standard SQL — it relies on SQLite-specific behavior provided by the JDBC driver. The file path
+   * is single-quote escaped with {@code replace("'", "''")} before being embedded in the SQL
+   * command to avoid breaking the literal. Example usage in this code:
+   *
+   * <pre>
+   * st.executeUpdate("restore from '" + finalTempDb.getAbsolutePath().replace("'", "''") + "'");
+   * </pre>
+   *
+   * <p>Because this approach depends on SQLite features, callers should ensure the underlying
+   * connection is a SQLite connection if portability is required; consider adding a runtime check
+   * or alternative loading path for other databases.
+   *
+   * <p>The temporary file used during restoration is deleted before returning.
    *
    * @return `true` if the database was successfully restored (copied to the configured file path or
    *     loaded into an in-memory database), `false` otherwise.
@@ -261,6 +290,13 @@ public class DatabaseInitializer {
     }
   }
 
+  /**
+   * Create the application's database indexes required for NAV and securities queries.
+   *
+   * <p>Attempts to create indexes for nav(date, scheme_code), nav(scheme_code),
+   * securities(scheme_code) and securities(isin). Non-fatal failures while creating individual
+   * indexes are logged and do not stop the remaining index creation.
+   */
   void createIndexes() {
     logger.info("Creating database indexes...");
 
@@ -279,6 +315,13 @@ public class DatabaseInitializer {
     logger.debug("Database index creation attempt finished");
   }
 
+  /**
+   * Executes the provided SQL statement (typically an index creation) and logs success or a
+   * non-fatal failure.
+   *
+   * @param sql the SQL statement to execute (for example, a CREATE INDEX statement)
+   * @param description a short, human-readable description of the index used in log messages
+   */
   private void executeSilently(String sql, String description) {
     try {
       jdbcTemplate.execute(sql);

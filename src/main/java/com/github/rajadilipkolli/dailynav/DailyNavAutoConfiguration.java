@@ -26,18 +26,24 @@ public class DailyNavAutoConfiguration {
 
   private final DailyNavProperties properties;
 
+  /**
+   * Create a DailyNavAutoConfiguration using the provided Daily NAV settings.
+   *
+   * @param properties configuration properties for Daily NAV, including database path and auto-init
+   *     options
+   */
   public DailyNavAutoConfiguration(DailyNavProperties properties) {
     this.properties = properties;
   }
 
   /**
-   * Provides a dedicated {@link DataSource} for the Daily NAV library.
+   * Creates a DataSource configured for the Daily NAV SQLite database defined in {@link
+   * DailyNavProperties}.
    *
-   * <p>This bean is configured to use the SQLite database specified in {@link DailyNavProperties}.
-   * It uses {@link HikariDataSource} for connection pooling to ensure optimal performance and avoid
-   * file locking issues with SQLite in high-concurrency environments.
+   * <p>The returned datasource is tuned for SQLite usage and executes initialization SQL to enable
+   * WAL journal mode and set synchronous mode to NORMAL.
    *
-   * @return the configured HikariDataSource
+   * @return the configured HikariDataSource for the Daily NAV database
    */
   @Bean(name = "dailyNavDataSource")
   @ConditionalOnMissingBean(name = "dailyNavDataSource")
@@ -51,6 +57,12 @@ public class DailyNavAutoConfiguration {
     return dataSource;
   }
 
+  /**
+   * Creates a JdbcTemplate configured to use the Daily NAV data source.
+   *
+   * @param dataSource the Daily NAV DataSource (qualified as "dailyNavDataSource")
+   * @return a JdbcTemplate backed by the Daily NAV DataSource
+   */
   @Bean(name = "dailyNavJdbcTemplate")
   @ConditionalOnMissingBean(name = "dailyNavJdbcTemplate")
   @ConditionalOnBean(name = "dailyNavDataSource")
@@ -58,6 +70,11 @@ public class DailyNavAutoConfiguration {
     return new JdbcTemplate(dataSource);
   }
 
+  /**
+   * Create a NavRepository backed by the Daily NAV JdbcTemplate.
+   *
+   * @return a NavRepository that uses the Daily NAV JdbcTemplate
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -65,6 +82,11 @@ public class DailyNavAutoConfiguration {
     return new NavRepository(jdbcTemplate);
   }
 
+  /**
+   * Configures a SchemeRepository backed by the Daily NAV JdbcTemplate.
+   *
+   * @return a SchemeRepository that uses the "dailyNavJdbcTemplate" JdbcTemplate
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -72,6 +94,12 @@ public class DailyNavAutoConfiguration {
     return new SchemeRepository(jdbcTemplate);
   }
 
+  /**
+   * Create a SecurityRepository that uses the Daily NAV JdbcTemplate.
+   *
+   * @param jdbcTemplate the Daily NAV {@code JdbcTemplate} to back the repository
+   * @return a new {@link SecurityRepository} instance backed by the provided JdbcTemplate
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -80,6 +108,11 @@ public class DailyNavAutoConfiguration {
     return new SecurityRepository(jdbcTemplate);
   }
 
+  /**
+   * Creates a NavByIsinRepository backed by the Daily NAV JdbcTemplate.
+   *
+   * @return a NavByIsinRepository that uses the provided JdbcTemplate
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -106,6 +139,14 @@ public class DailyNavAutoConfiguration {
     return new MutualFundService(navByIsinRepository, schemeRepository, securityRepository);
   }
 
+  /**
+   * Creates the DailyNavHealthService used to perform health checks for the Daily NAV components.
+   *
+   * @param jdbcTemplate the JdbcTemplate backed by the daily NAV data source (qualified
+   *     "dailyNavJdbcTemplate")
+   * @param properties configuration properties for Daily NAV
+   * @return a DailyNavHealthService configured with the provided JdbcTemplate and properties
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -114,6 +155,15 @@ public class DailyNavAutoConfiguration {
     return new DailyNavHealthService(jdbcTemplate, properties);
   }
 
+  /**
+   * Creates a DatabaseInitializer to prepare and initialize the Daily NAV database.
+   *
+   * @param jdbcTemplate the JdbcTemplate bound to the Daily NAV datasource used for database
+   *     operations
+   * @param properties Daily NAV configuration properties that control database location and
+   *     initialization behavior
+   * @return a DatabaseInitializer configured to initialize and manage the Daily NAV database
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -143,10 +193,10 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
-   * Runner that triggers the asynchronous database initialization.
+   * Triggers database initialization at application startup when auto-init is enabled.
    *
-   * @param initializer the database initializer
-   * @return the ApplicationRunner bean
+   * @param initializer the DatabaseInitializer used to start initialization
+   * @return an ApplicationRunner that invokes the initializer to perform initialization on startup
    */
   @Bean
   @ConditionalOnProperty(

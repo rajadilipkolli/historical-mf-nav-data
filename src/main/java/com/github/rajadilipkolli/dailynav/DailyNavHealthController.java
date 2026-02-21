@@ -7,7 +7,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/daily-nav")
 @ConditionalOnWebApplication
-@ConditionalOnMissingClass("org.springframework.boot.actuator.health.HealthIndicator")
 public class DailyNavHealthController {
 
   private static final Logger logger = LoggerFactory.getLogger(DailyNavHealthController.class);
@@ -32,6 +30,14 @@ public class DailyNavHealthController {
   private final DailyNavProperties properties;
   private final DailyNavHealthService healthService;
 
+  /**
+   * Create a DailyNavHealthController with its required dependencies.
+   *
+   * @param jdbcTemplate JdbcTemplate configured for Daily NAV data access (injected with qualifier
+   *     "dailyNavJdbcTemplate")
+   * @param properties configuration properties for Daily NAV behavior
+   * @param healthService service used to evaluate application health
+   */
   public DailyNavHealthController(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
       DailyNavProperties properties,
@@ -42,7 +48,10 @@ public class DailyNavHealthController {
   }
 
   /**
-   * Basic health check endpoint Returns HTTP 200 if the database is accessible, HTTP 503 otherwise
+   * Exposes the application's health status for the Daily NAV service.
+   *
+   * @return a ResponseEntity containing the current DailyNavHealthStatus; HTTP 200 if the service
+   *     is healthy, HTTP 503 (Service Unavailable) if not healthy.
    */
   @GetMapping("/health")
   public ResponseEntity<DailyNavHealthStatus> health() {
@@ -53,7 +62,21 @@ public class DailyNavHealthController {
         : ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(status);
   }
 
-  /** Detailed information about the Daily NAV library */
+  /**
+   * Provide runtime configuration flags and basic dataset statistics for Daily NAV.
+   *
+   * <p>The returned map includes non-sensitive configuration indicators and sample data
+   * information. Common keys: - "autoInit": whether automatic initialization is enabled -
+   * "indexesEnabled": whether index creation is enabled - "databasePath": non-sensitive indicator
+   * of database location ("unknown", "in-memory", "file", or "external") - "databaseType": same
+   * value as "databasePath" - "debugMode": whether debug mode is enabled - "dataStartDate":
+   * earliest NAV date present (if available) - "dataEndDate": latest NAV date present (if
+   * available) - "dataSpanDays": number of days between start and end dates (if both present) -
+   * "sampleSchemes": up to five scheme names sampled from the database - "error": present when
+   * detailed data retrieval fails
+   *
+   * @return a map of information entries describing configuration and basic dataset statistics
+   */
   @GetMapping("/info")
   public ResponseEntity<Map<String, Object>> info() {
     Map<String, Object> info = new LinkedHashMap<>();

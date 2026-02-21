@@ -25,7 +25,13 @@ public class DailyNavHealthService {
   private final DailyNavProperties properties;
   private final Clock clock;
 
-  /** Creates a DailyNavHealthService configured with the system default clock. */
+  /**
+   * Primary constructor used by Spring to create the service with the default system clock.
+   *
+   * @param jdbcTemplate the JdbcTemplate connected to the Daily NAV database (qualified as
+   *     "dailyNavJdbcTemplate")
+   * @param properties configuration properties for the Daily NAV service
+   */
   @Autowired
   public DailyNavHealthService(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
@@ -119,6 +125,14 @@ public class DailyNavHealthService {
     return status;
   }
 
+  /**
+   * Evaluate whether the Daily NAV subsystem meets the minimum health criteria.
+   *
+   * @param status the aggregated health status containing connectivity, counts, and freshness
+   *     indicators
+   * @return `true` if the database is accessible, the scheme count is at least 100, the NAV record
+   *     count is at least 1000, and the data is not stale; `false` otherwise
+   */
   private static boolean isOverallHealthy(DailyNavHealthStatus status) {
     boolean overallHealthy = status.isDatabaseAccessible();
     Integer schemeCount = status.getSchemeCount();
@@ -137,7 +151,15 @@ public class DailyNavHealthService {
     return overallHealthy;
   }
 
-  /** Simple health check that returns true if the database is accessible and has data */
+  /**
+   * Performs a quick health check of the Daily NAV data store.
+   *
+   * <p>Minimal data means the database is reachable and contains at least one scheme and at least
+   * one NAV record.
+   *
+   * @return true if the database is reachable and contains minimal data (at least one scheme and
+   *     one NAV record), false otherwise.
+   */
   boolean isHealthy() {
     try {
       return checkDatabaseConnectivity() && hasMinimalData();
@@ -290,6 +312,14 @@ public class DailyNavHealthService {
     return latestDataDate == null || is10DaysOldData(latestDataDate);
   }
 
+  /**
+   * Determines whether the provided latest data date is more than ten days older than the current
+   * date according to the service clock.
+   *
+   * @param latestDataDate the most recent data date to evaluate; may be null
+   * @return `true` if `latestDataDate` is more than ten days before now or cannot be evaluated
+   *     (including when null), `false` otherwise
+   */
   boolean is10DaysOldData(LocalDate latestDataDate) {
     try {
       // Consider data stale if it's more than 10 days old
