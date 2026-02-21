@@ -159,27 +159,28 @@ public class DailyNavAutoConfiguration {
     return args -> initializer.initializeDatabaseAsync();
   }
 
+  /**
+   * Provides a ThreadPoolTaskExecutor for Daily NAV asynchronous tasks.
+   *
+   * <p>The executor is configured with a core pool size of 2, maximum pool size of 5, a queue
+   * capacity of 50, and thread name prefix "daily-nav-".
+   *
+   * @return the configured ThreadPoolTaskExecutor instance
+   */
+  @Bean(name = "dailyNavTaskExecutor")
+  @ConditionalOnMissingBean(name = "dailyNavTaskExecutor")
+  ThreadPoolTaskExecutor dailyNavTaskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(2);
+    executor.setMaxPoolSize(5);
+    executor.setQueueCapacity(50);
+    executor.setThreadNamePrefix("daily-nav-");
+    executor.setWaitForTasksToCompleteOnShutdown(true);
+    return executor;
+  }
+
   @Configuration
   @EnableAsync
   @ConditionalOnProperty(prefix = "daily.nav", name = "enable-async", havingValue = "true")
-  static class AsyncConfig {
-
-    /**
-     * Provides a ThreadPoolTaskExecutor for Daily NAV asynchronous tasks.
-     *
-     * <p>The executor is configured with a core pool size of 2, maximum pool size of 5, a queue
-     * capacity of 50, and thread name prefix "daily-nav-".
-     *
-     * @return the configured ThreadPoolTaskExecutor instance
-     */
-    @Bean(name = "dailyNavTaskExecutor")
-    ThreadPoolTaskExecutor dailyNavTaskExecutor() {
-      ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-      executor.setCorePoolSize(2);
-      executor.setMaxPoolSize(5);
-      executor.setQueueCapacity(50);
-      executor.setThreadNamePrefix("daily-nav-");
-      return executor;
-    }
-  }
+  static class AsyncConfig {}
 }

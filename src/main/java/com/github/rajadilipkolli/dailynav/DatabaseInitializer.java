@@ -95,13 +95,14 @@ public class DatabaseInitializer {
    */
   boolean restoreDatabaseFromZst() {
     boolean databaseRestored = false;
+    File tempDb = null;
     try {
       ClassPathResource resource = new ClassPathResource("funds.db.zst");
       if (!resource.exists()) {
         logger.info("funds.db.zst not found in classpath, falling back to SQL script");
         return false;
       }
-      File tempDb = File.createTempFile("funds", ".db");
+      tempDb = File.createTempFile("funds", ".db");
       try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
           OutputStream out = new FileOutputStream(tempDb)) {
         byte[] buffer = new byte[8192];
@@ -112,41 +113,47 @@ public class DatabaseInitializer {
       }
       logger.info("Restored database from funds.db.zst to {}", tempDb.getAbsolutePath());
       // If using a file-based DB, copy to the configured location
-      try {
-        String dbPath = properties.getDatabasePath();
-        if (dbPath == null || dbPath.isBlank()) {
-          logger.info("Database path is not configured, skipping restoration");
-        } else if (!dbPath.contains(":memory:")) {
-          File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
-          Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-          logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
-          databaseRestored = true;
-        } else {
-          try {
-            // sqlite-jdbc extension: "restore from [filename]"
-            // This copies the entire database from the file into the current connection
-            jdbcTemplate.execute(
-                (ConnectionCallback<Void>)
-                    con -> {
-                      try (var st = con.createStatement()) {
-                        st.executeUpdate(
-                            "restore from '" + tempDb.getAbsolutePath().replace("'", "''") + "'");
-                      }
-                      return null;
-                    });
+      String dbPath = properties.getDatabasePath();
+      if (dbPath == null || dbPath.isBlank()) {
+        logger.info("Database path is not configured, skipping restoration");
+      } else if (!dbPath.contains(":memory:")) {
+        File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
+        Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
+        databaseRestored = true;
+      } else {
+        try {
+          // sqlite-jdbc extension: "restore from [filename]"
+          // This copies the entire database from the file into the current connection
+          File finalTempDb = tempDb;
+          jdbcTemplate.execute(
+              (ConnectionCallback<Void>)
+                  con -> {
+                    try (var st = con.createStatement()) {
+                      st.executeUpdate(
+                          "restore from '"
+                              + finalTempDb.getAbsolutePath().replace("'", "''")
+                              + "'");
+                    }
+                    return null;
+                  });
 
-            logger.info("Loaded restored database into in-memory database");
-            databaseRestored = true;
-          } catch (Exception e) {
-            logger.error("Failed to load restored database into memory: {}", e.getMessage());
-          }
+          logger.info("Loaded restored database into in-memory database");
+          databaseRestored = true;
+        } catch (Exception e) {
+          logger.error("Failed to load restored database into memory: {}", e.getMessage());
         }
-      } finally {
-        // Clean up temp file
-        Files.deleteIfExists(tempDb.toPath());
       }
     } catch (Exception e) {
       logger.warn("Failed to restore database from funds.db.zst: {}", e.getMessage());
+    } finally {
+      if (tempDb != null && tempDb.exists()) {
+        if (tempDb.delete()) {
+          logger.debug("Deleted temporary database file: {}", tempDb.getAbsolutePath());
+        } else {
+          logger.warn("Could not delete temporary database file: {}", tempDb.getAbsolutePath());
+        }
+      }
     }
     return databaseRestored;
   }
@@ -172,10 +179,13 @@ public class DatabaseInitializer {
           navCount,
           securityCount);
 
-      // Get date range of data
+      // Get date range of data (single consolidated query)
       try {
-        String minDate = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
-        String maxDate = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
+        var row =
+            jdbcTemplate.queryForMap(
+                "SELECT MIN(date) AS min_date, MAX(date) AS max_date FROM nav");
+        String minDate = (row.get("min_date") != null) ? row.get("min_date").toString() : null;
+        String maxDate = (row.get("max_date") != null) ? row.get("max_date").toString() : null;
         logger.info("NAV data available from {} to {}", minDate, maxDate);
       } catch (Exception e) {
         logger.debug("Could not determine date range: {}", e.getMessage());
