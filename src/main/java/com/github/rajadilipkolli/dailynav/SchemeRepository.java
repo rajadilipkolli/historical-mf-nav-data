@@ -14,6 +14,11 @@ class SchemeRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
+  /**
+   * Create a repository for accessing scheme records using the provided JdbcTemplate.
+   *
+   * @param jdbcTemplate the JdbcTemplate configured with the "dailyNavJdbcTemplate" qualifier used for database access
+   */
   public SchemeRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }

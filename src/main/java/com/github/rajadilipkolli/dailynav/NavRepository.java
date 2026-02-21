@@ -15,6 +15,9 @@ class NavRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
+  /**
+   * Constructs a NavRepository backed by the provided JdbcTemplate.
+   */
   public NavRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }

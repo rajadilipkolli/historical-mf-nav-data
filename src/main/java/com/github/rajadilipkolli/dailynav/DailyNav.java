@@ -6,6 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 /** Entry point for using the Daily NAV library in non-Spring applications. */
 public final class DailyNav {
 
+  /**
+   * Private constructor to prevent instantiation of this utility class.
+   */
   private DailyNav() {
     // Static utility class
   }
@@ -17,8 +20,12 @@ public final class DailyNav {
    * @return A fully initialized MutualFundService.
    */
   /**
-   * Creates and initializes a closable MutualFundService instance. Caller must close the returned
-   * CloseableMutualFundService to release the underlying DataSource resources.
+   * Create and initialize a CloseableMutualFundService for the configured database.
+   *
+   * If `dbFile` is non-null, the service will use a persistent SQLite database at that path; otherwise an in-memory database is used.
+   *
+   * @param dbFile path to a SQLite database file, or `null` to use an in-memory database
+   * @return a CloseableMutualFundService that wraps the MutualFundService and its DataSource; close it to release DataSource resources
    */
   public static CloseableMutualFundService create(String dbFile) {
     DailyNavProperties properties = new DailyNavProperties();
@@ -45,8 +52,10 @@ public final class DailyNav {
 
   /** Creates a health service for monitoring the library. */
   /**
-   * Creates a closable DailyNavHealthService. Caller must close the returned
-   * CloseableDailyNavHealthService to release the underlying DataSource resources.
+   * Create a closeable DailyNavHealthService backed by a HikariDataSource.
+   *
+   * @param dbFile path to a persistent SQLite database file; if null an in-memory database is used
+   * @return a CloseableDailyNavHealthService that delegates to the health service and closes the underlying DataSource when closed
    */
   public static CloseableDailyNavHealthService createHealthService(String dbFile) {
     DailyNavProperties properties = new DailyNavProperties();
@@ -62,6 +71,15 @@ public final class DailyNav {
     return new CloseableDailyNavHealthService(delegate, dataSource);
   }
 
+  /**
+   * Create and configure a HikariDataSource for the application's SQLite database.
+   *
+   * Configures the data source to use the SQLite JDBC driver and sets the JDBC URL
+   * from the provided properties.
+   *
+   * @param properties configuration containing the database path
+   * @return a configured HikariDataSource ready for use
+   */
   private static HikariDataSource createDataSource(DailyNavProperties properties) {
     HikariDataSource dataSource = new HikariDataSource();
     dataSource.setDriverClassName("org.sqlite.JDBC");
