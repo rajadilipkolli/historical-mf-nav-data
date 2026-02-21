@@ -25,9 +25,7 @@ public class DailyNavHealthService {
   private final DailyNavProperties properties;
   private final Clock clock;
 
-  /**
-   * Creates a DailyNavHealthService configured with the system default clock.
-   */
+  /** Creates a DailyNavHealthService configured with the system default clock. */
   @Autowired
   public DailyNavHealthService(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
@@ -37,7 +35,8 @@ public class DailyNavHealthService {
   /**
    * Constructs a DailyNavHealthService with the provided JDBC template, properties, and clock.
    *
-   * @param clock the Clock to use for time-based checks; if null, the system default clock will be used
+   * @param clock the Clock to use for time-based checks; if null, the system default clock will be
+   *     used
    */
   DailyNavHealthService(JdbcTemplate jdbcTemplate, DailyNavProperties properties, Clock clock) {
     this.jdbcTemplate = jdbcTemplate;
@@ -48,9 +47,9 @@ public class DailyNavHealthService {
   /**
    * Performs a health check of the Daily NAV library.
    *
-   * The returned status includes database connectivity, table counts (schemes, NAV records, securities),
-   * data date range (start and end), latest data date, staleness flag, detected issues, overall health,
-   * and configuration flags (autoInit, indexes, databasePath).
+   * <p>The returned status includes database connectivity, table counts (schemes, NAV records,
+   * securities), data date range (start and end), latest data date, staleness flag, detected
+   * issues, overall health, and configuration flags (autoInit, indexes, databasePath).
    *
    * @return DailyNavHealthStatus populated with the health information described above.
    */
@@ -151,16 +150,13 @@ public class DailyNavHealthService {
   /**
    * Collects basic table counts and data date-range statistics for the Daily NAV dataset.
    *
-   * @return a map of statistic names to values:
-   *         - "schemes": Integer count of schemes
-   *         - "navRecords": Integer count of NAV records
-   *         - "securities": Integer count of securities
-   *         - "startDate": LocalDate start of available data or null
-   *         - "endDate": LocalDate end of available data or null
-   *         - "latestDataDate": LocalDate most recent data date (same as endDate) or null
-   *         - "dataStale": Boolean indicating whether the latest data is considered stale
-   *         - "dataSpanDays": Long number of days between startDate and endDate (present when both dates exist)
-   *         - "error": String error message when statistics could not be retrieved
+   * @return a map of statistic names to values: - "schemes": Integer count of schemes -
+   *     "navRecords": Integer count of NAV records - "securities": Integer count of securities -
+   *     "startDate": LocalDate start of available data or null - "endDate": LocalDate end of
+   *     available data or null - "latestDataDate": LocalDate most recent data date (same as
+   *     endDate) or null - "dataStale": Boolean indicating whether the latest data is considered
+   *     stale - "dataSpanDays": Long number of days between startDate and endDate (present when
+   *     both dates exist) - "error": String error message when statistics could not be retrieved
    */
   Map<String, Object> getStatistics() {
     Map<String, Object> stats = new LinkedHashMap<>();
@@ -220,10 +216,11 @@ public class DailyNavHealthService {
   /**
    * Retrieves row counts for the primary tables used by the service.
    *
-   * Counts are provided for "schemes", "navRecords", and "securities". If a table count cannot be obtained,
-   * the corresponding value is -1.
+   * <p>Counts are provided for "schemes", "navRecords", and "securities". If a table count cannot
+   * be obtained, the corresponding value is -1.
    *
-   * @return a map with keys "schemes", "navRecords", and "securities" mapped to their row counts or -1 when the count could not be retrieved
+   * @return a map with keys "schemes", "navRecords", and "securities" mapped to their row counts or
+   *     -1 when the count could not be retrieved
    */
   private Map<String, Integer> getTableCounts() {
     Map<String, Integer> counts = new LinkedHashMap<>();
@@ -259,11 +256,12 @@ public class DailyNavHealthService {
   /**
    * Retrieve the date range present in the `nav` table.
    *
-   * The returned map contains two entries:
-   * - "startDate": the earliest `date` from the `nav` table, or `null` if unavailable.
-   * - "endDate": the latest `date` from the `nav` table, or `null` if unavailable.
+   * <p>The returned map contains two entries: - "startDate": the earliest `date` from the `nav`
+   * table, or `null` if unavailable. - "endDate": the latest `date` from the `nav` table, or `null`
+   * if unavailable.
    *
-   * @return a Map with keys "startDate" and "endDate" whose values are the corresponding LocalDate or `null` when no date is found or on error
+   * @return a Map with keys "startDate" and "endDate" whose values are the corresponding LocalDate
+   *     or `null` when no date is found or on error
    */
   private Map<String, LocalDate> getDataDateRange() {
     Map<String, LocalDate> dateRange = new LinkedHashMap<>();

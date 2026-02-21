@@ -30,7 +30,8 @@ public class DatabaseInitializer {
   private final DailyNavProperties properties;
 
   /**
-   * Constructs a DatabaseInitializer configured with the provided JdbcTemplate and DailyNavProperties.
+   * Constructs a DatabaseInitializer configured with the provided JdbcTemplate and
+   * DailyNavProperties.
    */
   public DatabaseInitializer(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
@@ -38,9 +39,7 @@ public class DatabaseInitializer {
     this.properties = properties;
   }
 
-  /**
-   * Schedules database initialization to run on the configured "dailyNavTaskExecutor".
-   */
+  /** Schedules database initialization to run on the configured "dailyNavTaskExecutor". */
   @Async("dailyNavTaskExecutor")
   public void initializeDatabaseAsync() {
     initializeDatabase();
@@ -86,13 +85,13 @@ public class DatabaseInitializer {
   /**
    * Attempt to restore the SQLite database from the classpath resource "funds.db.zst".
    *
-   * If a file-based database path is configured, the restored database file is copied to that path.
-   * If the configured path refers to an in-memory database, the restored file is loaded into the
-   * current connection using SQLite's restore mechanism. The temporary file used during
+   * <p>If a file-based database path is configured, the restored database file is copied to that
+   * path. If the configured path refers to an in-memory database, the restored file is loaded into
+   * the current connection using SQLite's restore mechanism. The temporary file used during
    * restoration is deleted before returning.
    *
-   * @return `true` if the database was successfully restored (copied to the configured file path
-   *         or loaded into an in-memory database), `false` otherwise.
+   * @return `true` if the database was successfully restored (copied to the configured file path or
+   *     loaded into an in-memory database), `false` otherwise.
    */
   boolean restoreDatabaseFromZst() {
     boolean databaseRestored = false;
@@ -155,9 +154,9 @@ public class DatabaseInitializer {
   /**
    * Log basic statistics about the loaded database.
    *
-   * Queries and logs the number of schemes, NAV records, and securities. Then attempts
-   * to query and log the minimum and maximum NAV dates. If the counts cannot be retrieved
-   * a warning is logged; if the date range cannot be determined a debug message is logged.
+   * <p>Queries and logs the number of schemes, NAV records, and securities. Then attempts to query
+   * and log the minimum and maximum NAV dates. If the counts cannot be retrieved a warning is
+   * logged; if the date range cannot be determined a debug message is logged.
    */
   void logDatabaseStats() {
     try {

@@ -167,8 +167,8 @@ public class DailyNavAutoConfiguration {
     /**
      * Provides a ThreadPoolTaskExecutor for Daily NAV asynchronous tasks.
      *
-     * The executor is configured with a core pool size of 2, maximum pool size of 5,
-     * a queue capacity of 50, and thread name prefix "daily-nav-".
+     * <p>The executor is configured with a core pool size of 2, maximum pool size of 5, a queue
+     * capacity of 50, and thread name prefix "daily-nav-".
      *
      * @return the configured ThreadPoolTaskExecutor instance
      */
