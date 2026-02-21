@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -71,6 +72,20 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
+   * Provides a NamedParameterJdbcTemplate using the Daily NAV JdbcTemplate.
+   *
+   * @param jdbcTemplate the Daily NAV JdbcTemplate
+   * @return a NamedParameterJdbcTemplate backed by the Daily NAV JdbcTemplate
+   */
+  @Bean(name = "dailyNavNamedParameterJdbcTemplate")
+  @ConditionalOnMissingBean(name = "dailyNavNamedParameterJdbcTemplate")
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  NamedParameterJdbcTemplate namedParameterJdbcTemplate(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    return new NamedParameterJdbcTemplate(jdbcTemplate);
+  }
+
+  /**
    * Create a NavRepository backed by the Daily NAV JdbcTemplate.
    *
    * @return a NavRepository that uses the Daily NAV JdbcTemplate
@@ -104,8 +119,10 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   SecurityRepository securityRepository(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
-    return new SecurityRepository(jdbcTemplate);
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      @Qualifier("dailyNavNamedParameterJdbcTemplate")
+          NamedParameterJdbcTemplate dailyNavNamedParameterJdbcTemplate) {
+    return new SecurityRepository(jdbcTemplate, dailyNavNamedParameterJdbcTemplate);
   }
 
   /**

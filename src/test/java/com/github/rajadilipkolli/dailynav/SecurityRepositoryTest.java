@@ -10,13 +10,15 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 class SecurityRepositoryTest extends AbstractRepositoryTest {
   private SecurityRepository securityRepository;
 
   @BeforeEach
   void setUpSecurityRepo() {
-    securityRepository = new SecurityRepository(jdbcTemplate);
+    securityRepository =
+        new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
   }
 
   @Override

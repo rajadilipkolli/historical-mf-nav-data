@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 class MutualFundServiceTest extends AbstractRepositoryTest {
   private static final LocalDate REFERENCE_DATE = LocalDate.of(2025, 7, 1);
@@ -25,7 +26,8 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     // Create repositories with the test JdbcTemplate
     NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
-    SecurityRepository securityRepository = new SecurityRepository(jdbcTemplate);
+    SecurityRepository securityRepository =
+        new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
     DatabaseInitializer databaseInitializer =
         new DatabaseInitializer(jdbcTemplate, new DailyNavProperties());
     databaseInitializer.initializeDatabase();

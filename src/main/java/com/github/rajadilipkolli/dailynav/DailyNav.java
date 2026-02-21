@@ -3,6 +3,7 @@ package com.github.rajadilipkolli.dailynav;
 import com.zaxxer.hikari.HikariDataSource;
 import org.jspecify.annotations.NonNull;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /** Entry point for using the Daily NAV library in non-Spring applications. */
 public final class DailyNav {
@@ -44,7 +45,10 @@ public final class DailyNav {
     // Wire up repositories and service
     NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
-    SecurityRepository securityRepository = new SecurityRepository(jdbcTemplate);
+    NamedParameterJdbcTemplate namedParameterJdbcTemplate =
+        new NamedParameterJdbcTemplate(jdbcTemplate);
+    SecurityRepository securityRepository =
+        new SecurityRepository(jdbcTemplate, namedParameterJdbcTemplate);
 
     return new MutualFundService(
         navByIsinRepository, schemeRepository, securityRepository, initializer);

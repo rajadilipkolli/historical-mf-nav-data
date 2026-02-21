@@ -40,7 +40,7 @@ public class MutualFundService {
    *
    * @param isin the ISIN to look up
    * @return the latest NAV record
-   * @throws RuntimeException if no NAV data is found for the given ISIN
+   * @throws NoSuchElementException if no NAV data is found for the given ISIN
    */
   public NavByIsin getLatestNavByIsinOrThrow(String isin) {
     return getLatestNavByIsin(isin)

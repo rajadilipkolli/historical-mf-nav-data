@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /** Repository for Security data access */
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Repository;
 class SecurityRepository {
 
   private final JdbcTemplate jdbcTemplate;
+  private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   /**
    * Create a SecurityRepository backed by the provided JdbcTemplate.
@@ -21,8 +24,12 @@ class SecurityRepository {
    * @param jdbcTemplate the JdbcTemplate configured for the daily NAV datasource (bean qualifier
    *     "dailyNavJdbcTemplate") used for repository database operations
    */
-  public SecurityRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+  public SecurityRepository(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      @Qualifier("dailyNavNamedParameterJdbcTemplate")
+          NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
+    this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
   }
 
   private static final RowMapper<Security> SECURITY_ROW_MAPPER =
@@ -54,12 +61,10 @@ class SecurityRepository {
     if (schemeCodes == null || schemeCodes.isEmpty()) {
       return List.of();
     }
-    String placeholders = String.join(",", schemeCodes.stream().map(c -> "?").toList());
     String sql =
-        "SELECT isin, type, scheme_code FROM securities WHERE scheme_code IN ("
-            + placeholders
-            + ")";
-    return jdbcTemplate.query(sql, SECURITY_ROW_MAPPER, schemeCodes.toArray());
+        "SELECT isin, type, scheme_code FROM securities WHERE scheme_code IN (:schemeCodes)";
+    var params = new MapSqlParameterSource("schemeCodes", schemeCodes);
+    return namedParameterJdbcTemplate.query(sql, params, SECURITY_ROW_MAPPER);
   }
 
   /** Find all securities */
