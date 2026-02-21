@@ -35,8 +35,9 @@ public class DailyNavHealthController {
   /**
    * Create a DailyNavHealthController with its required dependencies.
    *
-   * @param jdbcTemplate JdbcTemplate configured for Daily NAV data access (injected with qualifier "dailyNavJdbcTemplate")
-   * @param properties   configuration properties for Daily NAV behavior
+   * @param jdbcTemplate JdbcTemplate configured for Daily NAV data access (injected with qualifier
+   *     "dailyNavJdbcTemplate")
+   * @param properties configuration properties for Daily NAV behavior
    * @param healthService service used to evaluate application health
    */
   public DailyNavHealthController(
@@ -51,7 +52,8 @@ public class DailyNavHealthController {
   /**
    * Exposes the application's health status for the Daily NAV service.
    *
-   * @return a ResponseEntity containing the current DailyNavHealthStatus; HTTP 200 if the service is healthy, HTTP 503 (Service Unavailable) if not healthy.
+   * @return a ResponseEntity containing the current DailyNavHealthStatus; HTTP 200 if the service
+   *     is healthy, HTTP 503 (Service Unavailable) if not healthy.
    */
   @GetMapping("/health")
   public ResponseEntity<DailyNavHealthStatus> health() {
@@ -65,18 +67,15 @@ public class DailyNavHealthController {
   /**
    * Provide runtime configuration flags and basic dataset statistics for Daily NAV.
    *
-   * The returned map includes non-sensitive configuration indicators and sample data information.
-   * Common keys:
-   * - "autoInit": whether automatic initialization is enabled
-   * - "indexesEnabled": whether index creation is enabled
-   * - "databasePath": non-sensitive indicator of database location ("unknown", "in-memory", "file", or "external")
-   * - "databaseType": same value as "databasePath"
-   * - "debugMode": whether debug mode is enabled
-   * - "dataStartDate": earliest NAV date present (if available)
-   * - "dataEndDate": latest NAV date present (if available)
-   * - "dataSpanDays": number of days between start and end dates (if both present)
-   * - "sampleSchemes": up to five scheme names sampled from the database
-   * - "error": present when detailed data retrieval fails
+   * <p>The returned map includes non-sensitive configuration indicators and sample data
+   * information. Common keys: - "autoInit": whether automatic initialization is enabled -
+   * "indexesEnabled": whether index creation is enabled - "databasePath": non-sensitive indicator
+   * of database location ("unknown", "in-memory", "file", or "external") - "databaseType": same
+   * value as "databasePath" - "debugMode": whether debug mode is enabled - "dataStartDate":
+   * earliest NAV date present (if available) - "dataEndDate": latest NAV date present (if
+   * available) - "dataSpanDays": number of days between start and end dates (if both present) -
+   * "sampleSchemes": up to five scheme names sampled from the database - "error": present when
+   * detailed data retrieval fails
    *
    * @return a map of information entries describing configuration and basic dataset statistics
    */

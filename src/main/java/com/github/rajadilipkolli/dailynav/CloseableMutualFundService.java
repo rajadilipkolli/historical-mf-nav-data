@@ -13,9 +13,10 @@ public class CloseableMutualFundService implements AutoCloseable {
   private final HikariDataSource dataSource;
 
   /**
-   * Constructs a CloseableMutualFundService that wraps the given MutualFundService and its HikariDataSource.
+   * Constructs a CloseableMutualFundService that wraps the given MutualFundService and its
+   * HikariDataSource.
    *
-   * @param delegate   the MutualFundService whose operations will be delegated
+   * @param delegate the MutualFundService whose operations will be delegated
    * @param dataSource the HikariDataSource that will be closed when this wrapper is closed
    */
   public CloseableMutualFundService(MutualFundService delegate, HikariDataSource dataSource) {
@@ -35,8 +36,8 @@ public class CloseableMutualFundService implements AutoCloseable {
   /**
    * Closes the wrapped HikariDataSource if one is present.
    *
-   * @throws IOException if an error occurs while closing the DataSource; the original exception
-   *                     is set as the cause.
+   * @throws IOException if an error occurs while closing the DataSource; the original exception is
+   *     set as the cause.
    */
   @Override
   public void close() throws IOException {

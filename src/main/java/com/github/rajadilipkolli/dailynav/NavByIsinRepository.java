@@ -18,7 +18,8 @@ class NavByIsinRepository {
   /**
    * Constructs a NavByIsinRepository backed by the provided JdbcTemplate.
    *
-   * @param jdbcTemplate the JdbcTemplate qualified as "dailyNavJdbcTemplate" used for database access
+   * @param jdbcTemplate the JdbcTemplate qualified as "dailyNavJdbcTemplate" used for database
+   *     access
    */
   public NavByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;

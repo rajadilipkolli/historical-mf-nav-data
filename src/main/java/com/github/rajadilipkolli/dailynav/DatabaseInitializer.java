@@ -33,7 +33,8 @@ public class DatabaseInitializer {
    * Create a DatabaseInitializer with the provided JdbcTemplate and configuration.
    *
    * @param jdbcTemplate the JdbcTemplate configured for the Daily NAV database
-   * @param properties   configuration properties that control initialization behavior (e.g., auto-init, index creation, debug)
+   * @param properties configuration properties that control initialization behavior (e.g.,
+   *     auto-init, index creation, debug)
    */
   public DatabaseInitializer(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
@@ -41,9 +42,7 @@ public class DatabaseInitializer {
     this.properties = properties;
   }
 
-  /**
-   * Initialize the application's database according to the configured initialization settings.
-   */
+  /** Initialize the application's database according to the configured initialization settings. */
   @Async("dailyNavTaskExecutor")
   public void initializeDatabaseAsync() {
     initializeDatabase();
@@ -57,7 +56,8 @@ public class DatabaseInitializer {
    * compressed database if available, falling back to executing the embedded SQL script) and,
    * optionally, creates indexes and logs database statistics when complete.
    *
-   * @throws RuntimeException if an error occurs while restoring, loading, or initializing the database
+   * @throws RuntimeException if an error occurs while restoring, loading, or initializing the
+   *     database
    */
   public void initializeDatabase() {
     if (!properties.isAutoInit()) {
@@ -278,9 +278,9 @@ public class DatabaseInitializer {
   /**
    * Create the application's database indexes required for NAV and securities queries.
    *
-   * Attempts to create indexes for nav(date, scheme_code), nav(scheme_code),
-   * securities(scheme_code) and securities(isin). Non-fatal failures while creating
-   * individual indexes are logged and do not stop the remaining index creation.
+   * <p>Attempts to create indexes for nav(date, scheme_code), nav(scheme_code),
+   * securities(scheme_code) and securities(isin). Non-fatal failures while creating individual
+   * indexes are logged and do not stop the remaining index creation.
    */
   void createIndexes() {
     logger.info("Creating database indexes...");
@@ -301,9 +301,10 @@ public class DatabaseInitializer {
   }
 
   /**
-   * Executes the provided SQL statement (typically an index creation) and logs success or a non-fatal failure.
+   * Executes the provided SQL statement (typically an index creation) and logs success or a
+   * non-fatal failure.
    *
-   * @param sql         the SQL statement to execute (for example, a CREATE INDEX statement)
+   * @param sql the SQL statement to execute (for example, a CREATE INDEX statement)
    * @param description a short, human-readable description of the index used in log messages
    */
   private void executeSilently(String sql, String description) {

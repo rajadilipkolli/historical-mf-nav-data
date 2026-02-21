@@ -17,7 +17,8 @@ class SecurityRepository {
   /**
    * Create a SecurityRepository backed by the provided JdbcTemplate.
    *
-   * @param jdbcTemplate the JdbcTemplate configured for the daily NAV datasource (bean qualifier "dailyNavJdbcTemplate") used for repository database operations
+   * @param jdbcTemplate the JdbcTemplate configured for the daily NAV datasource (bean qualifier
+   *     "dailyNavJdbcTemplate") used for repository database operations
    */
   public SecurityRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;

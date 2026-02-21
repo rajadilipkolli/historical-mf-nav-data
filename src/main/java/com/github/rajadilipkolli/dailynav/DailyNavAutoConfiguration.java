@@ -29,17 +29,19 @@ public class DailyNavAutoConfiguration {
   /**
    * Create a DailyNavAutoConfiguration using the provided Daily NAV settings.
    *
-   * @param properties configuration properties for Daily NAV, including database path and auto-init options
+   * @param properties configuration properties for Daily NAV, including database path and auto-init
+   *     options
    */
   public DailyNavAutoConfiguration(DailyNavProperties properties) {
     this.properties = properties;
   }
 
   /**
-   * Creates a DataSource configured for the Daily NAV SQLite database defined in {@link DailyNavProperties}.
+   * Creates a DataSource configured for the Daily NAV SQLite database defined in {@link
+   * DailyNavProperties}.
    *
-   * The returned datasource is tuned for SQLite usage and executes initialization SQL to enable WAL journal mode
-   * and set synchronous mode to NORMAL.
+   * <p>The returned datasource is tuned for SQLite usage and executes initialization SQL to enable
+   * WAL journal mode and set synchronous mode to NORMAL.
    *
    * @return the configured HikariDataSource for the Daily NAV database
    */
@@ -140,7 +142,8 @@ public class DailyNavAutoConfiguration {
   /**
    * Creates the DailyNavHealthService used to perform health checks for the Daily NAV components.
    *
-   * @param jdbcTemplate the JdbcTemplate backed by the daily NAV data source (qualified "dailyNavJdbcTemplate")
+   * @param jdbcTemplate the JdbcTemplate backed by the daily NAV data source (qualified
+   *     "dailyNavJdbcTemplate")
    * @param properties configuration properties for Daily NAV
    * @return a DailyNavHealthService configured with the provided JdbcTemplate and properties
    */
@@ -155,8 +158,10 @@ public class DailyNavAutoConfiguration {
   /**
    * Creates a DatabaseInitializer to prepare and initialize the Daily NAV database.
    *
-   * @param jdbcTemplate the JdbcTemplate bound to the Daily NAV datasource used for database operations
-   * @param properties   Daily NAV configuration properties that control database location and initialization behavior
+   * @param jdbcTemplate the JdbcTemplate bound to the Daily NAV datasource used for database
+   *     operations
+   * @param properties Daily NAV configuration properties that control database location and
+   *     initialization behavior
    * @return a DatabaseInitializer configured to initialize and manage the Daily NAV database
    */
   @Bean
