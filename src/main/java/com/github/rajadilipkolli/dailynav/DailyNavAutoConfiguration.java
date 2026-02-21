@@ -88,6 +88,14 @@ public class DailyNavAutoConfiguration {
     return new NavByIsinRepository(jdbcTemplate);
   }
 
+  /**
+   * Create a MutualFundService configured with the library's repository dependencies.
+   *
+   * @param navByIsinRepository repository providing NAV lookup by ISIN
+   * @param schemeRepository repository for mutual fund scheme metadata
+   * @param securityRepository repository for security/instrument data
+   * @return a MutualFundService instance backed by the provided repositories
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
@@ -114,6 +122,14 @@ public class DailyNavAutoConfiguration {
     return new DatabaseInitializer(jdbcTemplate, properties);
   }
 
+  /**
+   * Creates the web controller that exposes health endpoints for the Daily NAV library.
+   *
+   * @param jdbcTemplate the dedicated JdbcTemplate for the Daily NAV database
+   * @param properties configuration properties for the Daily NAV library
+   * @param healthService service that evaluates the library's health
+   * @return the configured DailyNavHealthController instance
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnWebApplication
@@ -148,6 +164,14 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnProperty(prefix = "daily.nav", name = "enable-async", havingValue = "true")
   static class AsyncConfig {
 
+    /**
+     * Provides a ThreadPoolTaskExecutor for Daily NAV asynchronous tasks.
+     *
+     * The executor is configured with a core pool size of 2, maximum pool size of 5,
+     * a queue capacity of 50, and thread name prefix "daily-nav-".
+     *
+     * @return the configured ThreadPoolTaskExecutor instance
+     */
     @Bean(name = "dailyNavTaskExecutor")
     ThreadPoolTaskExecutor dailyNavTaskExecutor() {
       ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
