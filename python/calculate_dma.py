@@ -72,19 +72,20 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
         lambda x: x.abs().rolling(window=200, min_periods=1).max() > 0.1
     )
     
-    # Identifing schemes that have at least one jump in their data
+    # Identifying schemes that have at least one jump in their data
     # We want to exclude schemes if a jump occurred in the window we are analyzing
     # To be safe, we'll exclude any scheme that has a jump in the RECORDS WE JUST CALCULATED DMA FOR.
     # Actually, a better way is to exclude schemes where the CURRENT (latest) record
     # has a jump in its 200-day window.
     
-    # Calculate which schemes have a jump in their LATEST window
-    latest_per_scheme = df.groupby('scheme_code').tail(1).copy()
-    jumpy_schemes = latest_per_scheme[latest_per_scheme['has_jump'] == True]['scheme_code'].unique()
-    
     # Only keep rows where we have enough data for 200-day average
-    # AND where the scheme is not jumpy
     df = df.dropna(subset=['dma_200'])
+
+    # Calculate which schemes have a jump in their LATEST window (after filtering)
+    latest_per_scheme = df.groupby('scheme_code').tail(1).copy()
+    jumpy_schemes = latest_per_scheme.loc[latest_per_scheme['has_jump'], 'scheme_code'].unique()
+
+    # AND where the scheme is not jumpy
     df = df[~df['scheme_code'].isin(jumpy_schemes)]
     
     return df
@@ -92,7 +93,7 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
 def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
     """
     Get the latest NAV data for each scheme (current day).
-    Only includes schemes whose latest record is recent (within last 15 days).
+    Only includes schemes whose latest record is recent (within last 200 days).
     """
     # Get the most recent date for each filtered scheme
     latest_data = (
