@@ -155,7 +155,6 @@ public class DailyNavAutoConfiguration {
       executor.setMaxPoolSize(5);
       executor.setQueueCapacity(50);
       executor.setThreadNamePrefix("daily-nav-");
-      executor.initialize();
       return executor;
     }
   }

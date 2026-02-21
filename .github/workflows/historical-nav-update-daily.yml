@@ -61,10 +61,14 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Update data
+        env:
+          LOCAL_FROM: ${{ github.event.inputs.from_date }}
+          LOCAL_TO: ${{ github.event.inputs.to_date }}
         run: |
-          if [[ -n "${{ github.event.inputs.from_date }}" && -n "${{ github.event.inputs.to_date }}" ]]; then
-            echo "Running fetch.py with range: ${{ github.event.inputs.from_date }} to ${{ github.event.inputs.to_date }}"
-            python3 python/fetch.py "${{ github.event.inputs.from_date }}" "${{ github.event.inputs.to_date }}"
+          # Use shell variables (LOCAL_FROM, LOCAL_TO) so expansions happen inside the shell
+          if [[ -n "${LOCAL_FROM}" && -n "${LOCAL_TO}" ]]; then
+            echo "Running fetch.py with range: ${LOCAL_FROM} to ${LOCAL_TO}"
+            python3 python/fetch.py "${LOCAL_FROM}" "${LOCAL_TO}"
           else
             echo "Running fetch.py with default behavior (no date range)"
             python3 python/fetch.py
@@ -114,10 +118,10 @@ jobs:
         id: generate-stats
         run: |
           echo "Generating database..."
-          python python/generate.py
+          python3 python/generate.py
 
           echo "Calculating 200-day moving averages..."
-          python python/calculate_dma.py
+          python3 python/calculate_dma.py
 
           echo "Extracting statistics..."
           DATA_COVERAGE_MIN=$(sqlite3 funds.db 'SELECT MIN(date) FROM nav')
@@ -196,7 +200,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: build-artifacts
-      
+
       - name: Create Release Notes
         run: |
           # Parse stats from JSON
@@ -243,7 +247,7 @@ jobs:
           
           $(cat dma_analysis.md)
           EOF
-      
+
       - name: Create GitHub Release
         run: |
           # Ensure .git exists (required for gh release)

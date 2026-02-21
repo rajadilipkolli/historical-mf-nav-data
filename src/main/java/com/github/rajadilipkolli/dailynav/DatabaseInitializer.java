@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -112,8 +113,15 @@ public class DatabaseInitializer {
           try {
             // sqlite-jdbc extension: "restore from [filename]"
             // This copies the entire database from the file into the current connection
-            String sql = "restore from '" + tempDb.getAbsolutePath().replace("'", "''") + "'";
-            jdbcTemplate.execute(sql);
+            jdbcTemplate.execute(
+                (ConnectionCallback<Void>)
+                    con -> {
+                      try (var st = con.createStatement()) {
+                        st.executeUpdate(
+                            "restore from '" + tempDb.getAbsolutePath().replace("'", "''") + "'");
+                      }
+                      return null;
+                    });
 
             logger.info("Loaded restored database into in-memory database");
             databaseRestored = true;

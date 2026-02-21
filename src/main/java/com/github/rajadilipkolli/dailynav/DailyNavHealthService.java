@@ -224,19 +224,16 @@ public class DailyNavHealthService {
     return counts;
   }
 
-  private LocalDate getLatestDataDate() {
-    Map<String, LocalDate> range = getDataDateRange();
-    return range.get("endDate");
-  }
-
   private Map<String, LocalDate> getDataDateRange() {
     Map<String, LocalDate> dateRange = new LinkedHashMap<>();
 
     try {
-      String minDateStr = jdbcTemplate.queryForObject("SELECT MIN(date) FROM nav", String.class);
-      String maxDateStr = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
-      LocalDate minDate = minDateStr != null ? LocalDate.parse(minDateStr) : null;
-      LocalDate maxDate = maxDateStr != null ? LocalDate.parse(maxDateStr) : null;
+      Map<String, Object> row =
+          jdbcTemplate.queryForMap("SELECT MIN(date) AS min_date, MAX(date) AS max_date FROM nav");
+      LocalDate minDate =
+          row.get("min_date") != null ? LocalDate.parse(row.get("min_date").toString()) : null;
+      LocalDate maxDate =
+          row.get("max_date") != null ? LocalDate.parse(row.get("max_date").toString()) : null;
 
       dateRange.put("startDate", minDate);
       dateRange.put("endDate", maxDate);
