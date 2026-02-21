@@ -107,6 +107,48 @@ def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
         
     return latest_data
 
+def deduplicate_schemes(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Deduplicate funds with similar names, prioritizing Direct plans over Regular.
+    """
+    if df.empty:
+        return df
+        
+    def normalize_name(name):
+        # Convert to lowercase and remove common descriptors
+        n = name.lower()
+        # Remove keywords that distinguish plan types but keep the base scheme name
+        keywords = [
+            'direct plan', 'regular plan', 'growth option', 'idcw option',
+            'direct', 'regular', 'plan', 'growth', 'idcw', 'payout', 'reinvestment',
+            'option', 'fund', 'funds', 'scheme', 'p-g', 'dp-g', 'p-i', 'dp-i',
+            '-', '(', ')', '.', ',', '...', '  '
+        ]
+        for kw in keywords:
+            n = n.replace(kw, ' ')
+        # Clean up extra spaces
+        return ' '.join(n.split())
+
+    df['normalized_name'] = df['scheme_name'].apply(normalize_name)
+    
+    # Priority for sorting within duplicates: Direct > Regular, Growth > IDCW
+    def get_priority(name):
+        p = 0
+        n = name.lower()
+        if 'direct' in n:
+            p += 10
+        if 'growth' in n:
+            p += 5
+        return p
+
+    df['priority'] = df['scheme_name'].apply(get_priority)
+    
+    # Sort and take the best match for each normalized name
+    df = df.sort_values(['normalized_name', 'priority', 'nav'], ascending=[True, False, False])
+    df = df.drop_duplicates(subset=['normalized_name'], keep='first')
+    
+    return df.drop(columns=['normalized_name', 'priority'])
+
 def classify_funds(latest_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Classify funds as above or below their 200-day moving average.
@@ -184,6 +226,7 @@ def generate_summary_stats(funds_above: pd.DataFrame, funds_below: pd.DataFrame,
 *Note: Only schemes with at least 200 trading days of data are included in this analysis.*
 *Weekends are excluded from the moving average calculation.*
 *Schemes must have been active (NAV update) within the last 200 days to be included.*
+*Schemes with similar names are consolidated (Direct plans are prioritized over Regular plans).*
 *Schemes with significant NAV jumps (>10%) within the 200-day window are excluded to ensure trend accuracy.*
 """
     
@@ -216,6 +259,10 @@ def main():
         # Get latest data for each scheme
         print("Getting latest NAV data...")
         latest_data = get_latest_nav_per_scheme(df_with_dma)
+        
+        # Deduplicate schemes (favoring Direct plans)
+        print("Deduplicating schemes (favoring Direct plans)...")
+        latest_data = deduplicate_schemes(latest_data)
         
         # Classify funds
         print("Classifying funds...")
