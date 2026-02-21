@@ -45,7 +45,7 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
-          java-version: 21
+          java-version: 25
           cache: 'maven'
 
       - name: Setup Python
@@ -64,10 +64,10 @@ jobs:
         run: |
           if [[ -n "${{ github.event.inputs.from_date }}" && -n "${{ github.event.inputs.to_date }}" ]]; then
             echo "Running fetch.py with range: ${{ github.event.inputs.from_date }} to ${{ github.event.inputs.to_date }}"
-            python3 fetch.py "${{ github.event.inputs.from_date }}" "${{ github.event.inputs.to_date }}"
+            python3 python/fetch.py "${{ github.event.inputs.from_date }}" "${{ github.event.inputs.to_date }}"
           else
             echo "Running fetch.py with default behavior (no date range)"
-            python3 fetch.py
+            python3 python/fetch.py
           fi
         working-directory: ${{ github.workspace }}
 
@@ -114,10 +114,10 @@ jobs:
         id: generate-stats
         run: |
           echo "Generating database..."
-          python generate.py
+          python python/generate.py
 
           echo "Calculating 200-day moving averages..."
-          python calculate_dma.py
+          python python/calculate_dma.py
 
           echo "Extracting statistics..."
           DATA_COVERAGE_MIN=$(sqlite3 funds.db 'SELECT MIN(date) FROM nav')

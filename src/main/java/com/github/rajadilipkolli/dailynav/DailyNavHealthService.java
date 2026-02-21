@@ -32,10 +32,7 @@ public class DailyNavHealthService {
   }
 
   // Package-private constructor for tests to inject a fixed clock
-  DailyNavHealthService(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DailyNavProperties properties,
-      Clock clock) {
+  DailyNavHealthService(JdbcTemplate jdbcTemplate, DailyNavProperties properties, Clock clock) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
     this.clock = clock == null ? Clock.systemDefaultZone() : clock;
@@ -66,8 +63,12 @@ public class DailyNavHealthService {
       status.setNavRecordCount(tableCounts.get("navRecords"));
       status.setSecurityCount(tableCounts.get("securities"));
 
-      // Check data freshness
-      LocalDate latestDate = getLatestDataDate();
+      // Get date range and derive latest date from it (avoid duplicate MAX(date) calls)
+      Map<String, LocalDate> dateRange = getDataDateRange();
+      status.setDataStartDate(dateRange.get("startDate"));
+      status.setDataEndDate(dateRange.get("endDate"));
+
+      LocalDate latestDate = dateRange.get("endDate");
       status.setLatestDataDate(latestDate);
 
       boolean isStale = isDataStale(latestDate);
@@ -76,11 +77,6 @@ public class DailyNavHealthService {
       if (isStale) {
         status.addIssue("Data appears to be stale (older than 10 days)");
       }
-
-      // Get date range
-      Map<String, LocalDate> dateRange = getDataDateRange();
-      status.setDataStartDate(dateRange.get("startDate"));
-      status.setDataEndDate(dateRange.get("endDate"));
 
       // Check for sufficient data
       if (status.getSchemeCount() != null
@@ -152,7 +148,7 @@ public class DailyNavHealthService {
       Map<String, LocalDate> dateRange = getDataDateRange();
       stats.putAll(dateRange);
 
-      LocalDate latestDate = getLatestDataDate();
+      LocalDate latestDate = dateRange.get("endDate");
       stats.put("latestDataDate", latestDate);
       stats.put("dataStale", isDataStale(latestDate));
 
@@ -229,13 +225,8 @@ public class DailyNavHealthService {
   }
 
   private LocalDate getLatestDataDate() {
-    try {
-      String dateStr = jdbcTemplate.queryForObject("SELECT MAX(date) FROM nav", String.class);
-      return dateStr != null ? LocalDate.parse(dateStr) : null;
-    } catch (Exception e) {
-      logger.debug("Failed to get latest data date", e);
-      return null;
-    }
+    Map<String, LocalDate> range = getDataDateRange();
+    return range.get("endDate");
   }
 
   private Map<String, LocalDate> getDataDateRange() {

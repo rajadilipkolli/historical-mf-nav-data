@@ -34,7 +34,7 @@ public class DatabaseInitializer {
     this.properties = properties;
   }
 
-  @Async
+  @Async("dailyNavTaskExecutor")
   public void initializeDatabaseAsync() {
     initializeDatabase();
   }
@@ -81,6 +81,7 @@ public class DatabaseInitializer {
    * Returns true if successful, false otherwise.
    */
   boolean restoreDatabaseFromZst() {
+    boolean databaseRestored = false;
     try {
       ClassPathResource resource = new ClassPathResource("funds.db.zst");
       if (!resource.exists()) {
@@ -100,26 +101,34 @@ public class DatabaseInitializer {
       // If using a file-based DB, copy to the configured location
       try {
         String dbPath = properties.getDatabasePath();
-        if (dbPath != null && !dbPath.isBlank() && !dbPath.contains(":memory:")) {
+        if (dbPath == null || dbPath.isBlank()) {
+          logger.info("Database path is not configured, skipping restoration");
+        } else if (!dbPath.contains(":memory:")) {
           File dest = new File(dbPath.replace("jdbc:sqlite:", ""));
           Files.copy(tempDb.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-          Files.deleteIfExists(tempDb.toPath());
           logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
+          databaseRestored = true;
         } else {
-          // If using in-memory, you may need to adjust datasource config to use this file
-          logger.warn(
-              "Database is configured as in-memory. To use restored DB, set daily-nav.database-file property.");
-          Files.deleteIfExists(tempDb.toPath());
+          try {
+            // sqlite-jdbc extension: "restore from [filename]"
+            // This copies the entire database from the file into the current connection
+            String sql = "restore from '" + tempDb.getAbsolutePath().replace("'", "''") + "'";
+            jdbcTemplate.execute(sql);
+
+            logger.info("Loaded restored database into in-memory database");
+            databaseRestored = true;
+          } catch (Exception e) {
+            logger.error("Failed to load restored database into memory: {}", e.getMessage());
+          }
         }
       } finally {
         // Clean up temp file
         Files.deleteIfExists(tempDb.toPath());
       }
-      return true;
     } catch (Exception e) {
       logger.warn("Failed to restore database from funds.db.zst: {}", e.getMessage());
-      return false;
     }
+    return databaseRestored;
   }
 
   void logDatabaseStats() {

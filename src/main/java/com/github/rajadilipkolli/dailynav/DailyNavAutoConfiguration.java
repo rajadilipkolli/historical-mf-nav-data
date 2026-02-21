@@ -15,8 +15,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /** Auto-configuration for Daily NAV library */
 @AutoConfiguration
@@ -90,6 +90,7 @@ public class DailyNavAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   MutualFundService mutualFundService(
       NavByIsinRepository navByIsinRepository,
       SchemeRepository schemeRepository,
@@ -116,7 +117,7 @@ public class DailyNavAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnWebApplication
-  @ConditionalOnMissingClass("org.springframework.boot.actuator.health.HealthIndicator")
+  @ConditionalOnMissingClass("org.springframework.boot.health.contributor.HealthIndicator")
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   DailyNavHealthController dailyNavHealthController(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
@@ -144,6 +145,18 @@ public class DailyNavAutoConfiguration {
 
   @Configuration
   @EnableAsync
-  @ConditionalOnMissingBean(AsyncConfigurer.class)
-  static class AsyncConfig {}
+  @ConditionalOnProperty(prefix = "daily.nav", name = "enable-async", havingValue = "true")
+  static class AsyncConfig {
+
+    @Bean(name = "dailyNavTaskExecutor")
+    ThreadPoolTaskExecutor dailyNavTaskExecutor() {
+      ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+      executor.setCorePoolSize(2);
+      executor.setMaxPoolSize(5);
+      executor.setQueueCapacity(50);
+      executor.setThreadNamePrefix("daily-nav-");
+      executor.initialize();
+      return executor;
+    }
+  }
 }

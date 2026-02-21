@@ -160,19 +160,21 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   }
 
   @Test
-  void restoreDatabaseFromZst_handlesInMemoryDatabaseWarning() {
+  void restoreDatabaseFromZst_loadsIntoInMemoryDatabase() {
     properties.setDatabasePath("jdbc:sqlite::memory:");
     DatabaseInitializer inMemoryInitializer = new DatabaseInitializer(jdbcTemplate, properties);
     boolean result = inMemoryInitializer.restoreDatabaseFromZst();
-    assertTrue(result, "Should successfully restore even for in-memory database");
-    // Note: In real implementation, this would log a warning about in-memory
-    // configuration
+    assertTrue(result, "Should restore for in-memory database");
+    // Verify that data is loaded
+    Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
+    assertNotNull(count);
+    assertTrue(count > 0, "Table 'schemes' should have data after restoration");
   }
 
   @Test
   void restoreDatabaseFromZst_createsTemporaryFileCorrectly(@TempDir Path tempDir)
       throws Exception {
-    properties.setDatabasePath("jdbc:sqlite:" + tempDir.resolve("target.db").toString());
+    properties.setDatabasePath("jdbc:sqlite:" + tempDir.resolve("target.db"));
     DatabaseInitializer tempFileInitializer = new DatabaseInitializer(jdbcTemplate, properties);
     boolean result = tempFileInitializer.restoreDatabaseFromZst();
     assertTrue(result, "Should successfully create and handle temporary file");
@@ -221,6 +223,6 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
     properties.setDatabasePath(null);
     DatabaseInitializer nullPathInitializer = new DatabaseInitializer(jdbcTemplate, properties);
     boolean result = nullPathInitializer.restoreDatabaseFromZst();
-    assertTrue(result, "Should successfully restore even with null database path");
+    assertFalse(result, "Shouldn't restore even with null database path");
   }
 }
