@@ -122,27 +122,21 @@ public class DatabaseInitializer {
         logger.info("Copied restored DB to configured path: {}", dest.getAbsolutePath());
         databaseRestored = true;
       } else {
-        try {
-          // sqlite-jdbc extension: "restore from [filename]"
-          // This copies the entire database from the file into the current connection
-          File finalTempDb = tempDb;
-          jdbcTemplate.execute(
-              (ConnectionCallback<Void>)
-                  con -> {
-                    try (var st = con.createStatement()) {
-                      st.executeUpdate(
-                          "restore from '"
-                              + finalTempDb.getAbsolutePath().replace("'", "''")
-                              + "'");
-                    }
-                    return null;
-                  });
+        // sqlite-jdbc extension: "restore from [filename]"
+        // This copies the entire database from the file into the current connection
+        File finalTempDb = tempDb;
+        jdbcTemplate.execute(
+            (ConnectionCallback<Void>)
+                con -> {
+                  try (var st = con.createStatement()) {
+                    st.executeUpdate(
+                        "restore from '" + finalTempDb.getAbsolutePath().replace("'", "''") + "'");
+                  }
+                  return null;
+                });
 
-          logger.info("Loaded restored database into in-memory database");
-          databaseRestored = true;
-        } catch (Exception e) {
-          logger.error("Failed to load restored database into memory: {}", e.getMessage());
-        }
+        logger.info("Loaded restored database into in-memory database");
+        databaseRestored = true;
       }
     } catch (Exception e) {
       logger.warn("Failed to restore database from funds.db.zst: {}", e.getMessage());
