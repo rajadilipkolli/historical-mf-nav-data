@@ -3,12 +3,11 @@ package com.github.rajadilipkolli.dailynav;
 import com.github.rajadilipkolli.dailynav.model.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Service;
 
 /** Service for mutual fund data operations */
-@Service
 public class MutualFundService {
 
   private final NavByIsinRepository navByIsinRepository;
@@ -45,7 +44,7 @@ public class MutualFundService {
    */
   public NavByIsin getLatestNavByIsinOrThrow(String isin) {
     return getLatestNavByIsin(isin)
-        .orElseThrow(() -> new RuntimeException("No NAV data found for ISIN: " + isin));
+        .orElseThrow(() -> new NoSuchElementException("No NAV data found for ISIN: " + isin));
   }
 
   /**
@@ -55,11 +54,13 @@ public class MutualFundService {
    * @return list of matching ISINs
    */
   public List<String> findIsinsBySchemeName(String namePattern) {
-    return searchSchemes(namePattern).stream()
-        .flatMap(
-            scheme ->
-                securityRepository.findBySchemeCode(scheme.schemeCode()).stream()
-                    .map(Security::getIsin))
+    List<Scheme> schemes = searchSchemes(namePattern);
+    if (schemes.isEmpty()) {
+      return List.of();
+    }
+    var schemeCodes = schemes.stream().map(Scheme::schemeCode).toList();
+    return securityRepository.findBySchemeCodes(schemeCodes).stream()
+        .map(Security::getIsin)
         .toList();
   }
 

@@ -127,6 +127,7 @@ public class DailyNavAutoConfiguration {
    * @param navByIsinRepository repository providing NAV lookup by ISIN
    * @param schemeRepository repository for mutual fund scheme metadata
    * @param securityRepository repository for security/instrument data
+   * @param databaseInitializer initializer responsible for preparing or verifying DB state
    * @return a MutualFundService instance backed by the provided repositories
    */
   @Bean
@@ -174,7 +175,7 @@ public class DailyNavAutoConfiguration {
     return new DatabaseInitializer(jdbcTemplate, properties);
   }
 
-  @Bean
+  @Bean("dailyNav")
   @ConditionalOnMissingBean
   @ConditionalOnBean(DailyNavHealthService.class)
   DailyNavHealthIndicator dailyNavHealthIndicator(DailyNavHealthService healthService) {

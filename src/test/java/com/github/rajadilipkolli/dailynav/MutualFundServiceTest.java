@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.model.NavByIsin;
@@ -9,6 +10,7 @@ import com.github.rajadilipkolli.dailynav.model.Scheme;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -195,6 +197,12 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
   void getLatestNavByIsinOrThrow_positive() {
     NavByIsin nav = service.getLatestNavByIsinOrThrow("ISIN123");
     assertEquals(100.0, nav.getNav());
+  }
+
+  @Test
+  void getLatestNavByIsinOrThrow_negative() {
+    assertThrows(
+        NoSuchElementException.class, () -> service.getLatestNavByIsinOrThrow("NONEXISTENT"));
   }
 
   @Test

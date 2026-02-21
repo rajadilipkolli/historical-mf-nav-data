@@ -18,10 +18,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
-/** Component responsible for initializing the database with fund data */
-@Component
+/** Responsible for initializing the database with fund data */
 public class DatabaseInitializer {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
@@ -72,6 +70,9 @@ public class DatabaseInitializer {
   public void initializeDatabase() {
     if (!properties.isAutoInit()) {
       logger.info("Auto-initialization disabled, skipping database setup");
+      // If auto-init is disabled, mark initialized only if the expected tables exist.
+      // This ensures callers (e.g. MutualFundService.isReady()) reflect actual DB readiness.
+      this.initialized = tablesExist();
       return;
     }
 

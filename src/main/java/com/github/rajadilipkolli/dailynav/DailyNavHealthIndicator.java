@@ -2,13 +2,11 @@ package com.github.rajadilipkolli.dailynav;
 
 import org.springframework.boot.health.contributor.Health;
 import org.springframework.boot.health.contributor.HealthIndicator;
-import org.springframework.stereotype.Component;
 
 /**
  * Spring Boot Actuator HealthIndicator for Daily NAV library. Provides detailed health status of
  * the mutual fund database.
  */
-@Component("dailyNav")
 public class DailyNavHealthIndicator implements HealthIndicator {
 
   private final DailyNavHealthService healthService;

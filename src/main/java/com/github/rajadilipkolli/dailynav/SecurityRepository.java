@@ -1,6 +1,7 @@
 package com.github.rajadilipkolli.dailynav;
 
 import com.github.rajadilipkolli.dailynav.model.Security;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -43,6 +44,22 @@ class SecurityRepository {
   public List<Security> findBySchemeCode(Integer schemeCode) {
     String sql = "SELECT isin, type, scheme_code FROM securities WHERE scheme_code = ?";
     return jdbcTemplate.query(sql, SECURITY_ROW_MAPPER, schemeCode);
+  }
+
+  /**
+   * Find securities by a collection of scheme codes using a single IN-query. Returns an empty list
+   * if the provided collection is null or empty.
+   */
+  public List<Security> findBySchemeCodes(Collection<Integer> schemeCodes) {
+    if (schemeCodes == null || schemeCodes.isEmpty()) {
+      return List.of();
+    }
+    String placeholders = String.join(",", schemeCodes.stream().map(c -> "?").toList());
+    String sql =
+        "SELECT isin, type, scheme_code FROM securities WHERE scheme_code IN ("
+            + placeholders
+            + ")";
+    return jdbcTemplate.query(sql, SECURITY_ROW_MAPPER, schemeCodes.toArray());
   }
 
   /** Find all securities */
