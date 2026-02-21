@@ -42,7 +42,7 @@ public class DatabaseInitializer {
     this.properties = properties;
   }
 
-  /** Initialize the application's database according to the configured initialization settings. */
+  /** Schedules database initialization to run on the configured "dailyNavTaskExecutor". */
   @Async("dailyNavTaskExecutor")
   public void initializeDatabaseAsync() {
     initializeDatabase();
@@ -101,8 +101,23 @@ public class DatabaseInitializer {
    *
    * <p>If a file-based database path is configured, the restored database file is copied to that
    * path. If the configured path refers to an in-memory database, the restored file is loaded into
-   * the current connection using SQLite's restore mechanism. The temporary file used during
-   * restoration is deleted before returning.
+   * the current connection using SQLite's restore mechanism.
+   *
+   * <p>Note: when loading into an in-memory connection this implementation uses the SQLite
+   * extension command {@code restore from '<path>'} via the sqlite-jdbc driver. This is not
+   * standard SQL — it relies on SQLite-specific behavior provided by the JDBC driver. The file path
+   * is single-quote escaped with {@code replace("'", "''")} before being embedded in the SQL
+   * command to avoid breaking the literal. Example usage in this code:
+   *
+   * <pre>
+   * st.executeUpdate("restore from '" + finalTempDb.getAbsolutePath().replace("'", "''") + "'");
+   * </pre>
+   *
+   * <p>Because this approach depends on SQLite features, callers should ensure the underlying
+   * connection is a SQLite connection if portability is required; consider adding a runtime check
+   * or alternative loading path for other databases.
+   *
+   * <p>The temporary file used during restoration is deleted before returning.
    *
    * @return `true` if the database was successfully restored (copied to the configured file path or
    *     loaded into an in-memory database), `false` otherwise.

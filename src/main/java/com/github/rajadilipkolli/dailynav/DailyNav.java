@@ -12,12 +12,6 @@ public final class DailyNav {
   }
 
   /**
-   * Creates and initializes a MutualFundService instance.
-   *
-   * @param dbFile Optional path to a persistent SQLite database file. If null, uses in-memory.
-   * @return A fully initialized MutualFundService.
-   */
-  /**
    * Create and initialize a CloseableMutualFundService for the configured database.
    *
    * <p>If `dbFile` is non-null, the service will use a persistent SQLite database at that path;
@@ -50,7 +44,6 @@ public final class DailyNav {
     return new CloseableMutualFundService(service, dataSource);
   }
 
-  /** Creates a health service for monitoring the library. */
   /**
    * Create a closeable DailyNavHealthService backed by a HikariDataSource.
    *
