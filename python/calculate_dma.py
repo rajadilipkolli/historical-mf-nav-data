@@ -72,10 +72,20 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
         lambda x: x.abs().rolling(window=200, min_periods=1).max() > 0.1
     )
     
+    # Identifing schemes that have at least one jump in their data
+    # We want to exclude schemes if a jump occurred in the window we are analyzing
+    # To be safe, we'll exclude any scheme that has a jump in the RECORDS WE JUST CALCULATED DMA FOR.
+    # Actually, a better way is to exclude schemes where the CURRENT (latest) record
+    # has a jump in its 200-day window.
+    
+    # Calculate which schemes have a jump in their LATEST window
+    latest_per_scheme = df.groupby('scheme_code').tail(1).copy()
+    jumpy_schemes = latest_per_scheme[latest_per_scheme['has_jump'] == True]['scheme_code'].unique()
+    
     # Only keep rows where we have enough data for 200-day average
-    # AND where no significant jump occurred in the last 200 days
+    # AND where the scheme is not jumpy
     df = df.dropna(subset=['dma_200'])
-    df = df[df['has_jump'] == False]
+    df = df[~df['scheme_code'].isin(jumpy_schemes)]
     
     return df
 
@@ -89,10 +99,10 @@ def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
         df.loc[df.groupby('scheme_code')['date'].idxmax()].reset_index(drop=True)
     )
     
-    # Filter out stale records (e.g. if the last month was filtered due to jumps)
+    # Filter out stale records (active in last 200 days)
     if not latest_data.empty:
         max_date = latest_data['date'].max()
-        cutoff_date = max_date - pd.Timedelta(days=15)
+        cutoff_date = max_date - pd.Timedelta(days=200)
         latest_data = latest_data[latest_data['date'] >= cutoff_date]
         
     return latest_data
@@ -173,6 +183,7 @@ def generate_summary_stats(funds_above: pd.DataFrame, funds_below: pd.DataFrame,
 
 *Note: Only schemes with at least 200 trading days of data are included in this analysis.*
 *Weekends are excluded from the moving average calculation.*
+*Schemes must have been active (NAV update) within the last 200 days to be included.*
 *Schemes with significant NAV jumps (>10%) within the 200-day window are excluded to ensure trend accuracy.*
 """
     
@@ -220,13 +231,13 @@ def main():
         above_table = format_table_for_markdown(
             funds_above_dma, 
             "🟢 Top Funds Trading Above 200-Day Moving Average",
-            max_rows=15
+            max_rows=50
         )
         
         below_table = format_table_for_markdown(
             funds_below_dma,
             "🔴 Top Funds Trading Below 200-Day Moving Average", 
-            max_rows=15
+            max_rows=50
         )
         
         # Write to file for GitHub Actions to use
