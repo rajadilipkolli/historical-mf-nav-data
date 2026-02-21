@@ -75,9 +75,7 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
     
     # Identifying schemes that have at least one jump in their data
     # We want to exclude schemes if a jump occurred in the window we are analyzing
-    # To be safe, we'll exclude any scheme that has a jump in the RECORDS WE JUST CALCULATED DMA FOR.
-    # Actually, a better way is to exclude schemes where the CURRENT (latest) record
-    # has a jump in its 200-day window.
+    # Exclude schemes where the CURRENT (latest) record has a jump in its 200-day window.
     
     # Only keep rows where we have enough data for 200-day average
     df = df.dropna(subset=['dma_200'])
@@ -88,7 +86,9 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
 
     # AND where the scheme is not jumpy
     df = df[~df['scheme_code'].isin(jumpy_schemes)]
-    
+    # Drop intermediate columns so downstream consumers don't pick them up
+    df = df.drop(columns=['pct_change', 'has_jump'], errors='ignore')
+
     return df
 
 def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
@@ -136,9 +136,11 @@ def deduplicate_schemes(df: pd.DataFrame) -> pd.DataFrame:
             pattern = r"\b" + re.escape(kw) + r"\b"
             n = re.sub(pattern, ' ', n)
 
-        # Punctuation tokens and technical codes: replace directly
+        # Punctuation tokens and technical codes: replace directly.
+        # Process longer tokens first so substrings (e.g. 'p-g') don't
+        # match inside longer tokens (e.g. 'dp-g').
         punct_tokens = ['p-g', 'dp-g', 'p-i', 'dp-i', '-', '(', ')', '.', ',', '...']
-        for tok in punct_tokens:
+        for tok in sorted(punct_tokens, key=len, reverse=True):
             n = n.replace(tok, ' ')
 
         # Clean up extra spaces
@@ -150,9 +152,10 @@ def deduplicate_schemes(df: pd.DataFrame) -> pd.DataFrame:
     def get_priority(name):
         p = 0
         n = name.lower()
-        if 'direct' in n:
+        # Use word-boundary regex so we only match whole words like 'direct'/'growth'
+        if re.search(r"\bdirect\b", n):
             p += 10
-        if 'growth' in n:
+        if re.search(r"\bgrowth\b", n):
             p += 5
         return p
 
