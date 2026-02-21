@@ -4,6 +4,7 @@ import com.github.rajadilipkolli.dailynav.model.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 import org.jspecify.annotations.NonNull;
 
@@ -61,6 +62,7 @@ public class MutualFundService {
     var schemeCodes = schemes.stream().map(Scheme::schemeCode).toList();
     return securityRepository.findBySchemeCodes(schemeCodes).stream()
         .map(Security::getIsin)
+        .filter(Objects::nonNull)
         .toList();
   }
 

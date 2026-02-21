@@ -211,5 +211,12 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
   void findIsinsBySchemeName_positive() {
     List<String> isins = service.findIsinsBySchemeName("Test");
     assertTrue(isins.contains("ISIN123"));
+    assertEquals(1, isins.size());
+  }
+
+  @Test
+  void findIsinsBySchemeName_negative() {
+    List<String> isins = service.findIsinsBySchemeName("NoMatch");
+    assertTrue(isins.isEmpty());
   }
 }

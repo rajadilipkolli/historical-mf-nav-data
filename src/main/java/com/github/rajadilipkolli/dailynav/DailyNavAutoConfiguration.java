@@ -117,7 +117,7 @@ public class DailyNavAutoConfiguration {
    */
   @Bean
   @ConditionalOnMissingBean
-  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  @ConditionalOnBean(name = {"dailyNavJdbcTemplate", "dailyNavNamedParameterJdbcTemplate"})
   SecurityRepository securityRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
       @Qualifier("dailyNavNamedParameterJdbcTemplate")
@@ -192,7 +192,10 @@ public class DailyNavAutoConfiguration {
     return new DatabaseInitializer(jdbcTemplate, properties);
   }
 
-  @Bean("dailyNav")
+  /**
+   * Creates a DailyNavHealthIndicator wrapping DailyNavHealthService for management/health checks.
+   */
+  @Bean("dailyNavHealthIndicator")
   @ConditionalOnMissingBean
   @ConditionalOnBean(DailyNavHealthService.class)
   DailyNavHealthIndicator dailyNavHealthIndicator(DailyNavHealthService healthService) {
