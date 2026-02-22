@@ -8,6 +8,7 @@ that are above or below their 200-day moving averages.
 import sqlite3
 import pandas as pd
 import datetime
+import re
 import sys
 import os
 from typing import Dict, List, Tuple
@@ -54,6 +55,7 @@ def get_trading_days_data(conn: sqlite3.Connection) -> pd.DataFrame:
 def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculate 200-day moving average for each scheme.
+    Filters out schemes with significant NAV jumps (>10%) in the window.
     Returns DataFrame with DMA calculations.
     """
     # Group by scheme_code and calculate 200-day rolling mean
@@ -61,21 +63,109 @@ def calculate_200_dma(df: pd.DataFrame) -> pd.DataFrame:
         lambda x: x.rolling(window=200, min_periods=200).mean()
     )
     
+    # Detect significant jumps (>10%) within the window
+    # Calculate daily percentage change
+    df['pct_change'] = df.groupby('scheme_code')['nav'].pct_change()
+    
+    # Check if any jump > 10% (0.1) occurred in the 200-day window
+    # rolling window of 200 checks if ANY of the values was > 10%
+    df['has_jump'] = df.groupby('scheme_code')['pct_change'].transform(
+        lambda x: x.abs().rolling(window=200, min_periods=1).max() > 0.1
+    )
+    
+    # Identifying schemes that have at least one jump in their data
+    # We want to exclude schemes if a jump occurred in the window we are analyzing
+    # Exclude schemes where the CURRENT (latest) record has a jump in its 200-day window.
+    
     # Only keep rows where we have enough data for 200-day average
     df = df.dropna(subset=['dma_200'])
-    
+
+    # Calculate which schemes have a jump in their LATEST window (after filtering)
+    latest_per_scheme = df.groupby('scheme_code').tail(1).copy()
+    jumpy_schemes = latest_per_scheme.loc[latest_per_scheme['has_jump'], 'scheme_code'].unique()
+
+    # AND where the scheme is not jumpy
+    df = df[~df['scheme_code'].isin(jumpy_schemes)]
+    # Drop intermediate columns so downstream consumers don't pick them up
+    df = df.drop(columns=['pct_change', 'has_jump'], errors='ignore')
+
     return df
 
 def get_latest_nav_per_scheme(df: pd.DataFrame) -> pd.DataFrame:
     """
     Get the latest NAV data for each scheme (current day).
+    Only includes schemes whose latest record is recent (within last 200 days).
     """
-    # Get the most recent date for each scheme
-    # Select only the group columns after groupby to avoid FutureWarning
+    # Get the most recent date for each filtered scheme
     latest_data = (
         df.loc[df.groupby('scheme_code')['date'].idxmax()].reset_index(drop=True)
     )
+    
+    # Filter out stale records (active in last 200 days)
+    if not latest_data.empty:
+        max_date = latest_data['date'].max()
+        cutoff_date = max_date - pd.Timedelta(days=200)
+        latest_data = latest_data[latest_data['date'] >= cutoff_date]
+        
     return latest_data
+
+def deduplicate_schemes(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Deduplicate funds with similar names, prioritizing Direct plans over Regular.
+    """
+    if df.empty:
+        return df.copy()
+
+    # Work on a local copy to avoid mutating the caller's DataFrame
+    df = df.copy()
+        
+    def normalize_name(name):
+        # Convert to lowercase and remove common descriptors using word-boundary
+        # replacements for alphabetic keywords and simple replacements for
+        # punctuation tokens so we don't remove substrings inside longer words.
+        n = name.lower()
+
+        # Alphabetic / phrase keywords: remove only as whole words/phrases
+        word_keywords = [
+            'direct plan', 'regular plan', 'growth option', 'idcw option',
+            'direct', 'regular', 'plan', 'growth', 'idcw', 'payout', 'reinvestment',
+            'option', 'fund', 'funds', 'scheme'
+        ]
+
+        for kw in word_keywords:
+            pattern = r"\b" + re.escape(kw) + r"\b"
+            n = re.sub(pattern, ' ', n)
+
+        # Punctuation tokens and technical codes: replace directly.
+        # Process longer tokens first so substrings (e.g. 'p-g') don't
+        # match inside longer tokens (e.g. 'dp-g').
+        punct_tokens = ['p-g', 'dp-g', 'p-i', 'dp-i', '-', '(', ')', '.', ',', '...']
+        for tok in sorted(punct_tokens, key=len, reverse=True):
+            n = n.replace(tok, ' ')
+
+        # Clean up extra spaces
+        return ' '.join(n.split())
+
+    df['normalized_name'] = df['scheme_name'].apply(normalize_name)
+    
+    # Priority for sorting within duplicates: Direct > Regular, Growth > IDCW
+    def get_priority(name):
+        p = 0
+        n = name.lower()
+        # Use word-boundary regex so we only match whole words like 'direct'/'growth'
+        if re.search(r"\bdirect\b", n):
+            p += 10
+        if re.search(r"\bgrowth\b", n):
+            p += 5
+        return p
+
+    df['priority'] = df['scheme_name'].apply(get_priority)
+    
+    # Sort and take the best match for each normalized name
+    df = df.sort_values(['normalized_name', 'priority', 'nav'], ascending=[True, False, False])
+    df = df.drop_duplicates(subset=['normalized_name'], keep='first')
+    
+    return df.drop(columns=['normalized_name', 'priority'])
 
 def classify_funds(latest_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -95,7 +185,7 @@ def classify_funds(latest_data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFram
     
     return funds_above_dma, funds_below_dma
 
-def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 20) -> str:
+def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 50) -> str:
     """
     Format DataFrame as a markdown table for release notes.
     """
@@ -106,7 +196,7 @@ def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 20) 
     df_display = df.head(max_rows)
     
     # Select and rename columns for display
-    display_df = df_display[['scheme_name', 'nav', 'dma_200', 'dma_diff_pct']].copy()
+    display_df = df_display[['scheme_code', 'scheme_name', 'nav', 'dma_200', 'dma_diff_pct']].copy()
     display_df['nav'] = display_df['nav'].round(4)
     display_df['dma_200'] = display_df['dma_200'].round(4)
     display_df['dma_diff_pct'] = display_df['dma_diff_pct'].round(2)
@@ -119,12 +209,12 @@ def format_table_for_markdown(df: pd.DataFrame, title: str, max_rows: int = 20) 
     else:
         markdown += f"Total funds: {len(df)}\n\n"
     
-    markdown += "| Scheme Name | Current NAV | 200-DMA | Difference (%) |\n"
-    markdown += "|-------------|-------------|---------|----------------|\n"
+    markdown += "| Code | Scheme Name | Current NAV | 200-DMA | Difference (%) |\n"
+    markdown += "|------|-------------|-------------|---------|----------------|\n"
     
     for _, row in display_df.iterrows():
         scheme_name = row['scheme_name'][:60] + "..." if len(row['scheme_name']) > 60 else row['scheme_name']
-        markdown += f"| {scheme_name} | {row['nav']} | {row['dma_200']} | {row['dma_diff_pct']:+.2f}% |\n"
+        markdown += f"| {row['scheme_code']} | {scheme_name} | {row['nav']} | {row['dma_200']} | {row['dma_diff_pct']:+.2f}% |\n"
     
     return markdown
 
@@ -153,6 +243,9 @@ def generate_summary_stats(funds_above: pd.DataFrame, funds_below: pd.DataFrame,
 
 *Note: Only schemes with at least 200 trading days of data are included in this analysis.*
 *Weekends are excluded from the moving average calculation.*
+*Schemes must have been active (NAV update) within the last 200 days to be included.*
+*Schemes with similar names are consolidated (Direct plans are prioritized over Regular plans).*
+*Schemes with significant NAV jumps (>10%) within the 200-day window are excluded to ensure trend accuracy.*
 """
     
     return summary
@@ -185,6 +278,10 @@ def main():
         print("Getting latest NAV data...")
         latest_data = get_latest_nav_per_scheme(df_with_dma)
         
+        # Deduplicate schemes (favoring Direct plans)
+        print("Deduplicating schemes (favoring Direct plans)...")
+        latest_data = deduplicate_schemes(latest_data)
+        
         # Classify funds
         print("Classifying funds...")
         funds_above_dma, funds_below_dma = classify_funds(latest_data)
@@ -197,15 +294,13 @@ def main():
         summary_stats = generate_summary_stats(funds_above_dma, funds_below_dma, len(latest_data))
         
         above_table = format_table_for_markdown(
-            funds_above_dma, 
-            "🟢 Top Funds Trading Above 200-Day Moving Average",
-            max_rows=15
+            funds_above_dma,
+            "🟢 Top Funds Trading Above 200-Day Moving Average"
         )
-        
+
         below_table = format_table_for_markdown(
             funds_below_dma,
-            "🔴 Top Funds Trading Below 200-Day Moving Average", 
-            max_rows=15
+            "🔴 Top Funds Trading Below 200-Day Moving Average"
         )
         
         # Write to file for GitHub Actions to use
