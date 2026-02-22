@@ -143,7 +143,7 @@ jobs:
           echo "stats=$(cat stats.json | jq -c .)" >> "$GITHUB_OUTPUT"
 
           echo "Compressing database..."
-          zstd -5 -T0 funds.db
+          zstd -19 --long -T0 funds.db
 
       - name: Build Java Library
         if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
@@ -339,3 +339,4 @@ jobs:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
