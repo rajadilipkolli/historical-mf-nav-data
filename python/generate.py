@@ -156,14 +156,17 @@ if __name__ == "__main__":
     c = conn.cursor()
     c.executescript(
         """
+        BEGIN;
         DROP VIEW IF EXISTS nav_by_isin;
-        CREATE TABLE nav_sorted AS SELECT * FROM nav ORDER BY scheme_code, date;
+        CREATE TABLE nav_sorted (scheme_code INTEGER, date, nav FLOAT, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
+        INSERT INTO nav_sorted SELECT * FROM nav ORDER BY scheme_code, date;
         DROP TABLE nav;
         ALTER TABLE nav_sorted RENAME TO nav;
         CREATE VIEW nav_by_isin (isin, date, nav) as 
             SELECT isin,date,nav from nav N
             JOIN securities S ON N.scheme_code = S.scheme_code
             ORDER BY date DESC;
+        COMMIT;
         """
     )
     conn.commit()
