@@ -8,6 +8,7 @@ import zipfile
 def setup_db(file):
     conn = sqlite3.connect(file)
     c = conn.cursor()
+    c.execute("PRAGMA page_size = 8192")
     c.executescript(
         """
         CREATE TABLE schemes (scheme_code INTEGER PRIMARY_KEY, scheme_name TEXT);
@@ -150,4 +151,27 @@ if __name__ == "__main__":
     insert_schemes(conn, schemes)
     insert_securities(conn, isin_list)
     conn.commit()
+
+    print("Post-processing: Sorting nav table...")
+    c = conn.cursor()
+    c.executescript(
+        """
+        DROP VIEW IF EXISTS nav_by_isin;
+        CREATE TABLE nav_sorted AS SELECT * FROM nav ORDER BY scheme_code, date;
+        DROP TABLE nav;
+        ALTER TABLE nav_sorted RENAME TO nav;
+        CREATE VIEW nav_by_isin (isin, date, nav) as 
+            SELECT isin,date,nav from nav N
+            JOIN securities S ON N.scheme_code = S.scheme_code
+            ORDER BY date DESC;
+        """
+    )
+    conn.commit()
+    
+    # VACUUM/ANALYZE should be outside transaction
+    conn.isolation_level = None
+    conn.execute("VACUUM")
+    conn.execute("ANALYZE")
+    conn.isolation_level = "" # restore default
+    
     conn.close()
