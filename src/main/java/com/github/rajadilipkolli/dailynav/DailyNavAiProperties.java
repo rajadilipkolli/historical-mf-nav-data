@@ -9,15 +9,6 @@ public class DailyNavAiProperties {
   /** Master toggle to enable or disable AI capabilities. Disabled by default. */
   private boolean enabled = false;
 
-  /** Name of the chat model to use. */
-  private String chatModel;
-
-  /** Name of the embedding model to use. */
-  private String embeddingModel;
-
-  /** Base URL for the Ollama instance. */
-  private String ollamaBaseUrl = "http://localhost:11434";
-
   /** Path to the document source corpus for RAG capabilities. */
   private String ragDocumentPath;
 
@@ -30,30 +21,6 @@ public class DailyNavAiProperties {
 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
-  }
-
-  public String getChatModel() {
-    return chatModel;
-  }
-
-  public void setChatModel(String chatModel) {
-    this.chatModel = chatModel;
-  }
-
-  public String getEmbeddingModel() {
-    return embeddingModel;
-  }
-
-  public void setEmbeddingModel(String embeddingModel) {
-    this.embeddingModel = embeddingModel;
-  }
-
-  public String getOllamaBaseUrl() {
-    return ollamaBaseUrl;
-  }
-
-  public void setOllamaBaseUrl(String ollamaBaseUrl) {
-    this.ollamaBaseUrl = ollamaBaseUrl;
   }
 
   public String getRagDocumentPath() {

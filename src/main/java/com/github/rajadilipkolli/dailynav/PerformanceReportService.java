@@ -50,7 +50,7 @@ public class PerformanceReportService {
 
     String navStats =
         String.format(
-            "Min NAV: %.4f\\nMax NAV: %.4f\\nData Points: %d",
+            "Min NAV: %.4f\nMax NAV: %.4f\nData Points: %d",
             minNav, maxNav, context.navHistory().size());
 
     PromptTemplate promptTemplate = new PromptTemplate(REPORT_TEMPLATE);

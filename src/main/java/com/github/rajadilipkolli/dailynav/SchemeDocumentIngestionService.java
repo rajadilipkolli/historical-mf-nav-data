@@ -43,6 +43,11 @@ public class SchemeDocumentIngestionService implements ApplicationRunner {
       return;
     }
 
+    if (new File(dir, "vectorstore.json").exists()) {
+      logger.info("Vector store already restored from disk. Skipping ingestion.");
+      return;
+    }
+
     TokenTextSplitter textSplitter = new TokenTextSplitter();
 
     for (File file : files) {

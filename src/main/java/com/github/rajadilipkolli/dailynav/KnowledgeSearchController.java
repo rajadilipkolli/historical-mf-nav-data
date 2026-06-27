@@ -18,8 +18,8 @@ public class KnowledgeSearchController {
   }
 
   @PostMapping
-  public ResponseEntity<AskResponse> ask(@RequestBody AskRequest request) {
-    if (request.query() == null || request.query().isBlank()) {
+  public ResponseEntity<AskResponse> ask(@RequestBody(required = false) AskRequest request) {
+    if (request == null || request.query() == null || request.query().isBlank()) {
       return ResponseEntity.badRequest().build();
     }
     var result = knowledgeSearchService.search(request.query());

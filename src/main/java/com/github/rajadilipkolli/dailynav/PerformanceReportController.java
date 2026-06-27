@@ -17,9 +17,14 @@ public class PerformanceReportController {
   }
 
   @PostMapping
-  public ResponseEntity<ReportResponse> generateReport(@RequestBody ReportRequest request) {
+  public ResponseEntity<ReportResponse> generateReport(
+      @RequestBody(required = false) ReportRequest request) {
+    if (request == null || request.isin() == null || request.isin().isBlank()) {
+      return ResponseEntity.badRequest().build();
+    }
+    int days = request.days() != null ? request.days() : 30;
     try {
-      String report = performanceReportService.generateReport(request.isin(), request.days());
+      String report = performanceReportService.generateReport(request.isin(), days);
       return ResponseEntity.ok(new ReportResponse(report));
     } catch (IllegalArgumentException e) {
       return ResponseEntity.badRequest().build();

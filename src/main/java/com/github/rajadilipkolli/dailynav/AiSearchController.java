@@ -1,5 +1,8 @@
 package com.github.rajadilipkolli.dailynav;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +20,18 @@ public class AiSearchController {
   }
 
   @PostMapping("/search")
-  public SearchResponse search(@RequestBody SearchRequest request) {
+  public ResponseEntity<SearchResponse> search(
+      @RequestBody(required = false) SearchRequest request) {
+    if (request == null || request.query() == null || request.query().isBlank()) {
+      return ResponseEntity.badRequest().build();
+    }
     String answer = searchService.search(request.query());
-    return new SearchResponse(answer);
+    return ResponseEntity.ok(new SearchResponse(answer));
+  }
+
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<String> handleIllegalStateException(IllegalStateException ex) {
+    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ex.getMessage());
   }
 
   public record SearchRequest(String query) {}

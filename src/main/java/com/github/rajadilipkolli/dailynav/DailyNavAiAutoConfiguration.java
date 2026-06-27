@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Bean;
 public class DailyNavAiAutoConfiguration {
 
   @Bean
-  @ConditionalOnMissingBean(name = "dailyNavChatClient")
+  @ConditionalOnMissingBean(ChatClient.class)
   public ChatClient dailyNavChatClient(
       ChatClient.Builder builder, DailyNavAiProperties properties) {
 

@@ -24,7 +24,8 @@ public class NaturalLanguageSearchService {
    */
   public String search(String query) {
     if (!mutualFundService.isReady()) {
-      return "The mutual fund database is currently initializing. Please try again in a few moments.";
+      throw new IllegalStateException(
+          "The mutual fund database is currently initializing. Please try again in a few moments.");
     }
 
     return chatClient.prompt().user(query).tools(mutualFundTools).call().content();
