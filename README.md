@@ -50,6 +50,16 @@ echo 'CREATE INDEX "securities-isin" ON "securities" ("isin")' | sqlite3 funds.d
 
 ---
 
+## 📚 Product Documentation & Roadmap
+
+To understand the core business problem, personas, terminology, and future roadmap of this project, check out our comprehensive product documentation:
+
+- [Product Review](docs/product/product-review.md) - Overview of positioning, capabilities, personas, and strategic recommendations.
+- [Glossary](docs/product/glossary.md) - Domain terminology and entities.
+- [Assumptions and Gaps](docs/product/assumptions-and-gaps.md) - Explicit constraints, dependencies, and missing capabilities.
+
+---
+
 ## ✨ Features & Architecture
 
 - **Complete historical NAV data** for Indian mutual funds
