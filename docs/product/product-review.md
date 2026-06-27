@@ -28,8 +28,8 @@ The library currently offers a robust public API surface through the `MutualFund
 
 To fully understand the product scope, capabilities, and terminology, please refer to the following supporting documents:
 
-*   [Glossary](file:///c:/tools/git/historical-mf-nav-data/docs/product/glossary.md): Definitions of core entities and domain terms.
-*   [Assumptions and Gaps](file:///c:/tools/git/historical-mf-nav-data/docs/product/assumptions-and-gaps.md): Explicit assumptions, limitations, constraints, and known gaps in the current product.
+*   [Glossary](glossary.md): Definitions of core entities and domain terms.
+*   [Assumptions and Gaps](assumptions-and-gaps.md): Explicit assumptions, limitations, constraints, and known gaps in the current product.
 *   [Personas](#personas): Detailed descriptions of our target users and their usage patterns (see below).
 
 ## Prioritized Recommendations
