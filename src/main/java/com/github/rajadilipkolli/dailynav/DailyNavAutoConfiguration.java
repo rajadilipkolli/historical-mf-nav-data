@@ -1,6 +1,8 @@
 package com.github.rajadilipkolli.dailynav;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.zaxxer.hikari.HikariDataSource;
+import java.time.Duration;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationRunner;
@@ -12,6 +14,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -263,4 +268,19 @@ public class DailyNavAutoConfiguration {
   @EnableAsync
   @ConditionalOnProperty(prefix = "daily-nav", name = "enable-async", havingValue = "true")
   static class AsyncConfig {}
+
+  @Configuration
+  @EnableCaching
+  @ConditionalOnProperty(prefix = "daily-nav", name = "enable-caching", havingValue = "true")
+  static class CacheConfig {
+
+    @Bean(name = "dailyNavCacheManager")
+    @ConditionalOnMissingBean(name = "dailyNavCacheManager")
+    CacheManager dailyNavCacheManager() {
+      CaffeineCacheManager cacheManager = new CaffeineCacheManager("latestNav");
+      cacheManager.setCaffeine(
+          Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(Duration.ofHours(24)));
+      return cacheManager;
+    }
+  }
 }
