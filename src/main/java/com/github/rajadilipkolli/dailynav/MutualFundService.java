@@ -7,7 +7,9 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import org.jspecify.annotations.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 
 /** Service for mutual fund data operations */
 public class MutualFundService {
@@ -28,6 +30,8 @@ public class MutualFundService {
     this.databaseInitializer = databaseInitializer;
   }
 
+  @Autowired @Lazy private MutualFundService self;
+
   /**
    * Checks if the database is ready for queries.
    *
@@ -45,7 +49,9 @@ public class MutualFundService {
    * @throws NoSuchElementException if no NAV data is found for the given ISIN
    */
   public NavByIsin getLatestNavByIsinOrThrow(String isin) {
-    return getLatestNavByIsin(isin)
+    MutualFundService target = self != null ? self : this;
+    return target
+        .getLatestNavByIsin(isin)
         .orElseThrow(() -> new NoSuchElementException("No NAV data found for ISIN: " + isin));
   }
 
@@ -68,7 +74,10 @@ public class MutualFundService {
   }
 
   /** Get latest NAV by ISIN */
-  @Cacheable("latestNav")
+  @Cacheable(
+      cacheNames = "latestNav",
+      cacheManager = "dailyNavCacheManager",
+      unless = "#result == null or #result.isEmpty()")
   public Optional<NavByIsin> getLatestNavByIsin(String isin) {
     return navByIsinRepository.findLatestByIsin(isin);
   }
