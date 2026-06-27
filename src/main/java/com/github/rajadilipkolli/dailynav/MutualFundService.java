@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import org.jspecify.annotations.NonNull;
+import org.springframework.cache.annotation.Cacheable;
 
 /** Service for mutual fund data operations */
 public class MutualFundService {
@@ -67,6 +68,7 @@ public class MutualFundService {
   }
 
   /** Get latest NAV by ISIN */
+  @Cacheable("latestNav")
   public Optional<NavByIsin> getLatestNavByIsin(String isin) {
     return navByIsinRepository.findLatestByIsin(isin);
   }
