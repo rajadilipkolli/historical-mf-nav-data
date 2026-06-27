@@ -77,7 +77,7 @@ public class MutualFundService {
   @Cacheable(
       cacheNames = "latestNav",
       cacheManager = "dailyNavCacheManager",
-      unless = "#result == null or #result.isEmpty()")
+      unless = "#result == null")
   public Optional<NavByIsin> getLatestNavByIsin(String isin) {
     return navByIsinRepository.findLatestByIsin(isin);
   }
