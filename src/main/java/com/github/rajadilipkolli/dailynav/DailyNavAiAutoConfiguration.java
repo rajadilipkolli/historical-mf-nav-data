@@ -6,6 +6,7 @@ import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -41,11 +42,28 @@ public class DailyNavAiAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
+  public TextToSqlGenerator textToSqlGenerator(
+      ObjectProvider<ChatClient> chatClientProvider,
+      @Qualifier("dailyNavJdbcTemplate") org.springframework.jdbc.core.JdbcTemplate jdbcTemplate,
+      TrendAnomalyService trendAnomalyService) {
+    return new TextToSqlGenerator(
+        chatClientProvider.getIfAvailable(), jdbcTemplate, trendAnomalyService);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
   public NaturalLanguageSearchService naturalLanguageSearchService(
       ChatClient dailyNavChatClient,
       MutualFundService mutualFundService,
-      MutualFundTools mutualFundTools) {
-    return new NaturalLanguageSearchService(dailyNavChatClient, mutualFundService, mutualFundTools);
+      MutualFundTools mutualFundTools,
+      KnowledgeSearchService knowledgeSearchService,
+      TextToSqlGenerator textToSqlGenerator) {
+    return new NaturalLanguageSearchService(
+        dailyNavChatClient,
+        mutualFundService,
+        mutualFundTools,
+        knowledgeSearchService,
+        textToSqlGenerator);
   }
 
   @Bean
