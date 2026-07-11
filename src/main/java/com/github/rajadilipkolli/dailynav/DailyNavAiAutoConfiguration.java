@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /** Auto-configuration for AI features in Daily NAV. */
 @AutoConfiguration
@@ -44,10 +45,8 @@ public class DailyNavAiAutoConfiguration {
   @ConditionalOnMissingBean
   public TextToSqlGenerator textToSqlGenerator(
       ObjectProvider<ChatClient> chatClientProvider,
-      @Qualifier("dailyNavJdbcTemplate") org.springframework.jdbc.core.JdbcTemplate jdbcTemplate,
-      TrendAnomalyService trendAnomalyService) {
-    return new TextToSqlGenerator(
-        chatClientProvider.getIfAvailable(), jdbcTemplate, trendAnomalyService);
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    return new TextToSqlGenerator(chatClientProvider.getIfAvailable(), jdbcTemplate);
   }
 
   @Bean
