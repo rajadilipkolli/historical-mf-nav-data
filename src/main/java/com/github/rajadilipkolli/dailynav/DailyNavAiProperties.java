@@ -15,6 +15,9 @@ public class DailyNavAiProperties {
   /** Top-K retrieval size for similarity search in RAG. */
   private int topK = 5;
 
+  /** Minimum similarity threshold (0.0 to 1.0) for vector chunks. */
+  private double similarityThreshold = 0.7;
+
   public boolean isEnabled() {
     return enabled;
   }
@@ -37,5 +40,13 @@ public class DailyNavAiProperties {
 
   public void setTopK(int topK) {
     this.topK = topK;
+  }
+
+  public double getSimilarityThreshold() {
+    return similarityThreshold;
+  }
+
+  public void setSimilarityThreshold(double similarityThreshold) {
+    this.similarityThreshold = similarityThreshold;
   }
 }

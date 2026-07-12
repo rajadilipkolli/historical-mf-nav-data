@@ -23,7 +23,11 @@ public class KnowledgeSearchService {
   public KnowledgeSearchResponse search(String query) {
     List<Document> documents =
         vectorStore.similaritySearch(
-            SearchRequest.builder().query(query).topK(properties.getTopK()).build());
+            SearchRequest.builder()
+                .query(query)
+                .topK(properties.getTopK())
+                .similarityThreshold(properties.getSimilarityThreshold())
+                .build());
 
     if (documents.isEmpty()) {
       return new KnowledgeSearchResponse(
