@@ -24,7 +24,7 @@
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>4.1.0</spring-boot.version>
-        <spring-ai.version>2.0.0</spring-ai.version>
+        <spring-ai.version>2.0.1</spring-ai.version>
         <google-java-format.version>1.35.0</google-java-format.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
