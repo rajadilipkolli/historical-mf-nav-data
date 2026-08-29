@@ -12,10 +12,10 @@ def setup_db(file):
     c.executescript(
         """
         CREATE TABLE schemes (scheme_code INTEGER PRIMARY_KEY, scheme_name TEXT);
-        CREATE TABLE nav (scheme_code INTEGER, date, nav FLOAT, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
+        CREATE TABLE nav (scheme_code INTEGER, date, nav INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         CREATE TABLE securities (isin TEXT UNIQUE, type INTEGER, scheme_code INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         CREATE VIEW nav_by_isin (isin, date, nav) as 
-            SELECT isin,date,nav from nav N
+            SELECT isin,date,nav / 10000.0 from nav N
             JOIN securities S ON N.scheme_code = S.scheme_code
             ORDER BY date DESC
         """
@@ -138,7 +138,7 @@ def insert_data(conn):
     for data in get_data(conn):
         c.execute(
             "INSERT INTO nav VALUES (?, date(?), ?)",
-            (data[0], data[1], data[2]),
+            (data[0], data[1], round(data[2] * 10000)),
         )
 
 if __name__ == "__main__":
@@ -158,12 +158,12 @@ if __name__ == "__main__":
         """
         BEGIN;
         DROP VIEW IF EXISTS nav_by_isin;
-        CREATE TABLE nav_sorted (scheme_code INTEGER, date, nav FLOAT, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
+        CREATE TABLE nav_sorted (scheme_code INTEGER, date, nav INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         INSERT INTO nav_sorted SELECT * FROM nav ORDER BY scheme_code, date;
         DROP TABLE nav;
         ALTER TABLE nav_sorted RENAME TO nav;
         CREATE VIEW nav_by_isin (isin, date, nav) as 
-            SELECT isin,date,nav from nav N
+            SELECT isin,date,nav / 10000.0 from nav N
             JOIN securities S ON N.scheme_code = S.scheme_code
             ORDER BY date DESC;
         COMMIT;

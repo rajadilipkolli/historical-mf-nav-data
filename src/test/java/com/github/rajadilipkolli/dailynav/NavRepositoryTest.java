@@ -25,7 +25,7 @@ class NavRepositoryTest extends AbstractRepositoryTest {
   protected void createSchema() throws SQLException {
     connection
         .createStatement()
-        .execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
+        .execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav INTEGER)");
   }
 
   @Override
@@ -34,15 +34,15 @@ class NavRepositoryTest extends AbstractRepositoryTest {
         connection.prepareStatement("INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)")) {
       ps1.setInt(1, 1);
       ps1.setString(2, REFERENCE_DATE.toString());
-      ps1.setDouble(3, 100.0);
+      ps1.setInt(3, 1000000);
       ps1.executeUpdate();
       ps1.setInt(1, 1);
       ps1.setString(2, REFERENCE_DATE.minusDays(1).toString());
-      ps1.setDouble(3, 99.0);
+      ps1.setInt(3, 990000);
       ps1.executeUpdate();
       ps1.setInt(1, 2);
       ps1.setString(2, REFERENCE_DATE.toString());
-      ps1.setDouble(3, 200.0);
+      ps1.setInt(3, 2000000);
       ps1.executeUpdate();
     }
   }

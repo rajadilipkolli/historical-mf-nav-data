@@ -8,7 +8,7 @@ CREATE TABLE schemes (
 CREATE TABLE nav (
   scheme_code INTEGER,
   date TEXT,
-  nav REAL,
+  nav INTEGER,
   FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code)
 );
 
@@ -21,5 +21,5 @@ CREATE TABLE securities (
 
 -- Insert minimal data for test validation
 INSERT INTO schemes (scheme_code, scheme_name) VALUES (1, 'Test Scheme');
-INSERT INTO nav (scheme_code, date, nav) VALUES (1, '2025-07-01', 100.0);
+INSERT INTO nav (scheme_code, date, nav) VALUES (1, '2025-07-01', 1000000);
 INSERT INTO securities (isin, type, scheme_code) VALUES ('ISIN123', 0, 1);

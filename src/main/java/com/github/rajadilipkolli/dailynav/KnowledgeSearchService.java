@@ -7,12 +7,20 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 
+/** Service for performing knowledge-based searches using vector store and AI. */
 public class KnowledgeSearchService {
 
   private final ChatClient chatClient;
   private final VectorStore vectorStore;
   private final DailyNavAiProperties properties;
 
+  /**
+   * Constructs a new KnowledgeSearchService.
+   *
+   * @param chatClient the chat client for AI interactions
+   * @param vectorStore the vector store for similarity search
+   * @param properties the configuration properties for AI search
+   */
   public KnowledgeSearchService(
       ChatClient chatClient, VectorStore vectorStore, DailyNavAiProperties properties) {
     this.chatClient = chatClient;
@@ -20,6 +28,12 @@ public class KnowledgeSearchService {
     this.properties = properties;
   }
 
+  /**
+   * Performs a knowledge-based search using the provided query.
+   *
+   * @param query the search query
+   * @return the search response containing the answer and sources
+   */
   public KnowledgeSearchResponse search(String query) {
     List<Document> documents =
         vectorStore.similaritySearch(
@@ -55,5 +69,11 @@ public class KnowledgeSearchService {
     return new KnowledgeSearchResponse(answer, sources);
   }
 
+  /**
+   * Response payload for knowledge-based search
+   *
+   * @param answer the AI-generated answer based on retrieved documents
+   * @param sources the list of source document filenames used to generate the answer
+   */
   public record KnowledgeSearchResponse(String answer, List<String> sources) {}
 }

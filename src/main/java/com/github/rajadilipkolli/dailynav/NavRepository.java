@@ -30,7 +30,7 @@ class NavRepository {
         } else {
           nav.setDate(LocalDate.parse(dateStr));
         }
-        nav.setNav(rs.getDouble("nav"));
+        nav.setNav(rs.getDouble("nav") / 10000.0);
         return nav;
       };
 
