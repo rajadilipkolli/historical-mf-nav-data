@@ -34,7 +34,17 @@ public class AiSearchController {
     return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(ex.getMessage());
   }
 
+  /**
+   * Request payload for natural language search
+   *
+   * @param query the search query in natural language
+   */
   public record SearchRequest(String query) {}
 
+  /**
+   * Response payload for natural language search
+   *
+   * @param answer the answer generated from the search
+   */
   public record SearchResponse(String answer) {}
 }

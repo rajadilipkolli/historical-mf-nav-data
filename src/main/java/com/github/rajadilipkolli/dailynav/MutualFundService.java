@@ -73,7 +73,12 @@ public class MutualFundService {
         .toList();
   }
 
-  /** Get latest NAV by ISIN */
+  /**
+   * Get latest NAV by ISIN
+   *
+   * @param isin the ISIN to look up
+   * @return an Optional containing the latest NAV record, or empty if not found
+   */
   @Cacheable(
       cacheNames = "latestNav",
       cacheManager = "dailyNavCacheManager",
@@ -82,17 +87,36 @@ public class MutualFundService {
     return navByIsinRepository.findLatestByIsin(isin);
   }
 
-  /** Get NAV by ISIN for a specific date (or closest date before) */
+  /**
+   * Get NAV by ISIN for a specific date (or closest date before)
+   *
+   * @param isin the ISIN to look up
+   * @param date the date to search for (or the closest date before)
+   * @return an Optional containing the NAV record, or empty if not found
+   */
   public Optional<NavByIsin> getNavByIsinAndDate(String isin, LocalDate date) {
     return navByIsinRepository.findByIsinAndDateOnOrBefore(isin, date);
   }
 
-  /** Get last N days NAV for an ISIN */
+  /**
+   * Get last N days NAV for an ISIN
+   *
+   * @param isin the ISIN to look up
+   * @param days the number of days of NAV data to retrieve
+   * @return a list of NAV records for the last N days
+   */
   public List<NavByIsin> getLastNDaysNav(String isin, int days) {
     return navByIsinRepository.findLastNByIsin(isin, days);
   }
 
-  /** Get NAV history for ISIN within date range */
+  /**
+   * Get NAV history for ISIN within date range
+   *
+   * @param isin the ISIN to look up
+   * @param startDate the start date of the range (inclusive)
+   * @param endDate the end date of the range (inclusive)
+   * @return a list of NAV records within the specified date range
+   */
   public List<NavByIsin> getNavHistory(String isin, LocalDate startDate, LocalDate endDate) {
     return navByIsinRepository.findByIsinAndDateBetween(isin, startDate, endDate);
   }
@@ -129,7 +153,12 @@ public class MutualFundService {
     return scheme.map(value -> new FundInfo(security1, value));
   }
 
-  /** Helper class to combine security and scheme information */
+  /**
+   * Helper class to combine security and scheme information
+   *
+   * @param security the security information
+   * @param scheme the scheme information
+   */
   public record FundInfo(Security security, Scheme scheme) {
 
     public String getIsin() {
