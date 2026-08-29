@@ -25,8 +25,10 @@ def fetch_and_calculate_dma(scheme_name_query=None):
     
     # Base query for schemes
     if scheme_name_query:
-        # Search by exact or partial name
-        query_schemes = f"SELECT scheme_code, scheme_name FROM schemes WHERE scheme_name LIKE '%{scheme_name_query}%' COLLATE NOCASE"
+        # Escape wildcard characters
+        escaped_query = scheme_name_query.replace("%", "\\%").replace("_", "\\_")
+        query_schemes = "SELECT scheme_code, scheme_name FROM schemes WHERE scheme_name LIKE ? ESCAPE '\\' COLLATE NOCASE LIMIT 20"
+        schemes_df = pd.read_sql_query(query_schemes, conn, params=(f"%{escaped_query}%",))
     else:
         # Filter for Direct Growth Equity (approximate via name)
         query_schemes = """
@@ -38,28 +40,24 @@ def fetch_and_calculate_dma(scheme_name_query=None):
           AND scheme_name NOT LIKE '%Bond%'
           AND scheme_name NOT LIKE '%Gilt%'
         """
+        schemes_df = pd.read_sql_query(query_schemes, conn)
         
-    schemes_df = pd.read_sql_query(query_schemes, conn)
-    
     if schemes_df.empty:
         conn.close()
         return None
         
     scheme_codes = tuple(schemes_df['scheme_code'].tolist())
-    if len(scheme_codes) == 1:
-        scheme_codes_str = f"({scheme_codes[0]})"
-    else:
-        scheme_codes_str = str(scheme_codes)
+    placeholders = ",".join("?" * len(scheme_codes))
         
     # Fetch last 150 days for these schemes. We fetch more to ensure rolling 150 has enough data.
     # A simple way is to fetch last 200 trading days. Since date is YYYY-MM-DD or similar, we can sort.
     query_nav = f"""
     SELECT scheme_code, date, nav 
     FROM nav 
-    WHERE scheme_code IN {scheme_codes_str}
+    WHERE scheme_code IN ({placeholders})
     ORDER BY date ASC
     """
-    nav_df = pd.read_sql_query(query_nav, conn)
+    nav_df = pd.read_sql_query(query_nav, conn, params=scheme_codes)
     conn.close()
     
     if nav_df.empty:
@@ -128,7 +126,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     fund_name = update.message.text
     await update.message.reply_text(f"Searching for '{fund_name}' and calculating DMA...")
     
-    results = fetch_and_calculate_dma(fund_name)
+    import asyncio
+    loop = asyncio.get_running_loop()
+    results = await loop.run_in_executor(None, fetch_and_calculate_dma, fund_name)
     if not results:
         await update.message.reply_text(f"Could not find any funds matching '{fund_name}' or insufficient data.")
         return

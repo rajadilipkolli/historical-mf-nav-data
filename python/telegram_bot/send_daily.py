@@ -13,10 +13,12 @@ async def main():
         print("No results or db empty.")
         return
         
+    import html
     alerts = []
     for r in results:
         if r['crossover_50'] or r['crossover_150']:
-            msg = (f"*{r['scheme_name']}*\n"
+            safe_name = html.escape(r['scheme_name'])
+            msg = (f"<b>{safe_name}</b>\n"
                    f"NAV: ₹{r['nav']:.2f}\n")
             if r['crossover_50']:
                 msg += f"50-DMA Alert: {r['crossover_50']}\n"
@@ -26,10 +28,23 @@ async def main():
             
     if alerts:
         bot = Bot(token=BOT_TOKEN)
-        full_msg = "🚨 *Daily MF DMA Alerts* 🚨\n\n" + "\n\n".join(alerts)
-        if len(full_msg) > 4000:
-            full_msg = full_msg[:4000] + "\n...[truncated]"
-        await bot.send_message(chat_id=CHAT_ID, text=full_msg, parse_mode='Markdown')
+        header = "🚨 <b>Daily MF DMA Alerts</b> 🚨\n\n"
+        chunks = []
+        current_chunk = header
+        
+        for alert in alerts:
+            if len(current_chunk) + len(alert) + 2 > 4000:
+                chunks.append(current_chunk)
+                current_chunk = alert
+            else:
+                if current_chunk != header:
+                    current_chunk += "\n\n"
+                current_chunk += alert
+        if current_chunk:
+            chunks.append(current_chunk)
+            
+        for chunk in chunks:
+            await bot.send_message(chat_id=CHAT_ID, text=chunk, parse_mode='HTML')
         print("Alerts sent successfully!")
     else:
         print("No crossovers today. No message sent.")
