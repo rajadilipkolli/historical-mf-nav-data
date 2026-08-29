@@ -50,7 +50,9 @@ def get_data(conn):
             if file.endswith(".csv"):
                 date = f"{root[5:9]}-{root[10:12]}-{file[0:2]}"
                 with open(path, "r", encoding="utf-8") as f:
-                    lines = f.readlines()[1:]
+                    all_lines = f.readlines()
+                    header_line = all_lines[0]
+                    lines = all_lines[1:]
             elif file.endswith('.zip'):
                 # Try to find a CSV inside the zip with same day prefix
                 try:
@@ -70,32 +72,48 @@ def get_data(conn):
                             text = data_bytes.decode('utf-8')
                         except UnicodeDecodeError:
                             text = data_bytes.decode('latin-1')
-                        lines = text.splitlines()[1:]
+                        all_lines = text.splitlines()
+                        if not all_lines: continue
+                        header_line = all_lines[0]
+                        lines = all_lines[1:]
                 except zipfile.BadZipFile:
                     continue
             else:
                 continue
             
+            headers = [h.strip() for h in header_line.split(";")]
+            try:
+                # Default to old format if columns missing
+                isin1_idx = headers.index("ISIN Div Payout/ISIN Growth") if "ISIN Div Payout/ISIN Growth" in headers else 2
+                isin2_idx = headers.index("ISIN Div Reinvestment") if "ISIN Div Reinvestment" in headers else 3
+                nav_idx = headers.index("Net Asset Value") if "Net Asset Value" in headers else 4
+            except ValueError:
+                isin1_idx, isin2_idx, nav_idx = 2, 3, 4
+
             for line in lines:
                         if line == "" or ";" not in line:
                             continue
                         else:
                             line = line.split(";")
-                            scheme_code = int(line[0])
+                            try:
+                                scheme_code = int(line[0])
+                            except ValueError:
+                                continue
                             if scheme_code not in schemes:
                                 schemes[scheme_code] = line[1].strip()
 
-                            isin_1 = line[2].strip().upper()
-                            isin_2 = line[3].strip().upper()
+                            isin_1 = line[isin1_idx].strip().upper() if len(line) > isin1_idx else ""
+                            isin_2 = line[isin2_idx].strip().upper() if len(line) > isin2_idx else ""
 
                             if isin_1 != "" and isin_1 not in isin_list:
                                 isin_list[isin_1] = (scheme_code, 0)
                             if isin_2 != "" and isin_2 not in isin_list:
                                 isin_list[isin_2] = (scheme_code, 1)
 
-                            if line[4] not in ['-',"#N/A",'#DIV/0!','N.A.', 'NA', 'B.C.', 'B. C.']:
+                            nav_str = line[nav_idx] if len(line) > nav_idx else "-"
+                            if nav_str not in ['-',"#N/A",'#DIV/0!','N.A.', 'NA', 'B.C.', 'B. C.']:
                                 try:
-                                    nav = float(line[4].strip().replace(",", "").replace('`', '').replace("-", ""))
+                                    nav = float(nav_str.strip().replace(",", "").replace('`', '').replace("-", ""))
                                 except ValueError as e:
                                     # TODO: Save to an error log
                                     nav = False
