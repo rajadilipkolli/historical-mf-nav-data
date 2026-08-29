@@ -1,0 +1,42 @@
+name: Cleanup Old Releases
+
+on:
+  schedule:
+    # Run weekly on Sundays at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required permission to delete releases and tags
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Delete Releases and Tags Older Than 30 Days
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Calculate the date 30 days ago in ISO 8601 format
+          THRESHOLD_DATE=$(date -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
+          echo "Deleting releases published before: $THRESHOLD_DATE"
+          
+          # Fetch releases and filter those older than 30 days using jq
+          gh release list --limit 1000 --json tagName,publishedAt -q ".[] | select(.publishedAt < \"$THRESHOLD_DATE\") | .tagName" > old_releases.txt
+          
+          if [ -s old_releases.txt ]; then
+            echo "Found the following old releases/tags to delete:"
+            cat old_releases.txt
+            
+            # Loop through and delete the release, artifacts, and the tag itself
+            while read -r tag; do
+              echo "Deleting release and tag: $tag"
+              gh release delete "$tag" -y --cleanup-tag
+            done < old_releases.txt
+          else
+            echo "No releases older than 30 days found."
+          fi
