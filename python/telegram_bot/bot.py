@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import math
 import pandas as pd
 from dotenv import load_dotenv
 import datetime
@@ -10,6 +11,12 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+# Comma-separated Telegram user IDs allowed to change the shared watchlist.
+AUTHORIZED_USER_IDS = frozenset(
+    user_id.strip()
+    for user_id in os.getenv("TELEGRAM_AUTHORIZED_USER_IDS", "").split(",")
+    if user_id.strip()
+)
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "funds.db")
 
 def get_db_connection():
@@ -31,16 +38,25 @@ def build_search_query(fund_name, limit=20):
     query = f"SELECT scheme_code, scheme_name FROM schemes WHERE {where_clause} LIMIT {limit}"
     return query, tuple(params)
 
-def fetch_and_calculate_dma(scheme_name_query=None):
+def fetch_and_calculate_dma(scheme_name_query=None, scheme_codes=None):
     """
     Fetches NAV data and calculates 50-DMA and 150-DMA.
-    If scheme_name_query is provided, filters for that specific fund.
+    If scheme_codes is provided, filters for those exact schemes.
+    Otherwise, if scheme_name_query is provided, filters for that specific fund.
     Otherwise, filters for Direct Growth Equity schemes.
     """
     conn = get_db_connection()
     
     # Base query for schemes
-    if scheme_name_query:
+    if scheme_codes is not None:
+        scheme_codes = tuple(scheme_codes)
+        if not scheme_codes:
+            conn.close()
+            return None
+        placeholders = ",".join("?" * len(scheme_codes))
+        query_schemes = f"SELECT scheme_code, scheme_name FROM schemes WHERE scheme_code IN ({placeholders})"
+        schemes_df = pd.read_sql_query(query_schemes, conn, params=scheme_codes)
+    elif scheme_name_query:
         query_schemes, params = build_search_query(scheme_name_query, limit=20)
         schemes_df = pd.read_sql_query(query_schemes, conn, params=params)
     else:
@@ -184,20 +200,31 @@ async def process_dma(message, scheme_code, scheme_name):
 
 async def daily_alert_job(context: ContextTypes.DEFAULT_TYPE):
     print(f"[{datetime.datetime.now()}] Running daily alert job...")
-    results = fetch_and_calculate_dma()
+    watchlist = get_watchlist()
+    if watchlist is None:
+        print("Could not load watchlist.")
+        return
+    if not watchlist:
+        print("Watchlist is empty.")
+        return
+
+    scheme_codes = tuple(item['scheme_code'] for item in watchlist)
+    results = fetch_and_calculate_dma(scheme_codes=scheme_codes)
     if not results:
         print("No results or db empty.")
         return
         
     alerts = []
     for r in results:
-        if r['crossover_50'] or r['crossover_150']:
+        if r['crossover_50'] or r['crossover_150'] or r['crossover_golden']:
             msg = (f"*{r['scheme_name']}*\n"
                    f"NAV: ₹{r['nav']:.2f}\n")
             if r['crossover_50']:
                 msg += f"50-DMA Alert: {r['crossover_50']}\n"
             if r['crossover_150']:
-                msg += f"150-DMA Alert: {r['crossover_150']}"
+                msg += f"150-DMA Alert: {r['crossover_150']}\n"
+            if r['crossover_golden']:
+                msg += f"MA Alert: {r['crossover_golden']}"
             alerts.append(msg)
             
     if alerts and CHAT_ID:
@@ -212,7 +239,15 @@ async def daily_alert_job(context: ContextTypes.DEFAULT_TYPE):
 
 from github_sync import add_to_watchlist, remove_from_watchlist, get_watchlist
 
+def is_authorized(update: Update):
+    user = update.effective_user
+    return user is not None and str(user.id) in AUTHORIZED_USER_IDS
+
 async def add_fund(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update):
+        await update.message.reply_text("You are not authorized to modify the watchlist.")
+        return
+
     if not context.args:
         await update.message.reply_text("Usage: /add <fund_name>")
         return
@@ -244,9 +279,15 @@ async def add_fund(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     # Run github sync in executor to avoid blocking
     success, msg = await loop.run_in_executor(None, add_to_watchlist, scheme_code, scheme_name)
-    await update.message.reply_text(f"{msg}\n\nAdded: {scheme_name}")
+    if success:
+        msg += f"\n\nAdded: {scheme_name}"
+    await update.message.reply_text(msg)
 
 async def remove_fund(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update):
+        await update.message.reply_text("You are not authorized to modify the watchlist.")
+        return
+
     if not context.args:
         await update.message.reply_text("Usage: /remove <scheme_code>")
         return
@@ -261,6 +302,10 @@ async def view_portfolio(update: Update, context: ContextTypes.DEFAULT_TYPE):
     import asyncio
     loop = asyncio.get_running_loop()
     watchlist = await loop.run_in_executor(None, get_watchlist)
+
+    if watchlist is None:
+        await update.message.reply_text("Could not load your portfolio. Please try again later.")
+        return
     
     if not watchlist:
         await update.message.reply_text("Your portfolio is empty! Use /add <fund_name> to add some.")
@@ -290,6 +335,9 @@ async def handle_sip_command(update: Update, context: ContextTypes.DEFAULT_TYPE)
             amount = float(last_arg)
             years = 5
             fund_name = " ".join(context.args[:-1])
+
+        if not fund_name.strip() or not math.isfinite(amount) or amount <= 0 or years <= 0:
+            raise ValueError
             
     except ValueError:
         await update.message.reply_text("Please provide a valid amount.\nExample: /sip Axis Bluechip 5000")

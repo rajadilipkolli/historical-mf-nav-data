@@ -1,4 +1,5 @@
 import sqlite3
+import math
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
@@ -14,6 +15,19 @@ def get_db_connection():
     return sqlite3.connect(DB_PATH)
 
 def calculate_and_plot_sip(scheme_code, scheme_name, amount, years=5):
+    try:
+        inputs_are_valid = (
+            math.isfinite(amount)
+            and amount > 0
+            and math.isfinite(years)
+            and years > 0
+        )
+    except TypeError:
+        inputs_are_valid = False
+
+    if not inputs_are_valid:
+        return None, "Amount and duration must be finite values greater than zero."
+
     conn = get_db_connection()
     
     # Get the latest date available for this scheme

@@ -1,0 +1,45 @@
+name: Python CI
+
+on:
+  push:
+    paths:
+      - 'python/**'
+    branches: [main]
+  pull_request:
+    paths:
+      - 'python/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas zstandard
+          # Install telegram bot dependencies
+          pip install -r python/telegram_bot/requirements.txt
+
+      - name: Run DMA Tests
+        run: |
+          python python/test_dma.py
+
+      - name: Validate Telegram Bot Syntax
+        run: |
+          python -m py_compile python/telegram_bot/bot.py
+          python -m py_compile python/telegram_bot/send_daily.py
+          python -m py_compile python/telegram_bot/sip_calc.py
+          python -m py_compile python/telegram_bot/dma_calc.py
+          python -m py_compile python/telegram_bot/github_sync.py
+
+      - name: Run Telegram Bot Tests
+        run: |
+          python -m unittest python/telegram_bot/test_telegram_bot.py
