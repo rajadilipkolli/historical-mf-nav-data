@@ -2,3 +2,6 @@ pandas
 python-telegram-bot[job-queue]
 python-dotenv
 zstandard
+PyGithub
+pyxirr
+matplotlib

@@ -2,9 +2,9 @@ import os
 import sqlite3
 import pandas as pd
 from dotenv import load_dotenv
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 import datetime
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, CallbackQueryHandler, filters, ContextTypes
 
 load_dotenv()
 
@@ -14,6 +14,22 @@ DB_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "funds.db")
 
 def get_db_connection():
     return sqlite3.connect(DB_PATH)
+
+def build_search_query(fund_name, limit=20):
+    # Replace hyphens with spaces, then split into words
+    words = fund_name.replace("-", " ").split()
+    conditions = []
+    params = []
+    
+    for word in words:
+        escaped = word.lower().replace("%", "\\%").replace("_", "\\_")
+        # Strip spaces and hyphens from DB column for robust matching against exact or combined words (e.g. flexicap)
+        conditions.append("REPLACE(REPLACE(LOWER(scheme_name), ' ', ''), '-', '') LIKE ? ESCAPE '\\'")
+        params.append(f"%{escaped}%")
+        
+    where_clause = " AND ".join(conditions)
+    query = f"SELECT scheme_code, scheme_name FROM schemes WHERE {where_clause} LIMIT {limit}"
+    return query, tuple(params)
 
 def fetch_and_calculate_dma(scheme_name_query=None):
     """
@@ -25,10 +41,8 @@ def fetch_and_calculate_dma(scheme_name_query=None):
     
     # Base query for schemes
     if scheme_name_query:
-        # Escape wildcard characters
-        escaped_query = scheme_name_query.replace("%", "\\%").replace("_", "\\_")
-        query_schemes = "SELECT scheme_code, scheme_name FROM schemes WHERE scheme_name LIKE ? ESCAPE '\\' COLLATE NOCASE LIMIT 20"
-        schemes_df = pd.read_sql_query(query_schemes, conn, params=(f"%{escaped_query}%",))
+        query_schemes, params = build_search_query(scheme_name_query, limit=20)
+        schemes_df = pd.read_sql_query(query_schemes, conn, params=params)
     else:
         # Filter for Direct Growth Equity (approximate via name)
         query_schemes = """
@@ -106,6 +120,12 @@ def fetch_and_calculate_dma(scheme_name_query=None):
         elif prev['nav'] > prev['150_dma'] and curr['nav'] < curr['150_dma']:
             crossover_150 = "BEARISH (Crossed Below 150-DMA) 📉"
             
+        crossover_golden = None
+        if prev['50_dma'] < prev['150_dma'] and curr['50_dma'] > curr['150_dma']:
+            crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 150-DMA)"
+        elif prev['50_dma'] > prev['150_dma'] and curr['50_dma'] < curr['150_dma']:
+            crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 150-DMA)"
+            
         # For on-demand, we want to return the current status even if no crossover today
         results.append({
             'scheme_name': scheme_name,
@@ -114,7 +134,8 @@ def fetch_and_calculate_dma(scheme_name_query=None):
             '50_dma': curr['50_dma'],
             '150_dma': curr['150_dma'],
             'crossover_50': crossover_50,
-            'crossover_150': crossover_150
+            'crossover_150': crossover_150,
+            'crossover_golden': crossover_golden
         })
         
     return results
@@ -124,26 +145,42 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     fund_name = update.message.text
-    await update.message.reply_text(f"Searching for '{fund_name}' and calculating DMA...")
     
-    import asyncio
-    loop = asyncio.get_running_loop()
-    results = await loop.run_in_executor(None, fetch_and_calculate_dma, fund_name)
-    if not results:
-        await update.message.reply_text(f"Could not find any funds matching '{fund_name}' or insufficient data.")
+    conn = get_db_connection()
+    query, params = build_search_query(fund_name, limit=5)
+    df = pd.read_sql_query(query, conn, params=params)
+    conn.close()
+    
+    if df.empty:
+        await update.message.reply_text(f"Could not find any funds matching '{fund_name}'.")
         return
         
-    response = []
-    # Limit to top 5 matches to avoid spam
-    for r in results[:5]:
-        msg = (f"*{r['scheme_name']}*\n"
-               f"Date: {r['date']}\n"
-               f"NAV: ₹{r['nav']:.2f}\n"
-               f"50-DMA: ₹{r['50_dma']:.2f} " + (f"({r['crossover_50']})" if r['crossover_50'] else "") + "\n"
-               f"150-DMA: ₹{r['150_dma']:.2f} " + (f"({r['crossover_150']})" if r['crossover_150'] else ""))
-        response.append(msg)
+    if len(df) == 1:
+        scheme_code = int(df.iloc[0]['scheme_code'])
+        scheme_name = df.iloc[0]['scheme_name']
+        msg = await update.message.reply_text(f"Calculating DMA for {scheme_name}...")
+        await process_dma(msg, scheme_code, scheme_name)
+    else:
+        keyboard = []
+        for _, row in df.iterrows():
+            callback_data = f"dma|{row['scheme_code']}"
+            keyboard.append([InlineKeyboardButton(row['scheme_name'][:50], callback_data=callback_data)])
+            
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await update.message.reply_text("Multiple funds found. Please select one:", reply_markup=reply_markup)
+
+async def process_dma(message, scheme_code, scheme_name):
+    import asyncio
+    from dma_calc import calculate_and_plot_dma
+    
+    loop = asyncio.get_running_loop()
+    buf, summary = await loop.run_in_executor(None, calculate_and_plot_dma, scheme_code, scheme_name)
+    
+    if buf is None:
+        await message.edit_text(summary)
+        return
         
-    await update.message.reply_text("\n\n".join(response), parse_mode='Markdown')
+    await message.reply_photo(photo=buf, caption=summary, parse_mode='Markdown')
 
 async def daily_alert_job(context: ContextTypes.DEFAULT_TYPE):
     print(f"[{datetime.datetime.now()}] Running daily alert job...")
@@ -173,6 +210,157 @@ async def daily_alert_job(context: ContextTypes.DEFAULT_TYPE):
     else:
         print(f"[{datetime.datetime.now()}] No crossovers today.")
 
+from github_sync import add_to_watchlist, remove_from_watchlist, get_watchlist
+
+async def add_fund(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Usage: /add <fund_name>")
+        return
+        
+    fund_name = " ".join(context.args)
+    import asyncio
+    loop = asyncio.get_running_loop()
+    results = await loop.run_in_executor(None, fetch_and_calculate_dma, fund_name)
+    
+    if not results:
+        await update.message.reply_text(f"Could not find any funds matching '{fund_name}'.")
+        return
+        
+    # We take the first match for simplicity
+    best_match = results[0]
+    # We need scheme_code, but fetch_and_calculate_dma currently doesn't return it!
+    # Let's modify fetch_and_calculate_dma return to include scheme_code. Wait, I'll fetch it here via SQL.
+    conn = get_db_connection()
+    query, params = build_search_query(fund_name, limit=1)
+    df = pd.read_sql_query(query, conn, params=params)
+    conn.close()
+    
+    if df.empty:
+        await update.message.reply_text("Fund not found.")
+        return
+        
+    scheme_code = int(df.iloc[0]['scheme_code'])
+    scheme_name = df.iloc[0]['scheme_name']
+    
+    # Run github sync in executor to avoid blocking
+    success, msg = await loop.run_in_executor(None, add_to_watchlist, scheme_code, scheme_name)
+    await update.message.reply_text(f"{msg}\n\nAdded: {scheme_name}")
+
+async def remove_fund(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.message.reply_text("Usage: /remove <scheme_code>")
+        return
+        
+    scheme_code = context.args[0]
+    import asyncio
+    loop = asyncio.get_running_loop()
+    success, msg = await loop.run_in_executor(None, remove_from_watchlist, scheme_code)
+    await update.message.reply_text(msg)
+
+async def view_portfolio(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    import asyncio
+    loop = asyncio.get_running_loop()
+    watchlist = await loop.run_in_executor(None, get_watchlist)
+    
+    if not watchlist:
+        await update.message.reply_text("Your portfolio is empty! Use /add <fund_name> to add some.")
+        return
+        
+    lines = ["📋 *Your Watchlist:*"]
+    for item in watchlist:
+        lines.append(f"• `{item['scheme_code']}`: {item['scheme_name']}")
+    lines.append("\n(Use `/remove <scheme_code>` to remove a fund)")
+    
+    await update.message.reply_text("\n".join(lines), parse_mode='Markdown')
+
+async def handle_sip_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args or len(context.args) < 2:
+        await update.message.reply_text("Usage: /sip <fund name> <amount> [years]\nExample: /sip Parag Parikh Flexi 5000 10")
+        return
+        
+    try:
+        last_arg = context.args[-1]
+        second_last_arg = context.args[-2]
+        
+        try:
+            years = int(last_arg)
+            amount = float(second_last_arg)
+            fund_name = " ".join(context.args[:-2])
+        except ValueError:
+            amount = float(last_arg)
+            years = 5
+            fund_name = " ".join(context.args[:-1])
+            
+    except ValueError:
+        await update.message.reply_text("Please provide a valid amount.\nExample: /sip Axis Bluechip 5000")
+        return
+        
+    conn = get_db_connection()
+    query, params = build_search_query(fund_name, limit=5)
+    df = pd.read_sql_query(query, conn, params=params)
+    conn.close()
+    
+    if df.empty:
+        await update.message.reply_text(f"Could not find any funds matching '{fund_name}'.")
+        return
+        
+    if len(df) == 1:
+        scheme_code = int(df.iloc[0]['scheme_code'])
+        scheme_name = df.iloc[0]['scheme_name']
+        msg = await update.message.reply_text(f"Calculating SIP for {scheme_name} ({years} Years)...")
+        await process_sip(msg, scheme_code, scheme_name, amount, years)
+    else:
+        keyboard = []
+        for _, row in df.iterrows():
+            callback_data = f"sip|{row['scheme_code']}|{amount}|{years}"
+            keyboard.append([InlineKeyboardButton(row['scheme_name'][:50], callback_data=callback_data)])
+            
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await update.message.reply_text("Multiple funds found. Please select one:", reply_markup=reply_markup)
+
+async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    data = query.data
+    if data.startswith("sip|"):
+        parts = data.split("|")
+        scheme_code = int(parts[1])
+        amount = float(parts[2])
+        years = int(parts[3]) if len(parts) > 3 else 5
+        
+        conn = get_db_connection()
+        name_df = pd.read_sql_query(f"SELECT scheme_name FROM schemes WHERE scheme_code = {scheme_code}", conn)
+        conn.close()
+        scheme_name = name_df.iloc[0]['scheme_name'] if not name_df.empty else f"Fund {scheme_code}"
+        
+        await query.edit_message_text(f"Calculating SIP for {scheme_name} ({years} Years)...")
+        await process_sip(query.message, scheme_code, scheme_name, amount, years)
+    elif data.startswith("dma|"):
+        parts = data.split("|")
+        scheme_code = int(parts[1])
+        
+        conn = get_db_connection()
+        name_df = pd.read_sql_query(f"SELECT scheme_name FROM schemes WHERE scheme_code = {scheme_code}", conn)
+        conn.close()
+        scheme_name = name_df.iloc[0]['scheme_name'] if not name_df.empty else f"Fund {scheme_code}"
+        
+        await query.edit_message_text(f"Calculating DMA for {scheme_name}...")
+        await process_dma(query.message, scheme_code, scheme_name)
+
+async def process_sip(message, scheme_code, scheme_name, amount, years):
+    import asyncio
+    from sip_calc import calculate_and_plot_sip
+    
+    loop = asyncio.get_running_loop()
+    buf, summary = await loop.run_in_executor(None, calculate_and_plot_sip, scheme_code, scheme_name, amount, years)
+    
+    if buf is None:
+        await message.edit_text(summary)
+        return
+        
+    await message.reply_photo(photo=buf, caption=summary, parse_mode='Markdown')
+
 if __name__ == '__main__':
     if not BOT_TOKEN:
         print("ERROR: TELEGRAM_BOT_TOKEN is not set in .env")
@@ -181,6 +369,11 @@ if __name__ == '__main__':
     app = ApplicationBuilder().token(BOT_TOKEN).build()
     
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("add", add_fund))
+    app.add_handler(CommandHandler("remove", remove_fund))
+    app.add_handler(CommandHandler("portfolio", view_portfolio))
+    app.add_handler(CommandHandler("sip", handle_sip_command))
+    app.add_handler(CallbackQueryHandler(handle_callback_query))
     app.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), handle_message))
     
     # Schedule daily job at 8:00 AM UTC
