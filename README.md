@@ -16,7 +16,7 @@ Add this dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20260221</version> <!-- Use latest version from releases -->
+    <version>1.0.20260921</version> <!-- Use latest version from releases -->
 </dependency>
 ```
 
@@ -169,6 +169,20 @@ daily-nav.create-indexes=true
 daily-nav.debug=false
 # Enable data validation (count records) after loading (Default: true)
 daily-nav.validate-data=true
+```
+
+### 🧠 Caching & Redis
+
+By default, the library uses a localized **Caffeine Cache** for its internal data (`dailyNavCacheManager`). 
+This is specifically designed so it **will not interfere** with your application's primary Redis cache, avoiding accidental pollution of your Redis server with mutual fund data.
+
+If you *want* the library to use your application's Redis instance instead of Caffeine, simply define a bean named `dailyNavCacheManager` in your application context, and the library will seamlessly back off and use yours:
+
+```java
+@Bean(name = "dailyNavCacheManager")
+public CacheManager myRedisCacheManager(RedisConnectionFactory factory) {
+    return RedisCacheManager.builder(factory).build();
+}
 ```
 
 ---
