@@ -1,151 +1,295 @@
 package com.github.rajadilipkolli.dailynav;
 
-import java.io.File;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.vectorstore.SimpleVectorStore;
-import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.ObjectProvider;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.zaxxer.hikari.HikariDataSource;
+import java.time.Duration;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-/** Auto-configuration for AI features in Daily NAV. */
-@AutoConfiguration
-@ConditionalOnClass(ChatClient.class)
-@ConditionalOnProperty(prefix = "daily-nav.ai", name = "enabled", havingValue = "true")
-@EnableConfigurationProperties(DailyNavAiProperties.class)
-public class DailyNavAiAutoConfiguration {
+/** Auto-configuration for Daily NAV library */
+@AutoConfiguration(
+    afterName = {
+      "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
+      "org.springframework.boot.jdbc.autoconfigure.JdbcTemplateAutoConfiguration"
+    })
+@ConditionalOnClass(JdbcTemplate.class)
+@EnableConfigurationProperties(DailyNavProperties.class)
+public class DailyNavAutoConfiguration {
 
-  @Bean
-  @ConditionalOnMissingBean(ChatClient.class)
-  public ChatClient dailyNavChatClient(
-      ChatClient.Builder builder, DailyNavAiProperties properties) {
+  private final DailyNavProperties properties;
 
-    return builder
-        .defaultSystem(
-            "You are an expert financial assistant embedded in the Daily NAV library. "
-                + "You help users understand Indian mutual funds, scheme metrics, and NAV (Net Asset Value) histories.")
-        .build();
+  /**
+   * Create a DailyNavAutoConfiguration using the provided Daily NAV settings.
+   *
+   * @param properties configuration properties for Daily NAV, including database path and auto-init
+   *     options
+   */
+  public DailyNavAutoConfiguration(DailyNavProperties properties) {
+    this.properties = properties;
   }
 
-  @Bean
-  @ConditionalOnMissingBean
-  public MutualFundTools mutualFundTools(MutualFundService mutualFundService) {
-    return new MutualFundTools(mutualFundService);
+  /**
+   * Creates a DataSource configured for the Daily NAV SQLite database defined in {@link
+   * DailyNavProperties}.
+   *
+   * <p>The returned datasource is tuned for SQLite usage and executes initialization SQL to enable
+   * WAL journal mode and set synchronous mode to NORMAL.
+   *
+   * @return the configured HikariDataSource for the Daily NAV database
+   */
+  @Bean(name = "dailyNavDataSource", defaultCandidate = false)
+  @ConditionalOnMissingBean(name = "dailyNavDataSource")
+  DataSource dailyNavDataSource() {
+    HikariDataSource dataSource = new HikariDataSource();
+    dataSource.setDriverClassName("org.sqlite.JDBC");
+    dataSource.setJdbcUrl(properties.getDatabasePath());
+    dataSource.setPoolName("DailyNavPool");
+    dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
+    dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
+    return dataSource;
   }
 
-  @Bean
-  @ConditionalOnMissingBean
-  public TextToSqlGenerator textToSqlGenerator(
-      ObjectProvider<ChatClient> chatClientProvider,
+  /**
+   * Creates a JdbcTemplate configured to use the Daily NAV data source.
+   *
+   * @param dataSource the Daily NAV DataSource (qualified as "dailyNavDataSource")
+   * @return a JdbcTemplate backed by the Daily NAV DataSource
+   */
+  @Bean(name = "dailyNavJdbcTemplate", defaultCandidate = false)
+  @ConditionalOnMissingBean(name = "dailyNavJdbcTemplate")
+  @ConditionalOnBean(name = "dailyNavDataSource")
+  JdbcTemplate dailyNavJdbcTemplate(@Qualifier("dailyNavDataSource") DataSource dataSource) {
+    return new JdbcTemplate(dataSource);
+  }
+
+  /**
+   * Provides a NamedParameterJdbcTemplate using the Daily NAV JdbcTemplate.
+   *
+   * @param jdbcTemplate the Daily NAV JdbcTemplate
+   * @return a NamedParameterJdbcTemplate backed by the Daily NAV JdbcTemplate
+   */
+  @Bean(name = "dailyNavNamedParameterJdbcTemplate", defaultCandidate = false)
+  @ConditionalOnMissingBean(name = "dailyNavNamedParameterJdbcTemplate")
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  NamedParameterJdbcTemplate namedParameterJdbcTemplate(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
-    return new TextToSqlGenerator(chatClientProvider.getIfAvailable(), jdbcTemplate);
+    return new NamedParameterJdbcTemplate(jdbcTemplate);
   }
 
+  /**
+   * Create a NavRepository backed by the Daily NAV JdbcTemplate.
+   *
+   * @return a NavRepository that uses the Daily NAV JdbcTemplate
+   */
   @Bean
   @ConditionalOnMissingBean
-  public NaturalLanguageSearchService naturalLanguageSearchService(
-      ChatClient dailyNavChatClient,
-      MutualFundService mutualFundService,
-      MutualFundTools mutualFundTools,
-      KnowledgeSearchService knowledgeSearchService,
-      TextToSqlGenerator textToSqlGenerator) {
-    return new NaturalLanguageSearchService(
-        dailyNavChatClient,
-        mutualFundService,
-        mutualFundTools,
-        knowledgeSearchService,
-        textToSqlGenerator);
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  NavRepository navRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    return new NavRepository(jdbcTemplate);
   }
 
+  /**
+   * Configures a SchemeRepository backed by the Daily NAV JdbcTemplate.
+   *
+   * @return a SchemeRepository that uses the "dailyNavJdbcTemplate" JdbcTemplate
+   */
   @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  SchemeRepository schemeRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    return new SchemeRepository(jdbcTemplate);
+  }
+
+  /**
+   * Create a SecurityRepository that uses the Daily NAV JdbcTemplate.
+   *
+   * @param jdbcTemplate the Daily NAV {@code JdbcTemplate} to back the repository
+   * @return a new {@link SecurityRepository} instance backed by the provided JdbcTemplate
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(name = {"dailyNavJdbcTemplate", "dailyNavNamedParameterJdbcTemplate"})
+  SecurityRepository securityRepository(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      @Qualifier("dailyNavNamedParameterJdbcTemplate")
+          NamedParameterJdbcTemplate dailyNavNamedParameterJdbcTemplate) {
+    return new SecurityRepository(jdbcTemplate, dailyNavNamedParameterJdbcTemplate);
+  }
+
+  /**
+   * Creates a NavByIsinRepository backed by the Daily NAV JdbcTemplate.
+   *
+   * @return a NavByIsinRepository that uses the provided JdbcTemplate
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  NavByIsinRepository navByIsinRepository(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+    return new NavByIsinRepository(jdbcTemplate);
+  }
+
+  /**
+   * Create a MutualFundService configured with the library's repository dependencies.
+   *
+   * @param navByIsinRepository repository providing NAV lookup by ISIN
+   * @param schemeRepository repository for mutual fund scheme metadata
+   * @param securityRepository repository for security/instrument data
+   * @param databaseInitializer initializer responsible for preparing or verifying DB state
+   * @return a MutualFundService instance backed by the provided repositories
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  MutualFundService mutualFundService(
+      NavByIsinRepository navByIsinRepository,
+      NavRepository navRepository,
+      SchemeRepository schemeRepository,
+      SecurityRepository securityRepository,
+      DatabaseInitializer databaseInitializer) {
+    return new MutualFundService(
+        navByIsinRepository,
+        navRepository,
+        schemeRepository,
+        securityRepository,
+        databaseInitializer);
+  }
+
+  /**
+   * Creates the DailyNavHealthService used to perform health checks for the Daily NAV components.
+   *
+   * @param jdbcTemplate the JdbcTemplate backed by the daily NAV data source (qualified
+   *     "dailyNavJdbcTemplate")
+   * @param properties configuration properties for Daily NAV
+   * @return a DailyNavHealthService configured with the provided JdbcTemplate and properties
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  DailyNavHealthService dailyNavHealthService(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+    return new DailyNavHealthService(jdbcTemplate, properties);
+  }
+
+  /**
+   * Creates a DatabaseInitializer to prepare and initialize the Daily NAV database.
+   *
+   * @param jdbcTemplate the JdbcTemplate bound to the Daily NAV datasource used for database
+   *     operations
+   * @param properties Daily NAV configuration properties that control database location and
+   *     initialization behavior
+   * @return a DatabaseInitializer configured to initialize and manage the Daily NAV database
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  DatabaseInitializer databaseInitializer(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+    return new DatabaseInitializer(jdbcTemplate, properties);
+  }
+
+  /**
+   * Creates a DailyNavHealthIndicator wrapping DailyNavHealthService for management/health checks.
+   */
+  @Bean("dailyNavHealthIndicator")
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(DailyNavHealthService.class)
+  DailyNavHealthIndicator dailyNavHealthIndicator(DailyNavHealthService healthService) {
+    return new DailyNavHealthIndicator(healthService);
+  }
+
+  /**
+   * Creates the web controller that exposes health endpoints for the Daily NAV library.
+   *
+   * @param jdbcTemplate the dedicated JdbcTemplate for the Daily NAV database
+   * @param properties configuration properties for the Daily NAV library
+   * @param healthService service that evaluates the library's health
+   * @return the configured DailyNavHealthController instance
+   */
+  @Bean
+  @ConditionalOnMissingBean
   @ConditionalOnWebApplication
-  @ConditionalOnMissingBean
-  public AiSearchController aiSearchController(NaturalLanguageSearchService searchService) {
-    return new AiSearchController(searchService);
+  @ConditionalOnMissingClass("org.springframework.boot.health.contributor.HealthIndicator")
+  @ConditionalOnBean(name = "dailyNavJdbcTemplate")
+  DailyNavHealthController dailyNavHealthController(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DailyNavProperties properties,
+      DailyNavHealthService healthService) {
+    return new DailyNavHealthController(jdbcTemplate, properties, healthService);
   }
 
+  /**
+   * Triggers database initialization at application startup when auto-init is enabled.
+   *
+   * @param initializer the DatabaseInitializer used to start initialization
+   * @return an ApplicationRunner that invokes the initializer to perform initialization on startup
+   */
   @Bean
-  @ConditionalOnMissingBean
-  public TrendAnomalyService trendAnomalyService(
-      NavByIsinRepository navByIsinRepository, ObjectProvider<ChatClient> chatClientProvider) {
-    return new TrendAnomalyService(navByIsinRepository, chatClientProvider);
+  @ConditionalOnProperty(
+      prefix = "daily-nav",
+      name = "auto-init",
+      havingValue = "true",
+      matchIfMissing = true)
+  @ConditionalOnBean(DatabaseInitializer.class)
+  ApplicationRunner initializerRunner(DatabaseInitializer initializer) {
+    return args -> initializer.initializeDatabaseAsync();
   }
 
-  @Bean
-  @ConditionalOnWebApplication
-  @ConditionalOnMissingBean
-  public AiTrendController aiTrendController(TrendAnomalyService trendAnomalyService) {
-    return new AiTrendController(trendAnomalyService);
+  /**
+   * Provides a ThreadPoolTaskExecutor for Daily NAV asynchronous tasks.
+   *
+   * <p>The executor is configured with a core pool size of 2, maximum pool size of 5, a queue
+   * capacity of 50, and thread name prefix "daily-nav-".
+   *
+   * @return the configured ThreadPoolTaskExecutor instance
+   */
+  @Bean(name = "dailyNavTaskExecutor")
+  @ConditionalOnMissingBean(name = "dailyNavTaskExecutor")
+  ThreadPoolTaskExecutor dailyNavTaskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(2);
+    executor.setMaxPoolSize(5);
+    executor.setQueueCapacity(50);
+    executor.setThreadNamePrefix("daily-nav-");
+    executor.setWaitForTasksToCompleteOnShutdown(true);
+    return executor;
   }
 
-  @Bean
-  @ConditionalOnMissingBean
-  public ReportDataAssembler reportDataAssembler(
-      MutualFundService mutualFundService, TrendAnomalyService trendAnomalyService) {
-    return new ReportDataAssembler(mutualFundService, trendAnomalyService);
-  }
+  @Configuration
+  @EnableAsync
+  @ConditionalOnProperty(prefix = "daily-nav", name = "enable-async", havingValue = "true")
+  static class AsyncConfig {}
 
-  @Bean
-  @ConditionalOnMissingBean
-  public PerformanceReportService performanceReportService(
-      ObjectProvider<ChatClient> chatClientProvider, ReportDataAssembler reportDataAssembler) {
-    ChatClient chatClient = chatClientProvider.getIfAvailable();
-    return new PerformanceReportService(chatClient, reportDataAssembler);
-  }
+  @Configuration
+  @EnableCaching
+  @ConditionalOnProperty(prefix = "daily-nav", name = "enable-caching", havingValue = "true")
+  static class CacheConfig {
 
-  @Bean
-  @ConditionalOnMissingBean
-  public PerformanceReportController performanceReportController(
-      PerformanceReportService performanceReportService) {
-    return new PerformanceReportController(performanceReportService);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean(name = "dailyNavVectorStore")
-  public VectorStore dailyNavVectorStore(
-      EmbeddingModel embeddingModel, DailyNavAiProperties properties) {
-    SimpleVectorStore vectorStore = SimpleVectorStore.builder(embeddingModel).build();
-
-    // Attempt to load from persistence if a path is configured and exists
-    String path = properties.getRagDocumentPath();
-    if (path != null && !path.trim().isEmpty()) {
-      File file = new File(path, "vectorstore.json");
-      if (file.exists()) {
-        vectorStore.load(file);
-      }
+    @Bean(name = "dailyNavCacheManager")
+    @ConditionalOnMissingBean(name = "dailyNavCacheManager")
+    CacheManager dailyNavCacheManager() {
+      CaffeineCacheManager cacheManager = new CaffeineCacheManager("latestNav");
+      cacheManager.setCaffeine(
+          Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(Duration.ofHours(24)));
+      return cacheManager;
     }
-    return vectorStore;
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  public SchemeDocumentIngestionService schemeDocumentIngestionService(
-      VectorStore dailyNavVectorStore, DailyNavAiProperties properties) {
-    return new SchemeDocumentIngestionService(dailyNavVectorStore, properties);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  public KnowledgeSearchService knowledgeSearchService(
-      ChatClient dailyNavChatClient,
-      VectorStore dailyNavVectorStore,
-      DailyNavAiProperties properties) {
-    return new KnowledgeSearchService(dailyNavChatClient, dailyNavVectorStore, properties);
-  }
-
-  @Bean
-  @ConditionalOnWebApplication
-  @ConditionalOnMissingBean
-  public KnowledgeSearchController knowledgeSearchController(
-      KnowledgeSearchService knowledgeSearchService) {
-    return new KnowledgeSearchController(knowledgeSearchService);
   }
 }

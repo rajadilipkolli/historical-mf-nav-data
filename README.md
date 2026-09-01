@@ -149,6 +149,7 @@ public class MutualFundController {
 - `getFundInfo(String isin)` - Get complete fund information
 - `searchSchemes(String pattern)` - Search funds by name
 - `getAllSchemes()` - Get all available schemes
+- `getNavsBySchemeCode(int schemeCode)` - Get NAVs by scheme code
 
 ---
 
@@ -253,6 +254,11 @@ You can build custom health checks and Prometheus metrics using the service laye
 ```java
 NavByIsin latestNav = mutualFundService.getLatestNavByIsin("INF277K01741");
 System.out.println("Latest NAV: " + latestNav.getNav());
+```
+
+```java
+ // Get NAVs by scheme code
+List<Nav> navs = mutualFundService.getNavsBySchemeCode(12503);
 ```
 
 ### Get Historical Performance
