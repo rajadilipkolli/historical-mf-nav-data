@@ -25,7 +25,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /** Auto-configuration for Daily NAV library */
-@AutoConfiguration
+@AutoConfiguration(
+    afterName = {
+      "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
+      "org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration"
+    })
 @ConditionalOnClass(JdbcTemplate.class)
 @EnableConfigurationProperties(DailyNavProperties.class)
 public class DailyNavAutoConfiguration {
@@ -51,7 +55,7 @@ public class DailyNavAutoConfiguration {
    *
    * @return the configured HikariDataSource for the Daily NAV database
    */
-  @Bean(name = "dailyNavDataSource")
+  @Bean(name = "dailyNavDataSource", defaultCandidate = false)
   @ConditionalOnMissingBean(name = "dailyNavDataSource")
   DataSource dailyNavDataSource() {
     HikariDataSource dataSource = new HikariDataSource();
@@ -69,7 +73,7 @@ public class DailyNavAutoConfiguration {
    * @param dataSource the Daily NAV DataSource (qualified as "dailyNavDataSource")
    * @return a JdbcTemplate backed by the Daily NAV DataSource
    */
-  @Bean(name = "dailyNavJdbcTemplate")
+  @Bean(name = "dailyNavJdbcTemplate", defaultCandidate = false)
   @ConditionalOnMissingBean(name = "dailyNavJdbcTemplate")
   @ConditionalOnBean(name = "dailyNavDataSource")
   JdbcTemplate dailyNavJdbcTemplate(@Qualifier("dailyNavDataSource") DataSource dataSource) {
@@ -82,7 +86,7 @@ public class DailyNavAutoConfiguration {
    * @param jdbcTemplate the Daily NAV JdbcTemplate
    * @return a NamedParameterJdbcTemplate backed by the Daily NAV JdbcTemplate
    */
-  @Bean(name = "dailyNavNamedParameterJdbcTemplate")
+  @Bean(name = "dailyNavNamedParameterJdbcTemplate", defaultCandidate = false)
   @ConditionalOnMissingBean(name = "dailyNavNamedParameterJdbcTemplate")
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   NamedParameterJdbcTemplate namedParameterJdbcTemplate(
