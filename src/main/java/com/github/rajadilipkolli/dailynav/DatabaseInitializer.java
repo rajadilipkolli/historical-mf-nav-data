@@ -238,6 +238,7 @@ public class DatabaseInitializer {
       jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
       return true;
     } catch (Exception e) {
+      logger.error("Could not determine tables existence: {}", e.getMessage());
       return false;
     }
   }

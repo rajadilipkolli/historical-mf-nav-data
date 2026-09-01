@@ -12,8 +12,8 @@ public class DailyNavProperties {
    */
   private boolean autoInit = true;
 
-  /** Database connection URL. Default is in-memory. */
-  private String databasePath = "jdbc:sqlite::memory:";
+  /** Database URL. Defaults to an in-memory SQLite database that is shared across connections. */
+  private String databasePath = "jdbc:sqlite:file::memory:?cache=shared";
 
   /** Whether to create indexes automatically after data loading. */
   private boolean createIndexes = true;

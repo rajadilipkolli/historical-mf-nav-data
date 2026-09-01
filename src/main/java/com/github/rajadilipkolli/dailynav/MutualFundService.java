@@ -21,7 +21,8 @@ public class MutualFundService {
   private final DatabaseInitializer databaseInitializer;
 
   /**
-   * Creates a service using the repositories and database initializer required for mutual-fund data access.
+   * Creates a service using the repositories and database initializer required for mutual-fund data
+   * access.
    *
    * @param navByIsinRepository repository for NAV records indexed by ISIN
    * @param navRepository repository for NAV records indexed by scheme code
@@ -30,11 +31,11 @@ public class MutualFundService {
    * @param databaseInitializer component that tracks database initialization
    */
   public MutualFundService(
-      NavByIsinRepository navByIsinRepository,
-      NavRepository navRepository,
-      SchemeRepository schemeRepository,
-      SecurityRepository securityRepository,
-      DatabaseInitializer databaseInitializer) {
+          NavByIsinRepository navByIsinRepository,
+          NavRepository navRepository,
+          SchemeRepository schemeRepository,
+          SecurityRepository securityRepository,
+          DatabaseInitializer databaseInitializer) {
     this.navByIsinRepository = navByIsinRepository;
     this.navRepository = navRepository;
     this.schemeRepository = schemeRepository;
@@ -63,8 +64,8 @@ public class MutualFundService {
   public NavByIsin getLatestNavByIsinOrThrow(String isin) {
     MutualFundService target = self != null ? self : this;
     return target
-        .getLatestNavByIsin(isin)
-        .orElseThrow(() -> new NoSuchElementException("No NAV data found for ISIN: " + isin));
+            .getLatestNavByIsin(isin)
+            .orElseThrow(() -> new NoSuchElementException("No NAV data found for ISIN: " + isin));
   }
 
   /**

@@ -18,7 +18,7 @@ class DailyNavBasicTest {
     assertTrue(properties.isCreateIndexes());
     assertTrue(properties.isValidateData());
     assertFalse(properties.isDebug());
-    assertEquals("jdbc:sqlite::memory:", properties.getDatabasePath());
+    assertEquals("jdbc:sqlite:file::memory:?cache=shared", properties.getDatabasePath());
   }
 
   @Test
