@@ -22,6 +22,19 @@ public class MutualFundService {
 
   public MutualFundService(
       NavByIsinRepository navByIsinRepository,
+      SchemeRepository schemeRepository,
+      SecurityRepository securityRepository,
+      DatabaseInitializer databaseInitializer) {
+    this(
+        navByIsinRepository,
+        new NavRepository(navByIsinRepository.jdbcTemplate()),
+        schemeRepository,
+        securityRepository,
+        databaseInitializer);
+  }
+
+  public MutualFundService(
+      NavByIsinRepository navByIsinRepository,
       NavRepository navRepository,
       SchemeRepository schemeRepository,
       SecurityRepository securityRepository,

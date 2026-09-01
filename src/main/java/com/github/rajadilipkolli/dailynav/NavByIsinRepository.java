@@ -25,6 +25,10 @@ class NavByIsinRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
+  JdbcTemplate jdbcTemplate() {
+    return jdbcTemplate;
+  }
+
   private static final RowMapper<NavByIsin> NAV_BY_ISIN_ROW_MAPPER =
       (rs, rowNum) -> {
         NavByIsin nav = new NavByIsin();
