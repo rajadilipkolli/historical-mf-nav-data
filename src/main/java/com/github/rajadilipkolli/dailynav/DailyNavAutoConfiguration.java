@@ -26,10 +26,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /** Auto-configuration for Daily NAV library */
 @AutoConfiguration(
-    afterName = {
-      "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
-      "org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration"
-    })
+        afterName = {
+                "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
+                "org.springframework.boot.jdbc.autoconfigure.JdbcTemplateAutoConfiguration"
+        })
 @ConditionalOnClass(JdbcTemplate.class)
 @EnableConfigurationProperties(DailyNavProperties.class)
 public class DailyNavAutoConfiguration {
@@ -90,7 +90,7 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean(name = "dailyNavNamedParameterJdbcTemplate")
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   NamedParameterJdbcTemplate namedParameterJdbcTemplate(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+          @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     return new NamedParameterJdbcTemplate(jdbcTemplate);
   }
 
@@ -128,8 +128,8 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = {"dailyNavJdbcTemplate", "dailyNavNamedParameterJdbcTemplate"})
   SecurityRepository securityRepository(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      @Qualifier("dailyNavNamedParameterJdbcTemplate")
+          @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+          @Qualifier("dailyNavNamedParameterJdbcTemplate")
           NamedParameterJdbcTemplate dailyNavNamedParameterJdbcTemplate) {
     return new SecurityRepository(jdbcTemplate, dailyNavNamedParameterJdbcTemplate);
   }
@@ -143,7 +143,7 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   NavByIsinRepository navByIsinRepository(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+          @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     return new NavByIsinRepository(jdbcTemplate);
   }
 
@@ -160,12 +160,12 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   MutualFundService mutualFundService(
-      NavByIsinRepository navByIsinRepository,
-      SchemeRepository schemeRepository,
-      SecurityRepository securityRepository,
-      DatabaseInitializer databaseInitializer) {
+          NavByIsinRepository navByIsinRepository,
+          SchemeRepository schemeRepository,
+          SecurityRepository securityRepository,
+          DatabaseInitializer databaseInitializer) {
     return new MutualFundService(
-        navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
+            navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
   }
 
   /**
@@ -180,7 +180,7 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   DailyNavHealthService dailyNavHealthService(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+          @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     return new DailyNavHealthService(jdbcTemplate, properties);
   }
 
@@ -197,7 +197,7 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   DatabaseInitializer databaseInitializer(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+          @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     return new DatabaseInitializer(jdbcTemplate, properties);
   }
 
@@ -225,9 +225,9 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingClass("org.springframework.boot.health.contributor.HealthIndicator")
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   DailyNavHealthController dailyNavHealthController(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DailyNavProperties properties,
-      DailyNavHealthService healthService) {
+          @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+          DailyNavProperties properties,
+          DailyNavHealthService healthService) {
     return new DailyNavHealthController(jdbcTemplate, properties, healthService);
   }
 
@@ -239,10 +239,10 @@ public class DailyNavAutoConfiguration {
    */
   @Bean
   @ConditionalOnProperty(
-      prefix = "daily-nav",
-      name = "auto-init",
-      havingValue = "true",
-      matchIfMissing = true)
+          prefix = "daily-nav",
+          name = "auto-init",
+          havingValue = "true",
+          matchIfMissing = true)
   @ConditionalOnBean(DatabaseInitializer.class)
   ApplicationRunner initializerRunner(DatabaseInitializer initializer) {
     return args -> initializer.initializeDatabaseAsync();
@@ -283,7 +283,7 @@ public class DailyNavAutoConfiguration {
     CacheManager dailyNavCacheManager() {
       CaffeineCacheManager cacheManager = new CaffeineCacheManager("latestNav");
       cacheManager.setCaffeine(
-          Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(Duration.ofHours(24)));
+              Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(Duration.ofHours(24)));
       return cacheManager;
     }
   }
