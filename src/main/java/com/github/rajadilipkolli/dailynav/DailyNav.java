@@ -37,6 +37,13 @@ public final class DailyNav {
     return new CloseableMutualFundService(service, dataSource);
   }
 
+  /**
+   * Creates a configured mutual fund service backed by the supplied database.
+   *
+   * @param jdbcTemplate the JDBC template used for database access
+   * @param properties the database configuration used during initialization
+   * @return the configured mutual fund service
+   */
   private static @NonNull MutualFundService getMutualFundService(
       JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
     DatabaseInitializer initializer = new DatabaseInitializer(jdbcTemplate, properties);
