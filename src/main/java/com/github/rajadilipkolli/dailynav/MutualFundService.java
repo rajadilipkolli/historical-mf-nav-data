@@ -20,6 +20,15 @@ public class MutualFundService {
   private final SecurityRepository securityRepository;
   private final DatabaseInitializer databaseInitializer;
 
+  /**
+   * Creates a service using the repositories and database initializer required for mutual-fund data access.
+   *
+   * @param navByIsinRepository repository for NAV records indexed by ISIN
+   * @param navRepository repository for NAV records indexed by scheme code
+   * @param schemeRepository repository for mutual-fund schemes
+   * @param securityRepository repository for mutual-fund securities
+   * @param databaseInitializer component that tracks database initialization
+   */
   public MutualFundService(
       NavByIsinRepository navByIsinRepository,
       NavRepository navRepository,
@@ -129,7 +138,12 @@ public class MutualFundService {
     return navRepository.findBySchemeCode(schemeCode);
   }
 
-  /** Get scheme information by scheme code */
+  /**
+   * Retrieves scheme information by scheme code.
+   *
+   * @param schemeCode the scheme code to search for
+   * @return the matching scheme, if available
+   */
   public Optional<Scheme> getScheme(Integer schemeCode) {
     return schemeRepository.findBySchemeCode(schemeCode);
   }
