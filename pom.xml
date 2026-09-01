@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20260125</version>
+    <version>1.0.20260901</version>
     <name>historical-mf-nav-data</name>
     <description>Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library</description>
     <url>https://github.com/rajadilipkolli/historical-mf-nav-data</url>
@@ -25,7 +25,7 @@
         <java.version>21</java.version>
         <spring-boot.version>4.1.1</spring-boot.version>
         <spring-ai.version>2.0.1</spring-ai.version>
-        <google-java-format.version>1.35.0</google-java-format.version>
+        <google-java-format.version>1.36.1</google-java-format.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>

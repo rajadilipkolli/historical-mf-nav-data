@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.zaxxer.hikari.HikariDataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import org.junit.jupiter.api.Test;
 
 /** Basic tests for the Daily NAV library components */
@@ -18,7 +22,7 @@ class DailyNavBasicTest {
     assertTrue(properties.isCreateIndexes());
     assertTrue(properties.isValidateData());
     assertFalse(properties.isDebug());
-    assertEquals("jdbc:sqlite::memory:", properties.getDatabasePath());
+    assertEquals("jdbc:sqlite:file::memory:?cache=shared", properties.getDatabasePath());
   }
 
   @Test
@@ -50,5 +54,29 @@ class DailyNavBasicTest {
     properties.setDatabasePath("jdbc:sqlite:/direct/path.db");
     properties.setDatabaseFile(null);
     assertEquals("jdbc:sqlite:/direct/path.db", properties.getDatabasePath());
+  }
+  @Test
+  void sharedMemoryConnectionPersistsData() throws Exception {
+    DailyNavProperties properties = new DailyNavProperties();
+    try (HikariDataSource ds = new HikariDataSource()) {
+      ds.setJdbcUrl(properties.getDatabasePath());
+      ds.setMaximumPoolSize(2);
+      ds.setMinimumIdle(1); // Ensure at least one connection is kept alive
+
+      try (Connection conn1 = ds.getConnection()) {
+        try (Statement stmt1 = conn1.createStatement()) {
+          stmt1.execute("CREATE TABLE test_shared (id INTEGER, val TEXT)");
+          stmt1.execute("INSERT INTO test_shared VALUES (1, 'success')");
+        }
+      } // conn1 returned to pool
+
+      try (Connection conn2 = ds.getConnection()) {
+        try (Statement stmt2 = conn2.createStatement();
+            ResultSet rs = stmt2.executeQuery("SELECT val FROM test_shared WHERE id = 1")) {
+          assertTrue(rs.next());
+          assertEquals("success", rs.getString("val"));
+        }
+      }
+    }
   }
 }

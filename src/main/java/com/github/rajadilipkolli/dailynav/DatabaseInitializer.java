@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -237,7 +238,11 @@ public class DatabaseInitializer {
     try {
       jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
       return true;
+    } catch (BadSqlGrammarException e) {
+      logger.info("Tables do not exist yet, initialization required.");
+      return false;
     } catch (Exception e) {
+      logger.error("Could not determine tables existence: {}", e.getMessage());
       return false;
     }
   }
