@@ -44,6 +44,7 @@ public final class DailyNav {
 
     // Wire up repositories and service
     NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
+    NavRepository navRepository = new NavRepository(jdbcTemplate);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     NamedParameterJdbcTemplate namedParameterJdbcTemplate =
         new NamedParameterJdbcTemplate(jdbcTemplate);
@@ -51,7 +52,7 @@ public final class DailyNav {
         new SecurityRepository(jdbcTemplate, namedParameterJdbcTemplate);
 
     return new MutualFundService(
-        navByIsinRepository, schemeRepository, securityRepository, initializer);
+        navByIsinRepository, navRepository, schemeRepository, securityRepository, initializer);
   }
 
   /**

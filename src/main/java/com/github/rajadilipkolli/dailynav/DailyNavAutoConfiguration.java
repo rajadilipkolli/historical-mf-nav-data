@@ -161,11 +161,16 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   MutualFundService mutualFundService(
       NavByIsinRepository navByIsinRepository,
+      NavRepository navRepository,
       SchemeRepository schemeRepository,
       SecurityRepository securityRepository,
       DatabaseInitializer databaseInitializer) {
     return new MutualFundService(
-        navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
+        navByIsinRepository,
+        navRepository,
+        schemeRepository,
+        securityRepository,
+        databaseInitializer);
   }
 
   /**

@@ -15,16 +15,19 @@ import org.springframework.context.annotation.Lazy;
 public class MutualFundService {
 
   private final NavByIsinRepository navByIsinRepository;
+  private final NavRepository navRepository;
   private final SchemeRepository schemeRepository;
   private final SecurityRepository securityRepository;
   private final DatabaseInitializer databaseInitializer;
 
   public MutualFundService(
       NavByIsinRepository navByIsinRepository,
+      NavRepository navRepository,
       SchemeRepository schemeRepository,
       SecurityRepository securityRepository,
       DatabaseInitializer databaseInitializer) {
     this.navByIsinRepository = navByIsinRepository;
+    this.navRepository = navRepository;
     this.schemeRepository = schemeRepository;
     this.securityRepository = securityRepository;
     this.databaseInitializer = databaseInitializer;
@@ -119,6 +122,11 @@ public class MutualFundService {
    */
   public List<NavByIsin> getNavHistory(String isin, LocalDate startDate, LocalDate endDate) {
     return navByIsinRepository.findByIsinAndDateBetween(isin, startDate, endDate);
+  }
+
+  /** Get Navs information by scheme code */
+  public List<Nav> getNavsBySchemeCode(Integer schemeCode) {
+    return navRepository.findBySchemeCode(schemeCode);
   }
 
   /** Get scheme information by scheme code */

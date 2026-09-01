@@ -25,6 +25,7 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
   void setUp() throws SQLException {
     // Create repositories with the test JdbcTemplate
     NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
+    NavRepository navRepository = new NavRepository(jdbcTemplate);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     SecurityRepository securityRepository =
         new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
@@ -33,12 +34,17 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     databaseInitializer.initializeDatabase();
     service =
         new MutualFundService(
-            navByIsinRepository, schemeRepository, securityRepository, databaseInitializer);
+            navByIsinRepository,
+            navRepository,
+            schemeRepository,
+            securityRepository,
+            databaseInitializer);
   }
 
   @Override
   protected void createSchema() throws SQLException {
     try (var stmt = connection.createStatement()) {
+      stmt.execute("CREATE TABLE nav (date TEXT, scheme_code INTEGER, nav REAL)");
       stmt.execute("CREATE TABLE nav_by_isin (isin TEXT, date TEXT, nav REAL)");
       stmt.execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
       stmt.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
@@ -85,6 +91,20 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
       ps.setString(1, "ISIN456");
       ps.setString(2, REFERENCE_DATE.toString());
       ps.setDouble(3, 200.0);
+      ps.executeUpdate();
+    }
+    // Insert nav
+    try (var ps =
+        connection.prepareStatement("INSERT INTO nav (date, scheme_code, nav) VALUES (?, ?, ?)")) {
+      // Record 1 for scheme 1
+      ps.setString(1, REFERENCE_DATE.toString());
+      ps.setInt(2, 1);
+      ps.setDouble(3, 1500000.0); // Will be divided by 10000.0 -> 150.0
+      ps.executeUpdate();
+      // Record 2 for scheme 1, earlier date
+      ps.setString(1, REFERENCE_DATE.minusDays(1).toString());
+      ps.setInt(2, 1);
+      ps.setDouble(3, 1490000.0); // -> 149.0
       ps.executeUpdate();
     }
   }
@@ -218,5 +238,22 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
   void findIsinsBySchemeName_negative() {
     List<String> isins = service.findIsinsBySchemeName("NoMatch");
     assertTrue(isins.isEmpty());
+  }
+
+  @Test
+  void getNavsBySchemeCode_positive() {
+    var navs = service.getNavsBySchemeCode(1);
+    assertEquals(2, navs.size());
+    // Verify ordered by date desc
+    assertEquals(REFERENCE_DATE, navs.get(0).getDate());
+    assertEquals(150.0, navs.get(0).getNav());
+    assertEquals(REFERENCE_DATE.minusDays(1), navs.get(1).getDate());
+    assertEquals(149.0, navs.get(1).getNav());
+  }
+
+  @Test
+  void getNavsBySchemeCode_negative() {
+    var navs = service.getNavsBySchemeCode(999); // Non-existent scheme
+    assertTrue(navs.isEmpty());
   }
 }
