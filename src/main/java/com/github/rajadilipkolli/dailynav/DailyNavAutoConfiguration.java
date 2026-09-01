@@ -148,13 +148,14 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
-   * Create a MutualFundService configured with the library's repository dependencies.
+   * Creates a MutualFundService configured with the library's repository dependencies.
    *
    * @param navByIsinRepository repository providing NAV lookup by ISIN
+   * @param navRepository repository providing NAV data
    * @param schemeRepository repository for mutual fund scheme metadata
-   * @param securityRepository repository for security/instrument data
-   * @param databaseInitializer initializer responsible for preparing or verifying DB state
-   * @return a MutualFundService instance backed by the provided repositories
+   * @param securityRepository repository for security and instrument data
+   * @param databaseInitializer initializer responsible for preparing or verifying database state
+   * @return a MutualFundService backed by the provided repositories
    */
   @Bean
   @ConditionalOnMissingBean
