@@ -7,6 +7,11 @@ on:
       - main
     paths-ignore:
       - 'python/**'
+  pull_request:
+    branches:
+      - "**"
+    paths-ignore:
+      - 'python/**'
   workflow_dispatch:
     inputs:
       from_date:
@@ -49,6 +54,15 @@ jobs:
           distribution: 'graalvm'
           java-version: 25
           cache: 'maven'
+
+      - name: Build with Maven (CI Check)
+        run: ./mvnw clean install --batch-mode
+
+      - name: Early exit for PR or non-main branch
+        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main') }}
+        run: |
+          echo "PR or non-main branch detected. Exiting after CI build to save resources."
+          exit 0
 
       - name: Setup Python
         uses: actions/setup-python@v7
