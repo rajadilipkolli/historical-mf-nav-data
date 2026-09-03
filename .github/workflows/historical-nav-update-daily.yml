@@ -177,7 +177,7 @@ jobs:
 
           echo "Building with Maven (skipping tests for faster CI builds)..."
           
-          mvn clean install
+          mvn clean install -DskipTests
 
           echo "Copying JAR artifact..."
           JAR_FILE=$(find target -name "historical-mf-nav-data*.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
