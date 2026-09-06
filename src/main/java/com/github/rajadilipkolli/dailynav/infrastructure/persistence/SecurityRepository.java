@@ -79,7 +79,7 @@ public class SecurityRepository implements SecurityPort {
   }
 
   /**
-   * Finds securities whose scheme name contains the supplied pattern.
+   * Finds securities whose scheme name contains the supplied pattern, ignoring case.
    *
    * @param namePattern the text to search for within scheme names
    * @return the ISINs of matching securities

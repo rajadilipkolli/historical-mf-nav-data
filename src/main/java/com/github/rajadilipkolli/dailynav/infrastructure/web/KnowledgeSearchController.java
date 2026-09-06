@@ -19,6 +19,12 @@ public class KnowledgeSearchController {
     this.knowledgeSearchService = knowledgeSearchService;
   }
 
+  /**
+   * Processes a knowledge search request and returns the answer with its sources.
+   *
+   * @param request the request containing the search query
+   * @return a successful response with the search result, or a bad-request response when the request or query is missing or blank
+   */
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)

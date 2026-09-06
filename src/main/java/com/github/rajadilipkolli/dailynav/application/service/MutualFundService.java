@@ -29,14 +29,7 @@ public class MutualFundService {
   private final DatabaseInitializerPort databaseInitializerPort;
 
   /**
-   * Creates a service using the repositories and database initializer required for mutual-fund data
-   * access.
-   *
-   * @param navByIsinRepository repository for NAV records indexed by ISIN
-   * @param navRepository repository for NAV records indexed by scheme code
-   * @param schemeRepository repository for mutual-fund schemes
-   * @param securityRepository repository for mutual-fund securities
-   * @param databaseInitializer component that tracks database initialization
+   * Creates a service for accessing mutual-fund data through the supplied application ports.
    */
   public MutualFundService(
       NavLookupPort navLookupPort,
@@ -175,17 +168,16 @@ public class MutualFundService {
     return schemePort.findAll();
   }
 
-  /** Get security information by ISIN */
+  /** Retrieves security information for the specified ISIN. */
   public Optional<Security> getSecurity(String isin) {
     return securityPort.findByIsin(isin);
   }
 
   /**
-   * Retrieves complete fund information for an ISIN, including its security and scheme.
+   * Retrieves the security and associated scheme for an ISIN.
    *
    * @param isin the ISIN identifying the fund
-   * @return the fund information when both the security and associated scheme are available;
-   *     otherwise, an empty optional
+   * @return an optional containing the fund information when both records are available, or empty otherwise
    */
   public Optional<FundInfo> getFundInfo(String isin) {
     Optional<Security> security = getSecurity(isin);

@@ -57,6 +57,12 @@ public class DailyNavAiAutoConfiguration {
     return new MutualFundTools(mutualFundService);
   }
 
+  /**
+   * Creates the text-to-SQL service used to generate queries for daily NAV data.
+   *
+   * @param jdbcTemplate the JDBC template for the daily NAV database
+   * @return the text-to-SQL service
+   */
   @Bean
   @ConditionalOnMissingBean
   public TextToSqlPort textToSqlPort(
@@ -65,6 +71,16 @@ public class DailyNavAiAutoConfiguration {
     return new TextToSqlGenerator(chatClientProvider.getIfAvailable(), jdbcTemplate);
   }
 
+  /**
+   * Creates the service used to process natural-language mutual fund searches.
+   *
+   * @param dailyNavChatClient the chat client used to interpret search requests
+   * @param mutualFundService the mutual fund service used to retrieve fund data
+   * @param mutualFundTools the tools available for mutual fund operations
+   * @param knowledgeSearchService the service used to search supporting knowledge
+   * @param textToSqlPort the port used to generate SQL from natural-language requests
+   * @return the configured natural-language search service
+   */
   @Bean
   @ConditionalOnMissingBean
   public NaturalLanguageSearchService naturalLanguageSearchService(
@@ -88,6 +104,13 @@ public class DailyNavAiAutoConfiguration {
     return new AiSearchController(searchService);
   }
 
+  /**
+   * Creates the service used to analyze NAV trends and detect anomalies.
+   *
+   * @param navLookupPort       the port used to retrieve NAV data
+   * @param chatClientProvider  the provider for an optional chat client
+   * @return                   the configured trend anomaly service
+   */
   @Bean
   @ConditionalOnMissingBean
   public TrendAnomalyService trendAnomalyService(
@@ -95,6 +118,12 @@ public class DailyNavAiAutoConfiguration {
     return new TrendAnomalyService(navLookupPort, chatClientProvider);
   }
 
+  /**
+   * Creates the controller for exposing AI-powered NAV trend analysis in web applications.
+   *
+   * @param trendAnomalyService the service used to analyze NAV trends
+   * @return the configured trend analysis controller
+   */
   @Bean
   @ConditionalOnWebApplication
   @ConditionalOnMissingBean
@@ -102,6 +131,13 @@ public class DailyNavAiAutoConfiguration {
     return new AiTrendController(trendAnomalyService);
   }
 
+  /**
+   * Creates the report assembly service for combining mutual fund and trend analysis data.
+   *
+   * @param mutualFundService   service for retrieving mutual fund data
+   * @param trendAnomalyService service for retrieving trend and anomaly data
+   * @return the report assembly port
+   */
   @Bean
   @ConditionalOnMissingBean
   public ReportAssemblyPort reportAssemblyPort(
@@ -109,6 +145,12 @@ public class DailyNavAiAutoConfiguration {
     return new ReportDataAssembler(mutualFundService, trendAnomalyService);
   }
 
+  /**
+   * Creates the service used to generate performance reports.
+   *
+   * @param reportAssemblyPort assembles the data required for performance reports
+   * @return the configured performance report service
+   */
   @Bean
   @ConditionalOnMissingBean
   public PerformanceReportService performanceReportService(
@@ -117,6 +159,12 @@ public class DailyNavAiAutoConfiguration {
     return new PerformanceReportService(chatClient, reportAssemblyPort);
   }
 
+  /**
+   * Creates the controller for exposing performance reports.
+   *
+   * @param performanceReportService the service used to generate performance reports
+   * @return the performance report controller
+   */
   @Bean
   @ConditionalOnMissingBean
   public PerformanceReportController performanceReportController(

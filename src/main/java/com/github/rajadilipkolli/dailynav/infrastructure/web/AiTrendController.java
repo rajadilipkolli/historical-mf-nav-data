@@ -21,10 +21,10 @@ public class AiTrendController {
   }
 
   /**
-   * Retrieves trend and anomaly analysis for a given ISIN.
+   * Retrieves trend and anomaly analysis for the specified ISIN.
    *
-   * @param isin The ISIN to analyze.
-   * @return TrendAnomalyResult containing stats and optional AI narrative.
+   * @param isin the ISIN to analyze
+   * @return the analysis result, or a bad request response when the ISIN is invalid
    */
   @GetMapping(value = "/{isin}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<TrendAnomalyResult> getTrendAndAnomalies(

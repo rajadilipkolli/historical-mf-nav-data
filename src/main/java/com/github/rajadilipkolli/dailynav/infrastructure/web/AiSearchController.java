@@ -21,6 +21,12 @@ public class AiSearchController {
     this.searchService = searchService;
   }
 
+  /**
+   * Processes a natural-language search request.
+   *
+   * @param request the request containing the search query
+   * @return a bad-request response for missing or blank queries; otherwise, the generated answer
+   */
   @PostMapping(
       value = "/search",
       consumes = MediaType.APPLICATION_JSON_VALUE,

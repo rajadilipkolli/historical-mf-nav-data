@@ -20,6 +20,14 @@ public class ReportDataAssembler implements ReportAssemblyPort {
     this.trendAnomalyService = trendAnomalyService;
   }
 
+  /**
+   * Assembles the data required to generate a report for a mutual fund.
+   *
+   * @param isin  the fund's International Securities Identification Number
+   * @param days  the number of days of NAV history to include
+   * @return      the assembled report context
+   * @throws      IllegalArgumentException if no fund exists for the specified ISIN
+   */
   @Override
   public ReportContext assembleContext(String isin, int days) {
     MutualFundService.FundInfo appFundInfo =

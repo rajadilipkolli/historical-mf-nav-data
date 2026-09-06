@@ -44,11 +44,23 @@ public class TextToSqlGenerator implements TextToSqlPort {
       3. Use `nav_by_isin` when querying by ISIN, and `nav` when querying by scheme_code.
       """;
 
+  /**
+   * Creates a generator configured with the specified chat client and JDBC template.
+   *
+   * @param chatClient   the chat client used to generate SQL
+   * @param jdbcTemplate the JDBC template used to execute generated queries
+   */
   public TextToSqlGenerator(ChatClient chatClient, JdbcTemplate jdbcTemplate) {
     this.chatClient = chatClient.mutate().defaultSystem(SYSTEM_PROMPT).build();
     this.jdbcTemplate = jdbcTemplate;
   }
 
+  /**
+   * Converts a natural-language mutual-fund question into a validated read-only SQL query and executes it.
+   *
+   * @param userQuery the natural-language question to answer
+   * @return a formatted table of query results, or a message describing unavailable, empty, or failed results
+   */
   @Override
   public String execute(String userQuery) {
     String currentPrompt = userQuery;

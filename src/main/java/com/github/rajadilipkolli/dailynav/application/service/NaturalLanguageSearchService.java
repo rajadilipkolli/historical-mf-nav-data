@@ -16,6 +16,15 @@ public class NaturalLanguageSearchService {
   private final KnowledgeSearchService knowledgeSearchService;
   private final TextToSqlPort textToSqlPort;
 
+  /**
+   * Creates a service for routing natural-language mutual fund queries.
+   *
+   * @param chatClient             client used for language-model interactions
+   * @param mutualFundService      service used to check mutual fund data readiness
+   * @param mutualFundTools        tools available for known mutual fund queries
+   * @param knowledgeSearchService service used for qualitative searches
+   * @param textToSqlPort          port used to execute ad hoc queries
+   */
   public NaturalLanguageSearchService(
       ChatClient chatClient,
       MutualFundService mutualFundService,
@@ -30,10 +39,11 @@ public class NaturalLanguageSearchService {
   }
 
   /**
-   * Processes a natural language query by leveraging the LLM to call appropriate tools.
+   * Routes a natural-language mutual fund query to the appropriate search capability.
    *
-   * @param query The natural language user query.
-   * @return The AI-generated answer.
+   * @param query the natural-language user query
+   * @return the answer generated or retrieved for the query
+   * @throws IllegalStateException if the mutual fund database is not ready
    */
   public String search(String query) {
     if (!mutualFundService.isReady()) {

@@ -15,6 +15,12 @@ public class TrendAnomalyService {
   private final NavLookupPort navLookupPort;
   private final ObjectProvider<ChatClient> chatClientProvider;
 
+  /**
+   * Creates a service for analyzing NAV trends and anomalies.
+   *
+   * @param navLookupPort       source of NAV records
+   * @param chatClientProvider  provider for the optional narrative-generation client
+   */
   public TrendAnomalyService(
       NavLookupPort navLookupPort, ObjectProvider<ChatClient> chatClientProvider) {
     this.navLookupPort = navLookupPort;
@@ -22,10 +28,11 @@ public class TrendAnomalyService {
   }
 
   /**
-   * Analyzes the trend and detects anomalies for the given ISIN using the last 200 trading days.
+   * Analyzes NAV trends and detects significant changes for an ISIN using its latest records.
    *
-   * @param isin The ISIN to analyze.
-   * @return The structured TrendAnomalyResult.
+   * @param isin the ISIN to analyze
+   * @return the calculated trend, anomaly, and data-staleness results
+   * @throws IllegalArgumentException if no NAV data exists for the ISIN
    */
   public TrendAnomalyResult analyzeTrendAndAnomalies(String isin) {
     List<NavByIsin> records = navLookupPort.findLastNByIsin(isin, 200);
