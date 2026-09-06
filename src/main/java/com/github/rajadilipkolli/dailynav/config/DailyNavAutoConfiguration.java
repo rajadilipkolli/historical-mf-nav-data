@@ -1,18 +1,17 @@
 package com.github.rajadilipkolli.dailynav.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
+import com.github.rajadilipkolli.dailynav.application.port.NavPort;
+import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
+import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SchemeRepository;
-import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
-import com.github.rajadilipkolli.dailynav.application.port.NavPort;
-import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
-import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
-import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SecurityRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.DailyNavHealthController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.DailyNavHealthIndicator;
@@ -182,11 +181,7 @@ public class DailyNavAutoConfiguration {
       SecurityPort securityPort,
       DatabaseInitializerPort databaseInitializerPort) {
     return new MutualFundService(
-        navByIsinRepository,
-        navPort,
-        schemePort,
-        securityPort,
-        databaseInitializerPort);
+        navByIsinRepository, navPort, schemePort, securityPort, databaseInitializerPort);
   }
 
   /**

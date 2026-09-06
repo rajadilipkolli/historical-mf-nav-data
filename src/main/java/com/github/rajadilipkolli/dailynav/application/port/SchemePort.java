@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface SchemePort {
   Optional<Scheme> findBySchemeCode(Integer schemeCode);
+
   List<Scheme> findBySchemeNameContaining(String namePattern);
+
   List<Scheme> findAll();
 }

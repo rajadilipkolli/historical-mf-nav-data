@@ -19,7 +19,9 @@ public class PerformanceReportController {
     this.performanceReportService = performanceReportService;
   }
 
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ReportResponse> generateReport(
       @RequestBody(required = false) ReportRequest request) {
     if (request == null || request.isin() == null || request.isin().isBlank()) {

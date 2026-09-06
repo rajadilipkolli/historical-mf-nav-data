@@ -17,11 +17,11 @@ public class NaturalLanguageSearchService {
   private final TextToSqlPort textToSqlPort;
 
   public NaturalLanguageSearchService(
-          ChatClient chatClient,
-          MutualFundService mutualFundService,
-          MutualFundTools mutualFundTools,
-          KnowledgeSearchService knowledgeSearchService,
-          TextToSqlPort textToSqlPort) {
+      ChatClient chatClient,
+      MutualFundService mutualFundService,
+      MutualFundTools mutualFundTools,
+      KnowledgeSearchService knowledgeSearchService,
+      TextToSqlPort textToSqlPort) {
     this.chatClient = chatClient;
     this.mutualFundService = mutualFundService;
     this.mutualFundTools = mutualFundTools;

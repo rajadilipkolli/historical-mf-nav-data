@@ -7,7 +7,10 @@ import java.util.Optional;
 
 public interface NavLookupPort {
   List<NavByIsin> findLastNByIsin(String isin, int limit);
+
   Optional<NavByIsin> findLatestByIsin(String isin);
+
   Optional<NavByIsin> findByIsinAndDateOnOrBefore(String isin, LocalDate date);
+
   List<NavByIsin> findByIsinAndDateBetween(String isin, LocalDate startDate, LocalDate endDate);
 }

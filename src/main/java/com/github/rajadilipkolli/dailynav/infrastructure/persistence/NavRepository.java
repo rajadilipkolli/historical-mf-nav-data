@@ -1,7 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import com.github.rajadilipkolli.dailynav.application.port.NavPort;
-
 import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import java.time.LocalDate;
 import java.util.List;
@@ -88,4 +87,3 @@ public class NavRepository implements NavPort {
     return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode, date).stream().findFirst();
   }
 }
-

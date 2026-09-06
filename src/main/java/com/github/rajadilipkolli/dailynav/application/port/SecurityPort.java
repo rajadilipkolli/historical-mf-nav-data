@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface SecurityPort {
   Optional<Security> findByIsin(String isin);
+
   List<String> findIsinsBySchemeNamePattern(String namePattern);
 }

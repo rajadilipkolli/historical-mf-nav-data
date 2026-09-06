@@ -1,14 +1,14 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
-import com.github.rajadilipkolli.dailynav.domain.model.Nav;
-import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
-import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
-import com.github.rajadilipkolli.dailynav.domain.model.Security;
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavPort;
 import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
 import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
+import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
+import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
+import com.github.rajadilipkolli.dailynav.domain.model.Security;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -184,7 +184,8 @@ public class MutualFundService {
    * Retrieves complete fund information for an ISIN, including its security and scheme.
    *
    * @param isin the ISIN identifying the fund
-   * @return the fund information when both the security and associated scheme are available; otherwise, an empty optional
+   * @return the fund information when both the security and associated scheme are available;
+   *     otherwise, an empty optional
    */
   public Optional<FundInfo> getFundInfo(String isin) {
     Optional<Security> security = getSecurity(isin);
@@ -245,7 +246,7 @@ public class MutualFundService {
      * Describes the security type associated with the fund.
      *
      * @return "Unknown" when the security or its type is null, "Growth/Dividend Payout" for type 0,
-     *         or "Dividend Reinvestment" for other type values
+     *     or "Dividend Reinvestment" for other type values
      */
     public String getTypeDescription() {
       if (security == null || security.getType() == null) {
@@ -255,7 +256,8 @@ public class MutualFundService {
     }
 
     /**
-     * Formats the fund information as a string containing its ISIN, scheme name, and type description.
+     * Formats the fund information as a string containing its ISIN, scheme name, and type
+     * description.
      *
      * @return the formatted fund information
      */

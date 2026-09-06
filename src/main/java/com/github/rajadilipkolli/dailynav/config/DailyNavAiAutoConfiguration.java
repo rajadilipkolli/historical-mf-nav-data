@@ -1,18 +1,18 @@
 package com.github.rajadilipkolli.dailynav.config;
 
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
-import com.github.rajadilipkolli.dailynav.configproperties.DailyNavAiProperties;
 import com.github.rajadilipkolli.dailynav.application.port.ReportAssemblyPort;
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import com.github.rajadilipkolli.dailynav.application.service.KnowledgeSearchService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundTools;
 import com.github.rajadilipkolli.dailynav.application.service.NaturalLanguageSearchService;
 import com.github.rajadilipkolli.dailynav.application.service.PerformanceReportService;
 import com.github.rajadilipkolli.dailynav.application.service.TrendAnomalyService;
-import com.github.rajadilipkolli.dailynav.infrastructure.ai.SchemeDocumentIngestionService;
-import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
-import com.github.rajadilipkolli.dailynav.infrastructure.ai.TextToSqlGenerator;
 import com.github.rajadilipkolli.dailynav.application.service.assembler.ReportDataAssembler;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavAiProperties;
+import com.github.rajadilipkolli.dailynav.infrastructure.ai.SchemeDocumentIngestionService;
+import com.github.rajadilipkolli.dailynav.infrastructure.ai.TextToSqlGenerator;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.AiTrendController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController;

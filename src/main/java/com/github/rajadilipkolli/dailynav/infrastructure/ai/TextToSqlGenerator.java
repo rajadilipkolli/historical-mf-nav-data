@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.ai;
 
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 
 public class TextToSqlGenerator implements TextToSqlPort {
 

@@ -21,7 +21,10 @@ public class AiSearchController {
     this.searchService = searchService;
   }
 
-  @PostMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(
+      value = "/search",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SearchResponse> search(
       @RequestBody(required = false) SearchRequest request) {
     if (request == null || request.query() == null || request.query().isBlank()) {

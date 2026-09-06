@@ -1,7 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
-
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
 import java.util.Collection;
 import java.util.List;
@@ -93,4 +92,3 @@ public class SecurityRepository implements SecurityPort {
     return jdbcTemplate.queryForList(sql, String.class, "%" + namePattern + "%");
   }
 }
-

@@ -1,7 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
-
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import java.util.List;
 import java.util.Optional;
@@ -48,4 +47,3 @@ public class SchemeRepository implements SchemePort {
     return jdbcTemplate.query(sql, SCHEME_ROW_MAPPER, "%" + namePattern + "%");
   }
 }
-
