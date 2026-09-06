@@ -29,6 +29,9 @@ public class DailyNavUsageExample implements CommandLineRunner {
     SpringApplication.run(DailyNavUsageExample.class, args);
   }
 
+  /**
+   * Demonstrates health checks and common Daily NAV library queries.
+   */
   @Override
   public void run(String... args) throws Exception {
     System.out.println("=== Daily NAV Library Usage Example ===");

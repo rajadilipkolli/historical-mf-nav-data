@@ -34,13 +34,25 @@ public class NavRepository {
         return nav;
       };
 
-  /** Get all NAV records for a specific scheme code */
+  /**
+   * Retrieves all NAV records for a scheme, ordered from newest to oldest.
+   *
+   * @param schemeCode the scheme code used to select NAV records
+   * @return the matching NAV records
+   */
   public List<Nav> findBySchemeCode(Integer schemeCode) {
     String sql = "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? ORDER BY date DESC";
     return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode);
   }
 
-  /** Get NAV records for a specific scheme code and date range */
+  /**
+   * Retrieves NAV records for a scheme within an inclusive date range, ordered from newest to oldest.
+   *
+   * @param schemeCode the scheme code
+   * @param startDate  the beginning of the date range
+   * @param endDate    the end of the date range
+   * @return the matching NAV records
+   */
   public List<Nav> findBySchemeCodeAndDateBetween(
       Integer schemeCode, LocalDate startDate, LocalDate endDate) {
     String sql =
@@ -48,14 +60,25 @@ public class NavRepository {
     return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode, startDate, endDate);
   }
 
-  /** Get latest NAV for a specific scheme code */
+  /**
+   * Finds the latest NAV record for a scheme.
+   *
+   * @param schemeCode the scheme code to search for
+   * @return the latest NAV record, or an empty optional if no record exists
+   */
   public Optional<Nav> findLatestBySchemeCode(Integer schemeCode) {
     String sql =
         "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? ORDER BY date DESC LIMIT 1";
     return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode).stream().findFirst();
   }
 
-  /** Get NAV on or before a specific date for a scheme code */
+  /**
+   * Finds the latest NAV record for a scheme on or before the specified date.
+   *
+   * @param schemeCode the scheme code
+   * @param date       the inclusive upper date bound
+   * @return the latest matching NAV record, or an empty optional if none exists
+   */
   public Optional<Nav> findBySchemeCodeAndDateOnOrBefore(Integer schemeCode, LocalDate date) {
     String sql =
         "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? AND date <= ? ORDER BY date DESC LIMIT 1";

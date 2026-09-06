@@ -54,20 +54,20 @@ public class MutualFundService {
   @Autowired @Lazy private MutualFundService self;
 
   /**
-   * Checks if the database is ready for queries.
+   * Checks whether the database initialization is complete.
    *
-   * @return true if initialization is complete
+   * @return {@code true} if initialization is complete, {@code false} otherwise
    */
   public boolean isReady() {
     return databaseInitializer.isInitialized();
   }
 
   /**
-   * Get latest NAV by ISIN, throwing an exception if not found.
+   * Retrieves the latest NAV record for an ISIN.
    *
    * @param isin the ISIN to look up
    * @return the latest NAV record
-   * @throws NoSuchElementException if no NAV data is found for the given ISIN
+   * @throws NoSuchElementException if no NAV data is found for the ISIN
    */
   public NavByIsin getLatestNavByIsinOrThrow(String isin) {
     MutualFundService target = self != null ? self : this;
@@ -103,11 +103,11 @@ public class MutualFundService {
   }
 
   /**
-   * Get NAV by ISIN for a specific date (or closest date before)
+   * Retrieves the NAV for an ISIN on the specified date or the closest earlier date.
    *
    * @param isin the ISIN to look up
-   * @param date the date to search for (or the closest date before)
-   * @return an Optional containing the NAV record, or empty if not found
+   * @param date the date for which to retrieve the NAV
+   * @return the matching NAV record, or an empty {@code Optional} if none is found
    */
   public Optional<NavByIsin> getNavByIsinAndDate(String isin, LocalDate date) {
     return navByIsinRepository.findByIsinAndDateOnOrBefore(isin, date);
@@ -136,7 +136,12 @@ public class MutualFundService {
     return navByIsinRepository.findByIsinAndDateBetween(isin, startDate, endDate);
   }
 
-  /** Get Navs information by scheme code */
+  /**
+   * Retrieves NAV records for a scheme code.
+   *
+   * @param schemeCode the scheme code used to find NAV records
+   * @return the NAV records associated with the scheme code
+   */
   public List<Nav> getNavsBySchemeCode(Integer schemeCode) {
     return navRepository.findBySchemeCode(schemeCode);
   }
@@ -151,12 +156,21 @@ public class MutualFundService {
     return schemeRepository.findBySchemeCode(schemeCode);
   }
 
-  /** Search schemes by name */
+  /**
+   * Finds schemes whose names contain the specified pattern.
+   *
+   * @param namePattern the name pattern to search for
+   * @return schemes whose names contain the pattern
+   */
   public List<Scheme> searchSchemes(String namePattern) {
     return schemeRepository.findBySchemeNameContaining(namePattern);
   }
 
-  /** Get all schemes */
+  /**
+   * Retrieves all mutual-fund schemes.
+   *
+   * @return all available schemes
+   */
   public List<Scheme> getAllSchemes() {
     return schemeRepository.findAll();
   }
@@ -166,7 +180,12 @@ public class MutualFundService {
     return securityRepository.findByIsin(isin);
   }
 
-  /** Get complete fund information (scheme + security) by ISIN */
+  /**
+   * Retrieves complete fund information for an ISIN, including its security and scheme.
+   *
+   * @param isin the ISIN identifying the fund
+   * @return the fund information when both the security and associated scheme are available; otherwise, an empty optional
+   */
   public Optional<FundInfo> getFundInfo(String isin) {
     Optional<Security> security = getSecurity(isin);
     if (security.isEmpty()) {
@@ -186,22 +205,48 @@ public class MutualFundService {
    */
   public record FundInfo(Security security, Scheme scheme) {
 
+    /**
+     * Retrieves the security's ISIN.
+     *
+     * @return the security's ISIN
+     */
     public String getIsin() {
       return security.getIsin();
     }
 
+    /**
+     * Gets the associated scheme name.
+     *
+     * @return the scheme name
+     */
     public String getSchemeName() {
       return scheme.schemeName();
     }
 
+    /**
+     * Retrieves the scheme code associated with this security.
+     *
+     * @return the security's scheme code
+     */
     public Integer getSchemeCode() {
       return security.getSchemeCode();
     }
 
+    /**
+     * Gets the security type associated with this fund.
+     *
+     * @return the security type
+     */
     public Integer getType() {
       return security.getType();
     }
 
+    /**
+     * Describes the security type associated with the fund.
+     *
+     * @return "Unknown" when the security or its type is null, "Growth/Dividend Payout" for type 0,
+     *         or "Dividend Reinvestment" for other type values
+     */
     public String getTypeDescription() {
       if (security == null || security.getType() == null) {
         return "Unknown";
@@ -209,6 +254,11 @@ public class MutualFundService {
       return security.getType() == 0 ? "Growth/Dividend Payout" : "Dividend Reinvestment";
     }
 
+    /**
+     * Formats the fund information as a string containing its ISIN, scheme name, and type description.
+     *
+     * @return the formatted fund information
+     */
     @Override
     @NonNull
     public String toString() {

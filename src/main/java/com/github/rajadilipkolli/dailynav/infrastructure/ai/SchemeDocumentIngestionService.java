@@ -20,11 +20,20 @@ public class SchemeDocumentIngestionService implements ApplicationRunner {
   private final VectorStore vectorStore;
   private final DailyNavAiProperties properties;
 
+  /**
+   * Creates a service for ingesting scheme documents into the specified vector store.
+   *
+   * @param vectorStore the vector store that receives ingested documents
+   * @param properties configuration properties for document ingestion
+   */
   public SchemeDocumentIngestionService(VectorStore vectorStore, DailyNavAiProperties properties) {
     this.vectorStore = vectorStore;
     this.properties = properties;
   }
 
+  /**
+   * Ingests configured text and Markdown documents into the vector store.
+   */
   @Override
   @Async
   public void run(ApplicationArguments args) throws Exception {

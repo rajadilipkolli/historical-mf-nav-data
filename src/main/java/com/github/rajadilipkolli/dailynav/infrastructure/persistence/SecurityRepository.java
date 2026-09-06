@@ -67,15 +67,21 @@ public class SecurityRepository {
     return namedParameterJdbcTemplate.query(sql, params, SECURITY_ROW_MAPPER);
   }
 
-  /** Find all securities */
+  /**
+   * Retrieves all securities ordered by ISIN.
+   *
+   * @return all securities sorted by ISIN
+   */
   public List<Security> findAll() {
     String sql = "SELECT isin, type, scheme_code FROM securities ORDER BY isin";
     return jdbcTemplate.query(sql, SECURITY_ROW_MAPPER);
   }
 
   /**
-   * Find ISINs by scheme name pattern using a JOIN to avoid fetching thousands of schemes into
-   * memory.
+   * Finds securities whose scheme name contains the supplied pattern.
+   *
+   * @param namePattern the text to search for within scheme names
+   * @return the ISINs of matching securities
    */
   public List<String> findIsinsBySchemeNamePattern(String namePattern) {
     String sql =

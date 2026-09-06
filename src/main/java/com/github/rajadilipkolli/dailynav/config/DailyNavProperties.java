@@ -27,14 +27,29 @@ public class DailyNavProperties {
   /** Whether to validate data integrity (counting records) after loading. */
   private boolean validateData = true;
 
+  /**
+   * Indicates whether database initialization is enabled.
+   *
+   * @return {@code true} if database initialization is enabled, {@code false} otherwise
+   */
   public boolean isAutoInit() {
     return autoInit;
   }
 
+  /**
+   * Configures whether the database is initialized automatically.
+   *
+   * @param autoInit {@code true} to enable automatic database initialization; {@code false} otherwise
+   */
   public void setAutoInit(boolean autoInit) {
     this.autoInit = autoInit;
   }
 
+  /**
+   * Resolves the database connection path, using the configured database file when provided.
+   *
+   * @return the SQLite JDBC URL for the configured database file, or the configured database path
+   */
   public String getDatabasePath() {
     // If a custom database file is specified, use it
     if (databaseFile != null && !databaseFile.trim().isEmpty()) {
@@ -43,6 +58,11 @@ public class DailyNavProperties {
     return databasePath;
   }
 
+  /**
+   * Sets the default database connection path.
+   *
+   * @param databasePath the database connection path to use when no database file is configured
+   */
   public void setDatabasePath(String databasePath) {
     this.databasePath = databasePath;
   }
@@ -51,6 +71,11 @@ public class DailyNavProperties {
     return databaseFile;
   }
 
+  /**
+   * Sets the file used for persistent database storage.
+   *
+   * @param databaseFile the database file path
+   */
   public void setDatabaseFile(String databaseFile) {
     this.databaseFile = databaseFile;
   }
@@ -59,22 +84,47 @@ public class DailyNavProperties {
     return createIndexes;
   }
 
+  /**
+   * Configures whether database indexes are created during initialization.
+   *
+   * @param createIndexes whether to create database indexes
+   */
   public void setCreateIndexes(boolean createIndexes) {
     this.createIndexes = createIndexes;
   }
 
+  /**
+   * Indicates whether debug logging is enabled.
+   *
+   * @return {@code true} if debug logging is enabled, {@code false} otherwise
+   */
   public boolean isDebug() {
     return debug;
   }
 
+  /**
+   * Enables or disables debug logging.
+   *
+   * @param debug {@code true} to enable debug logging; {@code false} to disable it
+   */
   public void setDebug(boolean debug) {
     this.debug = debug;
   }
 
+  /**
+   * Indicates whether data validation is enabled after loading.
+   *
+   * @return {@code true} if data validation is enabled, {@code false} otherwise
+   */
   public boolean isValidateData() {
     return validateData;
   }
 
+  /**
+   * Configures whether loaded data should be validated.
+   *
+   * @param validateData {@code true} to enable data validation; {@code false} to disable it
+   */
   public void setValidateData(boolean validateData) {
     this.validateData = validateData;
   }

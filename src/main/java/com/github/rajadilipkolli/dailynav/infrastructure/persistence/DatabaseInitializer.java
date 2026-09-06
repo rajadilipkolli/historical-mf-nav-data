@@ -59,15 +59,13 @@ public class DatabaseInitializer {
   }
 
   /**
-   * Initializes the Daily NAV database according to configured properties.
+   * Initializes the Daily NAV database according to the configured properties.
    *
-   * <p>If auto-initialization is disabled or the required tables already exist this method returns
-   * without making changes. Otherwise it attempts to populate the database (first by restoring a
-   * compressed database if available, falling back to executing the embedded SQL script) and,
-   * optionally, creates indexes and logs database statistics when complete.
+   * <p>When auto-initialization is enabled, restores the database or loads the embedded SQL script,
+   * then optionally creates indexes and records database statistics. When disabled, updates the
+   * initialization status based on whether the required tables exist.
    *
-   * @throws RuntimeException if an error occurs while restoring, loading, or initializing the
-   *     database
+   * @throws RuntimeException if database initialization fails
    */
   public void initializeDatabase() {
     if (!properties.isAutoInit()) {
@@ -113,30 +111,10 @@ public class DatabaseInitializer {
   }
 
   /**
-   * Attempt to restore the SQLite database from the classpath resource "funds.db.zst".
+   * Restores the SQLite database from the compressed classpath resource {@code funds.db.zst}.
    *
-   * <p>If a file-based database path is configured, the restored database file is copied to that
-   * path. If the configured path refers to an in-memory database, the restored file is loaded into
-   * the current connection using SQLite's restore mechanism.
-   *
-   * <p>Note: when loading into an in-memory connection this implementation uses the SQLite
-   * extension command {@code restore from '<path>'} via the sqlite-jdbc driver. This is not
-   * standard SQL — it relies on SQLite-specific behavior provided by the JDBC driver. The file path
-   * is single-quote escaped with {@code replace("'", "''")} before being embedded in the SQL
-   * command to avoid breaking the literal. Example usage in this code:
-   *
-   * <pre>
-   * st.executeUpdate("restore from '" + finalTempDb.getAbsolutePath().replace("'", "''") + "'");
-   * </pre>
-   *
-   * <p>Because this approach depends on SQLite features, callers should ensure the underlying
-   * connection is a SQLite connection if portability is required; consider adding a runtime check
-   * or alternative loading path for other databases.
-   *
-   * <p>The temporary file used during restoration is deleted before returning.
-   *
-   * @return `true` if the database was successfully restored (copied to the configured file path or
-   *     loaded into an in-memory database), `false` otherwise.
+   * @return {@code true} if restoration succeeds, {@code false} if the resource is unavailable or
+   *     restoration fails
    */
   boolean restoreDatabaseFromZst() {
     boolean databaseRestored = false;
@@ -235,6 +213,11 @@ public class DatabaseInitializer {
     }
   }
 
+  /**
+   * Determines whether the database tables have been initialized.
+   *
+   * @return {@code true} if the {@code schemes} table can be queried, {@code false} otherwise
+   */
   boolean tablesExist() {
     try {
       jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
@@ -248,6 +231,11 @@ public class DatabaseInitializer {
     }
   }
 
+  /**
+   * Loads and executes SQL statements from the embedded {@code funds.sql} script.
+   *
+   * @throws IOException if the SQL script is not available or cannot be read
+   */
   void loadSqlScript() throws IOException {
     logger.info("Loading SQL data from embedded script (funds.sql)...");
 
@@ -311,11 +299,11 @@ public class DatabaseInitializer {
   }
 
   /**
-   * Create the application's database indexes required for NAV and securities queries.
+   * Creates indexes supporting NAV and securities queries.
    *
-   * <p>Attempts to create indexes for nav(date, scheme_code), nav(scheme_code),
-   * securities(scheme_code) and securities(isin). Non-fatal failures while creating individual
-   * indexes are logged and do not stop the remaining index creation.
+   * <p>Attempts to create indexes for NAV date and scheme lookups, securities scheme-code
+   * lookups, and ISIN lookups. Individual failures are logged and do not prevent subsequent
+   * index creation attempts.
    */
   void createIndexes() {
     logger.info("Creating database indexes...");
