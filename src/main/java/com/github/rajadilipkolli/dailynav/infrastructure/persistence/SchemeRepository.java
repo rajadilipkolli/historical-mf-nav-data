@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
+import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 /** Repository for Scheme data access */
 @Repository
-public class SchemeRepository {
+public class SchemeRepository implements SchemePort {
 
   private final JdbcTemplate jdbcTemplate;
 

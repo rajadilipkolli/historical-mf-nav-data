@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.AbstractRepositoryTest;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
@@ -46,6 +46,7 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
             schemeRepository,
             securityRepository,
             databaseInitializer);
+    org.springframework.test.util.ReflectionTestUtils.setField(service, "self", service);
   }
 
   @Override

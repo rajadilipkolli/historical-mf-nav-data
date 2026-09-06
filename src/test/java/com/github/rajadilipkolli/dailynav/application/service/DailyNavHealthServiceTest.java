@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.AbstractRepositoryTest;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.domain.health.DailyNavHealthStatus;
 import java.sql.SQLException;
 import java.time.Clock;

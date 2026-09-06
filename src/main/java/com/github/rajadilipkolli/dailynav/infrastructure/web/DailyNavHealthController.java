@@ -1,7 +1,7 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.web;
 
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.domain.health.DailyNavHealthStatus;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

@@ -1,8 +1,8 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -12,23 +12,30 @@ import org.springframework.beans.factory.ObjectProvider;
 /** Service for detecting trends and anomalies in NAV series. */
 public class TrendAnomalyService {
 
-  private final NavByIsinRepository navByIsinRepository;
+  private final NavLookupPort navLookupPort;
   private final ObjectProvider<ChatClient> chatClientProvider;
 
+  /**
+   * Creates a service for analyzing NAV trends and anomalies.
+   *
+   * @param navLookupPort source of NAV records
+   * @param chatClientProvider provider for the optional narrative-generation client
+   */
   public TrendAnomalyService(
-      NavByIsinRepository navByIsinRepository, ObjectProvider<ChatClient> chatClientProvider) {
-    this.navByIsinRepository = navByIsinRepository;
+      NavLookupPort navLookupPort, ObjectProvider<ChatClient> chatClientProvider) {
+    this.navLookupPort = navLookupPort;
     this.chatClientProvider = chatClientProvider;
   }
 
   /**
-   * Analyzes the trend and detects anomalies for the given ISIN using the last 200 trading days.
+   * Analyzes NAV trends and detects significant changes for an ISIN using its latest records.
    *
-   * @param isin The ISIN to analyze.
-   * @return The structured TrendAnomalyResult.
+   * @param isin the ISIN to analyze
+   * @return the calculated trend, anomaly, and data-staleness results
+   * @throws IllegalArgumentException if no NAV data exists for the ISIN
    */
   public TrendAnomalyResult analyzeTrendAndAnomalies(String isin) {
-    List<NavByIsin> records = navByIsinRepository.findLastNByIsin(isin, 200);
+    List<NavByIsin> records = navLookupPort.findLastNByIsin(isin, 200);
 
     if (records.isEmpty()) {
       throw new IllegalArgumentException("No NAV data found for ISIN: " + isin);

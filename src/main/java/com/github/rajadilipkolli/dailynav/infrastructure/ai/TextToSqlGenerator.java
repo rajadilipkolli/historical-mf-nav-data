@@ -1,18 +1,24 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.ai;
 
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.statement.Statement;
+import net.sf.jsqlparser.statement.select.Select;
+import net.sf.jsqlparser.statement.select.WithItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class TextToSqlGenerator {
+public class TextToSqlGenerator implements TextToSqlPort {
 
   private static final Logger logger = LoggerFactory.getLogger(TextToSqlGenerator.class);
   private static final int MAX_RETRIES = 3;
@@ -38,11 +44,26 @@ public class TextToSqlGenerator {
       3. Use `nav_by_isin` when querying by ISIN, and `nav` when querying by scheme_code.
       """;
 
+  /**
+   * Creates a generator configured with the specified chat client and JDBC template.
+   *
+   * @param chatClient the chat client used to generate SQL
+   * @param jdbcTemplate the JDBC template used to execute generated queries
+   */
   public TextToSqlGenerator(ChatClient chatClient, JdbcTemplate jdbcTemplate) {
     this.chatClient = chatClient.mutate().defaultSystem(SYSTEM_PROMPT).build();
     this.jdbcTemplate = jdbcTemplate;
   }
 
+  /**
+   * Converts a natural-language mutual-fund question into a validated read-only SQL query and
+   * executes it.
+   *
+   * @param userQuery the natural-language question to answer
+   * @return a formatted table of query results, or a message describing unavailable, empty, or
+   *     failed results
+   */
+  @Override
   public String execute(String userQuery) {
     String currentPrompt = userQuery;
 
@@ -75,15 +96,27 @@ public class TextToSqlGenerator {
           sql = sql.substring(0, sql.length() - 1).strip();
         }
 
-        // Reject generated SQL containing semicolons outside string literals
-        String sqlWithoutStrings = sql.replaceAll("'[^']*'", "");
-        if (sqlWithoutStrings.contains(";")) {
-          throw new IllegalArgumentException("Multiple statements or semicolons are not allowed.");
-        }
-
-        String upperSql = sql.toUpperCase();
-        if (!upperSql.startsWith("SELECT") && !upperSql.startsWith("WITH")) {
-          throw new IllegalArgumentException("Only SELECT or WITH queries are permitted.");
+        // Parse and validate the SQL using JSqlParser
+        try {
+          Statement stmt = CCJSqlParserUtil.parse(sql);
+          if (!(stmt instanceof Select selectStmt)) {
+            throw new IllegalArgumentException("Only read-only SELECT queries are permitted.");
+          }
+          if (selectStmt.getWithItemsList() != null) {
+            for (WithItem withItem : selectStmt.getWithItemsList()) {
+              if (withItem.getSubSelect() == null) {
+                throw new IllegalArgumentException("CTE bodies must be read-only SELECT queries.");
+              }
+              // Recursively validate nested CTEs if present
+              if (withItem.getSubSelect().getWithItemsList() != null
+                  && !withItem.getSubSelect().getWithItemsList().isEmpty()) {
+                throw new IllegalArgumentException(
+                    "Nested CTEs not permitted for security reasons.");
+              }
+            }
+          }
+        } catch (JSQLParserException e) {
+          throw new IllegalArgumentException("Failed to parse SQL: " + e.getMessage());
         }
 
         final String finalSql = sql;
@@ -96,15 +129,6 @@ public class TextToSqlGenerator {
                   boolean wasReadOnly = con.isReadOnly();
                   try {
                     con.setReadOnly(true);
-
-                    // Replace concatenated execute EXPLAIN dry-run with a safer queryForList-based
-                    // approach
-                    // We use prepareStatement to be safe, though EXPLAIN doesn't execute the query
-                    try (PreparedStatement explainPs =
-                            con.prepareStatement("EXPLAIN QUERY PLAN " + finalSql);
-                        ResultSet explainRs = explainPs.executeQuery()) {
-                      // dry-run successful
-                    }
 
                     // Execute actual query
                     try (PreparedStatement ps = con.prepareStatement(finalSql)) {

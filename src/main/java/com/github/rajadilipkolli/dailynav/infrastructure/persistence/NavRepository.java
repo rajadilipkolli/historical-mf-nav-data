@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavPort;
 import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 /** Repository for NAV data access */
 @Repository
-public class NavRepository {
+public class NavRepository implements NavPort {
 
   private final JdbcTemplate jdbcTemplate;
 
@@ -46,11 +47,12 @@ public class NavRepository {
   }
 
   /**
-   * Retrieves NAV records for a scheme within an inclusive date range, ordered from newest to oldest.
+   * Retrieves NAV records for a scheme within an inclusive date range, ordered from newest to
+   * oldest.
    *
    * @param schemeCode the scheme code
-   * @param startDate  the beginning of the date range
-   * @param endDate    the end of the date range
+   * @param startDate the beginning of the date range
+   * @param endDate the end of the date range
    * @return the matching NAV records
    */
   public List<Nav> findBySchemeCodeAndDateBetween(
@@ -76,7 +78,7 @@ public class NavRepository {
    * Finds the latest NAV record for a scheme on or before the specified date.
    *
    * @param schemeCode the scheme code
-   * @param date       the inclusive upper date bound
+   * @param date the inclusive upper date bound
    * @return the latest matching NAV record, or an empty optional if none exists
    */
   public Optional<Nav> findBySchemeCodeAndDateOnOrBefore(Integer schemeCode, LocalDate date) {

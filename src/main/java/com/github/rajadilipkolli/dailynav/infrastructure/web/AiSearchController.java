@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.infrastructure.web;
 
 import com.github.rajadilipkolli.dailynav.application.service.NaturalLanguageSearchService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,16 @@ public class AiSearchController {
     this.searchService = searchService;
   }
 
-  @PostMapping("/search")
+  /**
+   * Processes a natural-language search request.
+   *
+   * @param request the request containing the search query
+   * @return a bad-request response for missing or blank queries; otherwise, the generated answer
+   */
+  @PostMapping(
+      value = "/search",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SearchResponse> search(
       @RequestBody(required = false) SearchRequest request) {
     if (request == null || request.query() == null || request.query().isBlank()) {

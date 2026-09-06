@@ -1,15 +1,18 @@
 package com.github.rajadilipkolli.dailynav.config;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
+import com.github.rajadilipkolli.dailynav.application.port.ReportAssemblyPort;
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import com.github.rajadilipkolli.dailynav.application.service.KnowledgeSearchService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundTools;
 import com.github.rajadilipkolli.dailynav.application.service.NaturalLanguageSearchService;
 import com.github.rajadilipkolli.dailynav.application.service.PerformanceReportService;
 import com.github.rajadilipkolli.dailynav.application.service.TrendAnomalyService;
+import com.github.rajadilipkolli.dailynav.application.service.assembler.ReportDataAssembler;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavAiProperties;
 import com.github.rajadilipkolli.dailynav.infrastructure.ai.SchemeDocumentIngestionService;
 import com.github.rajadilipkolli.dailynav.infrastructure.ai.TextToSqlGenerator;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.ReportDataAssembler;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.AiTrendController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController;
@@ -39,8 +42,7 @@ public class DailyNavAiAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean(ChatClient.class)
-  public ChatClient dailyNavChatClient(
-      ChatClient.Builder builder, DailyNavAiProperties properties) {
+  public ChatClient dailyNavChatClient(ChatClient.Builder builder) {
 
     return builder
         .defaultSystem(
@@ -55,14 +57,30 @@ public class DailyNavAiAutoConfiguration {
     return new MutualFundTools(mutualFundService);
   }
 
+  /**
+   * Creates the text-to-SQL service used to generate queries for daily NAV data.
+   *
+   * @param jdbcTemplate the JDBC template for the daily NAV database
+   * @return the text-to-SQL service
+   */
   @Bean
   @ConditionalOnMissingBean
-  public TextToSqlGenerator textToSqlGenerator(
+  public TextToSqlPort textToSqlPort(
       ObjectProvider<ChatClient> chatClientProvider,
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     return new TextToSqlGenerator(chatClientProvider.getIfAvailable(), jdbcTemplate);
   }
 
+  /**
+   * Creates the service used to process natural-language mutual fund searches.
+   *
+   * @param dailyNavChatClient the chat client used to interpret search requests
+   * @param mutualFundService the mutual fund service used to retrieve fund data
+   * @param mutualFundTools the tools available for mutual fund operations
+   * @param knowledgeSearchService the service used to search supporting knowledge
+   * @param textToSqlPort the port used to generate SQL from natural-language requests
+   * @return the configured natural-language search service
+   */
   @Bean
   @ConditionalOnMissingBean
   public NaturalLanguageSearchService naturalLanguageSearchService(
@@ -70,13 +88,13 @@ public class DailyNavAiAutoConfiguration {
       MutualFundService mutualFundService,
       MutualFundTools mutualFundTools,
       KnowledgeSearchService knowledgeSearchService,
-      TextToSqlGenerator textToSqlGenerator) {
+      TextToSqlPort textToSqlPort) {
     return new NaturalLanguageSearchService(
         dailyNavChatClient,
         mutualFundService,
         mutualFundTools,
         knowledgeSearchService,
-        textToSqlGenerator);
+        textToSqlPort);
   }
 
   @Bean
@@ -86,13 +104,26 @@ public class DailyNavAiAutoConfiguration {
     return new AiSearchController(searchService);
   }
 
+  /**
+   * Creates the service used to analyze NAV trends and detect anomalies.
+   *
+   * @param navLookupPort the port used to retrieve NAV data
+   * @param chatClientProvider the provider for an optional chat client
+   * @return the configured trend anomaly service
+   */
   @Bean
   @ConditionalOnMissingBean
   public TrendAnomalyService trendAnomalyService(
-      NavByIsinRepository navByIsinRepository, ObjectProvider<ChatClient> chatClientProvider) {
-    return new TrendAnomalyService(navByIsinRepository, chatClientProvider);
+      NavLookupPort navLookupPort, ObjectProvider<ChatClient> chatClientProvider) {
+    return new TrendAnomalyService(navLookupPort, chatClientProvider);
   }
 
+  /**
+   * Creates the controller for exposing AI-powered NAV trend analysis in web applications.
+   *
+   * @param trendAnomalyService the service used to analyze NAV trends
+   * @return the configured trend analysis controller
+   */
   @Bean
   @ConditionalOnWebApplication
   @ConditionalOnMissingBean
@@ -100,21 +131,40 @@ public class DailyNavAiAutoConfiguration {
     return new AiTrendController(trendAnomalyService);
   }
 
+  /**
+   * Creates the report assembly service for combining mutual fund and trend analysis data.
+   *
+   * @param mutualFundService service for retrieving mutual fund data
+   * @param trendAnomalyService service for retrieving trend and anomaly data
+   * @return the report assembly port
+   */
   @Bean
   @ConditionalOnMissingBean
-  public ReportDataAssembler reportDataAssembler(
+  public ReportAssemblyPort reportAssemblyPort(
       MutualFundService mutualFundService, TrendAnomalyService trendAnomalyService) {
     return new ReportDataAssembler(mutualFundService, trendAnomalyService);
   }
 
+  /**
+   * Creates the service used to generate performance reports.
+   *
+   * @param reportAssemblyPort assembles the data required for performance reports
+   * @return the configured performance report service
+   */
   @Bean
   @ConditionalOnMissingBean
   public PerformanceReportService performanceReportService(
-      ObjectProvider<ChatClient> chatClientProvider, ReportDataAssembler reportDataAssembler) {
+      ObjectProvider<ChatClient> chatClientProvider, ReportAssemblyPort reportAssemblyPort) {
     ChatClient chatClient = chatClientProvider.getIfAvailable();
-    return new PerformanceReportService(chatClient, reportDataAssembler);
+    return new PerformanceReportService(chatClient, reportAssemblyPort);
   }
 
+  /**
+   * Creates the controller for exposing performance reports.
+   *
+   * @param performanceReportService the service used to generate performance reports
+   * @return the performance report controller
+   */
   @Bean
   @ConditionalOnMissingBean
   public PerformanceReportController performanceReportController(

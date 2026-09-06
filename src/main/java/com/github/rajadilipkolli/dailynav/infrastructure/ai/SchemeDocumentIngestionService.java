@@ -1,6 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.ai;
 
-import com.github.rajadilipkolli.dailynav.config.DailyNavAiProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavAiProperties;
 import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +31,7 @@ public class SchemeDocumentIngestionService implements ApplicationRunner {
     this.properties = properties;
   }
 
-  /**
-   * Ingests configured text and Markdown documents into the vector store.
-   */
+  /** Ingests configured text and Markdown documents into the vector store. */
   @Override
   @Async
   public void run(ApplicationArguments args) throws Exception {

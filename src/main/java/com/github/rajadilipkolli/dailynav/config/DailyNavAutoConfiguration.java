@@ -1,8 +1,13 @@
 package com.github.rajadilipkolli.dailynav.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
+import com.github.rajadilipkolli.dailynav.application.port.NavPort;
+import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
+import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavRepository;
@@ -157,30 +162,27 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
-   * Creates a MutualFundService configured with the library's repository dependencies.
+   * Creates a MutualFundService configured with the required NAV, scheme, security, and database
+   * initialization dependencies.
    *
-   * @param navByIsinRepository repository providing NAV lookup by ISIN
-   * @param navRepository repository providing NAV data
-   * @param schemeRepository repository for mutual fund scheme metadata
-   * @param securityRepository repository for security and instrument data
-   * @param databaseInitializer initializer responsible for preparing or verifying database state
-   * @return a MutualFundService backed by the provided repositories
+   * @param navByIsinRepository repository for NAV lookup by ISIN
+   * @param navPort port for NAV data operations
+   * @param schemePort port for mutual fund scheme operations
+   * @param securityPort port for security and instrument operations
+   * @param databaseInitializerPort port for preparing or verifying database state
+   * @return a MutualFundService backed by the provided dependencies
    */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   MutualFundService mutualFundService(
       NavByIsinRepository navByIsinRepository,
-      NavRepository navRepository,
-      SchemeRepository schemeRepository,
-      SecurityRepository securityRepository,
-      DatabaseInitializer databaseInitializer) {
+      NavPort navPort,
+      SchemePort schemePort,
+      SecurityPort securityPort,
+      DatabaseInitializerPort databaseInitializerPort) {
     return new MutualFundService(
-        navByIsinRepository,
-        navRepository,
-        schemeRepository,
-        securityRepository,
-        databaseInitializer);
+        navByIsinRepository, navPort, schemePort, securityPort, databaseInitializerPort);
   }
 
   /**
@@ -285,7 +287,11 @@ public class DailyNavAutoConfiguration {
 
   @Configuration
   @EnableAsync
-  @ConditionalOnProperty(prefix = "daily-nav", name = "enable-async", havingValue = "true")
+  @ConditionalOnProperty(
+      prefix = "daily-nav",
+      name = "enable-async",
+      havingValue = "true",
+      matchIfMissing = true)
   static class AsyncConfig {}
 
   @Configuration

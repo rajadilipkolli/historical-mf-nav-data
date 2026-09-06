@@ -1,8 +1,8 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
+import com.github.rajadilipkolli.dailynav.application.port.ReportAssemblyPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.report.ReportContext;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.ReportDataAssembler;
 import java.util.Map;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -11,7 +11,7 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 public class PerformanceReportService {
 
   private final ChatClient chatClient;
-  private final ReportDataAssembler reportDataAssembler;
+  private final ReportAssemblyPort reportAssemblyPort;
 
   private static final String REPORT_TEMPLATE =
       """
@@ -38,13 +38,20 @@ public class PerformanceReportService {
       Use the context to populate the sections. The tone should be objective and analytical.
       """;
 
-  public PerformanceReportService(ChatClient chatClient, ReportDataAssembler reportDataAssembler) {
+  public PerformanceReportService(ChatClient chatClient, ReportAssemblyPort reportAssemblyPort) {
     this.chatClient = chatClient;
-    this.reportDataAssembler = reportDataAssembler;
+    this.reportAssemblyPort = reportAssemblyPort;
   }
 
+  /**
+   * Generates a Markdown performance report for a mutual fund over the specified period.
+   *
+   * @param isin the fund's ISIN
+   * @param days the number of days included in the report
+   * @return the generated performance report
+   */
   public String generateReport(String isin, int days) {
-    ReportContext context = reportDataAssembler.assembleContext(isin, days);
+    ReportContext context = reportAssemblyPort.assembleContext(isin, days);
 
     // Compute basic NAV stats for the prompt
     double maxNav = context.navHistory().stream().mapToDouble(NavByIsin::getNav).max().orElse(0.0);

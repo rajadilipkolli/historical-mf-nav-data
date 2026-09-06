@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
+import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 /** Repository for Security data access */
 @Repository
-public class SecurityRepository {
+public class SecurityRepository implements SecurityPort {
 
   private final JdbcTemplate jdbcTemplate;
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -78,7 +79,7 @@ public class SecurityRepository {
   }
 
   /**
-   * Finds securities whose scheme name contains the supplied pattern.
+   * Finds securities whose scheme name contains the supplied pattern, ignoring case.
    *
    * @param namePattern the text to search for within scheme names
    * @return the ISINs of matching securities
@@ -87,7 +88,7 @@ public class SecurityRepository {
     String sql =
         "SELECT s.isin FROM securities s "
             + "JOIN schemes sc ON s.scheme_code = sc.scheme_code "
-            + "WHERE sc.scheme_name LIKE ?";
+            + "WHERE LOWER(sc.scheme_name) LIKE LOWER(?)";
     return jdbcTemplate.queryForList(sql, String.class, "%" + namePattern + "%");
   }
 }

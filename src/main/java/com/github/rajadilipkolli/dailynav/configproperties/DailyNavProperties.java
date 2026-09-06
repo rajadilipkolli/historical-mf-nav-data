@@ -1,4 +1,4 @@
-package com.github.rajadilipkolli.dailynav.config;
+package com.github.rajadilipkolli.dailynav.configproperties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -28,6 +28,12 @@ public class DailyNavProperties {
   private boolean validateData = true;
 
   /**
+   * Whether to enable asynchronous execution for document ingestion and other background tasks. If
+   * true, tasks will be run using the thread pool executor.
+   */
+  private boolean enableAsync = true;
+
+  /**
    * Indicates whether database initialization is enabled.
    *
    * @return {@code true} if database initialization is enabled, {@code false} otherwise
@@ -39,7 +45,8 @@ public class DailyNavProperties {
   /**
    * Configures whether the database is initialized automatically.
    *
-   * @param autoInit {@code true} to enable automatic database initialization; {@code false} otherwise
+   * @param autoInit {@code true} to enable automatic database initialization; {@code false}
+   *     otherwise
    */
   public void setAutoInit(boolean autoInit) {
     this.autoInit = autoInit;
@@ -127,5 +134,23 @@ public class DailyNavProperties {
    */
   public void setValidateData(boolean validateData) {
     this.validateData = validateData;
+  }
+
+  /**
+   * Indicates whether asynchronous execution is enabled.
+   *
+   * @return {@code true} if async execution is enabled, {@code false} otherwise
+   */
+  public boolean isEnableAsync() {
+    return enableAsync;
+  }
+
+  /**
+   * Configures whether asynchronous execution is enabled.
+   *
+   * @param enableAsync {@code true} to enable async execution; {@code false} to disable it
+   */
+  public void setEnableAsync(boolean enableAsync) {
+    this.enableAsync = enableAsync;
   }
 }

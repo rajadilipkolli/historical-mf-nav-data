@@ -1,14 +1,14 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
+import com.github.rajadilipkolli.dailynav.application.port.NavPort;
+import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
+import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
 import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavRepository;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SchemeRepository;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SecurityRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,33 +22,24 @@ import org.springframework.context.annotation.Lazy;
 /** Service for mutual fund data operations */
 public class MutualFundService {
 
-  private final NavByIsinRepository navByIsinRepository;
-  private final NavRepository navRepository;
-  private final SchemeRepository schemeRepository;
-  private final SecurityRepository securityRepository;
-  private final DatabaseInitializer databaseInitializer;
+  private final NavLookupPort navLookupPort;
+  private final NavPort navPort;
+  private final SchemePort schemePort;
+  private final SecurityPort securityPort;
+  private final DatabaseInitializerPort databaseInitializerPort;
 
-  /**
-   * Creates a service using the repositories and database initializer required for mutual-fund data
-   * access.
-   *
-   * @param navByIsinRepository repository for NAV records indexed by ISIN
-   * @param navRepository repository for NAV records indexed by scheme code
-   * @param schemeRepository repository for mutual-fund schemes
-   * @param securityRepository repository for mutual-fund securities
-   * @param databaseInitializer component that tracks database initialization
-   */
+  /** Creates a service for accessing mutual-fund data through the supplied application ports. */
   public MutualFundService(
-      NavByIsinRepository navByIsinRepository,
-      NavRepository navRepository,
-      SchemeRepository schemeRepository,
-      SecurityRepository securityRepository,
-      DatabaseInitializer databaseInitializer) {
-    this.navByIsinRepository = navByIsinRepository;
-    this.navRepository = navRepository;
-    this.schemeRepository = schemeRepository;
-    this.securityRepository = securityRepository;
-    this.databaseInitializer = databaseInitializer;
+      NavLookupPort navLookupPort,
+      NavPort navPort,
+      SchemePort schemePort,
+      SecurityPort securityPort,
+      DatabaseInitializerPort databaseInitializerPort) {
+    this.navLookupPort = navLookupPort;
+    this.navPort = navPort;
+    this.schemePort = schemePort;
+    this.securityPort = securityPort;
+    this.databaseInitializerPort = databaseInitializerPort;
   }
 
   @Autowired @Lazy private MutualFundService self;
@@ -59,7 +50,7 @@ public class MutualFundService {
    * @return {@code true} if initialization is complete, {@code false} otherwise
    */
   public boolean isReady() {
-    return databaseInitializer.isInitialized();
+    return databaseInitializerPort.isInitialized();
   }
 
   /**
@@ -83,7 +74,7 @@ public class MutualFundService {
    * @return list of matching ISINs
    */
   public List<String> findIsinsBySchemeName(String namePattern) {
-    return securityRepository.findIsinsBySchemeNamePattern(namePattern).stream()
+    return securityPort.findIsinsBySchemeNamePattern(namePattern).stream()
         .filter(Objects::nonNull)
         .toList();
   }
@@ -99,7 +90,7 @@ public class MutualFundService {
       cacheManager = "dailyNavCacheManager",
       unless = "#result == null")
   public Optional<NavByIsin> getLatestNavByIsin(String isin) {
-    return navByIsinRepository.findLatestByIsin(isin);
+    return navLookupPort.findLatestByIsin(isin);
   }
 
   /**
@@ -110,7 +101,7 @@ public class MutualFundService {
    * @return the matching NAV record, or an empty {@code Optional} if none is found
    */
   public Optional<NavByIsin> getNavByIsinAndDate(String isin, LocalDate date) {
-    return navByIsinRepository.findByIsinAndDateOnOrBefore(isin, date);
+    return navLookupPort.findByIsinAndDateOnOrBefore(isin, date);
   }
 
   /**
@@ -121,7 +112,7 @@ public class MutualFundService {
    * @return a list of NAV records for the last N days
    */
   public List<NavByIsin> getLastNDaysNav(String isin, int days) {
-    return navByIsinRepository.findLastNByIsin(isin, days);
+    return navLookupPort.findLastNByIsin(isin, days);
   }
 
   /**
@@ -133,7 +124,7 @@ public class MutualFundService {
    * @return a list of NAV records within the specified date range
    */
   public List<NavByIsin> getNavHistory(String isin, LocalDate startDate, LocalDate endDate) {
-    return navByIsinRepository.findByIsinAndDateBetween(isin, startDate, endDate);
+    return navLookupPort.findByIsinAndDateBetween(isin, startDate, endDate);
   }
 
   /**
@@ -143,7 +134,7 @@ public class MutualFundService {
    * @return the NAV records associated with the scheme code
    */
   public List<Nav> getNavsBySchemeCode(Integer schemeCode) {
-    return navRepository.findBySchemeCode(schemeCode);
+    return navPort.findBySchemeCode(schemeCode);
   }
 
   /**
@@ -153,7 +144,7 @@ public class MutualFundService {
    * @return the matching scheme, if available
    */
   public Optional<Scheme> getScheme(Integer schemeCode) {
-    return schemeRepository.findBySchemeCode(schemeCode);
+    return schemePort.findBySchemeCode(schemeCode);
   }
 
   /**
@@ -163,7 +154,7 @@ public class MutualFundService {
    * @return schemes whose names contain the pattern
    */
   public List<Scheme> searchSchemes(String namePattern) {
-    return schemeRepository.findBySchemeNameContaining(namePattern);
+    return schemePort.findBySchemeNameContaining(namePattern);
   }
 
   /**
@@ -172,19 +163,20 @@ public class MutualFundService {
    * @return all available schemes
    */
   public List<Scheme> getAllSchemes() {
-    return schemeRepository.findAll();
+    return schemePort.findAll();
   }
 
-  /** Get security information by ISIN */
+  /** Retrieves security information for the specified ISIN. */
   public Optional<Security> getSecurity(String isin) {
-    return securityRepository.findByIsin(isin);
+    return securityPort.findByIsin(isin);
   }
 
   /**
-   * Retrieves complete fund information for an ISIN, including its security and scheme.
+   * Retrieves the security and associated scheme for an ISIN.
    *
    * @param isin the ISIN identifying the fund
-   * @return the fund information when both the security and associated scheme are available; otherwise, an empty optional
+   * @return an optional containing the fund information when both records are available, or empty
+   *     otherwise
    */
   public Optional<FundInfo> getFundInfo(String isin) {
     Optional<Security> security = getSecurity(isin);
@@ -245,7 +237,7 @@ public class MutualFundService {
      * Describes the security type associated with the fund.
      *
      * @return "Unknown" when the security or its type is null, "Growth/Dividend Payout" for type 0,
-     *         or "Dividend Reinvestment" for other type values
+     *     or "Dividend Reinvestment" for other type values
      */
     public String getTypeDescription() {
       if (security == null || security.getType() == null) {
@@ -255,7 +247,8 @@ public class MutualFundService {
     }
 
     /**
-     * Formats the fund information as a string containing its ISIN, scheme name, and type description.
+     * Formats the fund information as a string containing its ISIN, scheme name, and type
+     * description.
      *
      * @return the formatted fund information
      */

@@ -1,6 +1,6 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
-import com.github.rajadilipkolli.dailynav.infrastructure.ai.TextToSqlGenerator;
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -14,26 +14,36 @@ public class NaturalLanguageSearchService {
   private final MutualFundService mutualFundService;
   private final MutualFundTools mutualFundTools;
   private final KnowledgeSearchService knowledgeSearchService;
-  private final TextToSqlGenerator textToSqlGenerator;
+  private final TextToSqlPort textToSqlPort;
 
+  /**
+   * Creates a service for routing natural-language mutual fund queries.
+   *
+   * @param chatClient client used for language-model interactions
+   * @param mutualFundService service used to check mutual fund data readiness
+   * @param mutualFundTools tools available for known mutual fund queries
+   * @param knowledgeSearchService service used for qualitative searches
+   * @param textToSqlPort port used to execute ad hoc queries
+   */
   public NaturalLanguageSearchService(
       ChatClient chatClient,
       MutualFundService mutualFundService,
       MutualFundTools mutualFundTools,
       KnowledgeSearchService knowledgeSearchService,
-      TextToSqlGenerator textToSqlGenerator) {
+      TextToSqlPort textToSqlPort) {
     this.chatClient = chatClient;
     this.mutualFundService = mutualFundService;
     this.mutualFundTools = mutualFundTools;
     this.knowledgeSearchService = knowledgeSearchService;
-    this.textToSqlGenerator = textToSqlGenerator;
+    this.textToSqlPort = textToSqlPort;
   }
 
   /**
-   * Processes a natural language query by leveraging the LLM to call appropriate tools.
+   * Routes a natural-language mutual fund query to the appropriate search capability.
    *
-   * @param query The natural language user query.
-   * @return The AI-generated answer.
+   * @param query the natural-language user query
+   * @return the answer generated or retrieved for the query
+   * @throws IllegalStateException if the mutual fund database is not ready
    */
   public String search(String query) {
     if (!mutualFundService.isReady()) {
@@ -69,7 +79,7 @@ public class NaturalLanguageSearchService {
 
       return switch (intent) {
         case "KNOWN" -> chatClient.prompt().user(query).tools(mutualFundTools).call().content();
-        case "ADHOC" -> textToSqlGenerator.execute(query);
+        case "ADHOC" -> textToSqlPort.execute(query);
         case "QUALITATIVE" -> knowledgeSearchService.search(query).answer();
         default ->
             "I can only answer questions related to mutual funds, NAV histories, and scheme documents.";

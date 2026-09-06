@@ -1,7 +1,8 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import com.github.luben.zstd.ZstdInputStream;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,8 +22,7 @@ import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 
-/** Responsible for initializing the database with fund data */
-public class DatabaseInitializer {
+public class DatabaseInitializer implements DatabaseInitializerPort {
 
   private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
 
@@ -301,9 +301,9 @@ public class DatabaseInitializer {
   /**
    * Creates indexes supporting NAV and securities queries.
    *
-   * <p>Attempts to create indexes for NAV date and scheme lookups, securities scheme-code
-   * lookups, and ISIN lookups. Individual failures are logged and do not prevent subsequent
-   * index creation attempts.
+   * <p>Attempts to create indexes for NAV date and scheme lookups, securities scheme-code lookups,
+   * and ISIN lookups. Individual failures are logged and do not prevent subsequent index creation
+   * attempts.
    */
   void createIndexes() {
     logger.info("Creating database indexes...");

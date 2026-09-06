@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.infrastructure.web;
 
 import com.github.rajadilipkolli.dailynav.application.service.TrendAnomalyService;
 import com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +21,12 @@ public class AiTrendController {
   }
 
   /**
-   * Retrieves trend and anomaly analysis for a given ISIN.
+   * Retrieves trend and anomaly analysis for the specified ISIN.
    *
-   * @param isin The ISIN to analyze.
-   * @return TrendAnomalyResult containing stats and optional AI narrative.
+   * @param isin the ISIN to analyze
+   * @return the analysis result, or a bad request response when the ISIN is invalid
    */
-  @GetMapping("/{isin}")
+  @GetMapping(value = "/{isin}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<TrendAnomalyResult> getTrendAndAnomalies(
       @PathVariable("isin") String isin) {
     try {

@@ -1,6 +1,6 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
-import com.github.rajadilipkolli.dailynav.config.DailyNavAiProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavAiProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.ai.chat.client.ChatClient;

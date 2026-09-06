@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 /** Repository for ISIN-based NAV data access */
 @Repository
-public class NavByIsinRepository {
+public class NavByIsinRepository implements NavLookupPort {
 
   private final JdbcTemplate jdbcTemplate;
 
@@ -46,14 +47,27 @@ public class NavByIsinRepository {
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin).stream().findFirst();
   }
 
-  /** Get NAV for an ISIN on or before a specific date */
+  /**
+   * Finds the latest NAV record for an ISIN on or before the specified date.
+   *
+   * @param isin the security's ISIN
+   * @param date the latest date to include
+   * @return the matching NAV record, or an empty optional if none exists
+   */
   public Optional<NavByIsin> findByIsinAndDateOnOrBefore(String isin, LocalDate date) {
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? AND date <= ? ORDER BY date DESC LIMIT 1";
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, date).stream().findFirst();
   }
 
-  /** Get last N NAV records for an ISIN */
+  /**
+   * Retrieves the most recent NAV records for an ISIN.
+   *
+   * @param isin the ISIN to search for
+   * @param limit the maximum number of records to return
+   * @return the matching NAV records, ordered from most recent to oldest
+   */
+  @Override
   public List<NavByIsin> findLastNByIsin(String isin, int limit) {
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT ?";

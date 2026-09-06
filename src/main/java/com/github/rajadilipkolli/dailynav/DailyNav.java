@@ -4,7 +4,7 @@ import com.github.rajadilipkolli.dailynav.application.service.CloseableDailyNavH
 import com.github.rajadilipkolli.dailynav.application.service.CloseableMutualFundService;
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavRepository;
