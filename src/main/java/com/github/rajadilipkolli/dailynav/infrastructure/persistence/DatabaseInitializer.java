@@ -1,8 +1,7 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
-import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
-
 import com.github.luben.zstd.ZstdInputStream;
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,9 +21,6 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
-
-/** Responsible for initializing the database with fund data */
-import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 
 public class DatabaseInitializer implements DatabaseInitializerPort {
 
