@@ -65,9 +65,9 @@ def calculate_and_plot_dma(scheme_code, scheme_name):
         crossover_200 = "BEARISH (Crossed Below 200-DMA) 📉"
         
     crossover_golden = None
-    if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma']:
+    if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma'] and curr['nav'] > curr['200_dma']:
         crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 200-DMA)"
-    elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma']:
+    elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma'] and curr['nav'] < curr['200_dma']:
         crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 200-DMA)"
     
     # Plotting

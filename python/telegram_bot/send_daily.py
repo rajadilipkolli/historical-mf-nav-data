@@ -63,9 +63,9 @@ async def main():
                 crossover_200 = "BEARISH (Crossed Below 200-DMA) 📉"
                 
             crossover_golden = None
-            if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma']:
+            if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma'] and curr['nav'] > curr['200_dma']:
                 crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 200-DMA)"
-            elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma']:
+            elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma'] and curr['nav'] < curr['200_dma']:
                 crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 200-DMA)"
                 
             results.append({
@@ -83,6 +83,20 @@ async def main():
     if not results:
         print("No results or db empty.")
         return
+        
+    results = [r for r in results if "series" not in r['scheme_name'].lower()]
+    
+    def get_priority(r):
+        cg = r.get('crossover_golden') or ''
+        c50 = r.get('crossover_50') or ''
+        c200 = r.get('crossover_200') or ''
+        if 'GOLDEN CROSS' in cg: return 1
+        if 'DEATH CROSS' in cg: return 2
+        if 'BULLISH' in c50 or 'BULLISH' in c200: return 3
+        if 'BEARISH' in c50 or 'BEARISH' in c200: return 4
+        return 5
+        
+    results.sort(key=get_priority)
         
     import html
     alerts = []
