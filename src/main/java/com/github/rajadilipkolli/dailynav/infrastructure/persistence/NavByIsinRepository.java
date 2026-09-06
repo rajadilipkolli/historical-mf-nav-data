@@ -63,9 +63,9 @@ public class NavByIsinRepository implements NavLookupPort {
   /**
    * Retrieves the most recent NAV records for an ISIN.
    *
-   * @param isin  the ISIN to search for
+   * @param isin the ISIN to search for
    * @param limit the maximum number of records to return
-   * @return      the matching NAV records, ordered from most recent to oldest
+   * @return the matching NAV records, ordered from most recent to oldest
    */
   @Override
   public List<NavByIsin> findLastNByIsin(String isin, int limit) {

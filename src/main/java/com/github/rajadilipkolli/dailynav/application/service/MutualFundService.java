@@ -28,9 +28,7 @@ public class MutualFundService {
   private final SecurityPort securityPort;
   private final DatabaseInitializerPort databaseInitializerPort;
 
-  /**
-   * Creates a service for accessing mutual-fund data through the supplied application ports.
-   */
+  /** Creates a service for accessing mutual-fund data through the supplied application ports. */
   public MutualFundService(
       NavLookupPort navLookupPort,
       NavPort navPort,
@@ -177,7 +175,8 @@ public class MutualFundService {
    * Retrieves the security and associated scheme for an ISIN.
    *
    * @param isin the ISIN identifying the fund
-   * @return an optional containing the fund information when both records are available, or empty otherwise
+   * @return an optional containing the fund information when both records are available, or empty
+   *     otherwise
    */
   public Optional<FundInfo> getFundInfo(String isin) {
     Optional<Security> security = getSecurity(isin);

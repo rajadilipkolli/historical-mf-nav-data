@@ -23,7 +23,8 @@ public class PerformanceReportController {
    * Generates a performance report for the requested security identifier.
    *
    * @param request the report request containing the ISIN and optional number of days
-   * @return an HTTP 200 response containing the report, or an HTTP 400 response for an invalid request
+   * @return an HTTP 200 response containing the report, or an HTTP 400 response for an invalid
+   *     request
    */
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE,

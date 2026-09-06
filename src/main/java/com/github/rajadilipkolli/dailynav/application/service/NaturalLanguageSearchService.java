@@ -19,11 +19,11 @@ public class NaturalLanguageSearchService {
   /**
    * Creates a service for routing natural-language mutual fund queries.
    *
-   * @param chatClient             client used for language-model interactions
-   * @param mutualFundService      service used to check mutual fund data readiness
-   * @param mutualFundTools        tools available for known mutual fund queries
+   * @param chatClient client used for language-model interactions
+   * @param mutualFundService service used to check mutual fund data readiness
+   * @param mutualFundTools tools available for known mutual fund queries
    * @param knowledgeSearchService service used for qualitative searches
-   * @param textToSqlPort          port used to execute ad hoc queries
+   * @param textToSqlPort port used to execute ad hoc queries
    */
   public NaturalLanguageSearchService(
       ChatClient chatClient,

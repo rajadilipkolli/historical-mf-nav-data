@@ -107,9 +107,9 @@ public class DailyNavAiAutoConfiguration {
   /**
    * Creates the service used to analyze NAV trends and detect anomalies.
    *
-   * @param navLookupPort       the port used to retrieve NAV data
-   * @param chatClientProvider  the provider for an optional chat client
-   * @return                   the configured trend anomaly service
+   * @param navLookupPort the port used to retrieve NAV data
+   * @param chatClientProvider the provider for an optional chat client
+   * @return the configured trend anomaly service
    */
   @Bean
   @ConditionalOnMissingBean
@@ -134,7 +134,7 @@ public class DailyNavAiAutoConfiguration {
   /**
    * Creates the report assembly service for combining mutual fund and trend analysis data.
    *
-   * @param mutualFundService   service for retrieving mutual fund data
+   * @param mutualFundService service for retrieving mutual fund data
    * @param trendAnomalyService service for retrieving trend and anomaly data
    * @return the report assembly port
    */

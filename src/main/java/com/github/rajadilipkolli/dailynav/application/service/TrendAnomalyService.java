@@ -18,8 +18,8 @@ public class TrendAnomalyService {
   /**
    * Creates a service for analyzing NAV trends and anomalies.
    *
-   * @param navLookupPort       source of NAV records
-   * @param chatClientProvider  provider for the optional narrative-generation client
+   * @param navLookupPort source of NAV records
+   * @param chatClientProvider provider for the optional narrative-generation client
    */
   public TrendAnomalyService(
       NavLookupPort navLookupPort, ObjectProvider<ChatClient> chatClientProvider) {

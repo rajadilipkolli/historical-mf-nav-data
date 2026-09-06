@@ -46,8 +46,8 @@ public class PerformanceReportService {
   /**
    * Generates a Markdown performance report for a mutual fund over the specified period.
    *
-   * @param isin  the fund's ISIN
-   * @param days  the number of days included in the report
+   * @param isin the fund's ISIN
+   * @param days the number of days included in the report
    * @return the generated performance report
    */
   public String generateReport(String isin, int days) {

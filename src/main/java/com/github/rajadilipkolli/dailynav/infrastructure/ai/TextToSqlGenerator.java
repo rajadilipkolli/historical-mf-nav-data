@@ -47,7 +47,7 @@ public class TextToSqlGenerator implements TextToSqlPort {
   /**
    * Creates a generator configured with the specified chat client and JDBC template.
    *
-   * @param chatClient   the chat client used to generate SQL
+   * @param chatClient the chat client used to generate SQL
    * @param jdbcTemplate the JDBC template used to execute generated queries
    */
   public TextToSqlGenerator(ChatClient chatClient, JdbcTemplate jdbcTemplate) {
@@ -56,10 +56,12 @@ public class TextToSqlGenerator implements TextToSqlPort {
   }
 
   /**
-   * Converts a natural-language mutual-fund question into a validated read-only SQL query and executes it.
+   * Converts a natural-language mutual-fund question into a validated read-only SQL query and
+   * executes it.
    *
    * @param userQuery the natural-language question to answer
-   * @return a formatted table of query results, or a message describing unavailable, empty, or failed results
+   * @return a formatted table of query results, or a message describing unavailable, empty, or
+   *     failed results
    */
   @Override
   public String execute(String userQuery) {

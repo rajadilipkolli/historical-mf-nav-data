@@ -166,9 +166,9 @@ public class DailyNavAutoConfiguration {
    * initialization dependencies.
    *
    * @param navByIsinRepository repository for NAV lookup by ISIN
-   * @param navPort              port for NAV data operations
-   * @param schemePort           port for mutual fund scheme operations
-   * @param securityPort         port for security and instrument operations
+   * @param navPort port for NAV data operations
+   * @param schemePort port for mutual fund scheme operations
+   * @param securityPort port for security and instrument operations
    * @param databaseInitializerPort port for preparing or verifying database state
    * @return a MutualFundService backed by the provided dependencies
    */
