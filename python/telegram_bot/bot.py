@@ -40,7 +40,7 @@ def build_search_query(fund_name, limit=20):
 
 def fetch_and_calculate_dma(scheme_name_query=None, scheme_codes=None):
     """
-    Fetches NAV data and calculates 50-DMA and 150-DMA.
+    Fetches NAV data and calculates 50-DMA and 200-DMA.
     If scheme_codes is provided, filters for those exact schemes.
     Otherwise, if scheme_name_query is provided, filters for that specific fund.
     Otherwise, filters for Direct Growth Equity schemes.
@@ -105,12 +105,12 @@ def fetch_and_calculate_dma(scheme_name_query=None, scheme_codes=None):
     results = []
     # Process each scheme
     for code, group in nav_df.groupby('scheme_code'):
-        group = group.sort_values('date').tail(200) # get last 200 days
-        if len(group) < 150:
-            continue # not enough data for 150-DMA
+        group = group.sort_values('date').tail(250) # get last 250 days
+        if len(group) < 200:
+            continue # not enough data for 200-DMA
             
         group['50_dma'] = group['nav'].rolling(window=50).mean()
-        group['150_dma'] = group['nav'].rolling(window=150).mean()
+        group['200_dma'] = group['nav'].rolling(window=200).mean()
         
         # Get last two days to check for crossover
         last_2 = group.tail(2)
@@ -124,23 +124,23 @@ def fetch_and_calculate_dma(scheme_name_query=None, scheme_codes=None):
         
         # Check crossovers
         crossover_50 = None
-        crossover_150 = None
+        crossover_200 = None
         
         if prev['nav'] < prev['50_dma'] and curr['nav'] > curr['50_dma']:
             crossover_50 = "BULLISH (Crossed Above 50-DMA) 📈"
         elif prev['nav'] > prev['50_dma'] and curr['nav'] < curr['50_dma']:
             crossover_50 = "BEARISH (Crossed Below 50-DMA) 📉"
             
-        if prev['nav'] < prev['150_dma'] and curr['nav'] > curr['150_dma']:
-            crossover_150 = "BULLISH (Crossed Above 150-DMA) 📈"
-        elif prev['nav'] > prev['150_dma'] and curr['nav'] < curr['150_dma']:
-            crossover_150 = "BEARISH (Crossed Below 150-DMA) 📉"
+        if prev['nav'] < prev['200_dma'] and curr['nav'] > curr['200_dma']:
+            crossover_200 = "BULLISH (Crossed Above 200-DMA) 📈"
+        elif prev['nav'] > prev['200_dma'] and curr['nav'] < curr['200_dma']:
+            crossover_200 = "BEARISH (Crossed Below 200-DMA) 📉"
             
         crossover_golden = None
-        if prev['50_dma'] < prev['150_dma'] and curr['50_dma'] > curr['150_dma']:
-            crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 150-DMA)"
-        elif prev['50_dma'] > prev['150_dma'] and curr['50_dma'] < curr['150_dma']:
-            crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 150-DMA)"
+        if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma']:
+            crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 200-DMA)"
+        elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma']:
+            crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 200-DMA)"
             
         # For on-demand, we want to return the current status even if no crossover today
         results.append({
@@ -148,9 +148,9 @@ def fetch_and_calculate_dma(scheme_name_query=None, scheme_codes=None):
             'date': curr['date'].strftime('%Y-%m-%d'),
             'nav': curr['nav'],
             '50_dma': curr['50_dma'],
-            '150_dma': curr['150_dma'],
+            '200_dma': curr['200_dma'],
             'crossover_50': crossover_50,
-            'crossover_150': crossover_150,
+            'crossover_200': crossover_200,
             'crossover_golden': crossover_golden
         })
         
@@ -216,13 +216,14 @@ async def daily_alert_job(context: ContextTypes.DEFAULT_TYPE):
         
     alerts = []
     for r in results:
-        if r['crossover_50'] or r['crossover_150'] or r['crossover_golden']:
+        if r['crossover_50'] or r['crossover_200'] or r['crossover_golden']:
             msg = (f"*{r['scheme_name']}*\n"
-                   f"NAV: ₹{r['nav']:.2f}\n")
+                   f"NAV: ₹{r['nav']:.2f}\n"
+                   f"50-DMA: {r['50_dma']:.2f} | 200-DMA: {r['200_dma']:.2f}\n")
             if r['crossover_50']:
                 msg += f"50-DMA Alert: {r['crossover_50']}\n"
-            if r['crossover_150']:
-                msg += f"150-DMA Alert: {r['crossover_150']}\n"
+            if r['crossover_200']:
+                msg += f"200-DMA Alert: {r['crossover_200']}\n"
             if r['crossover_golden']:
                 msg += f"MA Alert: {r['crossover_golden']}"
             alerts.append(msg)
