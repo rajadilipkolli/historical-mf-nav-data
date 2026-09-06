@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.rajadilipkolli.dailynav.AbstractRepositoryTest;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

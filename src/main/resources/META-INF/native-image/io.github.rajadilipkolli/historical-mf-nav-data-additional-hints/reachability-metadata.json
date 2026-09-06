@@ -1,0 +1,95 @@
+{
+  "reflection": [
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.application.service.KnowledgeSearchService$KnowledgeSearchResponse"},
+      "type": "com.github.rajadilipkolli.dailynav.application.service.KnowledgeSearchService$KnowledgeSearchResponse",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.application.service.MutualFundService$FundInfo"},
+      "type": "com.github.rajadilipkolli.dailynav.application.service.MutualFundService$FundInfo",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.domain.model.Scheme"},
+      "type": "com.github.rajadilipkolli.dailynav.domain.model.Scheme",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.domain.report.FundInfo"},
+      "type": "com.github.rajadilipkolli.dailynav.domain.report.FundInfo",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.domain.report.ReportContext"},
+      "type": "com.github.rajadilipkolli.dailynav.domain.report.ReportContext",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.domain.report.ReportRequest"},
+      "type": "com.github.rajadilipkolli.dailynav.domain.report.ReportRequest",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult"},
+      "type": "com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController$SearchRequest"},
+      "type": "com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController$SearchRequest",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController$SearchResponse"},
+      "type": "com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController$SearchResponse",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController$AskRequest"},
+      "type": "com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController$AskRequest",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController$AskResponse"},
+      "type": "com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController$AskResponse",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    },
+    {
+      "condition": {"typeReached": "com.github.rajadilipkolli.dailynav.infrastructure.web.PerformanceReportController$ReportResponse"},
+      "type": "com.github.rajadilipkolli.dailynav.infrastructure.web.PerformanceReportController$ReportResponse",
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true,
+      "allDeclaredFields": true
+    }
+  ],
+  "resources": [
+    {"glob": "application*.properties"},
+    {"glob": "application*.yml"},
+    {"glob": "application*.yaml"},
+    {"glob": "logback-spring.xml"},
+    {"glob": "log4j2-spring.xml"}
+  ]
+}

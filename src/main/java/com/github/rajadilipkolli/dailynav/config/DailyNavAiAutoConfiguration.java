@@ -1,5 +1,8 @@
 package com.github.rajadilipkolli.dailynav.config;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavAiProperties;
+import com.github.rajadilipkolli.dailynav.application.port.ReportAssemblyPort;
 import com.github.rajadilipkolli.dailynav.application.service.KnowledgeSearchService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundTools;
@@ -7,9 +10,9 @@ import com.github.rajadilipkolli.dailynav.application.service.NaturalLanguageSea
 import com.github.rajadilipkolli.dailynav.application.service.PerformanceReportService;
 import com.github.rajadilipkolli.dailynav.application.service.TrendAnomalyService;
 import com.github.rajadilipkolli.dailynav.infrastructure.ai.SchemeDocumentIngestionService;
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import com.github.rajadilipkolli.dailynav.infrastructure.ai.TextToSqlGenerator;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.ReportDataAssembler;
+import com.github.rajadilipkolli.dailynav.application.service.assembler.ReportDataAssembler;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.AiTrendController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController;
@@ -39,8 +42,7 @@ public class DailyNavAiAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean(ChatClient.class)
-  public ChatClient dailyNavChatClient(
-      ChatClient.Builder builder, DailyNavAiProperties properties) {
+  public ChatClient dailyNavChatClient(ChatClient.Builder builder) {
 
     return builder
         .defaultSystem(
@@ -57,7 +59,7 @@ public class DailyNavAiAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public TextToSqlGenerator textToSqlGenerator(
+  public TextToSqlPort textToSqlPort(
       ObjectProvider<ChatClient> chatClientProvider,
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
     return new TextToSqlGenerator(chatClientProvider.getIfAvailable(), jdbcTemplate);
@@ -70,13 +72,13 @@ public class DailyNavAiAutoConfiguration {
       MutualFundService mutualFundService,
       MutualFundTools mutualFundTools,
       KnowledgeSearchService knowledgeSearchService,
-      TextToSqlGenerator textToSqlGenerator) {
+      TextToSqlPort textToSqlPort) {
     return new NaturalLanguageSearchService(
         dailyNavChatClient,
         mutualFundService,
         mutualFundTools,
         knowledgeSearchService,
-        textToSqlGenerator);
+        textToSqlPort);
   }
 
   @Bean
@@ -89,8 +91,8 @@ public class DailyNavAiAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public TrendAnomalyService trendAnomalyService(
-      NavByIsinRepository navByIsinRepository, ObjectProvider<ChatClient> chatClientProvider) {
-    return new TrendAnomalyService(navByIsinRepository, chatClientProvider);
+      NavLookupPort navLookupPort, ObjectProvider<ChatClient> chatClientProvider) {
+    return new TrendAnomalyService(navLookupPort, chatClientProvider);
   }
 
   @Bean
@@ -102,7 +104,7 @@ public class DailyNavAiAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  public ReportDataAssembler reportDataAssembler(
+  public ReportAssemblyPort reportAssemblyPort(
       MutualFundService mutualFundService, TrendAnomalyService trendAnomalyService) {
     return new ReportDataAssembler(mutualFundService, trendAnomalyService);
   }
@@ -110,9 +112,9 @@ public class DailyNavAiAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   public PerformanceReportService performanceReportService(
-      ObjectProvider<ChatClient> chatClientProvider, ReportDataAssembler reportDataAssembler) {
+      ObjectProvider<ChatClient> chatClientProvider, ReportAssemblyPort reportAssemblyPort) {
     ChatClient chatClient = chatClientProvider.getIfAvailable();
-    return new PerformanceReportService(chatClient, reportDataAssembler);
+    return new PerformanceReportService(chatClient, reportAssemblyPort);
   }
 
   @Bean

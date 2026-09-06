@@ -1,8 +1,8 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult;
-import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -12,12 +12,12 @@ import org.springframework.beans.factory.ObjectProvider;
 /** Service for detecting trends and anomalies in NAV series. */
 public class TrendAnomalyService {
 
-  private final NavByIsinRepository navByIsinRepository;
+  private final NavLookupPort navLookupPort;
   private final ObjectProvider<ChatClient> chatClientProvider;
 
   public TrendAnomalyService(
-      NavByIsinRepository navByIsinRepository, ObjectProvider<ChatClient> chatClientProvider) {
-    this.navByIsinRepository = navByIsinRepository;
+      NavLookupPort navLookupPort, ObjectProvider<ChatClient> chatClientProvider) {
+    this.navLookupPort = navLookupPort;
     this.chatClientProvider = chatClientProvider;
   }
 
@@ -28,7 +28,7 @@ public class TrendAnomalyService {
    * @return The structured TrendAnomalyResult.
    */
   public TrendAnomalyResult analyzeTrendAndAnomalies(String isin) {
-    List<NavByIsin> records = navByIsinRepository.findLastNByIsin(isin, 200);
+    List<NavByIsin> records = navLookupPort.findLastNByIsin(isin, 200);
 
     if (records.isEmpty()) {
       throw new IllegalArgumentException("No NAV data found for ISIN: " + isin);

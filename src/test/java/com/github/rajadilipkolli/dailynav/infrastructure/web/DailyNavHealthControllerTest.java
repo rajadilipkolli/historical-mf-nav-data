@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.github.rajadilipkolli.dailynav.AbstractRepositoryTest;
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;

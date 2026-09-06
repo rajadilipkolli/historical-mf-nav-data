@@ -27,6 +27,9 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
     connection
         .createStatement()
         .execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+    connection
+        .createStatement()
+        .execute("CREATE TABLE schemes (scheme_code INTEGER, scheme_name TEXT)");
   }
 
   @Override
@@ -41,6 +44,16 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
       ps.setString(1, "ISIN456");
       ps.setInt(2, 2);
       ps.setInt(3, 2);
+      ps.executeUpdate();
+    }
+    try (var ps =
+        connection.prepareStatement(
+            "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)")) {
+      ps.setInt(1, 1);
+      ps.setString(2, "HDFC Index Fund - Nifty 50 Plan - Direct Plan");
+      ps.executeUpdate();
+      ps.setInt(1, 2);
+      ps.setString(2, "SBI Small Cap Fund - Regular Plan");
       ps.executeUpdate();
     }
   }
@@ -116,5 +129,15 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
   void testFindBySchemeCodes_emptyInput() {
     List<Security> result = securityRepository.findBySchemeCodes(List.of());
     assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void testFindIsinsBySchemeNamePattern_caseInsensitive() {
+    // The stored name is "HDFC Index Fund - Nifty 50 Plan - Direct Plan"
+    // We search with "hdfs index fund" (lowercase and partial) -- wait, "hdfs" is typo, use "hdfc
+    // index"
+    List<String> result = securityRepository.findIsinsBySchemeNamePattern("hdfc index");
+    assertEquals(1, result.size());
+    assertEquals("ISIN123", result.get(0));
   }
 }

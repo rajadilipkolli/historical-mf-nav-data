@@ -164,6 +164,8 @@ daily-nav.auto-init=true
 daily-nav.database-path=jdbc:sqlite::memory:
 # Use persistent database file (Overrides database-path if set)
 daily-nav.database-file=/path/to/persistent/database.db
+# Enable asynchronous execution for heavy tasks like ingestion (Default: true)
+daily-nav.enable-async=true
 # Enable/disable automatic index creation after loading (Default: true)
 daily-nav.create-indexes=true
 # Enable debug logging for DB operations (Default: false)

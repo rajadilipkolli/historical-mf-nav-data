@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 /** Repository for ISIN-based NAV data access */
 @Repository
-public class NavByIsinRepository {
+public class NavByIsinRepository implements NavLookupPort {
 
   private final JdbcTemplate jdbcTemplate;
 
@@ -54,6 +55,7 @@ public class NavByIsinRepository {
   }
 
   /** Get last N NAV records for an ISIN */
+  @Override
   public List<NavByIsin> findLastNByIsin(String isin, int limit) {
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT ?";

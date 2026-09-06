@@ -1,6 +1,6 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
-import com.github.rajadilipkolli.dailynav.infrastructure.ai.TextToSqlGenerator;
+import com.github.rajadilipkolli.dailynav.application.port.TextToSqlPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
@@ -14,19 +14,19 @@ public class NaturalLanguageSearchService {
   private final MutualFundService mutualFundService;
   private final MutualFundTools mutualFundTools;
   private final KnowledgeSearchService knowledgeSearchService;
-  private final TextToSqlGenerator textToSqlGenerator;
+  private final TextToSqlPort textToSqlPort;
 
   public NaturalLanguageSearchService(
-      ChatClient chatClient,
-      MutualFundService mutualFundService,
-      MutualFundTools mutualFundTools,
-      KnowledgeSearchService knowledgeSearchService,
-      TextToSqlGenerator textToSqlGenerator) {
+          ChatClient chatClient,
+          MutualFundService mutualFundService,
+          MutualFundTools mutualFundTools,
+          KnowledgeSearchService knowledgeSearchService,
+          TextToSqlPort textToSqlPort) {
     this.chatClient = chatClient;
     this.mutualFundService = mutualFundService;
     this.mutualFundTools = mutualFundTools;
     this.knowledgeSearchService = knowledgeSearchService;
-    this.textToSqlGenerator = textToSqlGenerator;
+    this.textToSqlPort = textToSqlPort;
   }
 
   /**
@@ -69,7 +69,7 @@ public class NaturalLanguageSearchService {
 
       return switch (intent) {
         case "KNOWN" -> chatClient.prompt().user(query).tools(mutualFundTools).call().content();
-        case "ADHOC" -> textToSqlGenerator.execute(query);
+        case "ADHOC" -> textToSqlPort.execute(query);
         case "QUALITATIVE" -> knowledgeSearchService.search(query).answer();
         default ->
             "I can only answer questions related to mutual funds, NAV histories, and scheme documents.";

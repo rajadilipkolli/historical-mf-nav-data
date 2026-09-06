@@ -1,6 +1,6 @@
 package com.github.rajadilipkolli.dailynav.application.service;
 
-import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.domain.health.DailyNavHealthStatus;
 import java.time.Clock;
 import java.time.LocalDate;

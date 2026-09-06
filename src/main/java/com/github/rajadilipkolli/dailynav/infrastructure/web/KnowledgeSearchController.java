@@ -2,6 +2,8 @@ package com.github.rajadilipkolli.dailynav.infrastructure.web;
 
 import com.github.rajadilipkolli.dailynav.application.service.KnowledgeSearchService;
 import java.util.List;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,7 @@ public class KnowledgeSearchController {
     this.knowledgeSearchService = knowledgeSearchService;
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AskResponse> ask(@RequestBody(required = false) AskRequest request) {
     if (request == null || request.query() == null || request.query().isBlank()) {
       return ResponseEntity.badRequest().build();

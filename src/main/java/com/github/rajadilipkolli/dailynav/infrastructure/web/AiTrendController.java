@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.infrastructure.web;
 
 import com.github.rajadilipkolli.dailynav.application.service.TrendAnomalyService;
 import com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ public class AiTrendController {
    * @param isin The ISIN to analyze.
    * @return TrendAnomalyResult containing stats and optional AI narrative.
    */
-  @GetMapping("/{isin}")
+  @GetMapping(value = "/{isin}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<TrendAnomalyResult> getTrendAndAnomalies(
       @PathVariable("isin") String isin) {
     try {
