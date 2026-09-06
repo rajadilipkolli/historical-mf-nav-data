@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.github.rajadilipkolli.dailynav.config.DailyNavProperties;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -55,6 +56,7 @@ class DailyNavBasicTest {
     properties.setDatabaseFile(null);
     assertEquals("jdbc:sqlite:/direct/path.db", properties.getDatabasePath());
   }
+
   @Test
   void sharedMemoryConnectionPersistsData() throws Exception {
     DailyNavProperties properties = new DailyNavProperties();

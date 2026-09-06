@@ -1,2 +1,2 @@
-com.github.rajadilipkolli.dailynav.DailyNavAutoConfiguration
-com.github.rajadilipkolli.dailynav.DailyNavAiAutoConfiguration
+com.github.rajadilipkolli.dailynav.config.DailyNavAutoConfiguration
+com.github.rajadilipkolli.dailynav.config.DailyNavAiAutoConfiguration
