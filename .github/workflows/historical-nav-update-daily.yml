@@ -1,7 +1,7 @@
 name: Update and Publish Historical Nav Data
 on:
   schedule:
-    - cron: '30 5 * * *'
+    - cron: '30 4 * * *'
   push:
     branches:
       - main
@@ -58,25 +58,32 @@ jobs:
       - name: Build with Maven (CI Check)
         run: ./mvnw clean install --batch-mode
 
-      - name: Early exit for PR or non-main branch
-        if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main') }}
+      - name: Check branch
+        id: check_branch
         run: |
-          echo "PR or non-main branch detected. Exiting after CI build to save resources."
-          exit 0
+          if [[ "${{ github.event_name }}" == 'pull_request' ]] || [[ "${{ github.event_name }}" == 'push' && "${{ github.ref }}" != 'refs/heads/main' ]]; then
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+            echo "PR or non-main branch detected. Exiting after CI build to save resources."
+          else
+            echo "proceed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup Python
+        if: steps.check_branch.outputs.proceed == 'true'
         uses: actions/setup-python@v7
         with:
           python-version: '3.14'
           cache: 'pip'
 
       - name: Install Python dependencies
+        if: steps.check_branch.outputs.proceed == 'true'
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
         working-directory: ${{ github.workspace }}
 
       - name: Update data
+        if: steps.check_branch.outputs.proceed == 'true'
         env:
           LOCAL_FROM: ${{ github.event.inputs.from_date }}
           LOCAL_TO: ${{ github.event.inputs.to_date }}
@@ -92,6 +99,7 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - name: Check for data changes
+        if: steps.check_branch.outputs.proceed == 'true'
         id: check-changes
         run: |
           if git diff --quiet; then
@@ -103,6 +111,7 @@ jobs:
           fi
 
       - name: Commit data updates
+        if: steps.check_branch.outputs.proceed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v7
         id: commit
         with:
@@ -112,13 +121,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Early exit if no changes on push
-        if: ${{ github.event_name == 'push' && steps.check-changes.outputs.has_changes == 'false' }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && github.event_name == 'push' && steps.check-changes.outputs.has_changes == 'false' }}
         run: |
           echo "No data changes detected on push event. Exiting early to save CI time."
           echo "Stopping all subsequent jobs..."
           exit 0
 
       - name: Set workflow exit flag
+        if: steps.check_branch.outputs.proceed == 'true'
         id: should-continue
         run: |
           if [[ "${{ github.event_name }}" == "push" && "${{ steps.check-changes.outputs.has_changes }}" == "false" ]]; then
@@ -130,7 +140,7 @@ jobs:
           fi
 
       - name: Generate database and extract statistics
-        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
         id: generate-stats
         run: |
           echo "Generating database..."
@@ -162,7 +172,7 @@ jobs:
           zstd -19 --long -T0 funds.db
 
       - name: Build Java Library
-        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
         run: |
           echo "Reusing already compressed funds.db.zst..."
           if [ -f funds.db.zst ]; then
@@ -192,7 +202,7 @@ jobs:
           jar tf historical-mf-nav-data-library.jar | grep -q funds.db.zst || { echo "ERROR: funds.db.zst not found in JAR"; exit 1; }
 
       - name: Upload build artifacts
-        if: ${{ steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
         uses: actions/upload-artifact@v7
         with:
           name: build-artifacts
@@ -355,4 +365,3 @@ jobs:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-

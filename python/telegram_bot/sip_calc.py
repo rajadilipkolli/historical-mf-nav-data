@@ -99,21 +99,23 @@ def calculate_and_plot_sip(scheme_code, scheme_name, amount, years=5):
         sip_xirr = 0.0
         
     # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.plot(portfolio_dates, portfolio_values, label='Portfolio Value (₹)', color='green', linewidth=2)
-    plt.plot(portfolio_dates, invested_values, label='Total Invested (₹)', color='blue', linestyle='--')
-    plt.title(f"SIP of ₹{amount}/mo in {scheme_name[:40]}...")
-    plt.xlabel('Year')
-    plt.ylabel('Value (₹)')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    
-    # Save to buffer
-    buf = BytesIO()
-    plt.savefig(buf, format='png', dpi=100)
-    buf.seek(0)
-    plt.close()
+    fig, ax = plt.subplots(figsize=(10, 6))
+    try:
+        ax.plot(portfolio_dates, portfolio_values, label='Portfolio Value (₹)', color='green', linewidth=2)
+        ax.plot(portfolio_dates, invested_values, label='Total Invested (₹)', color='blue', linestyle='--')
+        ax.set_title(f"SIP of ₹{amount}/mo in {scheme_name[:40]}...")
+        ax.set_xlabel('Year')
+        ax.set_ylabel('Value (₹)')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        fig.tight_layout()
+        
+        # Save to buffer
+        buf = BytesIO()
+        fig.savefig(buf, format='png', dpi=100)
+        buf.seek(0)
+    finally:
+        plt.close(fig)
     
     summary = (
         f"📈 *SIP Simulation: {scheme_name}*\n\n"

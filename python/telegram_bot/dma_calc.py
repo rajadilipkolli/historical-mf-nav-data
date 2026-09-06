@@ -15,7 +15,7 @@ def get_db_connection():
 def calculate_and_plot_dma(scheme_code, scheme_name):
     conn = get_db_connection()
     
-    # We need 150 days of data + 1 year for plotting. So fetch last 2 years (to be safe).
+    # We need 200 days of data + 1 year for plotting. So fetch last 2 years (to be safe).
     max_date_query = f"SELECT MAX(date) as max_date FROM nav WHERE scheme_code = {scheme_code}"
     max_date_df = pd.read_sql_query(max_date_query, conn)
     
@@ -31,14 +31,14 @@ def calculate_and_plot_dma(scheme_code, scheme_name):
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    if df.empty:
+    if len(df) < 200:
         return None, "Not enough data."
         
     df['nav'] = df['nav'].astype(float) / 10000.0
     df['date'] = pd.to_datetime(df['date'])
     
     df['50_dma'] = df['nav'].rolling(window=50).mean()
-    df['150_dma'] = df['nav'].rolling(window=150).mean()
+    df['200_dma'] = df['nav'].rolling(window=200).mean()
     
     # Filter for the last 1 year for plotting
     plot_start_date = latest_date_obj - timedelta(days=365)
@@ -58,42 +58,44 @@ def calculate_and_plot_dma(scheme_code, scheme_name):
     elif prev['nav'] > prev['50_dma'] and curr['nav'] < curr['50_dma']:
         crossover_50 = "BEARISH (Crossed Below 50-DMA) 📉"
         
-    crossover_150 = None
-    if prev['nav'] < prev['150_dma'] and curr['nav'] > curr['150_dma']:
-        crossover_150 = "BULLISH (Crossed Above 150-DMA) 📈"
-    elif prev['nav'] > prev['150_dma'] and curr['nav'] < curr['150_dma']:
-        crossover_150 = "BEARISH (Crossed Below 150-DMA) 📉"
+    crossover_200 = None
+    if prev['nav'] < prev['200_dma'] and curr['nav'] > curr['200_dma']:
+        crossover_200 = "BULLISH (Crossed Above 200-DMA) 📈"
+    elif prev['nav'] > prev['200_dma'] and curr['nav'] < curr['200_dma']:
+        crossover_200 = "BEARISH (Crossed Below 200-DMA) 📉"
         
     crossover_golden = None
-    if prev['50_dma'] < prev['150_dma'] and curr['50_dma'] > curr['150_dma']:
-        crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 150-DMA)"
-    elif prev['50_dma'] > prev['150_dma'] and curr['50_dma'] < curr['150_dma']:
-        crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 150-DMA)"
+    if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma'] and curr['nav'] > curr['200_dma']:
+        crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 200-DMA)"
+    elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma'] and curr['nav'] < curr['200_dma']:
+        crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 200-DMA)"
     
     # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.plot(plot_df['date'], plot_df['nav'], label='NAV (₹)', color='black', linewidth=1.5)
-    plt.plot(plot_df['date'], plot_df['50_dma'], label='50-DMA', color='blue', linewidth=1.2)
-    plt.plot(plot_df['date'], plot_df['150_dma'], label='150-DMA', color='red', linewidth=1.2)
-    
-    plt.title(f"{scheme_name[:50]}...")
-    plt.xlabel('Date')
-    plt.ylabel('Value (₹)')
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    
-    buf = BytesIO()
-    plt.savefig(buf, format='png', dpi=100)
-    buf.seek(0)
-    plt.close()
+    fig, ax = plt.subplots(figsize=(10, 6))
+    try:
+        ax.plot(plot_df['date'], plot_df['nav'], label='NAV (₹)', color='black', linewidth=1.5)
+        ax.plot(plot_df['date'], plot_df['50_dma'], label='50-DMA', color='blue', linewidth=1.2)
+        ax.plot(plot_df['date'], plot_df['200_dma'], label='200-DMA', color='red', linewidth=1.2)
+        
+        ax.set_title(f"{scheme_name[:50]}...")
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Value (₹)')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+        fig.tight_layout()
+        
+        buf = BytesIO()
+        fig.savefig(buf, format='png', dpi=100)
+        buf.seek(0)
+    finally:
+        plt.close(fig)
     
     summary = (
         f"*{scheme_name}*\n"
         f"Date: {curr['date'].strftime('%Y-%m-%d')}\n"
         f"NAV: ₹{curr['nav']:.2f}\n"
         f"50-DMA: ₹{curr['50_dma']:.2f} " + (f"({crossover_50})" if crossover_50 else "") + "\n"
-        f"150-DMA: ₹{curr['150_dma']:.2f} " + (f"({crossover_150})" if crossover_150 else "") + "\n"
+        f"200-DMA: ₹{curr['200_dma']:.2f} " + (f"({crossover_200})" if crossover_200 else "") + "\n"
     )
     if crossover_golden:
         summary += f"\n🚨 **{crossover_golden}** 🚨\n"

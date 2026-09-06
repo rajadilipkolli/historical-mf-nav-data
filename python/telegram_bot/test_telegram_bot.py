@@ -21,7 +21,9 @@ class DailyAlertTests(unittest.IsolatedAsyncioTestCase):
             "scheme_name": "Example Fund",
             "nav": 123.45,
             "crossover_50": None,
-            "crossover_150": None,
+            "crossover_200": None,
+            "50_dma": 100.0,
+            "200_dma": 100.0,
             "crossover_golden": "Golden cross",
         }
 

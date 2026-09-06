@@ -38,11 +38,11 @@ async def main():
         
         results = []
         for code, group in nav_df.groupby('scheme_code'):
-            group = group.sort_values('date').tail(200)
-            if len(group) < 150: continue
+            group = group.sort_values('date').tail(250)
+            if len(group) < 200: continue
             
             group['50_dma'] = group['nav'].rolling(window=50).mean()
-            group['150_dma'] = group['nav'].rolling(window=150).mean()
+            group['200_dma'] = group['nav'].rolling(window=200).mean()
             
             last_2 = group.tail(2)
             if len(last_2) < 2: continue
@@ -56,24 +56,24 @@ async def main():
             elif prev['nav'] > prev['50_dma'] and curr['nav'] < curr['50_dma']:
                 crossover_50 = "BEARISH (Crossed Below 50-DMA) 📉"
                 
-            crossover_150 = None
-            if prev['nav'] < prev['150_dma'] and curr['nav'] > curr['150_dma']:
-                crossover_150 = "BULLISH (Crossed Above 150-DMA) 📈"
-            elif prev['nav'] > prev['150_dma'] and curr['nav'] < curr['150_dma']:
-                crossover_150 = "BEARISH (Crossed Below 150-DMA) 📉"
+            crossover_200 = None
+            if prev['nav'] < prev['200_dma'] and curr['nav'] > curr['200_dma']:
+                crossover_200 = "BULLISH (Crossed Above 200-DMA) 📈"
+            elif prev['nav'] > prev['200_dma'] and curr['nav'] < curr['200_dma']:
+                crossover_200 = "BEARISH (Crossed Below 200-DMA) 📉"
                 
             crossover_golden = None
-            if prev['50_dma'] < prev['150_dma'] and curr['50_dma'] > curr['150_dma']:
-                crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 150-DMA)"
-            elif prev['50_dma'] > prev['150_dma'] and curr['50_dma'] < curr['150_dma']:
-                crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 150-DMA)"
+            if prev['50_dma'] < prev['200_dma'] and curr['50_dma'] > curr['200_dma'] and curr['nav'] > curr['200_dma']:
+                crossover_golden = "🌟 GOLDEN CROSS 🌟 (50-DMA Crossed Above 200-DMA)"
+            elif prev['50_dma'] > prev['200_dma'] and curr['50_dma'] < curr['200_dma'] and curr['nav'] < curr['200_dma']:
+                crossover_golden = "☠️ DEATH CROSS ☠️ (50-DMA Crossed Below 200-DMA)"
                 
             results.append({
                 'scheme_name': scheme_name,
                 'date': curr['date'].strftime('%Y-%m-%d'),
                 'nav': curr['nav'],
-                '50_dma': curr['50_dma'], '150_dma': curr['150_dma'],
-                'crossover_50': crossover_50, 'crossover_150': crossover_150,
+                '50_dma': curr['50_dma'], '200_dma': curr['200_dma'],
+                'crossover_50': crossover_50, 'crossover_200': crossover_200,
                 'crossover_golden': crossover_golden
             })
     else:
@@ -84,17 +84,32 @@ async def main():
         print("No results or db empty.")
         return
         
+    results = [r for r in results if "series" not in r['scheme_name'].lower()]
+    
+    def get_priority(r):
+        cg = r.get('crossover_golden') or ''
+        c50 = r.get('crossover_50') or ''
+        c200 = r.get('crossover_200') or ''
+        if 'GOLDEN CROSS' in cg: return 1
+        if 'DEATH CROSS' in cg: return 2
+        if 'BULLISH' in c50 or 'BULLISH' in c200: return 3
+        if 'BEARISH' in c50 or 'BEARISH' in c200: return 4
+        return 5
+        
+    results.sort(key=get_priority)
+        
     import html
     alerts = []
     for r in results:
-        if r['crossover_50'] or r['crossover_150'] or r['crossover_golden']:
+        if r['crossover_50'] or r['crossover_200'] or r['crossover_golden']:
             safe_name = html.escape(r['scheme_name'])
             msg = (f"<b>{safe_name}</b>\n"
-                   f"NAV: ₹{r['nav']:.2f}\n")
+                   f"NAV: ₹{r['nav']:.2f}\n"
+                   f"50-DMA: {r['50_dma']:.2f} | 200-DMA: {r['200_dma']:.2f}\n")
             if r['crossover_50']:
                 msg += f"50-DMA Alert: {r['crossover_50']}\n"
-            if r['crossover_150']:
-                msg += f"150-DMA Alert: {r['crossover_150']}\n"
+            if r['crossover_200']:
+                msg += f"200-DMA Alert: {r['crossover_200']}\n"
             if r['crossover_golden']:
                 msg += f"MA Alert: {r['crossover_golden']}\n"
             alerts.append(msg)
