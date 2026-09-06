@@ -31,7 +31,7 @@ def calculate_and_plot_dma(scheme_code, scheme_name):
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    if df.empty:
+    if len(df) < 200:
         return None, "Not enough data."
         
     df['nav'] = df['nav'].astype(float) / 10000.0
