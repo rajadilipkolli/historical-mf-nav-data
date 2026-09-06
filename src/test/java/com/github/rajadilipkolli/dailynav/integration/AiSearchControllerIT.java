@@ -3,12 +3,12 @@ package com.github.rajadilipkolli.dailynav.integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
-import com.github.rajadilipkolli.dailynav.AiSearchController;
-import com.github.rajadilipkolli.dailynav.DailyNavAutoConfiguration;
-import com.github.rajadilipkolli.dailynav.KnowledgeSearchController;
-import com.github.rajadilipkolli.dailynav.MutualFundService;
-import com.github.rajadilipkolli.dailynav.PerformanceReportController;
-import com.github.rajadilipkolli.dailynav.TrendAnomalyResult;
+import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.config.DailyNavAutoConfiguration;
+import com.github.rajadilipkolli.dailynav.domain.report.TrendAnomalyResult;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.AiSearchController;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.KnowledgeSearchController;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.PerformanceReportController;
 import java.time.Duration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

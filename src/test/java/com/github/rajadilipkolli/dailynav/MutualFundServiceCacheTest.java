@@ -4,7 +4,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.github.rajadilipkolli.dailynav.model.NavByIsin;
+import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.config.DailyNavAutoConfiguration;
+import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
+import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
+import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
+import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SchemeRepository;
+import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SecurityRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
