@@ -153,11 +153,10 @@ def insert_schemes(conn, schemes):
 def insert_data(conn):
     c = conn.cursor()
     # scheme, date, nav
-    for data in get_data(conn):
-        c.execute(
-            "INSERT INTO nav VALUES (?, date(?), ?)",
-            (data[0], data[1], round(data[2] * 10000)),
-        )
+    c.executemany(
+        "INSERT INTO nav VALUES (?, ?, ?)",
+        ((data[0], data[1], round(data[2] * 10000)) for data in get_data(conn))
+    )
 
 if __name__ == "__main__":
     # delete file funds.db
