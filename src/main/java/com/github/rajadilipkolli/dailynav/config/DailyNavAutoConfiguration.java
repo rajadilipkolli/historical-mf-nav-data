@@ -61,13 +61,9 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
-   * Creates a DataSource configured for the Daily NAV SQLite database defined in {@link
-   * DailyNavProperties}.
+   * Creates the Daily NAV data source using the configured database type and connection settings.
    *
-   * <p>The returned datasource is tuned for SQLite usage and executes initialization SQL to enable
-   * WAL journal mode and set synchronous mode to NORMAL.
-   *
-   * @return the configured HikariDataSource for the Daily NAV database
+   * @return the configured data source for the Daily NAV database
    */
   @Bean(name = "dailyNavDataSource", defaultCandidate = false)
   @ConditionalOnMissingBean(name = "dailyNavDataSource")

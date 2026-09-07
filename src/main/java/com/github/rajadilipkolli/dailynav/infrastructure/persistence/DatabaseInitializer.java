@@ -66,9 +66,9 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   /**
    * Initializes the Daily NAV database according to the configured properties.
    *
-   * <p>When auto-initialization is enabled, restores the database or loads the embedded SQL script,
-   * then optionally creates indexes and records database statistics. When disabled, updates the
-   * initialization status based on whether the required tables exist.
+   * <p>When auto-initialization is enabled, creates or restores the database, optionally creates
+   * indexes, and records database statistics. When disabled, marks the database initialized only if
+   * the required tables exist.
    *
    * @throws RuntimeException if database initialization fails
    */
@@ -349,6 +349,9 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
+  /**
+   * Creates the PostgreSQL tables required for schemes, NAV records, and securities.
+   */
   private void initializePostgresSchema() {
     logger.info("Creating PostgreSQL schema...");
     jdbcTemplate.execute(
@@ -359,6 +362,12 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
         "CREATE TABLE IF NOT EXISTS securities (isin TEXT, type INTEGER, scheme_code BIGINT)");
   }
 
+  /**
+   * Seeds PostgreSQL tables from the bundled compressed SQLite dataset.
+   *
+   * <p>Returns without seeding when the dataset is unavailable. Other failures are wrapped in a
+   * {@link RuntimeException}.
+   */
   private void seedPostgresData() {
     logger.info("Seeding PostgreSQL data from bundled SQLite dataset...");
     File tempDb = null;
@@ -413,6 +422,16 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
+  /**
+   * Transfers rows from a SQLite query into the target database table.
+   *
+   * @param sqliteConn  the SQLite connection used to read source rows
+   * @param tableName   the name of the table being seeded
+   * @param selectSql   the query used to retrieve source rows
+   * @param insertSql   the prepared statement used to insert rows
+   * @param columnCount the number of columns to transfer
+   * @throws Exception if reading source data or inserting rows fails
+   */
   private void seedTable(
       Connection sqliteConn, String tableName, String selectSql, String insertSql, int columnCount)
       throws Exception {
