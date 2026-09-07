@@ -3,11 +3,13 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B -Pdocker
 COPY src ./src
+COPY funds.db.zst ./src/main/resources/
 RUN mvn package -DskipTests -Pdocker -B
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/historical-mf-nav-data-*.jar app.jar
+RUN addgroup -S spring && adduser -S spring -G spring
+COPY --chown=spring:spring --from=build /app/target/historical-mf-nav-data-*.jar app.jar
 
 ENV DAILY_NAV_DATABASE_TYPE=postgres
 ENV DAILY_NAV_URL=jdbc:postgresql://postgres:5432/dailynav

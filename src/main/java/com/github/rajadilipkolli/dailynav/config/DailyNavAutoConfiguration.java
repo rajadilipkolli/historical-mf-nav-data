@@ -77,11 +77,16 @@ public class DailyNavAutoConfiguration {
       dataSource.setUsername(properties.getUsername());
       dataSource.setPassword(properties.getPassword());
       dataSource.setMaximumPoolSize(10);
-    } else {
+    } else if ("sqlite".equalsIgnoreCase(properties.getDatabaseType())) {
       dataSource.setDriverClassName("org.sqlite.JDBC");
       dataSource.setJdbcUrl(properties.getDatabasePath());
       dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
       dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
+    } else {
+      throw new IllegalArgumentException(
+          "Unsupported database type: "
+              + properties.getDatabaseType()
+              + ". Supported types are 'sqlite' and 'postgres'.");
     }
     return dataSource;
   }

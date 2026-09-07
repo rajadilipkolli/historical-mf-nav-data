@@ -370,6 +370,9 @@ jobs:
     name: Publish Docker Image
     needs: [build-and-update]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     if: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (needs.build-and-update.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
     steps:
       - name: Checkout code

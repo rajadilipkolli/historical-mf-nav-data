@@ -45,7 +45,8 @@ jobs:
       - name: Delete old GHCR images
         uses: snok/container-retention-policy@v3.0.0
         with:
-          account: ${{ github.repository_owner }}
+          account-type: personal
+          account: rajadilipkolli
           token: ${{ secrets.GITHUB_TOKEN }}
           image-names: historical-mf-nav-data
           cut-off: 15 days ago UTC

@@ -84,17 +84,32 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     try {
       logger.info("Initializing Daily NAV database...");
 
-      // Check if tables already exist
-      if (tablesExist()) {
-        logger.info("Database tables already exist, skipping initialization");
-        this.initialized = true;
-        return;
-      }
-
       if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
-        initializePostgresSchema();
-        seedPostgresData();
+        try {
+          jdbcTemplate.queryForObject("SELECT count(*) FROM schemes", Integer.class);
+          logger.info("Database tables exist, skipping schema initialization");
+
+          Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM nav", Integer.class);
+          if (count != null && count > 0) {
+            logger.info("Data already seeded, skipping initialization");
+            this.initialized = true;
+            return;
+          }
+
+          logger.info("Seeding PostgreSQL data...");
+          seedPostgresData();
+          this.initialized = true;
+          return;
+        } catch (Exception e) {
+          logger.error("Failed to seed PostgreSQL", e);
+          throw new RuntimeException("PostgreSQL seeding failed", e);
+        }
       } else {
+        if (tablesExist()) {
+          logger.info("Database tables already exist, skipping initialization");
+          this.initialized = true;
+          return;
+        }
         if (!restoreDatabaseFromZst()) {
           loadSqlScript();
         }
@@ -347,19 +362,6 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
       logger.warn("Failed to create index: {} - {}. Continuing...", description, e.getMessage());
       logger.debug("Index creation failure detail", e);
     }
-  }
-
-  /**
-   * Creates the PostgreSQL tables required for schemes, NAV records, and securities.
-   */
-  private void initializePostgresSchema() {
-    logger.info("Creating PostgreSQL schema...");
-    jdbcTemplate.execute(
-        "CREATE TABLE IF NOT EXISTS schemes (scheme_code BIGINT PRIMARY KEY, scheme_name TEXT)");
-    jdbcTemplate.execute(
-        "CREATE TABLE IF NOT EXISTS nav (scheme_code BIGINT, date TEXT, nav BIGINT)");
-    jdbcTemplate.execute(
-        "CREATE TABLE IF NOT EXISTS securities (isin TEXT, type INTEGER, scheme_code BIGINT)");
   }
 
   /**

@@ -238,7 +238,7 @@ Sample response includes a `dailyNavHealthIndicator` section with details.
 
 ### 3. Standalone Web Endpoints
 
-If you have `spring-boot-starter-web` but not actuator:
+If you have `spring-boot-starter-webmvc` but not actuator:
 ```bash
 curl http://localhost:8080/historical-mf-nav-data/health   # 200 if healthy, 503 if not
 curl http://localhost:8080/historical-mf-nav-data/info     # Detailed info

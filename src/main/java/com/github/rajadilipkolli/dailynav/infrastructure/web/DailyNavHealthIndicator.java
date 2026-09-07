@@ -22,13 +22,22 @@ public class DailyNavHealthIndicator implements HealthIndicator {
     DailyNavHealthStatus status = healthService.checkHealth();
     Health.Builder builder = status.isHealthy() ? Health.up() : Health.down();
 
-    builder
-        .withDetail("databaseAccessible", status.isDatabaseAccessible())
-        .withDetail("schemeCount", status.getSchemeCount())
-        .withDetail("navRecordCount", status.getNavRecordCount())
-        .withDetail("securityCount", status.getSecurityCount())
-        .withDetail("latestDataDate", status.getLatestDataDate())
-        .withDetail("dataStale", status.isDataStale());
+    builder.withDetail("databaseAccessible", status.isDatabaseAccessible());
+
+    if (status.getSchemeCount() != null) {
+      builder.withDetail("schemeCount", status.getSchemeCount());
+    }
+    if (status.getNavRecordCount() != null) {
+      builder.withDetail("navRecordCount", status.getNavRecordCount());
+    }
+    if (status.getSecurityCount() != null) {
+      builder.withDetail("securityCount", status.getSecurityCount());
+    }
+    if (status.getLatestDataDate() != null) {
+      builder.withDetail("latestDataDate", status.getLatestDataDate());
+    }
+
+    builder.withDetail("dataStale", status.isDataStale());
 
     if (!status.getIssues().isEmpty()) {
       builder.withDetail("issues", status.getIssues());
