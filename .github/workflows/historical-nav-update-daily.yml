@@ -1,7 +1,7 @@
 name: Update and Publish Historical Nav Data
 on:
   schedule:
-    - cron: '30 4 * * *'
+    - cron: '30 2 * * *'
   push:
     branches:
       - main
@@ -187,7 +187,7 @@ jobs:
 
           echo "Building with Maven (skipping tests for faster CI builds)..."
           
-          mvn clean install -DskipTests
+          mvn clean install -Dmaven.test.skip=true
 
           echo "Copying JAR artifact..."
           JAR_FILE=$(find target -name "historical-mf-nav-data*.jar" -not -name "*-sources.jar" -not -name "*-javadoc.jar" | head -1)
@@ -360,7 +360,7 @@ jobs:
           EOF
           
           # Deploy to Maven Central
-          mvn clean deploy -P release -DskipTests --batch-mode
+          mvn clean deploy -P release -Dmaven.test.skip=true
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
