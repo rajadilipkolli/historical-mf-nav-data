@@ -104,12 +104,12 @@ public class TextToSqlGenerator implements TextToSqlPort {
           }
           if (selectStmt.getWithItemsList() != null) {
             for (WithItem withItem : selectStmt.getWithItemsList()) {
-              if (withItem.getSubSelect() == null) {
+              if (withItem.getSelect() == null) {
                 throw new IllegalArgumentException("CTE bodies must be read-only SELECT queries.");
               }
               // Recursively validate nested CTEs if present
-              if (withItem.getSubSelect().getWithItemsList() != null
-                  && !withItem.getSubSelect().getWithItemsList().isEmpty()) {
+              if (withItem.getSelect().getWithItemsList() != null
+                  && !withItem.getSelect().getWithItemsList().isEmpty()) {
                 throw new IllegalArgumentException(
                     "Nested CTEs not permitted for security reasons.");
               }
