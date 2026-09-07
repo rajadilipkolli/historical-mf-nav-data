@@ -13,6 +13,11 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -86,10 +91,13 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
         return;
       }
 
-      // Try to restore from compressed SQLite DB first
-      if (!restoreDatabaseFromZst()) {
-        // Fallback to SQL script if .db.zst not present
-        loadSqlScript();
+      if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
+        initializePostgresSchema();
+        seedPostgresData();
+      } else {
+        if (!restoreDatabaseFromZst()) {
+          loadSqlScript();
+        }
       }
 
       // Create indexes if enabled
@@ -338,6 +346,99 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     } catch (Exception e) {
       logger.warn("Failed to create index: {} - {}. Continuing...", description, e.getMessage());
       logger.debug("Index creation failure detail", e);
+    }
+  }
+
+  private void initializePostgresSchema() {
+    logger.info("Creating PostgreSQL schema...");
+    jdbcTemplate.execute(
+        "CREATE TABLE IF NOT EXISTS schemes (scheme_code BIGINT PRIMARY KEY, scheme_name TEXT)");
+    jdbcTemplate.execute(
+        "CREATE TABLE IF NOT EXISTS nav (scheme_code BIGINT, date TEXT, nav BIGINT)");
+    jdbcTemplate.execute(
+        "CREATE TABLE IF NOT EXISTS securities (isin TEXT, type INTEGER, scheme_code BIGINT)");
+  }
+
+  private void seedPostgresData() {
+    logger.info("Seeding PostgreSQL data from bundled SQLite dataset...");
+    File tempDb = null;
+    try {
+      ClassPathResource resource = new ClassPathResource("funds.db.zst");
+      if (!resource.exists()) {
+        logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
+        // For fallback, we might just parse the SQL. But it has sqlite syntax.
+        // Let's assume funds.db.zst exists as it's the bundled dataset.
+        return;
+      }
+      tempDb = File.createTempFile("funds", ".db");
+      try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+          OutputStream out = new FileOutputStream(tempDb)) {
+        byte[] buffer = new byte[8192];
+        int len;
+        while ((len = zstdStream.read(buffer)) > 0) {
+          out.write(buffer, 0, len);
+        }
+      }
+
+      // Read from SQLite and insert into Postgres
+      try (Connection sqliteConn =
+          DriverManager.getConnection("jdbc:sqlite:" + tempDb.getAbsolutePath())) {
+        seedTable(
+            sqliteConn,
+            "schemes",
+            "SELECT scheme_code, scheme_name FROM schemes",
+            "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)",
+            2);
+        seedTable(
+            sqliteConn,
+            "nav",
+            "SELECT scheme_code, date, nav FROM nav",
+            "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)",
+            3);
+        seedTable(
+            sqliteConn,
+            "securities",
+            "SELECT isin, type, scheme_code FROM securities",
+            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)",
+            3);
+      }
+
+    } catch (Exception e) {
+      logger.error("Failed to seed PostgreSQL data", e);
+      throw new RuntimeException("PostgreSQL data seeding failed", e);
+    } finally {
+      if (tempDb != null && tempDb.exists()) {
+        tempDb.deleteOnExit();
+      }
+    }
+  }
+
+  private void seedTable(
+      Connection sqliteConn, String tableName, String selectSql, String insertSql, int columnCount)
+      throws Exception {
+    logger.info("Seeding table {}...", tableName);
+    try (Statement stmt = sqliteConn.createStatement();
+        ResultSet rs = stmt.executeQuery(selectSql)) {
+
+      jdbcTemplate.execute(
+          (ConnectionCallback<Void>)
+              con -> {
+                try (PreparedStatement ps = con.prepareStatement(insertSql)) {
+                  int count = 0;
+                  while (rs.next()) {
+                    for (int i = 1; i <= columnCount; i++) {
+                      ps.setObject(i, rs.getObject(i));
+                    }
+                    ps.addBatch();
+                    count++;
+                    if (count % 10000 == 0) {
+                      ps.executeBatch();
+                    }
+                  }
+                  ps.executeBatch();
+                }
+                return null;
+              });
     }
   }
 }

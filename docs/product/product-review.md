@@ -8,7 +8,7 @@ Indian fintech organizations, independent quantitative researchers, and Java bac
 
 The Daily NAV library is positioned as an **embedded, self-contained Spring Boot auto-configuration library**. 
 
-Rather than functioning as an external service or API, it ships directly with a compressed SQLite dataset (`funds.db.zst`) of historical NAV data. This architecture ensures that there are absolutely no external service dependencies or network calls made at runtime. Once embedded, it provides blazing-fast, localized access to historical financial data.
+Rather than functioning as an external service or API, it ships directly with a compressed SQLite dataset (`funds.db.zst`) of historical NAV data. This architecture ensures that there are absolutely no external service dependencies or network calls made at runtime (unless configured to use the PostgreSQL backend). Once embedded, it provides blazing-fast, localized access to historical financial data.
 
 ## Explicit Product Goals & Success Outcome
 
@@ -31,6 +31,10 @@ To fully understand the product scope, capabilities, and terminology, please ref
 *   [Glossary](glossary.md): Definitions of core entities and domain terms.
 *   [Assumptions and Gaps](assumptions-and-gaps.md): Explicit assumptions, limitations, constraints, and known gaps in the current product.
 *   [Personas](#personas): Detailed descriptions of our target users and their usage patterns (see below).
+*   **AI Architecture & Strategy**: 
+    *   [AI Architecture Proposal](ai/ai-architecture-proposal.md): Core AI integration design.
+    *   [AI Technology Decision Record](ai/tdr-ai-model-and-vector-store.md): Model and vector store choices.
+    *   [AI Risk and Evaluation Strategy](ai/ai-risk-and-evaluation.md): Mitigation and rollout plan.
 
 ## Prioritized Recommendations
 
@@ -48,7 +52,7 @@ The following near-term and strategic improvements are ranked by business value 
     *   *Effort*: Medium | *Value*: Medium
     *   *Unblocks*: Data Scientists needing precise rolling-window calculations.
     *   *Recommendation*: Integrate BSE/NSE holiday calendars to filter non-trading days out of analytical calculations.
-4.  **Standalone Microservice / Non-Java Support**
+4.  **Standalone Microservice / Non-Java Support (Implemented)**
     *   *Effort*: High | *Value*: Strategic
     *   *Unblocks*: Polyglot teams (Node.js, Go, Python backends).
     *   *Recommendation*: Wrap the library in a minimal Spring Boot application that exposes REST/GraphQL APIs, distributed as a Docker container.

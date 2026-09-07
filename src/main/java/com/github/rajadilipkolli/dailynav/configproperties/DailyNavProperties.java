@@ -24,6 +24,18 @@ public class DailyNavProperties {
   /** Path to a persistent database file. If set, this overrides the default databasePath. */
   private String databaseFile = null;
 
+  /** Database type. Allowed values: sqlite, postgres. Defaults to sqlite. */
+  private String databaseType = "sqlite";
+
+  /** PostgreSQL database URL. Used only when databaseType is postgres. */
+  private String url;
+
+  /** PostgreSQL database username. Used only when databaseType is postgres. */
+  private String username;
+
+  /** PostgreSQL database password. Used only when databaseType is postgres. */
+  private String password;
+
   /** Whether to validate data integrity (counting records) after loading. */
   private boolean validateData = true;
 
@@ -152,5 +164,37 @@ public class DailyNavProperties {
    */
   public void setEnableAsync(boolean enableAsync) {
     this.enableAsync = enableAsync;
+  }
+
+  public String getDatabaseType() {
+    return databaseType;
+  }
+
+  public void setDatabaseType(String databaseType) {
+    this.databaseType = databaseType;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

@@ -73,11 +73,20 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnMissingBean(name = "dailyNavDataSource")
   DataSource dailyNavDataSource() {
     HikariDataSource dataSource = new HikariDataSource();
-    dataSource.setDriverClassName("org.sqlite.JDBC");
-    dataSource.setJdbcUrl(properties.getDatabasePath());
     dataSource.setPoolName("DailyNavPool");
-    dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
-    dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
+
+    if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
+      dataSource.setDriverClassName("org.postgresql.Driver");
+      dataSource.setJdbcUrl(properties.getUrl());
+      dataSource.setUsername(properties.getUsername());
+      dataSource.setPassword(properties.getPassword());
+      dataSource.setMaximumPoolSize(10);
+    } else {
+      dataSource.setDriverClassName("org.sqlite.JDBC");
+      dataSource.setJdbcUrl(properties.getDatabasePath());
+      dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
+      dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
+    }
     return dataSource;
   }
 

@@ -365,3 +365,38 @@ jobs:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  docker-publish:
+    name: Publish Docker Image
+    needs: [build-and-update]
+    runs-on: ubuntu-latest
+    if: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (needs.build-and-update.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: build-artifacts
+
+      - name: Prepare resources
+        run: |
+          mkdir -p src/main/resources/
+          cp funds.db.zst src/main/resources/
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:1.0.${{ needs.build-and-update.outputs.release_version }}
+            ghcr.io/${{ github.repository }}:latest
