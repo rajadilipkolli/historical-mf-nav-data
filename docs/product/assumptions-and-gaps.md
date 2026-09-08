@@ -4,7 +4,7 @@ This document captures the explicit assumptions, constraints, risks, and missing
 
 ## Explicit Assumptions
 
-*   **Embedded Database**: The library embeds and relies on a compressed SQLite database (`funds.db.zst`) for historical data.
+*   **Database Backend**: The library uses a pluggable backend (SQLite by default, or PostgreSQL) and embeds a compressed dataset (`funds.db.zst`) for historical data initialization.
 *   **Pricing Cadence**: Data represents end-of-day NAV pricing only. There is no intraday pricing available or supported for mutual funds.
 *   **Geographic Scope**: Coverage is strictly limited to India and mutual funds tracked by AMFI.
 *   **Update Cadence**: Database updates are executed daily via automated GitHub Actions pipelines.

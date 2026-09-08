@@ -24,6 +24,18 @@ public class DailyNavProperties {
   /** Path to a persistent database file. If set, this overrides the default databasePath. */
   private String databaseFile = null;
 
+  /** Database type. Allowed values: sqlite, postgres. Defaults to sqlite. */
+  private String databaseType = "sqlite";
+
+  /** PostgreSQL database URL. Used only when databaseType is postgres. */
+  private String url;
+
+  /** PostgreSQL database username. Used only when databaseType is postgres. */
+  private String username;
+
+  /** PostgreSQL database password. Used only when databaseType is postgres. */
+  private String password;
+
   /** Whether to validate data integrity (counting records) after loading. */
   private boolean validateData = true;
 
@@ -152,5 +164,77 @@ public class DailyNavProperties {
    */
   public void setEnableAsync(boolean enableAsync) {
     this.enableAsync = enableAsync;
+  }
+
+  /**
+   * Gets the configured database type.
+   *
+   * @return the database type
+   */
+  public String getDatabaseType() {
+    return databaseType;
+  }
+
+  /**
+   * Sets the database type used by the application.
+   *
+   * @param databaseType the database type
+   */
+  public void setDatabaseType(String databaseType) {
+    this.databaseType = databaseType;
+  }
+
+  /**
+   * Gets the PostgreSQL connection URL.
+   *
+   * @return the configured PostgreSQL connection URL
+   */
+  public String getUrl() {
+    return url;
+  }
+
+  /**
+   * Sets the PostgreSQL database URL.
+   *
+   * @param url the PostgreSQL database URL
+   */
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  /**
+   * Gets the PostgreSQL database username.
+   *
+   * @return the configured database username
+   */
+  public String getUsername() {
+    return username;
+  }
+
+  /**
+   * Sets the PostgreSQL database username.
+   *
+   * @param username the PostgreSQL database username
+   */
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  /**
+   * Gets the PostgreSQL database password.
+   *
+   * @return the configured database password
+   */
+  public String getPassword() {
+    return password;
+  }
+
+  /**
+   * Sets the PostgreSQL database password.
+   *
+   * @param password the PostgreSQL database password
+   */
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

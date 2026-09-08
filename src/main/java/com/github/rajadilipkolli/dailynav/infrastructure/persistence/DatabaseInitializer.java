@@ -13,6 +13,13 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,9 +68,9 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   /**
    * Initializes the Daily NAV database according to the configured properties.
    *
-   * <p>When auto-initialization is enabled, restores the database or loads the embedded SQL script,
-   * then optionally creates indexes and records database statistics. When disabled, updates the
-   * initialization status based on whether the required tables exist.
+   * <p>When auto-initialization is enabled, creates or restores the database, optionally creates
+   * indexes, and records database statistics. When disabled, marks the database initialized only if
+   * the required tables exist.
    *
    * @throws RuntimeException if database initialization fails
    */
@@ -79,17 +86,35 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     try {
       logger.info("Initializing Daily NAV database...");
 
-      // Check if tables already exist
-      if (tablesExist()) {
-        logger.info("Database tables already exist, skipping initialization");
-        this.initialized = true;
-        return;
-      }
+      if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
+        try {
+          jdbcTemplate.queryForObject("SELECT count(*) FROM schemes", Integer.class);
+          logger.info("Database tables exist, skipping schema initialization");
 
-      // Try to restore from compressed SQLite DB first
-      if (!restoreDatabaseFromZst()) {
-        // Fallback to SQL script if .db.zst not present
-        loadSqlScript();
+          Integer count = jdbcTemplate.queryForObject("SELECT count(*) FROM nav", Integer.class);
+          if (count != null && count > 0) {
+            logger.info("Data already seeded, skipping initialization");
+            this.initialized = true;
+            return;
+          }
+
+          logger.info("Seeding PostgreSQL data...");
+          seedPostgresData();
+          this.initialized = true;
+          return;
+        } catch (Exception e) {
+          logger.error("Failed to seed PostgreSQL", e);
+          throw new RuntimeException("PostgreSQL seeding failed", e);
+        }
+      } else {
+        if (tablesExist()) {
+          logger.info("Database tables already exist, skipping initialization");
+          this.initialized = true;
+          return;
+        }
+        if (!restoreDatabaseFromZst()) {
+          loadSqlScript();
+        }
       }
 
       // Create indexes if enabled
@@ -338,6 +363,109 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     } catch (Exception e) {
       logger.warn("Failed to create index: {} - {}. Continuing...", description, e.getMessage());
       logger.debug("Index creation failure detail", e);
+    }
+  }
+
+  /**
+   * Seeds PostgreSQL tables from the bundled compressed SQLite dataset.
+   *
+   * <p>Returns without seeding when the dataset is unavailable. Other failures are wrapped in a
+   * {@link RuntimeException}.
+   */
+  private void seedPostgresData() {
+    logger.info("Seeding PostgreSQL data from bundled SQLite dataset...");
+    File tempDb = null;
+    try {
+      ClassPathResource resource = new ClassPathResource("funds.db.zst");
+      if (!resource.exists()) {
+        logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
+        // For fallback, we might just parse the SQL. But it has sqlite syntax.
+        // Let's assume funds.db.zst exists as it's the bundled dataset.
+        return;
+      }
+      tempDb = File.createTempFile("funds", ".db");
+      try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+          OutputStream out = new FileOutputStream(tempDb)) {
+        byte[] buffer = new byte[8192];
+        int len;
+        while ((len = zstdStream.read(buffer)) > 0) {
+          out.write(buffer, 0, len);
+        }
+      }
+
+      // Read from SQLite and insert into Postgres
+      try (Connection sqliteConn =
+          DriverManager.getConnection("jdbc:sqlite:" + tempDb.getAbsolutePath())) {
+        seedTable(
+            sqliteConn,
+            "schemes",
+            "SELECT scheme_code, scheme_name FROM schemes",
+            "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)",
+            2);
+        seedTable(
+            sqliteConn,
+            "nav",
+            "SELECT scheme_code, date, nav FROM nav",
+            "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)",
+            3);
+        seedTable(
+            sqliteConn,
+            "securities",
+            "SELECT isin, type, scheme_code FROM securities",
+            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)",
+            3);
+      }
+
+    } catch (Exception e) {
+      logger.error("Failed to seed PostgreSQL data", e);
+      throw new RuntimeException("PostgreSQL data seeding failed", e);
+    } finally {
+      if (tempDb != null && tempDb.exists()) {
+        tempDb.deleteOnExit();
+      }
+    }
+  }
+
+  /**
+   * Transfers rows from a SQLite query into the target database table.
+   *
+   * @param sqliteConn  the SQLite connection used to read source rows
+   * @param tableName   the name of the table being seeded
+   * @param selectSql   the query used to retrieve source rows
+   * @param insertSql   the prepared statement used to insert rows
+   * @param columnCount the number of columns to transfer
+   * @throws Exception if reading source data or inserting rows fails
+   */
+  private void seedTable(
+      Connection sqliteConn, String tableName, String selectSql, String insertSql, int columnCount)
+      throws Exception {
+    logger.info("Seeding table {}...", tableName);
+    try (Statement stmt = sqliteConn.createStatement();
+        ResultSet rs = stmt.executeQuery(selectSql)) {
+
+      jdbcTemplate.execute(
+          (ConnectionCallback<Void>)
+              con -> {
+                try (PreparedStatement ps = con.prepareStatement(insertSql)) {
+                  int count = 0;
+                  while (rs.next()) {
+                    for (int i = 1; i <= columnCount; i++) {
+                      Object val = rs.getObject(i);
+                      if ("nav".equalsIgnoreCase(tableName) && i == 2 && val instanceof String) {
+                        val = LocalDate.parse((String) val);
+                      }
+                      ps.setObject(i, val);
+                    }
+                    ps.addBatch();
+                    count++;
+                    if (count % 10000 == 0) {
+                      ps.executeBatch();
+                    }
+                  }
+                  ps.executeBatch();
+                }
+                return null;
+              });
     }
   }
 }

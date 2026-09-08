@@ -11,21 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # Required permission to delete releases and tags
+      packages: write # Required permission to delete container images
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
           persist-credentials: false
 
-      - name: Delete Releases and Tags Older Than 30 Days
+      - name: Delete Releases and Tags Older Than 15 Days
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Calculate the date 30 days ago in ISO 8601 format
-          THRESHOLD_DATE=$(date -d "30 days ago" +%Y-%m-%dT%H:%M:%SZ)
+          # Calculate the date 15 days ago in ISO 8601 format
+          THRESHOLD_DATE=$(date -d "15 days ago" +%Y-%m-%dT%H:%M:%SZ)
           echo "Deleting releases published before: $THRESHOLD_DATE"
           
-          # Fetch releases and filter those older than 30 days using jq
+          # Fetch releases and filter those older than 15 days using jq
           gh release list --limit 1000 --json tagName,publishedAt -q ".[] | select(.publishedAt < \"$THRESHOLD_DATE\") | .tagName" > old_releases.txt
           
           if [ -s old_releases.txt ]; then
@@ -38,5 +39,15 @@ jobs:
               gh release delete "$tag" -y --cleanup-tag
             done < old_releases.txt
           else
-            echo "No releases older than 30 days found."
+            echo "No releases older than 15 days found."
           fi
+
+      - name: Delete old GHCR images
+        uses: snok/container-retention-policy@v3.0.0
+        with:
+          account-type: personal
+          account: rajadilipkolli
+          token: ${{ secrets.GITHUB_TOKEN }}
+          image-names: historical-mf-nav-data
+          cut-off: 15 days ago UTC
+          keep-n-most-recent: 3

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="antigravity">
+        <!-- Tables -->
+        <createTable tableName="schemes">
+            <column name="scheme_code" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="scheme_name" type="TEXT"/>
+        </createTable>
+
+        <createTable tableName="nav">
+            <column name="scheme_code" type="BIGINT"/>
+            <column name="date" type="DATE"/>
+            <column name="nav" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="securities">
+            <column name="isin" type="TEXT"/>
+            <column name="type" type="INTEGER"/>
+            <column name="scheme_code" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="antigravity" runOnChange="true">
+        <!-- View -->
+        <createView viewName="nav_by_isin" replaceIfExists="true">
+            SELECT date, isin, nav 
+            FROM nav 
+            JOIN securities ON nav.scheme_code = securities.scheme_code
+        </createView>
+    </changeSet>
+
+    <changeSet id="3" author="antigravity">
+        <!-- Indexes -->
+        <createIndex tableName="nav" indexName="nav-main">
+            <column name="date"/>
+            <column name="scheme_code"/>
+        </createIndex>
+        <createIndex tableName="nav" indexName="nav-scheme-date">
+            <column name="scheme_code"/>
+            <column name="date" descending="true"/>
+        </createIndex>
+        <createIndex tableName="securities" indexName="securities-scheme">
+            <column name="scheme_code"/>
+        </createIndex>
+        <createIndex tableName="securities" indexName="securities-isin">
+            <column name="isin"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

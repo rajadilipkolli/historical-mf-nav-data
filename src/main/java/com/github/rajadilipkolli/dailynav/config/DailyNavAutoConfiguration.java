@@ -61,23 +61,33 @@ public class DailyNavAutoConfiguration {
   }
 
   /**
-   * Creates a DataSource configured for the Daily NAV SQLite database defined in {@link
-   * DailyNavProperties}.
+   * Creates the Daily NAV data source using the configured database type and connection settings.
    *
-   * <p>The returned datasource is tuned for SQLite usage and executes initialization SQL to enable
-   * WAL journal mode and set synchronous mode to NORMAL.
-   *
-   * @return the configured HikariDataSource for the Daily NAV database
+   * @return the configured data source for the Daily NAV database
    */
   @Bean(name = "dailyNavDataSource", defaultCandidate = false)
   @ConditionalOnMissingBean(name = "dailyNavDataSource")
   DataSource dailyNavDataSource() {
     HikariDataSource dataSource = new HikariDataSource();
-    dataSource.setDriverClassName("org.sqlite.JDBC");
-    dataSource.setJdbcUrl(properties.getDatabasePath());
     dataSource.setPoolName("DailyNavPool");
-    dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
-    dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
+
+    if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
+      dataSource.setDriverClassName("org.postgresql.Driver");
+      dataSource.setJdbcUrl(properties.getUrl());
+      dataSource.setUsername(properties.getUsername());
+      dataSource.setPassword(properties.getPassword());
+      dataSource.setMaximumPoolSize(10);
+    } else if ("sqlite".equalsIgnoreCase(properties.getDatabaseType())) {
+      dataSource.setDriverClassName("org.sqlite.JDBC");
+      dataSource.setJdbcUrl(properties.getDatabasePath());
+      dataSource.setMaximumPoolSize(5); // SQLite handles small pools better
+      dataSource.setConnectionInitSql("PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;");
+    } else {
+      throw new IllegalArgumentException(
+          "Unsupported database type: "
+              + properties.getDatabaseType()
+              + ". Supported types are 'sqlite' and 'postgres'.");
+    }
     return dataSource;
   }
 

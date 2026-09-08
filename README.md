@@ -238,7 +238,7 @@ Sample response includes a `dailyNavHealthIndicator` section with details.
 
 ### 3. Standalone Web Endpoints
 
-If you have `spring-boot-starter-web` but not actuator:
+If you have `spring-boot-starter-webmvc` but not actuator:
 ```bash
 curl http://localhost:8080/historical-mf-nav-data/health   # 200 if healthy, 503 if not
 curl http://localhost:8080/historical-mf-nav-data/info     # Detailed info
@@ -353,6 +353,42 @@ If you need to extract a CSV manually:
 python -c "import zipfile; z=zipfile.ZipFile('data/2025/12/01.zip'); z.extractall('outdir')"
 ```
 
+
+---
+
+## 🐳 Running with Docker & PostgreSQL
+
+The library provides a standalone Docker image that exposes a REST API with a PostgreSQL backend.
+
+### Running with Docker Compose
+
+You can easily run the application and its PostgreSQL database together:
+
+```bash
+docker-compose -f docker/docker-compose.yml up -d
+```
+
+This starts the API on port `18080` and initializes PostgreSQL automatically.
+
+### Pulling the Image
+
+```bash
+docker pull ghcr.io/rajadilipkolli/historical-mf-nav-data:latest
+```
+Images are tagged with `latest` and version tags like `1.0.YYYYMMDD`.
+
+### Environment Variables
+
+When running independently, you can configure the connection via:
+- `DAILY_NAV_DATABASE_TYPE`: Set to `postgres` (default in the Docker image).
+- `DAILY_NAV_URL`: The PostgreSQL JDBC URL (e.g. `jdbc:postgresql://db:5432/dailynav`).
+- `DAILY_NAV_USERNAME`: Database username.
+- `DAILY_NAV_PASSWORD`: Database password.
+
+### Health Check
+
+The container includes a built-in health check that probes the Spring Boot actuator endpoint. When running via docker-compose, the application is mapped to port 18080 on your host:
+- `http://localhost:18080/actuator/health`
 
 ---
 
