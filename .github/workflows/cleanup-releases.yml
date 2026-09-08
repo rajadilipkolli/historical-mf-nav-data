@@ -32,7 +32,7 @@ jobs:
           if [ -s old_releases.txt ]; then
             echo "Found the following old releases/tags to delete:"
             cat old_releases.txt
-            
+          
             # Loop through and delete the release, artifacts, and the tag itself
             while read -r tag; do
               echo "Deleting release and tag: $tag"
@@ -43,12 +43,8 @@ jobs:
           fi
 
       - name: Delete old GHCR images
-        uses: snok/container-retention-policy@v3.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/delete-package-versions@v5
         with:
-          account: rajadilipkolli
-          token: $GITHUB_TOKEN
-          image-names: historical-mf-nav-data
-          cut-off: 15 days ago UTC
-          keep-n-most-recent: 3
+          package-name: 'historical-mf-nav-data'
+          package-type: 'container'
+          min-versions-to-keep: 5
