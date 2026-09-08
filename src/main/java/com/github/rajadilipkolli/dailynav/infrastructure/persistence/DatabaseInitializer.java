@@ -18,6 +18,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -448,7 +450,11 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
                   int count = 0;
                   while (rs.next()) {
                     for (int i = 1; i <= columnCount; i++) {
-                      ps.setObject(i, rs.getObject(i));
+                      Object val = rs.getObject(i);
+                      if ("nav".equalsIgnoreCase(tableName) && i == 2 && val instanceof String) {
+                        val = LocalDate.parse((String) val);
+                      }
+                      ps.setObject(i, val);
                     }
                     ps.addBatch();
                     count++;

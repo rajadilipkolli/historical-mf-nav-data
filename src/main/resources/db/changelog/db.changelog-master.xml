@@ -16,7 +16,7 @@
 
         <createTable tableName="nav">
             <column name="scheme_code" type="BIGINT"/>
-            <column name="date" type="TEXT"/>
+            <column name="date" type="DATE"/>
             <column name="nav" type="BIGINT"/>
         </createTable>
 
