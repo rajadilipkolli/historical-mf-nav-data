@@ -6,7 +6,7 @@ COPY src ./src
 COPY funds.db.zst ./src/main/resources/
 RUN mvn package -DskipTests -Pdocker -B
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring
 COPY --chown=spring:spring --from=build /app/target/historical-mf-nav-data-*.jar app.jar
