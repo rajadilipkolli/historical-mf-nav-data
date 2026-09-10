@@ -19,7 +19,7 @@ class NavRepositoryTest extends AbstractRepositoryTest {
 
   @BeforeEach
   void setUpNavRepo() {
-    navRepository = new NavRepository(jdbcTemplate);
+    navRepository = new NavRepository(jdbcTemplate, null);
   }
 
   @Override

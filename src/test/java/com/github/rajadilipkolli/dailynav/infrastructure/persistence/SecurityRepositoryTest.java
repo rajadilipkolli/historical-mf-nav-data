@@ -29,7 +29,8 @@ class SecurityRepositoryTest extends AbstractRepositoryTest {
         .execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
     connection
         .createStatement()
-        .execute("CREATE TABLE schemes (scheme_code INTEGER, scheme_name TEXT)");
+        .execute(
+            "CREATE TABLE schemes (scheme_code INTEGER, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
   }
 
   @Override

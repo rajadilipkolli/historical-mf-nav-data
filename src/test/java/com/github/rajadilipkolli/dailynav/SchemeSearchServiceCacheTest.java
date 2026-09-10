@@ -4,14 +4,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.application.service.SchemeSearchService;
 import com.github.rajadilipkolli.dailynav.config.DailyNavAutoConfiguration;
-import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SchemeRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SecurityRepository;
-import java.util.Optional;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,38 +25,49 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
       "daily-nav.auto-init=false",
       "daily-nav.enable-caching=true"
     })
-class MutualFundServiceCacheTest {
+class SchemeSearchServiceCacheTest {
 
   @MockitoBean private NavByIsinRepository navByIsinRepository;
 
-  // We mock other repositories so the context loads smoothly without needing
-  // actual DB connections if not used
   @MockitoBean private SchemeRepository schemeRepository;
 
   @MockitoBean private SecurityRepository securityRepository;
 
   @MockitoBean private DatabaseInitializer databaseInitializer;
 
-  @Autowired private MutualFundService mutualFundService;
+  @Autowired private SchemeSearchService schemeSearchService;
 
   @Autowired private CacheManager cacheManager;
 
   @Test
-  void testGetLatestNavByIsinIsCached() {
-    String isin = "ISIN123";
-    NavByIsin mockNav = new NavByIsin();
-    mockNav.setIsin(isin);
-    mockNav.setNav(100.0);
+  void testListAmcsIsCached() {
+    List<String> amcs = List.of("AMC 1", "AMC 2");
 
-    when(navByIsinRepository.findLatestByIsin(isin)).thenReturn(Optional.of(mockNav));
+    when(schemeRepository.findDistinctAmcs()).thenReturn(amcs);
 
     // First call, should hit the repository
-    mutualFundService.getLatestNavByIsin(isin);
+    schemeSearchService.listAmcs();
 
     // Second call, should hit the cache
-    mutualFundService.getLatestNavByIsin(isin);
+    schemeSearchService.listAmcs();
 
     // Verify repository was called only once
-    verify(navByIsinRepository, times(1)).findLatestByIsin(isin);
+    verify(schemeRepository, times(1)).findDistinctAmcs();
+  }
+
+  @Test
+  void testListCategoriesIsCached() {
+    List<String> categories = List.of("Category 1", "Category 2");
+
+    when(schemeRepository.findDistinctCategories()).thenReturn(categories);
+
+    // First call, should hit the repository
+    schemeSearchService.listCategories();
+
+    // Second call, should hit the cache
+    schemeSearchService.listCategories();
+
+    // Verify repository was called only once
+    verify(schemeRepository, times(1)).findDistinctCategories();
   }
 }

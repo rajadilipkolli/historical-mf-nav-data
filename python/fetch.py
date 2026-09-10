@@ -16,6 +16,9 @@ def fetch_file(date, url, out_path):
     try:
         resp = requests.get(url, timeout=30)
         resp.raise_for_status()
+        if not resp.content.strip():
+            return f"Skipped (0 bytes): {out_path}"
+            
         # Save as a zipped CSV to reduce repo size: DD.zip containing DD.csv
         zip_path = out_path.replace('.csv', '.zip')
         inner_name = os.path.basename(out_path)

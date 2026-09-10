@@ -9,21 +9,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 
 /** Repository for ISIN-based NAV data access */
 @Repository
 public class NavByIsinRepository implements NavLookupPort {
 
   private final JdbcTemplate jdbcTemplate;
+  private final DatabaseInitializerPort databaseInitializerPort;
 
-  /**
-   * Constructs a NavByIsinRepository backed by the provided JdbcTemplate.
-   *
-   * @param jdbcTemplate the JdbcTemplate qualified as "dailyNavJdbcTemplate" used for database
-   *     access
-   */
-  public NavByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
+  public NavByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DatabaseInitializerPort databaseInitializerPort) {
     this.jdbcTemplate = jdbcTemplate;
+    this.databaseInitializerPort = databaseInitializerPort;
   }
 
   private static final RowMapper<NavByIsin> NAV_BY_ISIN_ROW_MAPPER =
@@ -42,6 +39,7 @@ public class NavByIsinRepository implements NavLookupPort {
 
   /** Get latest NAV for an ISIN */
   public Optional<NavByIsin> findLatestByIsin(String isin) {
+    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT 1";
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin).stream().findFirst();
@@ -55,6 +53,7 @@ public class NavByIsinRepository implements NavLookupPort {
    * @return the matching NAV record, or an empty optional if none exists
    */
   public Optional<NavByIsin> findByIsinAndDateOnOrBefore(String isin, LocalDate date) {
+    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? AND date <= ? ORDER BY date DESC LIMIT 1";
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, date).stream().findFirst();
@@ -77,6 +76,7 @@ public class NavByIsinRepository implements NavLookupPort {
   /** Get NAV records for an ISIN within a date range */
   public List<NavByIsin> findByIsinAndDateBetween(
       String isin, LocalDate startDate, LocalDate endDate) {
+    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? AND date BETWEEN ? AND ? ORDER BY date DESC";
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, startDate, endDate);

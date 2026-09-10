@@ -9,6 +9,8 @@ import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
+import com.github.rajadilipkolli.dailynav.domain.search.PagedResult;
+import com.github.rajadilipkolli.dailynav.domain.search.SchemeSearchCriteria;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,6 +29,7 @@ public class MutualFundService {
   private final SchemePort schemePort;
   private final SecurityPort securityPort;
   private final DatabaseInitializerPort databaseInitializerPort;
+  private final SchemeSearchService schemeSearchService;
 
   /** Creates a service for accessing mutual-fund data through the supplied application ports. */
   public MutualFundService(
@@ -34,12 +37,14 @@ public class MutualFundService {
       NavPort navPort,
       SchemePort schemePort,
       SecurityPort securityPort,
-      DatabaseInitializerPort databaseInitializerPort) {
+      DatabaseInitializerPort databaseInitializerPort,
+      SchemeSearchService schemeSearchService) {
     this.navLookupPort = navLookupPort;
     this.navPort = navPort;
     this.schemePort = schemePort;
     this.securityPort = securityPort;
     this.databaseInitializerPort = databaseInitializerPort;
+    this.schemeSearchService = schemeSearchService;
   }
 
   @Autowired @Lazy private MutualFundService self;
@@ -158,10 +163,21 @@ public class MutualFundService {
   }
 
   /**
+   * Searches for schemes matching the given criteria with pagination.
+   *
+   * @param criteria the search criteria
+   * @return a paged result of matching schemes
+   */
+  public PagedResult<Scheme> searchSchemes(SchemeSearchCriteria criteria) {
+    return schemeSearchService.search(criteria);
+  }
+
+  /**
    * Retrieves all mutual-fund schemes.
    *
    * @return all available schemes
    */
+  @Cacheable(cacheNames = "dailyNavAllSchemes", cacheManager = "dailyNavCacheManager")
   public List<Scheme> getAllSchemes() {
     return schemePort.findAll();
   }

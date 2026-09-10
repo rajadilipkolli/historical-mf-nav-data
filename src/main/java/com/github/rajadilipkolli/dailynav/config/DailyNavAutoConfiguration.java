@@ -7,6 +7,7 @@ import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
 import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.application.service.SchemeSearchService;
 import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
@@ -126,8 +127,10 @@ public class DailyNavAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
-  NavRepository navRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
-    return new NavRepository(jdbcTemplate);
+  NavRepository navRepository(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DatabaseInitializer databaseInitializer) {
+    return new NavRepository(jdbcTemplate, databaseInitializer);
   }
 
   /**
@@ -166,9 +169,21 @@ public class DailyNavAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
-  NavByIsinRepository navByIsinRepository(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate) {
-    return new NavByIsinRepository(jdbcTemplate);
+  NavByIsinRepository navByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DatabaseInitializer databaseInitializer) {
+    return new NavByIsinRepository(jdbcTemplate, databaseInitializer);
+  }
+
+  /**
+   * Configures a SchemeSearchService.
+   *
+   * @param schemePort port for mutual fund scheme operations
+   * @return a SchemeSearchService backed by the provided dependencies
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnBean(SchemePort.class)
+  SchemeSearchService schemeSearchService(SchemePort schemePort) {
+    return new SchemeSearchService(schemePort);
   }
 
   /**
@@ -180,6 +195,7 @@ public class DailyNavAutoConfiguration {
    * @param schemePort port for mutual fund scheme operations
    * @param securityPort port for security and instrument operations
    * @param databaseInitializerPort port for preparing or verifying database state
+   * @param schemeSearchService service for scheme search operations
    * @return a MutualFundService backed by the provided dependencies
    */
   @Bean
@@ -190,9 +206,16 @@ public class DailyNavAutoConfiguration {
       NavPort navPort,
       SchemePort schemePort,
       SecurityPort securityPort,
-      DatabaseInitializerPort databaseInitializerPort) {
+      DatabaseInitializerPort databaseInitializerPort,
+      com.github.rajadilipkolli.dailynav.application.service.SchemeSearchService
+          schemeSearchService) {
     return new MutualFundService(
-        navByIsinRepository, navPort, schemePort, securityPort, databaseInitializerPort);
+        navByIsinRepository,
+        navPort,
+        schemePort,
+        securityPort,
+        databaseInitializerPort,
+        schemeSearchService);
   }
 
   /**
@@ -312,7 +335,9 @@ public class DailyNavAutoConfiguration {
     @Bean(name = "dailyNavCacheManager")
     @ConditionalOnMissingBean(name = "dailyNavCacheManager")
     CacheManager dailyNavCacheManager() {
-      CaffeineCacheManager cacheManager = new CaffeineCacheManager("latestNav");
+      CaffeineCacheManager cacheManager =
+          new CaffeineCacheManager(
+              "latestNav", "dailyNavAmcs", "dailyNavCategories", "dailyNavAllSchemes");
       cacheManager.setCaffeine(
           Caffeine.newBuilder().maximumSize(10_000).expireAfterWrite(Duration.ofHours(24)));
       return cacheManager;

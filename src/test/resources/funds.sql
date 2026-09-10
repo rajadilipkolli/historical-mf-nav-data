@@ -2,7 +2,11 @@
 
 CREATE TABLE schemes (
   scheme_code INTEGER PRIMARY KEY,
-  scheme_name TEXT
+  scheme_name TEXT,
+  amc TEXT,
+  category TEXT,
+  plan TEXT,
+  option TEXT
 );
 
 CREATE TABLE nav (

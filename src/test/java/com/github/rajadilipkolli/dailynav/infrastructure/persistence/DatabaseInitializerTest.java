@@ -74,7 +74,7 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   void initializeDatabase_skipsIfTablesExist() throws SQLException {
     // Create tables manually
     jdbcTemplate.execute(
-        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
     jdbcTemplate.execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
     jdbcTemplate.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
     // Should skip initialization
@@ -98,7 +98,7 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
   @Test
   void tablesExist_returnsTrueIfTableExists() {
     jdbcTemplate.execute(
-        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
     assertTrue(initializer.tablesExist());
   }
 

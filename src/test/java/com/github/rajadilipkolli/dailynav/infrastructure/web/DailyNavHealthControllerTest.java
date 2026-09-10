@@ -40,7 +40,8 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
         .execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
     connection
         .createStatement()
-        .execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+        .execute(
+            "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
     connection
         .createStatement()
         .execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
