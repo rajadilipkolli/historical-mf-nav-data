@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
+import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import java.time.LocalDate;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 
 /** Repository for ISIN-based NAV data access */
 @Repository
@@ -18,7 +18,9 @@ public class NavByIsinRepository implements NavLookupPort {
   private final JdbcTemplate jdbcTemplate;
   private final DatabaseInitializerPort databaseInitializerPort;
 
-  public NavByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DatabaseInitializerPort databaseInitializerPort) {
+  public NavByIsinRepository(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DatabaseInitializerPort databaseInitializerPort) {
     this.jdbcTemplate = jdbcTemplate;
     this.databaseInitializerPort = databaseInitializerPort;
   }

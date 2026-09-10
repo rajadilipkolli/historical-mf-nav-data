@@ -169,7 +169,9 @@ public class DailyNavAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
-  NavByIsinRepository navByIsinRepository(@Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DatabaseInitializer databaseInitializer) {
+  NavByIsinRepository navByIsinRepository(
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DatabaseInitializer databaseInitializer) {
     return new NavByIsinRepository(jdbcTemplate, databaseInitializer);
   }
 
