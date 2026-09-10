@@ -109,6 +109,7 @@ public class SchemeRepository implements SchemePort {
     return jdbcTemplate.queryForList(sql, String.class);
   }
 
+  /** Appends filters for each non-blank search criterion and binds their parameter values. */
   private void appendWhereClause(
       StringBuilder sql, MapSqlParameterSource params, SchemeSearchCriteria criteria) {
     List<String> conditions = new ArrayList<>();
@@ -139,6 +140,7 @@ public class SchemeRepository implements SchemePort {
     }
   }
 
+  /** Appends the allowlisted sort order and requested pagination to a scheme query. */
   private void appendOrderAndLimit(StringBuilder sql, SchemeSearchCriteria criteria) {
     if (criteria.sortField() != null && !criteria.sortField().isBlank()) {
       String sortDir = "DESC".equalsIgnoreCase(criteria.sortDirection()) ? "DESC" : "ASC";

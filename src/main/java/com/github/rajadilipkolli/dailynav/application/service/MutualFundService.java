@@ -31,7 +31,17 @@ public class MutualFundService {
   private final DatabaseInitializerPort databaseInitializerPort;
   private final SchemeSearchService schemeSearchService;
 
-  /** Creates a service for accessing mutual-fund data through the supplied application ports. */
+  /**
+   * Creates a service for accessing mutual-fund data through the supplied application ports and
+   * scheme search service.
+   *
+   * @param navLookupPort the source for ISIN-based NAV lookups
+   * @param navPort the source for scheme-based NAV lookups
+   * @param schemePort the source for scheme data
+   * @param securityPort the source for security data
+   * @param databaseInitializerPort the source of database readiness state
+   * @param schemeSearchService the service for filtered and paginated scheme searches
+   */
   public MutualFundService(
       NavLookupPort navLookupPort,
       NavPort navPort,

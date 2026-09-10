@@ -6,6 +6,7 @@ import sys
 import zipfile
 
 def setup_db(file):
+    """Create an empty SQLite NAV database at ``file`` and close it."""
     conn = sqlite3.connect(file)
     c = conn.cursor()
     c.execute("PRAGMA page_size = 8192")
@@ -38,6 +39,13 @@ def progressbar(it, prefix="", size=60, out=sys.stdout): # Python3.6+
     print("", flush=True, file=out)
 
 def get_data(conn):
+    """Yield NAV rows from CSV or ZIP files under ``data``.
+
+    While scanning, populate the module-level ``schemes`` and ``isin_list``
+    mappings with the first metadata observed for each scheme and ISIN. The
+    ``conn`` argument is accepted for compatibility with the insertion caller
+    but is not used.
+    """
     epoch_date = datetime.datetime(2006, 1,1)
     for root, dirs, files in os.walk("data"):
         # This is needed to avoid calling progressbar with an empty list
@@ -169,6 +177,7 @@ def insert_securities(conn, isins):
     conn.commit()
 
 def insert_schemes(conn, schemes):
+    """Insert scheme names and metadata from ``schemes`` into ``conn``."""
     c = conn.cursor()
     for scheme_code, scheme_data in schemes.items():
         c.execute(

@@ -13,6 +13,14 @@ def should_fetch_file(path):
     return not os.path.isfile(path)
 
 def fetch_file(date, url, out_path):
+    """Download a NAV CSV, skipping empty responses and content detected as HTML.
+
+    ``out_path`` supplies the archive directory and inner CSV name; the archive
+    uses the same path with a ``.zip`` suffix. The function returns a status
+    message for successful, skipped, and failed downloads rather than raising
+    request or file-system errors. ``date`` is retained as task metadata but is
+    not used to build the request.
+    """
     try:
         resp = requests.get(url, timeout=30)
         resp.raise_for_status()

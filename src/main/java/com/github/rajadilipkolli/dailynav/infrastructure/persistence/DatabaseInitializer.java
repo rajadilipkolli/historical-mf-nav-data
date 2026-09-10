@@ -371,10 +371,11 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   }
 
   /**
-   * Seeds PostgreSQL tables from the bundled compressed SQLite dataset.
+   * Seeds PostgreSQL scheme and security metadata from the bundled compressed SQLite dataset.
    *
-   * <p>Returns without seeding when the dataset is unavailable. Other failures are wrapped in a
-   * {@link RuntimeException}.
+   * <p>The decompressed dataset is retained as the source for later on-demand NAV loading. Returns
+   * without seeding when the dataset is unavailable. Other failures are wrapped in a {@link
+   * RuntimeException}.
    */
   private void seedPostgresData() {
     logger.info("Seeding PostgreSQL data from bundled SQLite dataset (on demand nav)...");
@@ -424,6 +425,13 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
+  /**
+   * Determines the number of columns returned by a SQLite query.
+   *
+   * @param c the SQLite connection used to inspect the query
+   * @param sql the query whose result metadata should be inspected
+   * @return the result column count, or {@code 2} when the query cannot be inspected
+   */
   private int rsColCount(Connection c, String sql) {
     try (Statement st = c.createStatement();
         ResultSet rs = st.executeQuery(sql)) {
@@ -433,6 +441,15 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
+  /**
+   * Loads a scheme's NAV rows from the retained SQLite dataset into PostgreSQL when needed.
+   *
+   * <p>The request is ignored when no retained dataset exists, the scheme was already attempted, or
+   * PostgreSQL already contains NAV rows for the scheme. Failures while reading or inserting source
+   * rows are logged and not propagated.
+   *
+   * @param schemeCode the scheme whose NAV rows should be loaded
+   */
   @Override
   public void seedNavForScheme(int schemeCode) {
     if (postgresTempDb == null || !postgresTempDb.exists() || !seededSchemes.add(schemeCode)) {
@@ -461,6 +478,11 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
+  /**
+   * Loads NAV rows for every scheme associated with an ISIN when a retained dataset is available.
+   *
+   * @param isin the ISIN used to resolve scheme codes in PostgreSQL
+   */
   @Override
   public void seedNavForIsin(String isin) {
     if (postgresTempDb == null) return;

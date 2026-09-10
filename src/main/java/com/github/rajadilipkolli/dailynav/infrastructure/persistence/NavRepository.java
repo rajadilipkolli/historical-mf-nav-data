@@ -18,6 +18,13 @@ public class NavRepository implements NavPort {
   private final JdbcTemplate jdbcTemplate;
   private final DatabaseInitializerPort databaseInitializerPort;
 
+  /**
+   * Creates a NAV repository with optional on-demand data loading.
+   *
+   * @param jdbcTemplate the template used to query the Daily NAV database
+   * @param databaseInitializerPort the loader invoked before scheme NAV queries, or {@code null} to
+   *     query existing data only
+   */
   public NavRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
       DatabaseInitializerPort databaseInitializerPort) {
@@ -42,6 +49,8 @@ public class NavRepository implements NavPort {
   /**
    * Retrieves all NAV records for a scheme, ordered from newest to oldest.
    *
+   * <p>Requests on-demand loading for the scheme before querying.
+   *
    * @param schemeCode the scheme code used to select NAV records
    * @return the matching NAV records
    */
@@ -54,6 +63,8 @@ public class NavRepository implements NavPort {
   /**
    * Retrieves NAV records for a scheme within an inclusive date range, ordered from newest to
    * oldest.
+   *
+   * <p>Requests on-demand loading for the scheme before querying.
    *
    * @param schemeCode the scheme code
    * @param startDate the beginning of the date range
@@ -71,6 +82,8 @@ public class NavRepository implements NavPort {
   /**
    * Finds the latest NAV record for a scheme.
    *
+   * <p>Requests on-demand loading for the scheme before querying.
+   *
    * @param schemeCode the scheme code to search for
    * @return the latest NAV record, or an empty optional if no record exists
    */
@@ -83,6 +96,8 @@ public class NavRepository implements NavPort {
 
   /**
    * Finds the latest NAV record for a scheme on or before the specified date.
+   *
+   * <p>Requests on-demand loading for the scheme before querying.
    *
    * @param schemeCode the scheme code
    * @param date the inclusive upper date bound

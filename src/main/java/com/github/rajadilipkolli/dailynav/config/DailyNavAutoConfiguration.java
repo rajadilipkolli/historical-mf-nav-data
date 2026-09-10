@@ -122,6 +122,8 @@ public class DailyNavAutoConfiguration {
   /**
    * Create a NavRepository backed by the Daily NAV JdbcTemplate.
    *
+   * @param jdbcTemplate the template used for NAV queries
+   * @param databaseInitializer the loader used to seed scheme NAV data on demand
    * @return a NavRepository that uses the Daily NAV JdbcTemplate
    */
   @Bean
@@ -164,6 +166,8 @@ public class DailyNavAutoConfiguration {
   /**
    * Creates a NavByIsinRepository backed by the Daily NAV JdbcTemplate.
    *
+   * @param jdbcTemplate the template used for ISIN-based NAV queries
+   * @param databaseInitializer the loader used to seed NAV data on demand
    * @return a NavByIsinRepository that uses the provided JdbcTemplate
    */
   @Bean
@@ -334,6 +338,11 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnProperty(prefix = "daily-nav", name = "enable-caching", havingValue = "true")
   static class CacheConfig {
 
+    /**
+     * Creates the cache manager used for latest NAV and scheme discovery results.
+     *
+     * @return the configured Daily NAV cache manager
+     */
     @Bean(name = "dailyNavCacheManager")
     @ConditionalOnMissingBean(name = "dailyNavCacheManager")
     CacheManager dailyNavCacheManager() {

@@ -9,16 +9,16 @@ public interface DatabaseInitializerPort {
   boolean isInitialized();
 
   /**
-   * Seeds the NAV data for a specific scheme code on demand.
+   * Requests on-demand loading of NAV data for a scheme when a backing source is available.
    *
-   * @param schemeCode the scheme code
+   * @param schemeCode the scheme whose NAV data should be made available
    */
   void seedNavForScheme(int schemeCode);
 
   /**
-   * Seeds the NAV data for a specific ISIN on demand.
+   * Requests on-demand loading of NAV data for the scheme associated with an ISIN.
    *
-   * @param isin the ISIN
+   * @param isin the ISIN whose scheme NAV data should be made available
    */
   void seedNavForIsin(String isin);
 }

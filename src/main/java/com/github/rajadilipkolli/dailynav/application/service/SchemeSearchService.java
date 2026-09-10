@@ -13,6 +13,11 @@ public class SchemeSearchService {
 
   private final SchemePort schemePort;
 
+  /**
+   * Creates a scheme search service backed by the supplied scheme port.
+   *
+   * @param schemePort the source of scheme search and discovery data
+   */
   public SchemeSearchService(SchemePort schemePort) {
     this.schemePort = schemePort;
   }

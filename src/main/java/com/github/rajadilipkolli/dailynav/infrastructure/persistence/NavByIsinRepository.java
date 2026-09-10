@@ -18,6 +18,13 @@ public class NavByIsinRepository implements NavLookupPort {
   private final JdbcTemplate jdbcTemplate;
   private final DatabaseInitializerPort databaseInitializerPort;
 
+  /**
+   * Creates an ISIN-based NAV repository with optional on-demand data loading.
+   *
+   * @param jdbcTemplate the template used to query the Daily NAV database
+   * @param databaseInitializerPort the loader invoked before supported ISIN NAV queries, or {@code
+   *     null} to query existing data only
+   */
   public NavByIsinRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
       DatabaseInitializerPort databaseInitializerPort) {
@@ -39,7 +46,12 @@ public class NavByIsinRepository implements NavLookupPort {
         return nav;
       };
 
-  /** Get latest NAV for an ISIN */
+  /**
+   * Finds the latest NAV record for an ISIN after requesting on-demand loading.
+   *
+   * @param isin the ISIN to search for
+   * @return the latest NAV record, or an empty optional if none exists
+   */
   public Optional<NavByIsin> findLatestByIsin(String isin) {
     if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
@@ -49,6 +61,8 @@ public class NavByIsinRepository implements NavLookupPort {
 
   /**
    * Finds the latest NAV record for an ISIN on or before the specified date.
+   *
+   * <p>Requests on-demand loading for the ISIN before querying.
    *
    * @param isin the security's ISIN
    * @param date the latest date to include
@@ -75,7 +89,17 @@ public class NavByIsinRepository implements NavLookupPort {
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, limit);
   }
 
-  /** Get NAV records for an ISIN within a date range */
+  /**
+   * Retrieves NAV records for an ISIN within an inclusive date range, ordered from newest to
+   * oldest.
+   *
+   * <p>Requests on-demand loading for the ISIN before querying.
+   *
+   * @param isin the ISIN to search for
+   * @param startDate the beginning of the date range
+   * @param endDate the end of the date range
+   * @return the matching NAV records
+   */
   public List<NavByIsin> findByIsinAndDateBetween(
       String isin, LocalDate startDate, LocalDate endDate) {
     if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
