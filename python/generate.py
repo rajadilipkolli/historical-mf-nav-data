@@ -12,7 +12,7 @@ def setup_db(file):
     c.execute("PRAGMA page_size = 8192")
     c.executescript(
         """
-        CREATE TABLE schemes (scheme_code INTEGER PRIMARY_KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT);
+        CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT);
         CREATE TABLE nav (scheme_code INTEGER, date, nav INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         CREATE TABLE securities (isin TEXT UNIQUE, type INTEGER, scheme_code INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         CREATE VIEW nav_by_isin (isin, date, nav) as 

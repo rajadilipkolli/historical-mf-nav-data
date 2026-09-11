@@ -84,6 +84,7 @@ public class NavByIsinRepository implements NavLookupPort {
    */
   @Override
   public List<NavByIsin> findLastNByIsin(String isin, int limit) {
+    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT ?";
     return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, limit);

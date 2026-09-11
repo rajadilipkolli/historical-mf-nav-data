@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +36,8 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
 
   private final JdbcTemplate jdbcTemplate;
-  private java.io.File postgresTempDb = null;
-  private final Set<Integer> seededSchemes = ConcurrentHashMap.newKeySet();
+  private File postgresTempDb = null;
+  private final ConcurrentHashMap<Integer, CompletableFuture<Void>> seededSchemes = new ConcurrentHashMap<>();
   private final DailyNavProperties properties;
   private volatile boolean initialized = false;
 
@@ -452,29 +452,44 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
    */
   @Override
   public void seedNavForScheme(int schemeCode) {
-    if (postgresTempDb == null || !postgresTempDb.exists() || !seededSchemes.add(schemeCode)) {
+    if (postgresTempDb == null || !postgresTempDb.exists()) {
       return;
     }
 
-    // Check if Postgres already has it to avoid duplicate work if seeded previously
-    Integer count =
-        jdbcTemplate.queryForObject(
-            "SELECT COUNT(1) FROM nav WHERE scheme_code = ?", Integer.class, schemeCode);
-    if (count != null && count > 0) {
+    CompletableFuture<Void> future = new CompletableFuture<>();
+    CompletableFuture<Void> existing = seededSchemes.putIfAbsent(schemeCode, future);
+
+    if (existing != null) {
+      try {
+        existing.join();
+      } catch (Exception e) {
+        // Ignored here, allow failure to bubble up or let next query fail
+      }
       return;
     }
 
-    logger.info("On-demand seeding NAV for scheme: {}", schemeCode);
-    try (Connection sqliteConn =
-        DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath())) {
-      seedTable(
-          sqliteConn,
-          "nav",
-          "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = " + schemeCode,
-          "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
-          3);
+    try {
+      // Check if Postgres already has it to avoid duplicate work if seeded previously
+      Integer count =
+          jdbcTemplate.queryForObject(
+              "SELECT COUNT(1) FROM nav WHERE scheme_code = ?", Integer.class, schemeCode);
+      if (count == null || count == 0) {
+        logger.info("On-demand seeding NAV for scheme: {}", schemeCode);
+        try (Connection sqliteConn =
+            DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath())) {
+          seedTable(
+              sqliteConn,
+              "nav",
+              "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = " + schemeCode,
+              "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
+              3);
+        }
+      }
+      future.complete(null);
     } catch (Exception e) {
       logger.error("Failed to seed NAV for scheme: " + schemeCode, e);
+      seededSchemes.remove(schemeCode);
+      future.completeExceptionally(e);
     }
   }
 

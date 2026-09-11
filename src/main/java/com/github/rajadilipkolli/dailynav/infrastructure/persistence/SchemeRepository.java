@@ -154,13 +154,13 @@ public class SchemeRepository implements SchemePort {
             case "option" -> "option";
             default -> "scheme_name";
           };
-      sql.append("ORDER BY ").append(sortField).append(" ").append(sortDir).append(" ");
+      sql.append("ORDER BY ").append(sortField).append(" ").append(sortDir).append(", scheme_code ").append(sortDir).append(" ");
     } else {
-      sql.append("ORDER BY scheme_name ASC ");
+      sql.append("ORDER BY scheme_name ASC, scheme_code ASC ");
     }
 
     int limit = criteria.pageSize();
-    int offset = criteria.page() * criteria.pageSize();
+    long offset = (long) criteria.page() * criteria.pageSize();
     sql.append("LIMIT ").append(limit).append(" OFFSET ").append(offset);
   }
 }
