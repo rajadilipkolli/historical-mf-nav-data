@@ -4,6 +4,7 @@ import com.github.rajadilipkolli.dailynav.application.service.CloseableDailyNavH
 import com.github.rajadilipkolli.dailynav.application.service.CloseableMutualFundService;
 import com.github.rajadilipkolli.dailynav.application.service.DailyNavHealthService;
 import com.github.rajadilipkolli.dailynav.application.service.MutualFundService;
+import com.github.rajadilipkolli.dailynav.application.service.SchemeSearchService;
 import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.DatabaseInitializer;
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.NavByIsinRepository;
@@ -60,16 +61,23 @@ public final class DailyNav {
     initializer.initializeDatabase();
 
     // Wire up repositories and service
-    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
-    NavRepository navRepository = new NavRepository(jdbcTemplate);
+    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate, initializer);
+    NavRepository navRepository = new NavRepository(jdbcTemplate, initializer);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     NamedParameterJdbcTemplate namedParameterJdbcTemplate =
         new NamedParameterJdbcTemplate(jdbcTemplate);
     SecurityRepository securityRepository =
         new SecurityRepository(jdbcTemplate, namedParameterJdbcTemplate);
 
+    SchemeSearchService schemeSearchService = new SchemeSearchService(schemeRepository);
+
     return new MutualFundService(
-        navByIsinRepository, navRepository, schemeRepository, securityRepository, initializer);
+        navByIsinRepository,
+        navRepository,
+        schemeRepository,
+        securityRepository,
+        initializer,
+        schemeSearchService);
   }
 
   /**

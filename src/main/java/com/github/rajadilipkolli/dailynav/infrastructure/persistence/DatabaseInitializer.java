@@ -19,7 +19,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
-
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,6 +36,8 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
 
   private final JdbcTemplate jdbcTemplate;
+  private File postgresTempDb = null;
+  private final ConcurrentHashMap<Integer, CompletableFuture<Void>> seededSchemes = new ConcurrentHashMap<>();
   private final DailyNavProperties properties;
   private volatile boolean initialized = false;
 
@@ -367,25 +371,24 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   }
 
   /**
-   * Seeds PostgreSQL tables from the bundled compressed SQLite dataset.
+   * Seeds PostgreSQL scheme and security metadata from the bundled compressed SQLite dataset.
    *
-   * <p>Returns without seeding when the dataset is unavailable. Other failures are wrapped in a
-   * {@link RuntimeException}.
+   * <p>The decompressed dataset is retained as the source for later on-demand NAV loading. Returns
+   * without seeding when the dataset is unavailable. Other failures are wrapped in a {@link
+   * RuntimeException}.
    */
   private void seedPostgresData() {
-    logger.info("Seeding PostgreSQL data from bundled SQLite dataset...");
-    File tempDb = null;
+    logger.info("Seeding PostgreSQL data from bundled SQLite dataset (on demand nav)...");
     try {
       ClassPathResource resource = new ClassPathResource("funds.db.zst");
       if (!resource.exists()) {
         logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
-        // For fallback, we might just parse the SQL. But it has sqlite syntax.
-        // Let's assume funds.db.zst exists as it's the bundled dataset.
         return;
       }
-      tempDb = File.createTempFile("funds", ".db");
+      postgresTempDb = File.createTempFile("funds_pg", ".db");
+      postgresTempDb.deleteOnExit();
       try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
-          OutputStream out = new FileOutputStream(tempDb)) {
+          OutputStream out = new FileOutputStream(postgresTempDb)) {
         byte[] buffer = new byte[8192];
         int len;
         while ((len = zstdStream.read(buffer)) > 0) {
@@ -393,46 +396,126 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
         }
       }
 
-      // Read from SQLite and insert into Postgres
+      // Read from SQLite and insert into Postgres (excluding nav)
       try (Connection sqliteConn =
-          DriverManager.getConnection("jdbc:sqlite:" + tempDb.getAbsolutePath())) {
-        seedTable(
-            sqliteConn,
-            "schemes",
-            "SELECT scheme_code, scheme_name FROM schemes",
-            "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)",
-            2);
-        seedTable(
-            sqliteConn,
-            "nav",
-            "SELECT scheme_code, date, nav FROM nav",
-            "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?)",
-            3);
+          DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath())) {
+        // Read columns for schemes up to options
+        int schemeCols = rsColCount(sqliteConn, "SELECT * FROM schemes LIMIT 1");
+        String selSql = "SELECT scheme_code, scheme_name, amc, category, plan, option FROM schemes";
+        String insSql =
+            "INSERT INTO schemes (scheme_code, scheme_name, amc, category, plan, option) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING";
+        if (schemeCols < 6) {
+          selSql = "SELECT scheme_code, scheme_name FROM schemes";
+          insSql =
+              "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?) ON CONFLICT DO NOTHING";
+          schemeCols = 2;
+        }
+        seedTable(sqliteConn, "schemes", selSql, insSql, schemeCols);
+
         seedTable(
             sqliteConn,
             "securities",
             "SELECT isin, type, scheme_code FROM securities",
-            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?)",
+            "INSERT INTO securities (isin, type, scheme_code) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
             3);
       }
-
     } catch (Exception e) {
       logger.error("Failed to seed PostgreSQL data", e);
       throw new RuntimeException("PostgreSQL data seeding failed", e);
-    } finally {
-      if (tempDb != null && tempDb.exists()) {
-        tempDb.deleteOnExit();
+    }
+  }
+
+  /**
+   * Determines the number of columns returned by a SQLite query.
+   *
+   * @param c the SQLite connection used to inspect the query
+   * @param sql the query whose result metadata should be inspected
+   * @return the result column count, or {@code 2} when the query cannot be inspected
+   */
+  private int rsColCount(Connection c, String sql) {
+    try (Statement st = c.createStatement();
+        ResultSet rs = st.executeQuery(sql)) {
+      return rs.getMetaData().getColumnCount();
+    } catch (Exception e) {
+      return 2;
+    }
+  }
+
+  /**
+   * Loads a scheme's NAV rows from the retained SQLite dataset into PostgreSQL when needed.
+   *
+   * <p>The request is ignored when no retained dataset exists, the scheme was already attempted, or
+   * PostgreSQL already contains NAV rows for the scheme. Failures while reading or inserting source
+   * rows are logged and not propagated.
+   *
+   * @param schemeCode the scheme whose NAV rows should be loaded
+   */
+  @Override
+  public void seedNavForScheme(int schemeCode) {
+    if (postgresTempDb == null || !postgresTempDb.exists()) {
+      return;
+    }
+
+    CompletableFuture<Void> future = new CompletableFuture<>();
+    CompletableFuture<Void> existing = seededSchemes.putIfAbsent(schemeCode, future);
+
+    if (existing != null) {
+      try {
+        existing.join();
+      } catch (Exception e) {
+        // Ignored here, allow failure to bubble up or let next query fail
       }
+      return;
+    }
+
+    try {
+      // Check if Postgres already has it to avoid duplicate work if seeded previously
+      Integer count =
+          jdbcTemplate.queryForObject(
+              "SELECT COUNT(1) FROM nav WHERE scheme_code = ?", Integer.class, schemeCode);
+      if (count == null || count == 0) {
+        logger.info("On-demand seeding NAV for scheme: {}", schemeCode);
+        try (Connection sqliteConn =
+            DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath())) {
+          seedTable(
+              sqliteConn,
+              "nav",
+              "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = " + schemeCode,
+              "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
+              3);
+        }
+      }
+      future.complete(null);
+    } catch (Exception e) {
+      logger.error("Failed to seed NAV for scheme: " + schemeCode, e);
+      seededSchemes.remove(schemeCode);
+      future.completeExceptionally(e);
+    }
+  }
+
+  /**
+   * Loads NAV rows for every scheme associated with an ISIN when a retained dataset is available.
+   *
+   * @param isin the ISIN used to resolve scheme codes in PostgreSQL
+   */
+  @Override
+  public void seedNavForIsin(String isin) {
+    if (postgresTempDb == null) return;
+    List<Integer> codes =
+        jdbcTemplate.queryForList(
+            "SELECT scheme_code FROM securities WHERE isin = ?", Integer.class, isin);
+    for (Integer code : codes) {
+      seedNavForScheme(code);
     }
   }
 
   /**
    * Transfers rows from a SQLite query into the target database table.
    *
-   * @param sqliteConn  the SQLite connection used to read source rows
-   * @param tableName   the name of the table being seeded
-   * @param selectSql   the query used to retrieve source rows
-   * @param insertSql   the prepared statement used to insert rows
+   * @param sqliteConn the SQLite connection used to read source rows
+   * @param tableName the name of the table being seeded
+   * @param selectSql the query used to retrieve source rows
+   * @param insertSql the prepared statement used to insert rows
    * @param columnCount the number of columns to transfer
    * @throws Exception if reading source data or inserting rows fails
    */

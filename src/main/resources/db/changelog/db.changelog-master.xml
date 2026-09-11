@@ -12,6 +12,10 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="scheme_name" type="TEXT"/>
+            <column name="amc" type="TEXT"/>
+            <column name="category" type="TEXT"/>
+            <column name="plan" type="TEXT"/>
+            <column name="option" type="TEXT"/>
         </createTable>
 
         <createTable tableName="nav">

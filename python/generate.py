@@ -6,12 +6,13 @@ import sys
 import zipfile
 
 def setup_db(file):
+    """Create an empty SQLite NAV database at ``file`` and close it."""
     conn = sqlite3.connect(file)
     c = conn.cursor()
     c.execute("PRAGMA page_size = 8192")
     c.executescript(
         """
-        CREATE TABLE schemes (scheme_code INTEGER PRIMARY_KEY, scheme_name TEXT);
+        CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT);
         CREATE TABLE nav (scheme_code INTEGER, date, nav INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         CREATE TABLE securities (isin TEXT UNIQUE, type INTEGER, scheme_code INTEGER, FOREIGN KEY (scheme_code) REFERENCES schemes(scheme_code));
         CREATE VIEW nav_by_isin (isin, date, nav) as 
@@ -38,6 +39,13 @@ def progressbar(it, prefix="", size=60, out=sys.stdout): # Python3.6+
     print("", flush=True, file=out)
 
 def get_data(conn):
+    """Yield NAV rows from CSV or ZIP files under ``data``.
+
+    While scanning, populate the module-level ``schemes`` and ``isin_list``
+    mappings with the first metadata observed for each scheme and ISIN. The
+    ``conn`` argument is accepted for compatibility with the insertion caller
+    but is not used.
+    """
     epoch_date = datetime.datetime(2006, 1,1)
     for root, dirs, files in os.walk("data"):
         # This is needed to avoid calling progressbar with an empty list
@@ -84,41 +92,67 @@ def get_data(conn):
             headers = [h.strip() for h in header_line.split(";")]
             try:
                 # Default to old format if columns missing
+                plan_idx = headers.index("Plan") if "Plan" in headers else -1
+                option_idx = headers.index("Option") if "Option" in headers else -1
                 isin1_idx = headers.index("ISIN Div Payout/ISIN Growth") if "ISIN Div Payout/ISIN Growth" in headers else 2
                 isin2_idx = headers.index("ISIN Div Reinvestment") if "ISIN Div Reinvestment" in headers else 3
                 nav_idx = headers.index("Net Asset Value") if "Net Asset Value" in headers else 4
             except ValueError:
+                plan_idx, option_idx = -1, -1
                 isin1_idx, isin2_idx, nav_idx = 2, 3, 4
 
+            current_category = None
+            current_amc = None
+            headers_buffer = []
+
             for line in lines:
-                        if line == "" or ";" not in line:
+                        line = line.strip()
+                        if line == "":
                             continue
-                        else:
-                            line = line.split(";")
+                        if ";" not in line:
+                            headers_buffer.append(line)
+                            continue
+
+                        if len(headers_buffer) == 2:
+                            current_category = headers_buffer[0]
+                            current_amc = headers_buffer[1]
+                        elif len(headers_buffer) == 1:
+                            current_amc = headers_buffer[0]
+                        headers_buffer = []
+                        
+                        line = line.split(";")
+                        try:
+                            scheme_code = int(line[0])
+                        except ValueError:
+                            continue
+                        if scheme_code not in schemes:
+                            plan = line[plan_idx].strip() if plan_idx != -1 and len(line) > plan_idx else None
+                            option = line[option_idx].strip() if option_idx != -1 and len(line) > option_idx else None
+                            schemes[scheme_code] = {
+                                "name": line[1].strip(),
+                                "amc": current_amc,
+                                "category": current_category,
+                                "plan": plan,
+                                "option": option
+                            }
+
+                        isin_1 = line[isin1_idx].strip().upper() if len(line) > isin1_idx else ""
+                        isin_2 = line[isin2_idx].strip().upper() if len(line) > isin2_idx else ""
+
+                        if isin_1 != "" and isin_1 not in isin_list:
+                            isin_list[isin_1] = (scheme_code, 0)
+                        if isin_2 != "" and isin_2 not in isin_list:
+                            isin_list[isin_2] = (scheme_code, 1)
+
+                        nav_str = line[nav_idx] if len(line) > nav_idx else "-"
+                        if nav_str not in ['-',"#N/A",'#DIV/0!','N.A.', 'NA', 'B.C.', 'B. C.']:
                             try:
-                                scheme_code = int(line[0])
-                            except ValueError:
-                                continue
-                            if scheme_code not in schemes:
-                                schemes[scheme_code] = line[1].strip()
-
-                            isin_1 = line[isin1_idx].strip().upper() if len(line) > isin1_idx else ""
-                            isin_2 = line[isin2_idx].strip().upper() if len(line) > isin2_idx else ""
-
-                            if isin_1 != "" and isin_1 not in isin_list:
-                                isin_list[isin_1] = (scheme_code, 0)
-                            if isin_2 != "" and isin_2 not in isin_list:
-                                isin_list[isin_2] = (scheme_code, 1)
-
-                            nav_str = line[nav_idx] if len(line) > nav_idx else "-"
-                            if nav_str not in ['-',"#N/A",'#DIV/0!','N.A.', 'NA', 'B.C.', 'B. C.']:
-                                try:
-                                    nav = float(nav_str.strip().replace(",", "").replace('`', '').replace("-", ""))
-                                except ValueError as e:
-                                    # TODO: Save to an error log
-                                    nav = False
-                                if nav:
-                                    yield (scheme_code, date, nav)
+                                nav = float(nav_str.strip().replace(",", "").replace('`', '').replace("-", ""))
+                            except ValueError as e:
+                                # TODO: Save to an error log
+                                nav = False
+                            if nav:
+                                yield (scheme_code, date, nav)
 
 def insert_securities(conn, isins):
     c = conn.cursor()
@@ -143,11 +177,12 @@ def insert_securities(conn, isins):
     conn.commit()
 
 def insert_schemes(conn, schemes):
+    """Insert scheme names and metadata from ``schemes`` into ``conn``."""
     c = conn.cursor()
-    for scheme_code, scheme_name in schemes.items():
+    for scheme_code, scheme_data in schemes.items():
         c.execute(
-            "INSERT INTO schemes VALUES (?, ?)",
-            (scheme_code, scheme_name),
+            "INSERT INTO schemes VALUES (?, ?, ?, ?, ?, ?)",
+            (scheme_code, scheme_data["name"], scheme_data["amc"], scheme_data["category"], scheme_data["plan"], scheme_data["option"]),
         )
 
 def insert_data(conn):

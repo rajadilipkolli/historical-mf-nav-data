@@ -5,7 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20260901</version>
+    <version>1.0.20260908</version>
+    <packaging>jar</packaging>
     <name>historical-mf-nav-data</name>
     <description>Historical Mutual Fund NAV Data for India - Auto-configuring Spring Boot Library</description>
     <url>https://github.com/rajadilipkolli/historical-mf-nav-data</url>

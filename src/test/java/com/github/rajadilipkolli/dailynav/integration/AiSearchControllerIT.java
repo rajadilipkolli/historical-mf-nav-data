@@ -84,7 +84,7 @@ class AiSearchControllerIT extends AbstractIntegrationTest {
         .get()
         .uri("/actuator/health")
         .assertThat()
-        .hasStatus(503)
+        .hasStatus(200)
         .hasContentType("application/vnd.spring-boot.actuator.v3+json")
         .bodyJson()
         .convertTo(JsonNode.class)

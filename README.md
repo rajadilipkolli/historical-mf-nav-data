@@ -89,6 +89,10 @@ See [DMA_README.md](python/DMA_README.md) for detailed documentation and technic
 ```sql
 scheme_code INTEGER PRIMARY KEY
 scheme_name TEXT
+amc TEXT
+category TEXT
+plan TEXT
+option TEXT
 ```
 
 #### nav (NAV records)
@@ -275,6 +279,34 @@ List<Scheme> sbiSchemes = mutualFundService.searchSchemes("SBI");
 // Browse available SBI mutual funds
 ```
 
+### 🔍 Scheme Search & Discovery
+The library supports comprehensive scheme discovery with filtering, pagination, sorting, and `LIKE` matching on name pattern.
+
+```java
+// Discover available AMCs and Categories
+List<String> amcs = schemeSearchService.listAmcs();
+List<String> categories = schemeSearchService.listCategories();
+
+// Define search criteria (AMC, category, plan, option, sortField, sortDirection, page, pageSize)
+SchemeSearchCriteria criteria = new SchemeSearchCriteria(
+    "Bluechip",            // Name pattern (LIKE match)
+    "SBI Mutual Fund",     // AMC exact match filter
+    "Equity Scheme",       // Category exact match filter
+    "Regular",             // Plan type filter
+    "Growth",              // Option type filter
+    "scheme_name",         // Field to sort by
+    "ASC",                 // Direction
+    0,                     // Page index (zero-based)
+    20                     // Page size limit
+);
+
+// Execute paged search via MutualFundService (delegates to SchemeSearchService)
+PagedResult<Scheme> results = mutualFundService.searchSchemes(criteria);
+System.out.println("Total schemes matching: " + results.totalElements());
+System.out.println("Page " + results.page() + " elements: " + results.data().size());
+```
+
+
 ### SQL Examples
 
 #### NAV as per Date from ISIN
@@ -403,6 +435,11 @@ Follows a timestamp-based versioning scheme: `MAJOR.MINOR.YYYYMMDD`.
 
 **Note**: No guarantee all pricing info is present for the release date. Daily releases are automatically generated with the latest available data.
 
+### 📝 Release Notes
+**v1.0.20260908**: 
+- Added comprehensive scheme discovery capabilities (`SchemeSearchService`).
+- Added filtering by AMC, category, plan, and option to the `Scheme` metadata.
+- Implemented cursor-like paginated search results with exact and pattern matching.
 ---
 
 ## 🤝 Contributing

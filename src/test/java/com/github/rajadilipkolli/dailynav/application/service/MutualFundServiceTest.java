@@ -31,21 +31,23 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
   @BeforeEach
   void setUp() throws SQLException {
     // Create repositories with the test JdbcTemplate
-    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
-    NavRepository navRepository = new NavRepository(jdbcTemplate);
+    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate, null);
+    NavRepository navRepository = new NavRepository(jdbcTemplate, null);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     SecurityRepository securityRepository =
         new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
     DatabaseInitializer databaseInitializer =
         new DatabaseInitializer(jdbcTemplate, new DailyNavProperties());
     databaseInitializer.initializeDatabase();
+    SchemeSearchService schemeSearchService = new SchemeSearchService(schemeRepository);
     service =
         new MutualFundService(
             navByIsinRepository,
             navRepository,
             schemeRepository,
             securityRepository,
-            databaseInitializer);
+            databaseInitializer,
+            schemeSearchService);
     org.springframework.test.util.ReflectionTestUtils.setField(service, "self", service);
   }
 
@@ -54,7 +56,8 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
     try (var stmt = connection.createStatement()) {
       stmt.execute("CREATE TABLE nav (date TEXT, scheme_code INTEGER, nav REAL)");
       stmt.execute("CREATE TABLE nav_by_isin (isin TEXT, date TEXT, nav REAL)");
-      stmt.execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+      stmt.execute(
+          "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
       stmt.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
     }
   }

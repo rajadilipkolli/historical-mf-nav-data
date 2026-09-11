@@ -10,6 +10,7 @@ This document captures the explicit assumptions, constraints, risks, and missing
 *   **Update Cadence**: Database updates are executed daily via automated GitHub Actions pipelines.
 *   **Runtime Environment**: The library targets Java/Spring Boot ecosystems exclusively.
 *   **Versioning**: Datasets and library releases use a timestamp-based versioning scheme.
+*   **Scheme Metadata**: The `amc`, `category`, `plan`, and `option` fields parsed from AMFI reports are treated as additive and nullable. Older historical schemes or non-standard entries may have `null` metadata values.
 
 ## Constraints and Risks
 

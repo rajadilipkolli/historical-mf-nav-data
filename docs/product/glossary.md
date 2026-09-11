@@ -4,7 +4,11 @@ This document defines the core entities, domain terms, and identifiers used thro
 
 ## Core Entities
 
-*   **Scheme**: Represents a mutual fund scheme. Identified by a unique `scheme_code` and carries a descriptive `scheme_name`. Maps to the `schemes` table.
+*   **Scheme**: Represents a mutual fund scheme. Identified by a unique `scheme_code` and carries a descriptive `scheme_name`. Maps to the `schemes` table. Scheme metadata includes:
+    *   **AMC**: Asset Management Company (the fund house managing the mutual fund, e.g., "SBI Mutual Fund").
+    *   **Category**: The investment category (e.g., "Open Ended Schemes ( Equity Scheme - Large Cap Fund )").
+    *   **Plan**: The specific plan variant (e.g., "Direct", "Regular").
+    *   **Option**: The specific option variant (e.g., "Growth", "IDCW").
 *   **Security / ISIN**: Represents a specific security (or plan variant) under a scheme. Identified by an International Securities Identification Number (ISIN). It has a `type` property where `0` indicates a Growth/Dividend Payout plan, and `1` indicates a Dividend Reinvestment plan. Maps to the `securities` table.
 *   **NAV**: The Net Asset Value record for a given day. Accessible via two dimensions:
     *   `nav`: Represents NAV indexed by `scheme_code` and date.

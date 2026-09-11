@@ -46,7 +46,8 @@ class DailyNavHealthServiceTest extends AbstractRepositoryTest {
   protected void createSchema() throws SQLException {
     connection
         .createStatement()
-        .execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+        .execute(
+            "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
     connection
         .createStatement()
         .execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");

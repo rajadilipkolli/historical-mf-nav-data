@@ -19,7 +19,7 @@ class NavByIsinRepositoryTest extends AbstractRepositoryTest {
 
   @BeforeEach
   void setUpNavByIsinRepo() {
-    navByIsinRepository = new NavByIsinRepository(jdbcTemplate);
+    navByIsinRepository = new NavByIsinRepository(jdbcTemplate, null);
   }
 
   @Override
