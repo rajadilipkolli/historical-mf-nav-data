@@ -1,8 +1,10 @@
 package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -77,11 +79,35 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
         "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT, amc TEXT, category TEXT, plan TEXT, option TEXT)");
     jdbcTemplate.execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
     jdbcTemplate.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+    Integer schemaVersion = jdbcTemplate.queryForObject("PRAGMA schema_version", Integer.class);
     // Should skip initialization
     assertDoesNotThrow(() -> initializer.initializeDatabase());
     // Tables should still exist
     Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class);
     assertNotNull(count);
+    assertEquals(
+        schemaVersion,
+        jdbcTemplate.queryForObject("PRAGMA schema_version", Integer.class),
+        "Already-migrated databases should not be altered");
+  }
+
+  @Test
+  void initializeDatabase_addsMissingSchemeColumns() {
+    jdbcTemplate.execute(
+        "CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY, scheme_name TEXT)");
+    jdbcTemplate.execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav REAL)");
+    jdbcTemplate.execute("CREATE TABLE securities (isin TEXT, type INTEGER, scheme_code INTEGER)");
+    jdbcTemplate.update(
+        "INSERT INTO schemes (scheme_code, scheme_name) VALUES (?, ?)", 1, "Legacy Scheme");
+
+    assertDoesNotThrow(initializer::initializeDatabase);
+
+    var scheme = new SchemeRepository(jdbcTemplate).findBySchemeCode(1).orElseThrow();
+    assertEquals("Legacy Scheme", scheme.schemeName());
+    assertNull(scheme.amc());
+    assertNull(scheme.category());
+    assertNull(scheme.plan());
+    assertNull(scheme.option());
   }
 
   @Test

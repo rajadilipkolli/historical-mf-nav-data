@@ -12,10 +12,6 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="scheme_name" type="TEXT"/>
-            <column name="amc" type="TEXT"/>
-            <column name="category" type="TEXT"/>
-            <column name="plan" type="TEXT"/>
-            <column name="option" type="TEXT"/>
         </createTable>
 
         <createTable tableName="nav">
@@ -56,6 +52,15 @@
         <createIndex tableName="securities" indexName="securities-isin">
             <column name="isin"/>
         </createIndex>
+    </changeSet>
+
+    <changeSet id="4" author="antigravity">
+        <addColumn tableName="schemes">
+            <column name="amc" type="TEXT"/>
+            <column name="category" type="TEXT"/>
+            <column name="plan" type="TEXT"/>
+            <column name="option" type="TEXT"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>
