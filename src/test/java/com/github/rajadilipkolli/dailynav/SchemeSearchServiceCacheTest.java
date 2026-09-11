@@ -39,6 +39,7 @@ class SchemeSearchServiceCacheTest {
 
   @Autowired private CacheManager cacheManager;
 
+  /** Verifies that repeated AMC lookups reuse the cached result. */
   @Test
   void testListAmcsIsCached() {
     List<String> amcs = List.of("AMC 1", "AMC 2");
@@ -55,6 +56,7 @@ class SchemeSearchServiceCacheTest {
     verify(schemeRepository, times(1)).findDistinctAmcs();
   }
 
+  /** Verifies that repeated category lookups reuse the cached result. */
   @Test
   void testListCategoriesIsCached() {
     List<String> categories = List.of("Category 1", "Category 2");

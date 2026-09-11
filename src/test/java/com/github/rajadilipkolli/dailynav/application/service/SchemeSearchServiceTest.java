@@ -15,12 +15,14 @@ class SchemeSearchServiceTest extends AbstractRepositoryTest {
 
   private SchemeSearchService schemeSearchService;
 
+  /** Creates the search service under test with the shared repository fixture. */
   @BeforeEach
   void setUpService() {
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     schemeSearchService = new SchemeSearchService(schemeRepository);
   }
 
+  /** Creates the scheme table used by the search service tests. */
   @Override
   protected void createSchema() throws SQLException {
     try (var stmt = connection.createStatement()) {
@@ -29,6 +31,7 @@ class SchemeSearchServiceTest extends AbstractRepositoryTest {
     }
   }
 
+  /** Inserts representative scheme metadata for search and lookup assertions. */
   @Override
   protected void insertTestData() throws SQLException {
     try (var ps =
@@ -52,6 +55,7 @@ class SchemeSearchServiceTest extends AbstractRepositoryTest {
     }
   }
 
+  /** Verifies that filtered searches return the expected page metadata and entries. */
   @Test
   void testSearchDelegatesToRepositoryAndReturnsPagedResult() {
     SchemeSearchCriteria criteria =
@@ -65,6 +69,7 @@ class SchemeSearchServiceTest extends AbstractRepositoryTest {
     assertEquals(1, result.pageSize());
   }
 
+  /** Verifies exact-name lookup through the search service. */
   @Test
   void testFindBySchemeName() {
     assertEquals(1, schemeSearchService.findBySchemeName("Test Scheme A").get().schemeCode());

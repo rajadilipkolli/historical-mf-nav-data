@@ -17,6 +17,7 @@ public record Scheme(
     String category,
     String plan,
     String option) {
+  /** Returns a readable representation containing all scheme metadata. */
   @Override
   public String toString() {
     return "Scheme{"

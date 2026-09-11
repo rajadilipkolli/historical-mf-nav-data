@@ -21,6 +21,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     schemeRepository = new SchemeRepository(jdbcTemplate);
   }
 
+  /** Creates the scheme table used by repository tests. */
   @Override
   protected void createSchema() throws SQLException {
     try (var stmt = connection.createStatement()) {
@@ -29,6 +30,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     }
   }
 
+  /** Inserts schemes with varied metadata for filtering and pagination tests. */
   @Override
   protected void insertTestData() throws SQLException {
     try (var ps =
@@ -60,6 +62,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     }
   }
 
+  /** Verifies lookup by scheme code. */
   @Test
   void testFindBySchemeCode() {
     Optional<Scheme> result = schemeRepository.findBySchemeCode(1);
@@ -69,12 +72,14 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertTrue(schemeRepository.findBySchemeCode(999).isEmpty());
   }
 
+  /** Verifies that all schemes are returned. */
   @Test
   void testFindAll() {
     List<Scheme> result = schemeRepository.findAll();
     assertEquals(3, result.size());
   }
 
+  /** Verifies exact-name lookup. */
   @Test
   void testFindBySchemeName() {
     Optional<Scheme> result = schemeRepository.findBySchemeName("Test Scheme A");
@@ -84,6 +89,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertFalse(schemeRepository.findBySchemeName("Test Scheme Z").isPresent());
   }
 
+  /** Verifies combined name and metadata filtering. */
   @Test
   void testSearchFiltered() {
     // Exact match AMC
@@ -106,6 +112,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertEquals(2, result.size());
   }
 
+  /** Verifies allowlisted descending sort behavior. */
   @Test
   void testSearchSorting() {
     SchemeSearchCriteria criteria =
@@ -117,6 +124,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertEquals("Another Scheme B", result.get(2).schemeName());
   }
 
+  /** Verifies zero-based pagination of ordered search results. */
   @Test
   void testSearchPagination() {
     SchemeSearchCriteria criteria =
@@ -132,6 +140,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertEquals(3, result.get(0).schemeCode());
   }
 
+  /** Verifies that distinct AMC names are returned in ascending order. */
   @Test
   void testFindDistinctAmcs() {
     List<String> amcs = schemeRepository.findDistinctAmcs();
@@ -140,6 +149,7 @@ class SchemeRepositoryTest extends AbstractRepositoryTest {
     assertEquals("AMC 2", amcs.get(1));
   }
 
+  /** Verifies that distinct categories are returned in ascending order. */
   @Test
   void testFindDistinctCategories() {
     List<String> categories = schemeRepository.findDistinctCategories();

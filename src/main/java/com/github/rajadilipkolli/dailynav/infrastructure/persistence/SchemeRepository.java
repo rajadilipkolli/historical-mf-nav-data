@@ -65,6 +65,7 @@ public class SchemeRepository implements SchemePort {
     return jdbcTemplate.query(sql, SCHEME_ROW_MAPPER, "%" + namePattern + "%");
   }
 
+  /** Finds a scheme whose name exactly matches the supplied value. */
   @Override
   public Optional<Scheme> findBySchemeName(String name) {
     String sql =
@@ -72,6 +73,7 @@ public class SchemeRepository implements SchemePort {
     return jdbcTemplate.query(sql, SCHEME_ROW_MAPPER, name).stream().findFirst();
   }
 
+  /** Finds one page of schemes matching the supplied filters and sort order. */
   @Override
   public List<Scheme> search(SchemeSearchCriteria criteria) {
     StringBuilder sql =
@@ -85,6 +87,7 @@ public class SchemeRepository implements SchemePort {
     return namedParameterJdbcTemplate.query(sql.toString(), params, SCHEME_ROW_MAPPER);
   }
 
+  /** Counts all schemes matching the supplied filters. */
   @Override
   public long count(SchemeSearchCriteria criteria) {
     StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM schemes ");
@@ -96,12 +99,14 @@ public class SchemeRepository implements SchemePort {
     return result != null ? result : 0L;
   }
 
+  /** Returns the distinct non-null AMC names in ascending order. */
   @Override
   public List<String> findDistinctAmcs() {
     String sql = "SELECT DISTINCT amc FROM schemes WHERE amc IS NOT NULL ORDER BY amc";
     return jdbcTemplate.queryForList(sql, String.class);
   }
 
+  /** Returns the distinct non-null scheme categories in ascending order. */
   @Override
   public List<String> findDistinctCategories() {
     String sql =
