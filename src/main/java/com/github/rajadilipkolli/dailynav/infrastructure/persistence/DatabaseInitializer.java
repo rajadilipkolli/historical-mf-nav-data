@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
@@ -111,13 +112,17 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
           throw new RuntimeException("PostgreSQL seeding failed", e);
         }
       } else {
-        if (tablesExist()) {
-          logger.info("Database tables already exist, skipping initialization");
+        boolean existingTables = tablesExist();
+        if (!existingTables && !restoreDatabaseFromZst()) {
+          loadSqlScript();
+        }
+
+        addMissingSchemeColumns();
+
+        if (existingTables) {
+          logger.info("Database tables already exist and schema is up to date");
           this.initialized = true;
           return;
-        }
-        if (!restoreDatabaseFromZst()) {
-          loadSqlScript();
         }
       }
 
@@ -257,6 +262,21 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     } catch (Exception e) {
       logger.error("Could not determine tables existence: {}", e.getMessage());
       return false;
+    }
+  }
+
+  /** Adds scheme metadata columns that are absent from an existing SQLite database. */
+  private void addMissingSchemeColumns() {
+    Set<String> existingColumns =
+        Set.copyOf(
+            jdbcTemplate.query(
+                "PRAGMA table_info(schemes)", (resultSet, rowNum) -> resultSet.getString("name")));
+
+    for (String column : List.of("amc", "category", "plan", "option")) {
+      if (!existingColumns.contains(column)) {
+        jdbcTemplate.execute("ALTER TABLE schemes ADD COLUMN " + column + " TEXT");
+        logger.info("Added missing schemes column: {}", column);
+      }
     }
   }
 
