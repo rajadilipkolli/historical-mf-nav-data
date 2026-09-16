@@ -320,7 +320,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           distribution: 'graalvm'
-          java-version: '21.0.12+101.0.LTS'
+          java-version: '25.0.4+101.0.LTS'
           cache: 'maven'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
