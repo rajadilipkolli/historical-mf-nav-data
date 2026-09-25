@@ -11,16 +11,29 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.postgresql.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
-@TestPropertySource(
-    properties = {
-      "daily-nav.database-type=postgres",
-      "daily-nav.url=jdbc:tc:postgresql:18-alpine:///testdb",
-      "daily-nav.username=test",
-      "daily-nav.password=test"
-    })
+@Testcontainers
+@TestPropertySource(properties = "daily-nav.database-type=postgres")
 class NavLazyLoadIT extends AbstractIntegrationTest {
+
+  @Container
+  static final PostgreSQLContainer postgres =
+      new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"))
+          .withInitScript("postgres-lazy-load.sql");
+
+  @DynamicPropertySource
+  static void postgresProperties(DynamicPropertyRegistry registry) {
+    registry.add("daily-nav.url", postgres::getJdbcUrl);
+    registry.add("daily-nav.username", postgres::getUsername);
+    registry.add("daily-nav.password", postgres::getPassword);
+  }
 
   @Autowired private NavPort navPort;
   @Autowired private DatabaseInitializerPort initializerPort;
@@ -32,20 +45,14 @@ class NavLazyLoadIT extends AbstractIntegrationTest {
 
   @Test
   void testLazyLoadFlow() {
-    int schemeCode = 119551; // Just a sample scheme
+    int schemeCode = 119551;
+    assertThat(initializerPort.hasNavForScheme(schemeCode)).isFalse();
 
-    // Initially, postgres should not have NAV rows if not preloaded (since we have lazy load)
-    // Actually, wait, does seedPostgresData populate NAV? No, it excludes NAV!
-    // So postgres has 0 navs.
-
-    // 1. First request -> returns from SQLite fallback
     List<Nav> firstRequest = navPort.findBySchemeCode(schemeCode);
     assertThat(firstRequest).isNotEmpty();
 
-    // 2. The background thread should persist to PostgreSQL
     await().atMost(Duration.ofSeconds(10)).until(() -> initializerPort.hasNavForScheme(schemeCode));
 
-    // 3. Subsequent request -> served from PostgreSQL cache hit
     List<Nav> secondRequest = navPort.findBySchemeCode(schemeCode);
     assertThat(secondRequest).isNotEmpty();
     assertThat(secondRequest.size()).isEqualTo(firstRequest.size());
