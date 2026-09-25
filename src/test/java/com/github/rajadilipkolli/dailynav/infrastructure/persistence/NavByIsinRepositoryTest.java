@@ -19,7 +19,7 @@ class NavByIsinRepositoryTest extends AbstractRepositoryTest {
 
   @BeforeEach
   void setUpNavByIsinRepo() {
-    navByIsinRepository = new NavByIsinRepository(jdbcTemplate, null);
+    navByIsinRepository = new NavByIsinRepository(jdbcTemplate, null, null);
   }
 
   @Override
@@ -110,5 +110,28 @@ class NavByIsinRepositoryTest extends AbstractRepositoryTest {
         navByIsinRepository.findByIsinAndDateBetween(
             "NONEXISTENT", REFERENCE_DATE.minusDays(1), REFERENCE_DATE);
     assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void testLazyLoadBranching() {
+    com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort mockInitializer =
+        org.mockito.Mockito.mock(
+            com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort.class);
+
+    // Simulate cache miss
+    NavByIsin mockNav = new NavByIsin();
+    mockNav.setIsin("MISSING_ISIN");
+    mockNav.setDate(REFERENCE_DATE);
+    mockNav.setNav(123.0);
+    org.mockito.Mockito.when(mockInitializer.getFallbackNavForIsin("MISSING_ISIN"))
+        .thenReturn(java.util.Collections.singletonList(mockNav));
+
+    NavByIsinRepository lazyRepo = new NavByIsinRepository(jdbcTemplate, mockInitializer, null);
+
+    List<NavByIsin> result = lazyRepo.findLastNByIsin("MISSING_ISIN", 1);
+    org.junit.jupiter.api.Assertions.assertEquals(1, result.size());
+    org.junit.jupiter.api.Assertions.assertEquals(123.0, result.get(0).getNav());
+
+    org.mockito.Mockito.verify(mockInitializer).seedNavForIsin("MISSING_ISIN");
   }
 }

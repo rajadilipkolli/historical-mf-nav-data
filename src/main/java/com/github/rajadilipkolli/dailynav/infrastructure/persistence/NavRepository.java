@@ -3,9 +3,12 @@ package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavPort;
 import com.github.rajadilipkolli.dailynav.domain.model.Nav;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,8 +18,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class NavRepository implements NavPort {
 
+  private static final Logger logger = LoggerFactory.getLogger(NavRepository.class);
+
   private final JdbcTemplate jdbcTemplate;
   private final DatabaseInitializerPort databaseInitializerPort;
+  private final MeterRegistry meterRegistry;
 
   /**
    * Creates a NAV repository with optional on-demand data loading.
@@ -24,12 +30,29 @@ public class NavRepository implements NavPort {
    * @param jdbcTemplate the template used to query the Daily NAV database
    * @param databaseInitializerPort the loader invoked before scheme NAV queries, or {@code null} to
    *     query existing data only
+   * @param meterRegistry optional meter registry for recording metrics
    */
   public NavRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DatabaseInitializerPort databaseInitializerPort) {
+      DatabaseInitializerPort databaseInitializerPort,
+      MeterRegistry meterRegistry) {
     this.jdbcTemplate = jdbcTemplate;
     this.databaseInitializerPort = databaseInitializerPort;
+    this.meterRegistry = meterRegistry;
+  }
+
+  private void recordHit() {
+    if (meterRegistry != null) meterRegistry.counter("daily_nav_cache_hit").increment();
+    logger.info("PostgreSQL cache hit");
+  }
+
+  private void recordMissAndFallback() {
+    if (meterRegistry != null) {
+      meterRegistry.counter("daily_nav_cache_miss").increment();
+      meterRegistry.counter("daily_nav_sqlite_fallback").increment();
+    }
+    logger.info("PostgreSQL cache miss");
+    logger.info("SQLite fallback");
   }
 
   private static final RowMapper<Nav> NAV_ROW_MAPPER =
@@ -46,67 +69,89 @@ public class NavRepository implements NavPort {
         return nav;
       };
 
-  /**
-   * Retrieves all NAV records for a scheme, ordered from newest to oldest.
-   *
-   * <p>Requests on-demand loading for the scheme before querying.
-   *
-   * @param schemeCode the scheme code used to select NAV records
-   * @return the matching NAV records
-   */
   public List<Nav> findBySchemeCode(Integer schemeCode) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForScheme(schemeCode);
     String sql = "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? ORDER BY date DESC";
-    return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode);
+    List<Nav> results = jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode);
+    if (!results.isEmpty()
+        || (databaseInitializerPort != null
+            && databaseInitializerPort.hasNavForScheme(schemeCode))) {
+      recordHit();
+      return results;
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<Nav> fallback = databaseInitializerPort.getFallbackNavForScheme(schemeCode);
+      databaseInitializerPort.seedNavForScheme(schemeCode);
+      return fallback;
+    }
+    return results;
   }
 
-  /**
-   * Retrieves NAV records for a scheme within an inclusive date range, ordered from newest to
-   * oldest.
-   *
-   * <p>Requests on-demand loading for the scheme before querying.
-   *
-   * @param schemeCode the scheme code
-   * @param startDate the beginning of the date range
-   * @param endDate the end of the date range
-   * @return the matching NAV records
-   */
   public List<Nav> findBySchemeCodeAndDateBetween(
       Integer schemeCode, LocalDate startDate, LocalDate endDate) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForScheme(schemeCode);
     String sql =
         "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? AND date BETWEEN ? AND ? ORDER BY date DESC";
-    return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode, startDate, endDate);
+    List<Nav> results = jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode, startDate, endDate);
+    if (!results.isEmpty()
+        || (databaseInitializerPort != null
+            && databaseInitializerPort.hasNavForScheme(schemeCode))) {
+      recordHit();
+      return results;
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<Nav> fallback =
+          databaseInitializerPort.getFallbackNavForScheme(schemeCode).stream()
+              .filter(n -> !n.getDate().isBefore(startDate) && !n.getDate().isAfter(endDate))
+              .toList();
+      databaseInitializerPort.seedNavForScheme(schemeCode);
+      return fallback;
+    }
+    return results;
   }
 
-  /**
-   * Finds the latest NAV record for a scheme.
-   *
-   * <p>Requests on-demand loading for the scheme before querying.
-   *
-   * @param schemeCode the scheme code to search for
-   * @return the latest NAV record, or an empty optional if no record exists
-   */
   public Optional<Nav> findLatestBySchemeCode(Integer schemeCode) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForScheme(schemeCode);
     String sql =
         "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? ORDER BY date DESC LIMIT 1";
-    return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode).stream().findFirst();
+    List<Nav> results = jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode);
+    if (!results.isEmpty()
+        || (databaseInitializerPort != null
+            && databaseInitializerPort.hasNavForScheme(schemeCode))) {
+      recordHit();
+      return results.stream().findFirst();
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<Nav> fallback = databaseInitializerPort.getFallbackNavForScheme(schemeCode);
+      databaseInitializerPort.seedNavForScheme(schemeCode);
+      return fallback.stream().findFirst();
+    }
+    return Optional.empty();
   }
 
-  /**
-   * Finds the latest NAV record for a scheme on or before the specified date.
-   *
-   * <p>Requests on-demand loading for the scheme before querying.
-   *
-   * @param schemeCode the scheme code
-   * @param date the inclusive upper date bound
-   * @return the latest matching NAV record, or an empty optional if none exists
-   */
   public Optional<Nav> findBySchemeCodeAndDateOnOrBefore(Integer schemeCode, LocalDate date) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForScheme(schemeCode);
     String sql =
         "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? AND date <= ? ORDER BY date DESC LIMIT 1";
-    return jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode, date).stream().findFirst();
+    List<Nav> results = jdbcTemplate.query(sql, NAV_ROW_MAPPER, schemeCode, date);
+    if (!results.isEmpty()
+        || (databaseInitializerPort != null
+            && databaseInitializerPort.hasNavForScheme(schemeCode))) {
+      recordHit();
+      return results.stream().findFirst();
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<Nav> fallback =
+          databaseInitializerPort.getFallbackNavForScheme(schemeCode).stream()
+              .filter(n -> !n.getDate().isAfter(date))
+              .toList();
+      databaseInitializerPort.seedNavForScheme(schemeCode);
+      return fallback.stream().findFirst();
+    }
+    return Optional.empty();
   }
 }

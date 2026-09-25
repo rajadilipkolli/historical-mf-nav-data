@@ -3,9 +3,13 @@ package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,8 +19,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class NavByIsinRepository implements NavLookupPort {
 
+  private static final Logger logger = LoggerFactory.getLogger(NavByIsinRepository.class);
+
   private final JdbcTemplate jdbcTemplate;
   private final DatabaseInitializerPort databaseInitializerPort;
+  private final MeterRegistry meterRegistry;
 
   /**
    * Creates an ISIN-based NAV repository with optional on-demand data loading.
@@ -24,12 +31,29 @@ public class NavByIsinRepository implements NavLookupPort {
    * @param jdbcTemplate the template used to query the Daily NAV database
    * @param databaseInitializerPort the loader invoked before supported ISIN NAV queries, or {@code
    *     null} to query existing data only
+   * @param meterRegistry optional meter registry for recording metrics
    */
   public NavByIsinRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DatabaseInitializerPort databaseInitializerPort) {
+      DatabaseInitializerPort databaseInitializerPort,
+      MeterRegistry meterRegistry) {
     this.jdbcTemplate = jdbcTemplate;
     this.databaseInitializerPort = databaseInitializerPort;
+    this.meterRegistry = meterRegistry;
+  }
+
+  private void recordHit() {
+    if (meterRegistry != null) meterRegistry.counter("daily_nav_cache_hit").increment();
+    logger.info("PostgreSQL cache hit");
+  }
+
+  private void recordMissAndFallback() {
+    if (meterRegistry != null) {
+      meterRegistry.counter("daily_nav_cache_miss").increment();
+      meterRegistry.counter("daily_nav_sqlite_fallback").increment();
+    }
+    logger.info("PostgreSQL cache miss");
+    logger.info("SQLite fallback");
   }
 
   private static final RowMapper<NavByIsin> NAV_BY_ISIN_ROW_MAPPER =
@@ -46,66 +70,87 @@ public class NavByIsinRepository implements NavLookupPort {
         return nav;
       };
 
-  /**
-   * Finds the latest NAV record for an ISIN after requesting on-demand loading.
-   *
-   * @param isin the ISIN to search for
-   * @return the latest NAV record, or an empty optional if none exists
-   */
   public Optional<NavByIsin> findLatestByIsin(String isin) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT 1";
-    return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin).stream().findFirst();
+    List<NavByIsin> results = jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin);
+    if (!results.isEmpty()) {
+      recordHit();
+      return results.stream().findFirst();
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<NavByIsin> fallback = databaseInitializerPort.getFallbackNavForIsin(isin);
+      databaseInitializerPort.seedNavForIsin(isin);
+      return fallback.stream().findFirst();
+    }
+    return Optional.empty();
   }
 
-  /**
-   * Finds the latest NAV record for an ISIN on or before the specified date.
-   *
-   * <p>Requests on-demand loading for the ISIN before querying.
-   *
-   * @param isin the security's ISIN
-   * @param date the latest date to include
-   * @return the matching NAV record, or an empty optional if none exists
-   */
   public Optional<NavByIsin> findByIsinAndDateOnOrBefore(String isin, LocalDate date) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? AND date <= ? ORDER BY date DESC LIMIT 1";
-    return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, date).stream().findFirst();
+    List<NavByIsin> results = jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, date);
+    if (!results.isEmpty()) {
+      recordHit();
+      return results.stream().findFirst();
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<NavByIsin> fallback =
+          databaseInitializerPort.getFallbackNavForIsin(isin).stream()
+              .filter(n -> !n.getDate().isAfter(date))
+              .collect(Collectors.toList());
+      databaseInitializerPort.seedNavForIsin(isin);
+      return fallback.stream().findFirst();
+    }
+    return Optional.empty();
   }
 
-  /**
-   * Retrieves the most recent NAV records for an ISIN.
-   *
-   * @param isin the ISIN to search for
-   * @param limit the maximum number of records to return
-   * @return the matching NAV records, ordered from most recent to oldest
-   */
   @Override
   public List<NavByIsin> findLastNByIsin(String isin, int limit) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC LIMIT ?";
-    return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, limit);
+    List<NavByIsin> results = jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, limit);
+    if (!results.isEmpty()) {
+      recordHit();
+      return results;
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<NavByIsin> fallback =
+          databaseInitializerPort.getFallbackNavForIsin(isin).stream()
+              .limit(limit)
+              .collect(Collectors.toList());
+      databaseInitializerPort.seedNavForIsin(isin);
+      return fallback;
+    }
+    return results;
   }
 
-  /**
-   * Retrieves NAV records for an ISIN within an inclusive date range, ordered from newest to
-   * oldest.
-   *
-   * <p>Requests on-demand loading for the ISIN before querying.
-   *
-   * @param isin the ISIN to search for
-   * @param startDate the beginning of the date range
-   * @param endDate the end of the date range
-   * @return the matching NAV records
-   */
   public List<NavByIsin> findByIsinAndDateBetween(
       String isin, LocalDate startDate, LocalDate endDate) {
-    if (databaseInitializerPort != null) databaseInitializerPort.seedNavForIsin(isin);
     String sql =
         "SELECT isin, date, nav FROM nav_by_isin WHERE isin = ? AND date BETWEEN ? AND ? ORDER BY date DESC";
-    return jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, startDate, endDate);
+    List<NavByIsin> results =
+        jdbcTemplate.query(sql, NAV_BY_ISIN_ROW_MAPPER, isin, startDate, endDate);
+    if (!results.isEmpty()) {
+      recordHit();
+      return results;
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<NavByIsin> fallback =
+          databaseInitializerPort.getFallbackNavForIsin(isin).stream()
+              .filter(n -> !n.getDate().isBefore(startDate) && !n.getDate().isAfter(endDate))
+              .collect(Collectors.toList());
+      databaseInitializerPort.seedNavForIsin(isin);
+      return fallback;
+    }
+    return results;
   }
 }

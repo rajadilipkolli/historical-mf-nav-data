@@ -131,8 +131,11 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   NavRepository navRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DatabaseInitializer databaseInitializer) {
-    return new NavRepository(jdbcTemplate, databaseInitializer);
+      DatabaseInitializer databaseInitializer,
+      org.springframework.beans.factory.ObjectProvider<io.micrometer.core.instrument.MeterRegistry>
+          meterRegistryProvider) {
+    return new NavRepository(
+        jdbcTemplate, databaseInitializer, meterRegistryProvider.getIfAvailable());
   }
 
   /**
@@ -175,8 +178,11 @@ public class DailyNavAutoConfiguration {
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   NavByIsinRepository navByIsinRepository(
       @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
-      DatabaseInitializer databaseInitializer) {
-    return new NavByIsinRepository(jdbcTemplate, databaseInitializer);
+      DatabaseInitializer databaseInitializer,
+      org.springframework.beans.factory.ObjectProvider<io.micrometer.core.instrument.MeterRegistry>
+          meterRegistryProvider) {
+    return new NavByIsinRepository(
+        jdbcTemplate, databaseInitializer, meterRegistryProvider.getIfAvailable());
   }
 
   /**
@@ -240,21 +246,16 @@ public class DailyNavAutoConfiguration {
     return new DailyNavHealthService(jdbcTemplate, properties);
   }
 
-  /**
-   * Creates a DatabaseInitializer to prepare and initialize the Daily NAV database.
-   *
-   * @param jdbcTemplate the JdbcTemplate bound to the Daily NAV datasource used for database
-   *     operations
-   * @param properties Daily NAV configuration properties that control database location and
-   *     initialization behavior
-   * @return a DatabaseInitializer configured to initialize and manage the Daily NAV database
-   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnBean(name = "dailyNavJdbcTemplate")
   DatabaseInitializer databaseInitializer(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
-    return new DatabaseInitializer(jdbcTemplate, properties);
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DailyNavProperties properties,
+      org.springframework.beans.factory.ObjectProvider<io.micrometer.core.instrument.MeterRegistry>
+          meterRegistryProvider) {
+    return new DatabaseInitializer(
+        jdbcTemplate, properties, meterRegistryProvider.getIfAvailable());
   }
 
   /**

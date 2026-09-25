@@ -57,12 +57,13 @@ public final class DailyNav {
    */
   private static @NonNull MutualFundService getMutualFundService(
       JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
-    DatabaseInitializer initializer = new DatabaseInitializer(jdbcTemplate, properties);
+    DatabaseInitializer initializer = new DatabaseInitializer(jdbcTemplate, properties, null);
     initializer.initializeDatabase();
 
     // Wire up repositories and service
-    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate, initializer);
-    NavRepository navRepository = new NavRepository(jdbcTemplate, initializer);
+    NavByIsinRepository navByIsinRepository =
+        new NavByIsinRepository(jdbcTemplate, initializer, null);
+    NavRepository navRepository = new NavRepository(jdbcTemplate, initializer, null);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     NamedParameterJdbcTemplate namedParameterJdbcTemplate =
         new NamedParameterJdbcTemplate(jdbcTemplate);

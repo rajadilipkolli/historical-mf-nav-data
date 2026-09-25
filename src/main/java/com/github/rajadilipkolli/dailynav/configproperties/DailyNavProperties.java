@@ -45,6 +45,9 @@ public class DailyNavProperties {
    */
   private boolean enableAsync = true;
 
+  /** Whether to enable lazy loading of NAV data from SQLite to PostgreSQL. */
+  private boolean lazyLoad = true;
+
   /**
    * Indicates whether database initialization is enabled.
    *
@@ -164,6 +167,24 @@ public class DailyNavProperties {
    */
   public void setEnableAsync(boolean enableAsync) {
     this.enableAsync = enableAsync;
+  }
+
+  /**
+   * Indicates whether lazy loading is enabled.
+   *
+   * @return {@code true} if lazy loading is enabled, {@code false} otherwise
+   */
+  public boolean isLazyLoad() {
+    return lazyLoad;
+  }
+
+  /**
+   * Configures whether lazy loading is enabled.
+   *
+   * @param lazyLoad {@code true} to enable lazy loading; {@code false} to disable it
+   */
+  public void setLazyLoad(boolean lazyLoad) {
+    this.lazyLoad = lazyLoad;
   }
 
   /**

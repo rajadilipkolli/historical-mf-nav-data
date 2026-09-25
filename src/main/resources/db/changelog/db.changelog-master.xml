@@ -63,4 +63,8 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="5" author="antigravity">
+        <addUniqueConstraint tableName="nav" columnNames="scheme_code, date" constraintName="uq_nav_scheme_date"/>
+    </changeSet>
+
 </databaseChangeLog>

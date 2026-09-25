@@ -159,7 +159,13 @@ public class SchemeRepository implements SchemePort {
             case "option" -> "option";
             default -> "scheme_name";
           };
-      sql.append("ORDER BY ").append(sortField).append(" ").append(sortDir).append(", scheme_code ").append(sortDir).append(" ");
+      sql.append("ORDER BY ")
+          .append(sortField)
+          .append(" ")
+          .append(sortDir)
+          .append(", scheme_code ")
+          .append(sortDir)
+          .append(" ");
     } else {
       sql.append("ORDER BY scheme_name ASC, scheme_code ASC ");
     }
