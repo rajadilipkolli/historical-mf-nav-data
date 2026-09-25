@@ -31,13 +31,13 @@ class MutualFundServiceTest extends AbstractRepositoryTest {
   @BeforeEach
   void setUp() throws SQLException {
     // Create repositories with the test JdbcTemplate
-    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate, null);
-    NavRepository navRepository = new NavRepository(jdbcTemplate, null);
+    NavByIsinRepository navByIsinRepository = new NavByIsinRepository(jdbcTemplate, null, null);
+    NavRepository navRepository = new NavRepository(jdbcTemplate, null, null);
     SchemeRepository schemeRepository = new SchemeRepository(jdbcTemplate);
     SecurityRepository securityRepository =
         new SecurityRepository(jdbcTemplate, new NamedParameterJdbcTemplate(jdbcTemplate));
     DatabaseInitializer databaseInitializer =
-        new DatabaseInitializer(jdbcTemplate, new DailyNavProperties());
+        new DatabaseInitializer(jdbcTemplate, new DailyNavProperties(), null);
     databaseInitializer.initializeDatabase();
     SchemeSearchService schemeSearchService = new SchemeSearchService(schemeRepository);
     service =

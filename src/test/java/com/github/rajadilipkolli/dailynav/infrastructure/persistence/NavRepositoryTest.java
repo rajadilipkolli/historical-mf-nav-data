@@ -19,7 +19,7 @@ class NavRepositoryTest extends AbstractRepositoryTest {
 
   @BeforeEach
   void setUpNavRepo() {
-    navRepository = new NavRepository(jdbcTemplate, null);
+    navRepository = new NavRepository(jdbcTemplate, null, null);
   }
 
   @Override
@@ -96,5 +96,30 @@ class NavRepositoryTest extends AbstractRepositoryTest {
     Optional<Nav> result =
         navRepository.findBySchemeCodeAndDateOnOrBefore(1, REFERENCE_DATE.minusDays(10));
     assertFalse(result.isPresent());
+  }
+
+  @Test
+  void testLazyLoadBranching() {
+    com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort mockInitializer =
+        org.mockito.Mockito.mock(
+            com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort.class);
+
+    // Simulate cache miss for scheme 999
+    org.mockito.Mockito.when(mockInitializer.hasNavForScheme(999)).thenReturn(false);
+    Nav mockNav = new Nav();
+    mockNav.setSchemeCode(999);
+    mockNav.setDate(REFERENCE_DATE);
+    mockNav.setNav(123.0);
+    org.mockito.Mockito.when(mockInitializer.getFallbackNavForScheme(999))
+        .thenReturn(java.util.Collections.singletonList(mockNav));
+
+    NavRepository lazyRepo = new NavRepository(jdbcTemplate, mockInitializer, null);
+
+    // Should trigger fallback
+    List<Nav> result = lazyRepo.findBySchemeCode(999);
+    assertEquals(1, result.size());
+    assertEquals(123.0, result.get(0).getNav());
+
+    org.mockito.Mockito.verify(mockInitializer).seedNavForScheme(999);
   }
 }

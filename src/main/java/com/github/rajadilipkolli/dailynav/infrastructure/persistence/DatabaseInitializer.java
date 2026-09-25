@@ -3,6 +3,9 @@ package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 import com.github.luben.zstd.ZstdInputStream;
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.configproperties.DailyNavProperties;
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
+import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,6 +22,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -37,8 +42,10 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
   private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
 
   private final JdbcTemplate jdbcTemplate;
+  private final MeterRegistry meterRegistry;
   private File postgresTempDb = null;
-  private final ConcurrentHashMap<Integer, CompletableFuture<Void>> seededSchemes = new ConcurrentHashMap<>();
+  private final ConcurrentHashMap<Integer, CompletableFuture<Void>> seededSchemes =
+      new ConcurrentHashMap<>();
   private final DailyNavProperties properties;
   private volatile boolean initialized = false;
 
@@ -50,9 +57,12 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
    *     auto-init, index creation, debug)
    */
   public DatabaseInitializer(
-      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate, DailyNavProperties properties) {
+      @Qualifier("dailyNavJdbcTemplate") JdbcTemplate jdbcTemplate,
+      DailyNavProperties properties,
+      MeterRegistry meterRegistry) {
     this.jdbcTemplate = jdbcTemplate;
     this.properties = properties;
+    this.meterRegistry = meterRegistry;
   }
 
   /**
@@ -93,6 +103,7 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
 
       if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
         try {
+          restorePostgresTempDb();
           jdbcTemplate.queryForObject("SELECT count(*) FROM schemes", Integer.class);
           logger.info("Database tables exist, skipping schema initialization");
 
@@ -399,23 +410,10 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
    */
   private void seedPostgresData() {
     logger.info("Seeding PostgreSQL data from bundled SQLite dataset (on demand nav)...");
+    if (postgresTempDb == null) {
+      return;
+    }
     try {
-      ClassPathResource resource = new ClassPathResource("funds.db.zst");
-      if (!resource.exists()) {
-        logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
-        return;
-      }
-      postgresTempDb = File.createTempFile("funds_pg", ".db");
-      postgresTempDb.deleteOnExit();
-      try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
-          OutputStream out = new FileOutputStream(postgresTempDb)) {
-        byte[] buffer = new byte[8192];
-        int len;
-        while ((len = zstdStream.read(buffer)) > 0) {
-          out.write(buffer, 0, len);
-        }
-      }
-
       // Read from SQLite and insert into Postgres (excluding nav)
       try (Connection sqliteConn =
           DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath())) {
@@ -445,6 +443,32 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
+  /** Retains the bundled SQLite dataset for fallback reads and on-demand NAV seeding. */
+  private void restorePostgresTempDb() throws IOException {
+    if (postgresTempDb != null && postgresTempDb.exists()) {
+      return;
+    }
+    ClassPathResource resource = new ClassPathResource("funds.db.zst");
+    if (!resource.exists()) {
+      logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
+      return;
+    }
+    File tempDb = File.createTempFile("funds_pg", ".db");
+    try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+        OutputStream out = new FileOutputStream(tempDb)) {
+      byte[] buffer = new byte[8192];
+      int len;
+      while ((len = zstdStream.read(buffer)) > 0) {
+        out.write(buffer, 0, len);
+      }
+      tempDb.deleteOnExit();
+      postgresTempDb = tempDb;
+    } catch (IOException e) {
+      Files.deleteIfExists(tempDb.toPath());
+      throw e;
+    }
+  }
+
   /**
    * Determines the number of columns returned by a SQLite query.
    *
@@ -461,17 +485,77 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     }
   }
 
-  /**
-   * Loads a scheme's NAV rows from the retained SQLite dataset into PostgreSQL when needed.
-   *
-   * <p>The request is ignored when no retained dataset exists, the scheme was already attempted, or
-   * PostgreSQL already contains NAV rows for the scheme. Failures while reading or inserting source
-   * rows are logged and not propagated.
-   *
-   * @param schemeCode the scheme whose NAV rows should be loaded
-   */
+  @Override
+  public boolean hasNavForScheme(int schemeCode) {
+    if (!"postgres".equalsIgnoreCase(properties.getDatabaseType())) {
+      return true; // only applies to postgres lazy loading
+    }
+    Integer count =
+        jdbcTemplate.queryForObject(
+            "SELECT COUNT(1) FROM nav WHERE scheme_code = ?", Integer.class, schemeCode);
+    return count != null && count > 0;
+  }
+
+  @Override
+  public List<Nav> getFallbackNavForScheme(int schemeCode) {
+    if (postgresTempDb == null || !postgresTempDb.exists()) {
+      return Collections.emptyList();
+    }
+    List<Nav> navs = new ArrayList<>();
+    try (Connection sqliteConn =
+            DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath());
+        PreparedStatement stmt =
+            sqliteConn.prepareStatement(
+                "SELECT date, nav FROM nav WHERE scheme_code = ? ORDER BY date DESC")) {
+      stmt.setInt(1, schemeCode);
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          Nav nav = new Nav();
+          nav.setSchemeCode(schemeCode);
+          nav.setDate(LocalDate.parse(rs.getString(1)));
+          nav.setNav(rs.getDouble(2) / 10000.0);
+          navs.add(nav);
+        }
+      }
+    } catch (Exception e) {
+      logger.error("Failed to read fallback NAV for scheme " + schemeCode, e);
+    }
+    return navs;
+  }
+
+  @Override
+  public List<NavByIsin> getFallbackNavForIsin(String isin) {
+    if (postgresTempDb == null || !postgresTempDb.exists()) {
+      return Collections.emptyList();
+    }
+    List<NavByIsin> navs = new ArrayList<>();
+    try (Connection sqliteConn =
+            DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath());
+        PreparedStatement stmt =
+            sqliteConn.prepareStatement(
+                "SELECT date, isin, nav FROM nav_by_isin WHERE isin = ? ORDER BY date DESC")) {
+      stmt.setString(1, isin);
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          NavByIsin nav = new NavByIsin();
+          nav.setDate(LocalDate.parse(rs.getString(1)));
+          nav.setIsin(rs.getString(2));
+          nav.setNav(rs.getDouble(3));
+          navs.add(nav);
+        }
+      }
+    } catch (Exception e) {
+      logger.error("Failed to read fallback NAV for ISIN " + isin, e);
+    }
+    return navs;
+  }
+
+  @Async("dailyNavTaskExecutor")
   @Override
   public void seedNavForScheme(int schemeCode) {
+    if (!properties.isEnableAsync()) {
+      return;
+    }
     if (postgresTempDb == null || !postgresTempDb.exists()) {
       return;
     }
@@ -504,28 +588,38 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
               "INSERT INTO nav (scheme_code, date, nav) VALUES (?, ?, ?) ON CONFLICT DO NOTHING",
               3);
         }
+        if (meterRegistry != null) {
+          meterRegistry.counter("daily_nav_persist_success").increment();
+        }
+        logger.info("NAV persisted to PostgreSQL for scheme: {}", schemeCode);
       }
       future.complete(null);
     } catch (Exception e) {
       logger.error("Failed to seed NAV for scheme: " + schemeCode, e);
+      if (meterRegistry != null) {
+        meterRegistry.counter("daily_nav_persist_failure").increment();
+      }
       seededSchemes.remove(schemeCode);
       future.completeExceptionally(e);
     }
   }
 
-  /**
-   * Loads NAV rows for every scheme associated with an ISIN when a retained dataset is available.
-   *
-   * @param isin the ISIN used to resolve scheme codes in PostgreSQL
-   */
+  @Async("dailyNavTaskExecutor")
   @Override
   public void seedNavForIsin(String isin) {
+    if (!properties.isEnableAsync()) {
+      return;
+    }
     if (postgresTempDb == null) return;
     List<Integer> codes =
         jdbcTemplate.queryForList(
             "SELECT scheme_code FROM securities WHERE isin = ?", Integer.class, isin);
     for (Integer code : codes) {
-      seedNavForScheme(code);
+      seedNavForScheme(
+          code); // wait, calling `seedNavForScheme` from within the same class doesn't trigger
+      // Spring's async proxy!
+      // But they are both marked as Async. This means seedNavForIsin will run async, and it loops
+      // calling seedNavForScheme synchronously within its thread. Which is fine!
     }
   }
 
