@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -89,6 +90,45 @@ class DatabaseInitializerTest extends AbstractRepositoryTest {
         schemaVersion,
         jdbcTemplate.queryForObject("PRAGMA schema_version", Integer.class),
         "Already-migrated databases should not be altered");
+  }
+
+  @Test
+  void initializeDatabase_postgresRestoresFallbackWhenNavAlreadySeeded() {
+    properties.setDatabaseType("postgres");
+    jdbcTemplate.execute("CREATE TABLE schemes (scheme_code INTEGER PRIMARY KEY)");
+    jdbcTemplate.execute("CREATE TABLE nav (scheme_code INTEGER, date TEXT, nav INTEGER)");
+    jdbcTemplate.update("INSERT INTO schemes (scheme_code) VALUES (999)");
+    jdbcTemplate.update(
+        "INSERT INTO nav (scheme_code, date, nav) VALUES (999, '2026-01-01', 10000)");
+
+    DatabaseInitializer restarted = new DatabaseInitializer(jdbcTemplate, properties, null);
+    restarted.initializeDatabase();
+
+    assertTrue(restarted.isInitialized());
+    assertEquals(1, jdbcTemplate.queryForObject("SELECT COUNT(*) FROM schemes", Integer.class));
+    var fallback = restarted.getFallbackNavForScheme(100033);
+    assertFalse(fallback.isEmpty());
+    var initialNav =
+        fallback.stream()
+            .filter(nav -> LocalDate.of(2026, 1, 1).equals(nav.getDate()))
+            .findFirst()
+            .orElseThrow();
+    assertEquals(920.37, initialNav.getNav(), 0.00001);
+    assertFalse(restarted.getFallbackNavForIsin("INF209K01165").isEmpty());
+
+    restarted.seedNavForScheme(100033);
+    assertTrue(
+        jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM nav WHERE scheme_code = 100033", Integer.class)
+            > 0);
+    var persisted = new NavRepository(jdbcTemplate, null, null).findBySchemeCode(100033);
+    assertEquals(
+        initialNav.getNav(),
+        persisted.stream()
+            .filter(nav -> initialNav.getDate().equals(nav.getDate()))
+            .findFirst()
+            .orElseThrow()
+            .getNav());
   }
 
   @Test

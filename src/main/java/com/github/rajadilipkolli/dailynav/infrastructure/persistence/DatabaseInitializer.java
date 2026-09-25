@@ -103,6 +103,7 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
 
       if ("postgres".equalsIgnoreCase(properties.getDatabaseType())) {
         try {
+          restorePostgresTempDb();
           jdbcTemplate.queryForObject("SELECT count(*) FROM schemes", Integer.class);
           logger.info("Database tables exist, skipping schema initialization");
 
@@ -409,23 +410,10 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
    */
   private void seedPostgresData() {
     logger.info("Seeding PostgreSQL data from bundled SQLite dataset (on demand nav)...");
+    if (postgresTempDb == null) {
+      return;
+    }
     try {
-      ClassPathResource resource = new ClassPathResource("funds.db.zst");
-      if (!resource.exists()) {
-        logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
-        return;
-      }
-      postgresTempDb = File.createTempFile("funds_pg", ".db");
-      postgresTempDb.deleteOnExit();
-      try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
-          OutputStream out = new FileOutputStream(postgresTempDb)) {
-        byte[] buffer = new byte[8192];
-        int len;
-        while ((len = zstdStream.read(buffer)) > 0) {
-          out.write(buffer, 0, len);
-        }
-      }
-
       // Read from SQLite and insert into Postgres (excluding nav)
       try (Connection sqliteConn =
           DriverManager.getConnection("jdbc:sqlite:" + postgresTempDb.getAbsolutePath())) {
@@ -452,6 +440,32 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
     } catch (Exception e) {
       logger.error("Failed to seed PostgreSQL data", e);
       throw new RuntimeException("PostgreSQL data seeding failed", e);
+    }
+  }
+
+  /** Retains the bundled SQLite dataset for fallback reads and on-demand NAV seeding. */
+  private void restorePostgresTempDb() throws IOException {
+    if (postgresTempDb != null && postgresTempDb.exists()) {
+      return;
+    }
+    ClassPathResource resource = new ClassPathResource("funds.db.zst");
+    if (!resource.exists()) {
+      logger.info("funds.db.zst not found in classpath, falling back to funds.sql");
+      return;
+    }
+    File tempDb = File.createTempFile("funds_pg", ".db");
+    try (InputStream zstdStream = new ZstdInputStream(resource.getInputStream());
+        OutputStream out = new FileOutputStream(tempDb)) {
+      byte[] buffer = new byte[8192];
+      int len;
+      while ((len = zstdStream.read(buffer)) > 0) {
+        out.write(buffer, 0, len);
+      }
+      tempDb.deleteOnExit();
+      postgresTempDb = tempDb;
+    } catch (IOException e) {
+      Files.deleteIfExists(tempDb.toPath());
+      throw e;
     }
   }
 
@@ -499,7 +513,7 @@ public class DatabaseInitializer implements DatabaseInitializerPort {
           Nav nav = new Nav();
           nav.setSchemeCode(schemeCode);
           nav.setDate(LocalDate.parse(rs.getString(1)));
-          nav.setNav(rs.getDouble(2));
+          nav.setNav(rs.getDouble(2) / 10000.0);
           navs.add(nav);
         }
       }
