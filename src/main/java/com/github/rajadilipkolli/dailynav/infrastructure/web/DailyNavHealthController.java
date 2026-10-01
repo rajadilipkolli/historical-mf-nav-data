@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Provides basic health information about the embedded database
  */
 @RestController
-@RequestMapping("/daily-nav")
+@RequestMapping("/api/v1/daily-nav")
 @ConditionalOnWebApplication
 public class DailyNavHealthController {
 

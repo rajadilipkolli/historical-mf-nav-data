@@ -124,36 +124,57 @@ nav FLOAT
 
 ```java
 @RestController
+@RequestMapping("/api/v1")
 public class MutualFundController {
-    private final MutualFundService mutualFundService;
-    public MutualFundController(MutualFundService mutualFundService) {
-        this.mutualFundService = mutualFundService;
+    private final NavLookupPort navLookupPort;
+    private final SchemePort schemePort;
+    private final SecurityPort securityPort;
+
+    public MutualFundController(NavLookupPort navLookupPort, SchemePort schemePort, SecurityPort securityPort) {
+        this.navLookupPort = navLookupPort;
+        this.schemePort = schemePort;
+        this.securityPort = securityPort;
     }
+
     @GetMapping("/nav/latest/{isin}")
-    public NavByIsin getLatestNav(@PathVariable String isin) {
-        return mutualFundService.getLatestNavByIsin(isin);
+    public NavByIsin getLatestNav(@PathVariable("isin") String isin) {
+        return navLookupPort.findLatestByIsin(isin).orElse(null);
     }
+
     @GetMapping("/nav/{isin}/{date}")
-    public NavByIsin getNavByDate(@PathVariable String isin, @PathVariable LocalDate date) {
-        return mutualFundService.getNavByIsinAndDate(isin, date);
-    }
-    @GetMapping("/fund/info/{isin}")
-    public MutualFundService.FundInfo getFundInfo(@PathVariable String isin) {
-        return mutualFundService.getFundInfo(isin);
+    public NavByIsin getNavByDate(@PathVariable("isin") String isin, @PathVariable("date") LocalDate date) {
+        return navLookupPort.findByIsinAndDateOnOrBefore(isin, date).orElse(null);
     }
 }
 ```
 
-### Available Services
+### Available Services (when used as a Java library)
 
-- `getLatestNavByIsin(String isin)` - Get the most recent NAV for an ISIN
-- `getNavByIsinAndDate(String isin, LocalDate date)` - Get NAV on or before a specific date
-- `getLastNDaysNav(String isin, int days)` - Get last N NAV records
-- `getNavHistory(String isin, LocalDate start, LocalDate end)` - Get NAV within date range
-- `getFundInfo(String isin)` - Get complete fund information
-- `searchSchemes(String pattern)` - Search funds by name
+If you are using this as a library within your own Spring Boot application, you can inject the provided Ports directly:
+
+**NavLookupPort**
+- `findLatestByIsin(String isin)` - Get the most recent NAV for an ISIN
+- `findByIsinAndDateOnOrBefore(String isin, LocalDate date)` - Get NAV on or before a specific date
+- `findHistoryByIsin(String isin, int limit)` - Get last N NAV records
+- `findRangeByIsin(String isin, LocalDate start, LocalDate end)` - Get NAV within date range
+
+**SecurityPort & SchemePort**
+- `findSecurityByIsin(String isin)` - Get complete fund information
+- `findSchemesByNamePattern(String pattern)` - Search funds by name
 - `getAllSchemes()` - Get all available schemes
-- `getNavsBySchemeCode(int schemeCode)` - Get NAVs by scheme code
+- `listAmcs()` / `listCategories()` - Discover available classifications
+
+### Available Endpoints (when running as a standalone app)
+
+- `GET /api/v1/nav/latest/{isin}` - Get the most recent NAV for an ISIN
+- `GET /api/v1/nav/{isin}/{date}` - Get NAV on or before a specific date
+- `GET /api/v1/nav/history/{isin}?limit=30` - Get the last N days of NAVs
+- `GET /api/v1/nav/range/{isin}?start=YYYY-MM-DD&end=YYYY-MM-DD` - Get NAVs within a date range
+- `GET /api/v1/security/{isin}` - Get complete security information
+- `GET /api/v1/scheme/{code}` - Get scheme details by scheme code
+- `GET /api/v1/schemes/search?name=pattern` - Search funds by name
+- `GET /api/v1/schemes/amcs` - Get all available Asset Management Companies
+- `GET /api/v1/schemes/categories` - Get all available fund categories
 
 ---
 
@@ -394,15 +415,24 @@ The library provides a standalone Docker image that exposes a REST API with a Po
 
 ### Running with Docker Compose
 
-You can easily run the application and its PostgreSQL database together:
+You can easily run the application and its PostgreSQL database together using the provided `docker-compose.yml`:
 
 ```bash
 docker-compose -f docker/docker-compose.yml up -d
 ```
 
-This starts the API on port `18080` and initializes PostgreSQL automatically.
+This will:
+1. Start a PostgreSQL database container.
+2. Start the `dailynav-app` container (pulling the latest `ghcr.io/rajadilipkolli/historical-mf-nav-data` image).
+3. Automatically seed the PostgreSQL database with the optimized historical NAV data.
+4. Expose the API on port `18080`.
 
-### Pulling the Image
+You can then test the API:
+```bash
+curl http://localhost:18080/api/v1/nav/latest/INF277K01741
+```
+
+### Pulling the Image Manually
 
 ```bash
 docker pull ghcr.io/rajadilipkolli/historical-mf-nav-data:latest
@@ -420,7 +450,7 @@ When running independently, you can configure the connection via:
 ### Health Check
 
 The container includes a built-in health check that probes the Spring Boot actuator endpoint. When running via docker-compose, the application is mapped to port 18080 on your host:
-- `http://localhost:18080/actuator/health`
+- `http://localhost:18080/api/v1/daily-nav/health`
 
 ---
 

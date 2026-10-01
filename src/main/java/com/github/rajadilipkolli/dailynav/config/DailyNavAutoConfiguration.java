@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
+import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavPort;
 import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
 import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
@@ -16,6 +17,7 @@ import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SchemeRepos
 import com.github.rajadilipkolli.dailynav.infrastructure.persistence.SecurityRepository;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.DailyNavHealthController;
 import com.github.rajadilipkolli.dailynav.infrastructure.web.DailyNavHealthIndicator;
+import com.github.rajadilipkolli.dailynav.infrastructure.web.MutualFundController;
 import com.zaxxer.hikari.HikariDataSource;
 import java.time.Duration;
 import javax.sql.DataSource;
@@ -219,8 +221,7 @@ public class DailyNavAutoConfiguration {
       SchemePort schemePort,
       SecurityPort securityPort,
       DatabaseInitializerPort databaseInitializerPort,
-      com.github.rajadilipkolli.dailynav.application.service.SchemeSearchService
-          schemeSearchService) {
+      SchemeSearchService schemeSearchService) {
     return new MutualFundService(
         navByIsinRepository,
         navPort,
@@ -333,6 +334,14 @@ public class DailyNavAutoConfiguration {
       havingValue = "true",
       matchIfMissing = true)
   static class AsyncConfig {}
+
+  @Bean
+  @ConditionalOnMissingBean
+  @ConditionalOnWebApplication
+  MutualFundController mutualFundController(
+      NavLookupPort navLookupPort, SchemePort schemePort, SecurityPort securityPort) {
+    return new MutualFundController(navLookupPort, schemePort, securityPort);
+  }
 
   @Configuration
   @EnableCaching
