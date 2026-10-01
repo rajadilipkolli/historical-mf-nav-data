@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Generated Databases ###
+funds.db
+funds.db.zst
+funds.db.bak
