@@ -335,6 +335,14 @@ public class DailyNavAutoConfiguration {
       matchIfMissing = true)
   static class AsyncConfig {}
 
+  /**
+   * Creates the mutual fund REST controller for a web application.
+   *
+   * @param navLookupPort port for NAV lookups by ISIN
+   * @param schemePort port for scheme details and classifications
+   * @param securityPort port for security lookups by ISIN
+   * @return a controller backed by the provided lookup ports
+   */
   @Bean
   @ConditionalOnMissingBean
   @ConditionalOnWebApplication

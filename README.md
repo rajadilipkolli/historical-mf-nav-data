@@ -155,14 +155,14 @@ If you are using this as a library within your own Spring Boot application, you 
 **NavLookupPort**
 - `findLatestByIsin(String isin)` - Get the most recent NAV for an ISIN
 - `findByIsinAndDateOnOrBefore(String isin, LocalDate date)` - Get NAV on or before a specific date
-- `findHistoryByIsin(String isin, int limit)` - Get last N NAV records
-- `findRangeByIsin(String isin, LocalDate start, LocalDate end)` - Get NAV within date range
+- `findLastNByIsin(String isin, int limit)` - Get last N NAV records
+- `findByIsinAndDateBetween(String isin, LocalDate start, LocalDate end)` - Get NAV within date range
 
 **SecurityPort & SchemePort**
-- `findSecurityByIsin(String isin)` - Get complete fund information
-- `findSchemesByNamePattern(String pattern)` - Search funds by name
-- `getAllSchemes()` - Get all available schemes
-- `listAmcs()` / `listCategories()` - Discover available classifications
+- `SecurityPort.findByIsin(String isin)` - Get complete fund information
+- `SchemePort.findBySchemeNameContaining(String pattern)` - Search funds by name
+- `SchemePort.findAll()` - Get all available schemes
+- `SchemePort.findDistinctAmcs()` / `SchemePort.findDistinctCategories()` - Discover available classifications
 
 ### Available Endpoints (when running as a standalone app)
 
@@ -172,7 +172,7 @@ If you are using this as a library within your own Spring Boot application, you 
 - `GET /api/v1/nav/range/{isin}?start=YYYY-MM-DD&end=YYYY-MM-DD` - Get NAVs within a date range
 - `GET /api/v1/security/{isin}` - Get complete security information
 - `GET /api/v1/scheme/{code}` - Get scheme details by scheme code
-- `GET /api/v1/schemes/search?name=pattern` - Search funds by name
+- `GET /api/v1/schemes/search?name=pattern&page=0&pageSize=20` - Search funds by name (zero-based pages; default page size 20, maximum 100)
 - `GET /api/v1/schemes/amcs` - Get all available Asset Management Companies
 - `GET /api/v1/schemes/categories` - Get all available fund categories
 
