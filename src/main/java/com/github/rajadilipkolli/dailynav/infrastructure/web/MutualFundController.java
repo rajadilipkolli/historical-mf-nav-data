@@ -6,8 +6,10 @@ import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
+import com.github.rajadilipkolli.dailynav.domain.search.SchemeSearchCriteria;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1")
 public class MutualFundController {
+
+  private static final int MAX_SEARCH_PAGE_SIZE = 100;
 
   private final NavLookupPort navLookupPort;
   private final SchemePort schemePort;
@@ -40,11 +44,11 @@ public class MutualFundController {
    * Retrieves the latest available NAV for an ISIN.
    *
    * @param isin the international securities identification number
-   * @return the latest NAV record, or {@code null} if none is available
+   * @return HTTP 200 with the latest NAV record, or HTTP 404 if none is available
    */
   @GetMapping("/nav/latest/{isin}")
-  public NavByIsin getLatestNav(@PathVariable("isin") String isin) {
-    return navLookupPort.findLatestByIsin(isin).orElse(null);
+  public ResponseEntity<NavByIsin> getLatestNav(@PathVariable("isin") String isin) {
+    return ResponseEntity.of(navLookupPort.findLatestByIsin(isin));
   }
 
   /**
@@ -52,12 +56,12 @@ public class MutualFundController {
    *
    * @param isin the international securities identification number
    * @param date the latest eligible date
-   * @return the matching NAV record, or {@code null} if none is available
+   * @return HTTP 200 with the matching NAV record, or HTTP 404 if none is available
    */
   @GetMapping("/nav/{isin}/{date}")
-  public NavByIsin getNavByDate(
+  public ResponseEntity<NavByIsin> getNavByDate(
       @PathVariable("isin") String isin, @PathVariable("date") LocalDate date) {
-    return navLookupPort.findByIsinAndDateOnOrBefore(isin, date).orElse(null);
+    return ResponseEntity.of(navLookupPort.findByIsinAndDateOnOrBefore(isin, date));
   }
 
   /**
@@ -94,33 +98,49 @@ public class MutualFundController {
    * Retrieves security details for an ISIN.
    *
    * @param isin the international securities identification number
-   * @return the matching security, or {@code null} if none is found
+   * @return HTTP 200 with the matching security, or HTTP 404 if none is found
    */
   @GetMapping("/security/{isin}")
-  public Security getSecurity(@PathVariable("isin") String isin) {
-    return securityPort.findByIsin(isin).orElse(null);
+  public ResponseEntity<Security> getSecurity(@PathVariable("isin") String isin) {
+    return ResponseEntity.of(securityPort.findByIsin(isin));
   }
 
   /**
    * Retrieves scheme details by scheme code.
    *
    * @param code the scheme code to look up
-   * @return the matching scheme, or {@code null} if none is found
+   * @return HTTP 200 with the matching scheme, or HTTP 404 if none is found
    */
   @GetMapping("/scheme/{code}")
-  public Scheme getScheme(@PathVariable("code") Integer code) {
-    return schemePort.findBySchemeCode(code).orElse(null);
+  public ResponseEntity<Scheme> getScheme(@PathVariable("code") Integer code) {
+    return ResponseEntity.of(schemePort.findBySchemeCode(code));
   }
 
   /**
    * Searches for schemes whose names contain the supplied pattern.
    *
    * @param name the pattern to search for within scheme names
-   * @return the matching schemes, or an empty list if none are found
+   * @param page the zero-based page number; negative values use zero
+   * @param pageSize the requested page size; defaults to 20 and is capped at 100
+   * @return the matching page of schemes, or an empty list if none are found
    */
   @GetMapping("/schemes/search")
-  public List<Scheme> searchSchemes(@RequestParam("name") String name) {
-    return schemePort.findBySchemeNameContaining(name);
+  public List<Scheme> searchSchemes(
+      @RequestParam("name") String name,
+      @RequestParam(value = "page", defaultValue = "0") int page,
+      @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+    SchemeSearchCriteria criteria =
+        new SchemeSearchCriteria(
+            name,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            page,
+            Math.min(pageSize, MAX_SEARCH_PAGE_SIZE));
+    return schemePort.search(criteria);
   }
 
   /**

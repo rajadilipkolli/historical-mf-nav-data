@@ -87,7 +87,7 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
   @Test
   void healthEndpointReturnsOk() throws Exception {
     mockMvc
-        .perform(get("/daily-nav/health").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/daily-nav/health").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isServiceUnavailable())
         .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.healthy").exists())
@@ -99,7 +99,7 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
     // Remove all data
     connection.createStatement().execute("DELETE FROM nav");
     mockMvc
-        .perform(get("/daily-nav/health").accept(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/daily-nav/health").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isServiceUnavailable())
         .andExpect(jsonPath("$.healthy").exists())
         .andExpect(jsonPath("$.databaseAccessible").exists());
@@ -108,7 +108,7 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
   @Test
   void infoEndpointReturnsOkAndExpectedFields() throws Exception {
     mockMvc
-        .perform(get("/daily-nav/info").accept("application/json"))
+        .perform(get("/api/v1/daily-nav/info").accept("application/json"))
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith("application/json"))
         .andExpect(jsonPath("$.autoInit").exists())
@@ -130,7 +130,7 @@ class DailyNavHealthControllerTest extends AbstractRepositoryTest {
       stmt.execute("DELETE FROM securities");
     }
     mockMvc
-        .perform(get("/daily-nav/info").accept("application/json"))
+        .perform(get("/api/v1/daily-nav/info").accept("application/json"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.dataStartDate").value((String) null))
         .andExpect(jsonPath("$.dataEndDate").value((String) null));
