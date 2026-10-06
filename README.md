@@ -450,7 +450,7 @@ When running independently, you can configure the connection via:
 ### Health Check
 
 The container includes a built-in health check that probes the Spring Boot actuator endpoint. When running via docker-compose, the application is mapped to port 18080 on your host:
-- `http://localhost:18080/actuator/health`
+- `http://localhost:18080/api/v1/daily-nav/health`
 
 ---
 
