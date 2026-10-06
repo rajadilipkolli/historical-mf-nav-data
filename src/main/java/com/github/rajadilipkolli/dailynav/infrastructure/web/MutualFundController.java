@@ -165,6 +165,15 @@ public class MutualFundController {
     return schemePort.findDistinctCategories();
   }
 
+  /**
+   * Retrieves the most recent available NAV for a scheme on or before the requested date.
+   *
+   * <p>Errors raised by the lookup port propagate rather than becoming a not-found response.
+   *
+   * @param schemeCode the scheme to look up
+   * @param date the latest eligible date, inclusive; supplied as an ISO date in HTTP requests
+   * @return HTTP 200 with the matching NAV record, or HTTP 404 with no body if none is available
+   */
   @GetMapping("/schemes/{schemeCode}/nav/{date}")
   public ResponseEntity<Nav> getNavBySchemeAndDate(
       @PathVariable("schemeCode") int schemeCode,

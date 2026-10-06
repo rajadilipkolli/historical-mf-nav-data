@@ -43,5 +43,12 @@ public interface NavLookupPort {
    */
   List<NavByIsin> findByIsinAndDateBetween(String isin, LocalDate startDate, LocalDate endDate);
 
+  /**
+   * Finds the most recent available NAV for a scheme on or before the specified date.
+   *
+   * @param schemeCode the scheme to look up
+   * @param date the latest eligible date, inclusive
+   * @return the matching NAV record, or an empty optional if none is available
+   */
   Optional<Nav> findBySchemeAndDateOnOrBefore(int schemeCode, LocalDate date);
 }

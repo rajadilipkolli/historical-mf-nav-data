@@ -155,6 +155,20 @@ public class NavByIsinRepository implements NavLookupPort {
     return results;
   }
 
+  /**
+   * Finds the latest stored NAV on or before the requested date, consulting the configured fallback
+   * only when no stored record matches.
+   *
+   * <p>On a miss with an initializer, returns the first eligible fallback record and requests seeding
+   * for the scheme, even if no fallback record matches. The default initializer supplies fallback
+   * records newest first; fallback read failures yield records read before the failure, possibly none.
+   *
+   * @param schemeCode the scheme to look up
+   * @param date the latest eligible date, inclusive
+   * @return the matching stored or fallback NAV, or an empty optional if neither supplies a match
+   * @throws org.springframework.dao.DataAccessException if the primary database query fails
+   * @throws java.time.format.DateTimeParseException if a stored date cannot be parsed
+   */
   @Override
   public Optional<Nav> findBySchemeAndDateOnOrBefore(int schemeCode, LocalDate date) {
     String sql =
