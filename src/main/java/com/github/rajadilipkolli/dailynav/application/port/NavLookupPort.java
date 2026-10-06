@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.application.port;
 
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,4 +42,6 @@ public interface NavLookupPort {
    * @return the NAV records dated between the specified dates, inclusive
    */
   List<NavByIsin> findByIsinAndDateBetween(String isin, LocalDate startDate, LocalDate endDate);
+
+  Optional<Nav> findBySchemeAndDateOnOrBefore(int schemeCode, LocalDate date);
 }

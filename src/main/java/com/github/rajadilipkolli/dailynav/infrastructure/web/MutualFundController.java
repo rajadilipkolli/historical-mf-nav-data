@@ -3,12 +3,14 @@ package com.github.rajadilipkolli.dailynav.infrastructure.web;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
 import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
 import com.github.rajadilipkolli.dailynav.domain.search.SchemeSearchCriteria;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -161,5 +163,12 @@ public class MutualFundController {
   @GetMapping("/schemes/categories")
   public List<String> getCategories() {
     return schemePort.findDistinctCategories();
+  }
+
+  @GetMapping("/schemes/{schemeCode}/nav/{date}")
+  public ResponseEntity<Nav> getNavBySchemeAndDate(
+      @PathVariable("schemeCode") int schemeCode,
+      @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    return ResponseEntity.of(navLookupPort.findBySchemeAndDateOnOrBefore(schemeCode, date));
   }
 }

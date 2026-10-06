@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.time.LocalDate;
@@ -152,5 +153,40 @@ public class NavByIsinRepository implements NavLookupPort {
       return fallback;
     }
     return results;
+  }
+
+  @Override
+  public Optional<Nav> findBySchemeAndDateOnOrBefore(int schemeCode, LocalDate date) {
+    String sql =
+        "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? AND date <= ? ORDER BY date DESC LIMIT 1";
+    RowMapper<Nav> rowMapper =
+        (rs, rowNum) -> {
+          Nav nav = new Nav();
+          nav.setSchemeCode(rs.getInt("scheme_code"));
+          String dateStr = rs.getString("date");
+          if (dateStr == null) {
+            nav.setDate(null);
+          } else {
+            nav.setDate(LocalDate.parse(dateStr));
+          }
+          nav.setNav(rs.getDouble("nav"));
+          return nav;
+        };
+    List<Nav> results = jdbcTemplate.query(sql, rowMapper, schemeCode, date);
+    if (!results.isEmpty()) {
+      recordHit();
+      return results.stream().findFirst();
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<Nav> fallback =
+          databaseInitializerPort.getFallbackNavForScheme(schemeCode).stream()
+              .filter(n -> !n.getDate().isAfter(date))
+              .toList();
+      databaseInitializerPort.seedNavForScheme(schemeCode);
+      return fallback.stream().findFirst();
+    }
+    return Optional.empty();
   }
 }
