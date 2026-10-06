@@ -458,7 +458,7 @@ docker run -p 18080:8080 \
   ghcr.io/rajadilipkolli/historical-mf-nav-data:latest
 ```
 
-*Note: The application will automatically create the necessary tables and seed the historical NAV data into your custom database on startup.*
+*Note: The application will automatically create the necessary tables and seed scheme and security metadata into your custom database on startup. Historical NAV data loads on demand when requested.*
 
 ### Health Check
 
