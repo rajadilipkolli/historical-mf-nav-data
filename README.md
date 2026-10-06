@@ -439,18 +439,31 @@ docker pull ghcr.io/rajadilipkolli/historical-mf-nav-data:latest
 ```
 Images are tagged with `latest` and version tags like `1.0.YYYYMMDD`.
 
-### Environment Variables
+### Connecting to a Custom Database
 
-When running independently, you can configure the connection via:
-- `DAILY_NAV_DATABASE_TYPE`: Set to `postgres` (default in the Docker image).
-- `DAILY_NAV_URL`: The PostgreSQL JDBC URL (e.g. `jdbc:postgresql://db:5432/dailynav`).
-- `DAILY_NAV_USERNAME`: Database username.
-- `DAILY_NAV_PASSWORD`: Database password.
+When running the image independently (without docker-compose), you can easily point the application to your own existing PostgreSQL database using environment variables:
+
+- `DAILY_NAV_DATABASE_TYPE`: Set to `postgres` (this is the default in the Docker image).
+- `DAILY_NAV_URL`: The PostgreSQL JDBC URL (e.g. `jdbc:postgresql://your-db-host:5432/your-db-name`).
+- `DAILY_NAV_USERNAME`: Your database username.
+- `DAILY_NAV_PASSWORD`: Your database password.
+
+**Example `docker run` command:**
+
+```bash
+docker run -p 18080:8080 \
+  -e DAILY_NAV_URL=jdbc:postgresql://192.168.1.100:5432/mydatabase \
+  -e DAILY_NAV_USERNAME=myuser \
+  -e DAILY_NAV_PASSWORD=mypassword \
+  ghcr.io/rajadilipkolli/historical-mf-nav-data:latest
+```
+
+*Note: The application will automatically create the necessary tables and seed scheme and security metadata into your custom database on startup. Historical NAV data loads on demand when requested.*
 
 ### Health Check
 
-The container includes a built-in health check that probes the Spring Boot actuator endpoint. When running via docker-compose, the application is mapped to port 18080 on your host:
-- `http://localhost:18080/actuator/health`
+The application health endpoint is served by `DailyNavHealthController`. When running via docker-compose, the application is mapped to port 18080 on your host:
+- `http://localhost:18080/api/v1/daily-nav/health`
 
 ---
 
@@ -458,7 +471,7 @@ The container includes a built-in health check that probes the Spring Boot actua
 
 Follows a timestamp-based versioning scheme: `MAJOR.MINOR.YYYYMMDD`.
 
-1. Major: 1 for stable releases  
+1. Major: 1 for stable releases
 2. Minor: 0 for normal releases
 3. Patch: Date-based (YYYYMMDD format)
 4. Example: `1.0.20250713` for July 13, 2025
@@ -466,7 +479,7 @@ Follows a timestamp-based versioning scheme: `MAJOR.MINOR.YYYYMMDD`.
 **Note**: No guarantee all pricing info is present for the release date. Daily releases are automatically generated with the latest available data.
 
 ### 📝 Release Notes
-**v1.0.20260908**: 
+**v1.0.20260908**:
 - Added comprehensive scheme discovery capabilities (`SchemeSearchService`).
 - Added filtering by AMC, category, plan, and option to the `Scheme` metadata.
 - Implemented cursor-like paginated search results with exact and pattern matching.

@@ -1,5 +1,6 @@
 package com.github.rajadilipkolli.dailynav.application.port;
 
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,4 +42,13 @@ public interface NavLookupPort {
    * @return the NAV records dated between the specified dates, inclusive
    */
   List<NavByIsin> findByIsinAndDateBetween(String isin, LocalDate startDate, LocalDate endDate);
+
+  /**
+   * Finds the most recent available NAV for a scheme on or before the specified date.
+   *
+   * @param schemeCode the scheme to look up
+   * @param date the latest eligible date, inclusive
+   * @return the matching NAV record, or an empty optional if none is available
+   */
+  Optional<Nav> findBySchemeAndDateOnOrBefore(int schemeCode, LocalDate date);
 }

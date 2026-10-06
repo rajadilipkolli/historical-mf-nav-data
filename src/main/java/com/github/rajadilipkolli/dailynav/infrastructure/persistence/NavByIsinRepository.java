@@ -2,6 +2,7 @@ package com.github.rajadilipkolli.dailynav.infrastructure.persistence;
 
 import com.github.rajadilipkolli.dailynav.application.port.DatabaseInitializerPort;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import io.micrometer.core.instrument.MeterRegistry;
 import java.time.LocalDate;
@@ -152,5 +153,54 @@ public class NavByIsinRepository implements NavLookupPort {
       return fallback;
     }
     return results;
+  }
+
+  /**
+   * Finds the latest stored NAV on or before the requested date, consulting the configured fallback
+   * only when no stored record matches.
+   *
+   * <p>On a miss with an initializer, returns the first eligible fallback record and requests seeding
+   * for the scheme, even if no fallback record matches. The default initializer supplies fallback
+   * records newest first; fallback read failures yield records read before the failure, possibly none.
+   *
+   * @param schemeCode the scheme to look up
+   * @param date the latest eligible date, inclusive
+   * @return the matching stored or fallback NAV, or an empty optional if neither supplies a match
+   * @throws org.springframework.dao.DataAccessException if the primary database query fails
+   * @throws java.time.format.DateTimeParseException if a stored date cannot be parsed
+   */
+  @Override
+  public Optional<Nav> findBySchemeAndDateOnOrBefore(int schemeCode, LocalDate date) {
+    String sql =
+        "SELECT scheme_code, date, nav FROM nav WHERE scheme_code = ? AND date <= ? ORDER BY date DESC LIMIT 1";
+    RowMapper<Nav> rowMapper =
+        (rs, rowNum) -> {
+          Nav nav = new Nav();
+          nav.setSchemeCode(rs.getInt("scheme_code"));
+          String dateStr = rs.getString("date");
+          if (dateStr == null) {
+            nav.setDate(null);
+          } else {
+            nav.setDate(LocalDate.parse(dateStr));
+          }
+          nav.setNav(rs.getDouble("nav"));
+          return nav;
+        };
+    List<Nav> results = jdbcTemplate.query(sql, rowMapper, schemeCode, date);
+    if (!results.isEmpty()) {
+      recordHit();
+      return results.stream().findFirst();
+    }
+
+    if (databaseInitializerPort != null) {
+      recordMissAndFallback();
+      List<Nav> fallback =
+          databaseInitializerPort.getFallbackNavForScheme(schemeCode).stream()
+              .filter(n -> !n.getDate().isAfter(date))
+              .toList();
+      databaseInitializerPort.seedNavForScheme(schemeCode);
+      return fallback.stream().findFirst();
+    }
+    return Optional.empty();
   }
 }

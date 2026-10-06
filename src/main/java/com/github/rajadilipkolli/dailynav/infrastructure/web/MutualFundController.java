@@ -3,12 +3,14 @@ package com.github.rajadilipkolli.dailynav.infrastructure.web;
 import com.github.rajadilipkolli.dailynav.application.port.NavLookupPort;
 import com.github.rajadilipkolli.dailynav.application.port.SchemePort;
 import com.github.rajadilipkolli.dailynav.application.port.SecurityPort;
+import com.github.rajadilipkolli.dailynav.domain.model.Nav;
 import com.github.rajadilipkolli.dailynav.domain.model.NavByIsin;
 import com.github.rajadilipkolli.dailynav.domain.model.Scheme;
 import com.github.rajadilipkolli.dailynav.domain.model.Security;
 import com.github.rajadilipkolli.dailynav.domain.search.SchemeSearchCriteria;
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -161,5 +163,21 @@ public class MutualFundController {
   @GetMapping("/schemes/categories")
   public List<String> getCategories() {
     return schemePort.findDistinctCategories();
+  }
+
+  /**
+   * Retrieves the most recent available NAV for a scheme on or before the requested date.
+   *
+   * <p>Errors raised by the lookup port propagate rather than becoming a not-found response.
+   *
+   * @param schemeCode the scheme to look up
+   * @param date the latest eligible date, inclusive; supplied as an ISO date in HTTP requests
+   * @return HTTP 200 with the matching NAV record, or HTTP 404 with no body if none is available
+   */
+  @GetMapping("/schemes/{schemeCode}/nav/{date}")
+  public ResponseEntity<Nav> getNavBySchemeAndDate(
+      @PathVariable("schemeCode") int schemeCode,
+      @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    return ResponseEntity.of(navLookupPort.findBySchemeAndDateOnOrBefore(schemeCode, date));
   }
 }
