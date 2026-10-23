@@ -1,7 +1,7 @@
 name: Update and Publish Historical Nav Data
 on:
   schedule:
-    # Run every day at 01:30 (12:00 IST)
+    # Run every day at 01:30 UTC / 07:00 IST (Maven Central publication occurs only on Sundays)
     - cron: '30 1 * * *'
   push:
     branches:
@@ -37,6 +37,7 @@ jobs:
       release_version: ${{ steps.current-time.outputs.formattedTime }}
       data_stats: ${{ steps.generate-stats.outputs.stats }}
       has_changes: ${{ steps.commit.outputs.changes_detected }}
+      is_sunday: ${{ steps.is_sunday.outputs.is_sunday }}
     steps:
       - name: Get current date
         uses: josStorer/get-current-time@v2
@@ -44,6 +45,15 @@ jobs:
         with:
           format: "YYYYMMDD"
           timezone: 'Asia/Kolkata'
+
+      - name: Check if Sunday
+        id: is_sunday
+        run: |
+          if [ "$(TZ=Asia/Kolkata date +%u)" = "7" ]; then
+            echo "is_sunday=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_sunday=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Checkout code
         uses: actions/checkout@v7
@@ -88,6 +98,7 @@ jobs:
         env:
           LOCAL_FROM: ${{ github.event.inputs.from_date }}
           LOCAL_TO: ${{ github.event.inputs.to_date }}
+          TZ: Asia/Kolkata
         run: |
           # Use shell variables (LOCAL_FROM, LOCAL_TO) so expansions happen inside the shell
           if [[ -n "${LOCAL_FROM}" && -n "${LOCAL_TO}" ]]; then
@@ -141,7 +152,7 @@ jobs:
           fi
 
       - name: Generate database and extract statistics
-        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || (github.event_name == 'schedule' && steps.is_sunday.outputs.is_sunday == 'true') || github.event_name == 'workflow_dispatch') }}
         id: generate-stats
         run: |
           echo "Generating database..."
@@ -173,7 +184,7 @@ jobs:
           zstd -19 --long -T0 funds.db
 
       - name: Build Java Library
-        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || (github.event_name == 'schedule' && steps.is_sunday.outputs.is_sunday == 'true') || github.event_name == 'workflow_dispatch') }}
         run: |
           echo "Reusing already compressed funds.db.zst..."
           if [ -f funds.db.zst ]; then
@@ -203,7 +214,7 @@ jobs:
           jar tf historical-mf-nav-data-library.jar | grep -q funds.db.zst || { echo "ERROR: funds.db.zst not found in JAR"; exit 1; }
 
       - name: Upload build artifacts
-        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
+        if: ${{ steps.check_branch.outputs.proceed == 'true' && (steps.check-changes.outputs.has_changes == 'true' || (github.event_name == 'schedule' && steps.is_sunday.outputs.is_sunday == 'true') || github.event_name == 'workflow_dispatch') }}
         uses: actions/upload-artifact@v7
         with:
           name: build-artifacts
@@ -306,7 +317,7 @@ jobs:
     name: Publish to Maven Central
     needs: [build-and-update]
     runs-on: ubuntu-latest
-    if: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (needs.build-and-update.outputs.has_changes == 'true' || github.event_name == 'workflow_dispatch') }}
+    if: ${{ (github.event_name == 'schedule' && needs.build-and-update.outputs.is_sunday == 'true') || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7

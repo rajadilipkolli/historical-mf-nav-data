@@ -16,7 +16,7 @@ Add this dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.rajadilipkolli</groupId>
     <artifactId>historical-mf-nav-data</artifactId>
-    <version>1.0.20260921</version> <!-- Use latest version from releases -->
+    <version>1.0.20260920</version> <!-- Use Sunday version published to Maven Central -->
 </dependency>
 ```
 
@@ -24,11 +24,11 @@ Or for Gradle (`build.gradle`):
 
 ```gradle
 dependencies {
-    implementation 'io.github.rajadilipkolli:historical-mf-nav-data:1.0.20260221'
+    implementation 'io.github.rajadilipkolli:historical-mf-nav-data:1.0.20260920'
 }
 ```
 
-> 💡 **Finding the Latest Version**: Visit the [GitHub Releases page](https://github.com/rajadilipkolli/historical-mf-nav-data/releases) to get the latest version number.
+> 💡 **Finding the Latest Version**: Maven Central receives a new version only on Sundays. Daily GitHub Releases can have versions absent from Maven Central. Visit [Maven Central](https://central.sonatype.com/artifact/io.github.rajadilipkolli/historical-mf-nav-data) for weekly releases or the [GitHub Releases page](https://github.com/rajadilipkolli/historical-mf-nav-data/releases) for daily releases.
 
 **Zero configuration required!** The library auto-configures with Spring Boot. See below for usage and configuration.
 
@@ -386,6 +386,8 @@ WHERE isin='INF277K01741'
 ## 🏗️ Automation & Updates
 
 - **Daily Data Fetching**: GitHub Actions fetches latest NAV data every day
+- **Full Historical Refresh**: Full historical refresh runs on the first Sunday of each month
+- **Weekly Central Publication**: Maven Central receives a new publication every Sunday
 - **Database Generation**: Python scripts process CSVs into SQLite
 - **JAR Creation**: Maven builds a self-contained JAR with embedded DB
 - **Auto-Release**: Every update triggers a new release with JAR and DB
@@ -475,6 +477,8 @@ Follows a timestamp-based versioning scheme: `MAJOR.MINOR.YYYYMMDD`.
 2. Minor: 0 for normal releases
 3. Patch: Date-based (YYYYMMDD format)
 4. Example: `1.0.20250713` for July 13, 2025
+
+Maven Central `1.0.YYYYMMDD` versions use Sunday dates in IST. Manual dispatch can also add a version on another day.
 
 **Note**: No guarantee all pricing info is present for the release date. Daily releases are automatically generated with the latest available data.
 
