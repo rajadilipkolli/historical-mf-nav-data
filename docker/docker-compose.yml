@@ -9,7 +9,7 @@ services:
       - ~/.ollama:/root/.ollama
 
   postgres:
-    image: postgres:18-alpine
+    image: postgres:19-alpine
     container_name: postgres
     environment:
       POSTGRES_DB: dailynav
